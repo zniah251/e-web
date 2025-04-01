@@ -120,7 +120,7 @@ CREATE TABLE `order` (
   `vid` int(11) NOT NULL,
   `destatus` enum('Pending','Confirmed','Shipping','Cancelled','Return') NOT NULL DEFAULT 'Pending',
   `paymethod` enum('COD','MOMO','Bank','Smartbanking','Credit Card') DEFAULT NULL,
-  `paystatus` enum('Pending','Paid','Refunded') NOT NULL DEFAULT 'Pending',
+  `paystatus` enum('Pending','Paid', 'Awaiting refund', 'Refunded') NOT NULL DEFAULT 'Pending',
   `paytime` timestamp NOT NULL DEFAULT current_timestamp(),
   `create_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
