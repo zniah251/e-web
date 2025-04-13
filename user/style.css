@@ -1540,3 +1540,52 @@ a.btn-link.text-light:after {
   background-size: cover;
   transition: transform .3s ease-out;
 }
+
+.banner-container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    max-width: 100%; /* Đảm bảo không vượt quá chiều rộng màn hình */
+}
+
+.banner-wrapper {
+    width: 100%;
+    position: relative;
+    height: auto; /* Để chiều cao tự động theo tỷ lệ ảnh */
+    padding-top: 42.85%; /* Tỷ lệ 7:3 (42.85% = 3/7 * 100) */
+}
+
+.banner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center; /* Căn giữa theo cả chiều ngang và dọc */
+    transform: scale(1); /* Đảm bảo không bị zoom */
+}
+
+.banner-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    padding: 0 20px;
+    z-index: 1;
+}
+
+/* Media queries cho responsive */
+@media screen and (max-width: 1024px) {
+    .banner-wrapper {
+        padding-top: 56.25%; /* Tỷ lệ 16:9 cho tablet */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .banner-wrapper {
+        padding-top: 75%; /* Tỷ lệ 4:3 cho mobile */
+    }
+}
