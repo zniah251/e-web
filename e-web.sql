@@ -185,7 +185,7 @@ CREATE TABLE `resetpass` (
   `uid` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
   `resettime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `code` int(11) NOT NULL
+  `code` int(11) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
