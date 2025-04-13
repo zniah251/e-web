@@ -544,3 +544,192 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo cổ bé tay ngắn in hoạ tiết chữ hiện đại', 199000, 159000, 'ao-polo-co-be-tay-ngan-in-hoa-tiet-chU-hien-ai.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Đen');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo cổ bé tay ngắn in hoạ tiết chữ hiện đại', 210000, 180000, 'ao-polo-co-be-tay-ngan-in-hoa-tiet-chU-hien-ai.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Đen');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo nam cổ bé tay ngắn trẻ trung', 160000, 140000, 'ao-polo-nam-co-be-tay-ngan-tre-trung.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 4.5, 0, 'Cam');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo nam cổ bé tay ngắn trẻ trung', 170000, 150000, 'ao-polo-nam-co-be-tay-ngan-tre-trung.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 4.5, 0, 'Cam');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo ngắn tay nam S.cafe phối cổ.fitted', 299000, 269000, 'ao-polo-ngan-tay-nam-S.Cafe-phoi-co.Fitted.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 4.5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo ngắn tay nam S.cafe phối cổ.fitted', 319000, 289000, 'ao-polo-ngan-tay-nam-S.Cafe-phoi-co.Fitted.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 4.5, 0, 'Trắng');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo cổ bé tay ngắn thời thượng', 249000, 239000, 'ao-polo-co-be-tay-ngan-thoi-thuong.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo cổ bé tay ngắn thời thượng', 279000, 269000, 'ao-polo-co-be-tay-ngan-thoi-thuong.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Trắng');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo nam ngắn tay cotton', 199000, 159000, 'ao-polo-nam-ngan-tay-cotton.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 4.5, 0, 'Đen');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo nam ngắn tay cotton', 219000, 179000, 'ao-polo-nam-ngan-tay-cotton.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 4.5, 0, 'Đen');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo nam premium 100% cotton phối sọc form fitt', 310000, 300000, 'ao-polo-nam-premium-100_-cotton-phoi-soc-form-fitt.webp', 'Sản phẩm thời trang nam cao cấp.', 20, 'L', 4.8, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo nam premium 100% cotton phối sọc form fitt', 330000, 310000, 'ao-polo-nam-premium-100_-cotton-phoi-soc-form-fitt.webp', 'Sản phẩm thời trang nam cao cấp.', 20, 'XL', 4.8, 0, 'Trắng');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo nam thời trang basic dễ phối đồ', 149000, 129000, 'ao-polo-nam-thoi-trang-basic-de-phoi-o.jpg', 'Sản phẩm thời trang nam cao cấp.', 15, 'L', 4.5, 0, 'Nâu');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo nam thời trang basic dễ phối đồ', 169000, 149000, 'ao-polo-nam-thoi-trang-basic-de-phoi-o.jpg', 'Sản phẩm thời trang nam cao cấp.', 15, 'XL', 4.5, 0, 'Nâu');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo nam trơn vải cotton polyester', 299000, 269000, 'ao-polo-nam-tron-vai-cotton-polyester.webp', 'Sản phẩm thời trang nam cao cấp.', 30, 'L', 4.6, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo polo nam trơn vải cotton polyester', 319000, 289000, 'ao-polo-nam-tron-vai-cotton-polyester.webp', 'Sản phẩm thời trang nam cao cấp.', 30, 'XL', 4.6, 0, 'Trắng');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo thun ngắn tay nam', 189000, 159000, 'ao-Thun-Ngan-Tay-Nam.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 4.5, 0, 'Xanh');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo thun ngắn tay nam', 199000, 169000, 'ao-Thun-Ngan-Tay-Nam.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 4.5, 0, 'Xanh');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi Linen nam tay ngắn xanh', 299000, 259000, 'ao-Thun-Ngan-Tay-Nam.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 4.5, 0, 'Đen');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi Linen nam tay ngắn xanh', 299000, 259000, 'ao-Thun-Ngan-Tay-Nam.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 4.5, 0, 'Đen');
+
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo Sơ Mi Cuban Nam Họa Tiết Marvel Comic', 150000, 120000, 'ao-So-Mi-Cuban-Nam-Hoa-Tiet-Marvel-Comic.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Trắng đen');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo Sơ Mi Cuban Nam Họa Tiết Marvel Comic', 170000, 130000, 'ao-So-Mi-Cuban-Nam-Hoa-Tiet-Marvel-Comic.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Trắng đen');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo Sơ Mi Cuban Nam Tay', 210000, 180000, 'ao-So-Mi-Cuban-Nam-Tay.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo Sơ Mi Cuban Nam Tay', 225000, 190000, 'ao-So-Mi-Cuban-Nam-Tay.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi dài tay nam kẻ caro cotton màu xanh da trời', 195000, 165000, 'ao-so-mi-dai-tay-nam-ke-caro-cotton-mau-xanh-da-troi.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Xanh da trời');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi dài tay nam kẻ caro cotton màu xanh da trời', 210000, 170000, 'ao-so-mi-dai-tay-nam-ke-caro-cotton-mau-xanh-da-troi.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Xanh da trời');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi dài tay nam kẻ caro màu xanh dương', 220000, 185000, 'ao-so-mi-dai-tay-nam-ke-caro-mau-xanh-duong.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Xanh dương');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi dài tay nam kẻ caro màu xanh dương', 230000, 195000, 'ao-so-mi-dai-tay-nam-ke-caro-mau-xanh-duong.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Xanh dương');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi dài tay nam màu đen trơn', 300000, 265000, 'ao-so-mi-dai-tay-nam-mau-den-tron.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Đen');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi dài tay nam màu đen trơn', 320000, 280000, 'ao-so-mi-dai-tay-nam-mau-den-tron.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Đen');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi dài tay nam màu xanh', 250000, 220000, 'ao-so-mi-dai-tay-nam-mau-xanh.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Xanh');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi dài tay nam màu xanh', 270000, 230000, 'ao-so-mi-dai-tay-nam-mau-xanh.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Xanh');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi dài tay nam tím than', 290000, 250000, 'ao-so-mi-dai-tay-nam-tim-than.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Tím than');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo sơ mi dài tay nam tím than', 310000, 270000, 'ao-so-mi-dai-tay-nam-tim-than.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Tím than');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo Sơ Mi Linen Nam Tay Ngắn Xanh', 190000, 150000, 'ao-So-Mi-Linen-Nam-Tay-Ngan-Xanh.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Xanh rêu');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Áo Sơ Mi Linen Nam Tay Ngắn Xanh', 210000, 170000, 'ao-So-Mi-Linen-Nam-Tay-Ngan-Xanh.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Xanh rêu');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short thể thao nam phối viền polyester', 200000, 170000, 'Quan-short-the-thao-nam-phoi-vien-polyester.webp', 'Sản phẩm quần short nam thoải mái, năng động.', 10, 'L', 5, 0, 'Xám');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short thể thao nam phối viền polyester', 210000, 180000, 'Quan-short-the-thao-nam-phoi-vien-polyester.webp', 'Sản phẩm quần short nam thoải mái, năng động.', 10, 'XL', 5, 0, 'Xám');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short denim nam form straight', 250000, 220000, 'Quan-short-denim-nam-form-straight.webp', 'Chất liệu denim bền đẹp, kiểu dáng trẻ trung.', 10, 'L', 5, 0, 'Xanh dương');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short denim nam form straight', 270000, 230000, 'Quan-short-denim-nam-form-straight.webp', 'Chất liệu denim bền đẹp, kiểu dáng trẻ trung.', 10, 'XL', 5, 0, 'Xanh dương');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short nam nỉ gân French Terry form relax', 180000, 150000, 'Quan-short-nam-ni-gan-french-terry-form-relax.webp', 'Chất liệu nỉ cao cấp, thoáng mát, phù hợp tập luyện.', 10, 'L', 5, 0, 'Đen');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short nam nỉ gân French Terry form relax', 190000, 160000, 'Quan-short-nam-ni-gan-french-terry-form-relax.webp', 'Chất liệu nỉ cao cấp, thoáng mát, phù hợp tập luyện.', 10, 'XL', 5, 0, 'Đen');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short nam nylon form relax', 160000, 135000, 'Quan-short-nam-nylon-form-relax.webp', 'Kiểu dáng cơ bản, dễ phối đồ, chất liệu nhẹ.', 10, 'L', 5, 0, 'Kem');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short nam nylon form relax', 180000, 150000, 'Quan-short-nam-nylon-form-relax.webp', 'Kiểu dáng cơ bản, dễ phối đồ, chất liệu nhẹ.', 10, 'XL', 5, 0, 'Kem');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short nam trơn cotton form straight', 230000, 195000, 'Quan-short-nam-tron-cotton-form-straight.webp', 'Chất liệu cotton thấm hút, thiết kế đơn giản.', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short nam trơn cotton form straight', 250000, 210000, 'Quan-short-nam-tron-cotton-form-straight.webp', 'Chất liệu cotton thấm hút, thiết kế đơn giản.', 10, 'XL', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short nỉ nam nhấn trang trí form relax', 200000, 170000, 'Quan-short-ni-nam-nhan-trang-tri-form-relax.webp', 'Thiết kế thời trang với điểm nhấn độc đáo.', 10, 'L', 5, 0, 'Xanh dương');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần short nỉ nam nhấn trang trí form relax', 210000, 180000, 'Quan-short-ni-nam-nhan-trang-tri-form-relax.webp', 'Thiết kế thời trang với điểm nhấn độc đáo.', 10, 'XL', 5, 0, 'Xanh dương');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần shorts thể thao nam dây kéo sau regular', 270000, 230000, 'Quan-shorts-the-thao-nam-day-keo-sau-regular.webp', 'Form regular thể thao, dễ di chuyển, năng động.', 10, 'L', 5, 0, 'Xanh dương');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần shorts thể thao nam dây kéo sau regular', 290000, 250000, 'Quan-shorts-the-thao-nam-day-keo-sau-regular.webp', 'Form regular thể thao, dễ di chuyển, năng động.', 10, 'XL', 5, 0, 'Xanh dương');
+
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần dài nam điều gân form carrot', 260000, 230000, 'Quan-dai-nam-dieu-gan-form-carrot.webp', 'Chất vải điều gân thoải mái, form carrot trẻ trung.', 10, 'L', 5, 0, 'Đen');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần dài nam điều gân form carrot', 270000, 240000, 'Quan-dai-nam-dieu-gan-form-carrot.webp', 'Chất vải điều gân thoải mái, form carrot trẻ trung.', 10, 'XL', 5, 0, 'Đen');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần tây dài nam gấp ống form slim crop', 300000, 270000, 'Quan-tay-dai-nam-gap-ong-form-slimcrop-2.webp', 'Thiết kế gấp ống hiện đại, form ôm nhẹ.', 10, 'L', 5, 0, 'Đen');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần tây dài nam gấp ống form slim crop', 320000, 280000, 'Quan-tay-dai-nam-gap-ong-form-slimcrop-2.webp', 'Thiết kế gấp ống hiện đại, form ôm nhẹ.', 10, 'XL', 5, 0, 'Đen');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần tây nam dài lưng thun', 210000, 180000, 'Quan-tay-nam-dai-lung-thun.webp', 'Thiết kế thoải mái với lưng thun, dễ mặc.', 10, 'L', 5, 0, 'Xám');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần tây nam dài lưng thun', 220000, 190000, 'Quan-tay-nam-dai-lung-thun.webp', 'Thiết kế thoải mái với lưng thun, dễ mặc.', 10, 'XL', 5, 0, 'Xám');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần vải nam dài phối lót trơn form slim', 290000, 250000, 'Quan-vai-nam-dai-phoi-lot-tron-form-slim.webp', 'Lót trơn bên trong, sang trọng, lịch lãm.', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần vải nam dài phối lót trơn form slim', 310000, 270000, 'Quan-vai-nam-dai-phoi-lot-tron-form-slim.webp', 'Lót trơn bên trong, sang trọng, lịch lãm.', 10, 'XL', 5, 0, 'Trắng');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần denim nam ống rộng form loose', 270000, 235000, 'Quan-denim-nam-ong-rong-form-loose.webp', 'Phong cách trẻ trung, thoải mái vận động.', 10, 'L', 5, 0, 'Xanh jeans');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần denim nam ống rộng form loose', 290000, 250000, 'Quan-denim-nam-ong-rong-form-loose.webp', 'Phong cách trẻ trung, thoải mái vận động.', 10, 'XL', 5, 0, 'Xanh jeans');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần denim nam ống đứng form straight', 260000, 225000, 'Quan-denim-nam-ong-dung-form-straight.webp', 'Thiết kế cổ điển, bền đẹp theo thời gian.', 10, 'L', 5, 0, 'Xanh đậm');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần denim nam ống đứng form straight', 280000, 240000, 'Quan-denim-nam-ong-dung-form-straight.webp', 'Thiết kế cổ điển, bền đẹp theo thời gian.', 10, 'XL', 5, 0, 'Xanh đậm');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần jeans nam dài recycled form cocoon', 300000, 260000, 'Quan-jeans-nam-dai-recycled-form-cocoon.webp', 'Sử dụng chất liệu recycled thân thiện môi trường.', 10, 'L', 5, 0, 'Đen');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần jeans nam dài recycled form cocoon', 320000, 270000, 'Quan-jeans-nam-dai-recycled-form-cocoon.webp', 'Sử dụng chất liệu recycled thân thiện môi trường.', 10, 'XL', 5, 0, 'Đen');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần tây nam ôm Twill Texture form slim crop', 280000, 250000, 'Quan-tay-nam-om-Twill-Texture-form-slim-crop.webp', 'Twill Texture tạo điểm nhấn cho trang phục.', 10, 'L', 5, 0, 'Vàng cam');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (7, 'Quần tây nam ôm Twill Texture form slim crop', 295000, 260000, 'Quan-tay-nam-om-Twill-Texture-form-slim-crop.webp', 'Twill Texture tạo điểm nhấn cho trang phục.', 10, 'XL', 5, 0, 'Vàng cam');
+
+
+
