@@ -68,15 +68,26 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`cid`, `cname`, `parentid`) VALUES
-(1, 'TRANG CHỦ', NULL),
+(1, 'HOME', NULL),
 (2, 'COLLECTIONS', NULL),
-(3, 'SẢN PHẨM', NULL),
+(3, 'SHOP', NULL),
 (4, 'ON SALE', NULL),
-(5, 'GIỚI THIỆU', NULL),
+(5, 'INTRODUCTION', NULL),
 (6, 'BLOG', NULL),
-(7, 'NAM', 3),
-(8, 'NỮ', 3);
-
+(7, 'SHOP FOR MEN', 3),
+(8, 'SHOP FOR WOMEN', 3);
+(9, 'SHORTS', 7);
+(10, 'TROUSERS', 7);
+(11, 'SHIRTS', 7);
+(12, 'T-SHIRTS', 7);
+(13, 'TOPS', 8);
+(14, 'DRESSES', 8);
+(15, 'PANTS', 8);
+(16, 'SKIRTS', 8);
+(17, 'ABOUT US', 5);
+(18, 'MEMBERSHIP', 5);
+(19, 'RECRUITMENT', 5);
+(20, 'CONTACT', 5);
 -- --------------------------------------------------------
 
 --

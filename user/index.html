@@ -22,6 +22,19 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
     rel="stylesheet">
+  <style>
+    .dropdown-submenu {
+      position: relative;
+    }
+    .dropdown-submenu .dropdown-menu {
+      top: 0;
+      left: 100%;
+      margin-top: -1px;
+    }
+    .dropdown-submenu:hover .dropdown-menu {
+      display: block;
+    }
+  </style>
 </head>
 
 <body class="homepage">
@@ -267,21 +280,21 @@
 
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="Home">Home</a>
+                </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle active" href="#" id="dropdownHome" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Home</a>
-                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownHome">
+                  <a class="nav-link dropdown-toggle" href="#" id="dropdownShop" data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Collection</a>
+                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownShop">
                     <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Home Layout 1</a>
+                      <a href="index.html" class="dropdown-item item-anchor">Collection 1 </a>
                     </li>
                     <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Home Layout 2 </a>
+                      <a href="index.html" class="dropdown-item item-anchor">Collection 2 </a>
                     </li>
                     <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Home Layout 3 </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Home Layout 4 </a>
+                      <a href="index.html" class="dropdown-item item-anchor">Collection 3 </a>
                     </li>
                   </ul>
                 </li>
@@ -289,104 +302,70 @@
                   <a class="nav-link dropdown-toggle" href="#" id="dropdownShop" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">Shop</a>
                   <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownShop">
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Shop Sidebar </a>
+                    <li class="dropdown-submenu">
+                      <a class="dropdown-item dropdown-toggle" href="#" id="dropdownShopMen" data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Shop for Men</a>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownShopMen">
+                        <li>
+                          <a href="index.html" class="dropdown-item item-anchor">Shorts</a>
+                        </li>
+                        <li>
+                          <a href="index.html" class="dropdown-item item-anchor">Trousers</a>
+                        </li>
+                        <li>
+                          <a href="index.html" class="dropdown-item item-anchor">Shirts</a>
+                        </li>
+                        <li>
+                          <a href="index.html" class="dropdown-item item-anchor">T-Shirts</a>
+                        </li>
+                      </ul>
                     </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Shop Three Column </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Shop Three Column Wide </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Shop Four Column </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Shop Four Column Wide </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Shop Six Column </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Shop Six Column Wide </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Single Product </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Single Product V2 </a>
+                    <li class="dropdown-submenu">
+                      <a class="dropdown-item dropdown-toggle" href="#" id="dropdownShopWomen" data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Shop for Women</a>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownShopWomen">
+                        <li>
+                          <a href="index.html" class="dropdown-item item-anchor"> Tops </a>
+                        </li>
+                        <li>
+                          <a href="index.html" class="dropdown-item item-anchor"> Dresses </a>
+                        </li>
+                        <li>
+                          <a href="index.html" class="dropdown-item item-anchor"> Pants </a>
+                        </li>
+                         <li>
+                          <a href="index.html" class="dropdown-item item-anchor"> Skirts </a>
+                        </li>
+                      </ul>
                     </li>
                   </ul>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="OnSale">On Sale</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="dropdownBlog" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Blog</a>
+                    aria-haspopup="true" aria-expanded="false">Introduction</a>
                   <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownBlog">
                     <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Blog Classic </a>
+                      <a href="index.html" class="dropdown-item item-anchor"> About Us </a>
                     </li>
                     <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Blog Grid with Sidebar </a>
+                      <a href="index.html" class="dropdown-item item-anchor"> Membership </a>
                     </li>
                     <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Blog Grid Four Column </a>
+                      <a href="index.html" class="dropdown-item item-anchor"> Recruitment </a>
                     </li>
                     <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Blog No Sidebar </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Blog Right Sidebar </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Single Post </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Single Post No Sidebar </a>
+                      <a href="index.html" class="dropdown-item item-anchor"> Contact </a>
                     </li>
                   </ul>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="dropdownPages" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Pages</a>
-                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">About </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Cart </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Checkout </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Coming Soon </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Contact </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Error Page </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">FAQs </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">My Account </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Order Tracking </a>
-                    </li>
-                    <li>
-                      <a href="index.html" class="dropdown-item item-anchor">Wishlist </a>
-                    </li>
-                  </ul>
-                </li>
+                </li>               
                 <li class="nav-item">
                   <a class="nav-link" href="#">Blog</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Contact</a>
-                </li>
+            
+                
               </ul>
             </div>
           </div>
@@ -441,6 +420,11 @@
       </div>
     </div>
   </div>
+
+  <section id="voucher-con" class="voucher">
+
+    
+  </section>
   <section id="billboard" class="bg-light py-5">
     <div class="container">
       <div class="row justify-content-center">
@@ -575,48 +559,6 @@
     </div>
   </section>
 
-  <section class="features py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="0">
-          <div class="py-5">
-            <svg width="38" height="38" viewBox="0 0 24 24">
-              <use xlink:href="#calendar"></use>
-            </svg>
-            <h4 class="element-title text-capitalize my-3">Book An Appointment</h4>
-            <p>At imperdiet dui accumsan sit amet nulla risus est ultricies quis.</p>
-          </div>
-        </div>
-        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="300">
-          <div class="py-5">
-            <svg width="38" height="38" viewBox="0 0 24 24">
-              <use xlink:href="#shopping-bag"></use>
-            </svg>
-            <h4 class="element-title text-capitalize my-3">Pick up in store</h4>
-            <p>At imperdiet dui accumsan sit amet nulla risus est ultricies quis.</p>
-          </div>
-        </div>
-        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="600">
-          <div class="py-5">
-            <svg width="38" height="38" viewBox="0 0 24 24">
-              <use xlink:href="#gift"></use>
-            </svg>
-            <h4 class="element-title text-capitalize my-3">Special packaging</h4>
-            <p>At imperdiet dui accumsan sit amet nulla risus est ultricies quis.</p>
-          </div>
-        </div>
-        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="900">
-          <div class="py-5">
-            <svg width="38" height="38" viewBox="0 0 24 24">
-              <use xlink:href="#arrow-cycle"></use>
-            </svg>
-            <h4 class="element-title text-capitalize my-3">free global returns</h4>
-            <p>At imperdiet dui accumsan sit amet nulla risus est ultricies quis.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section class="categories overflow-hidden">
     <div class="container">
@@ -650,22 +592,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="cat-item image-zoom-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/cat-item3.jpg" alt="categories" class="product-image img-fluid">
-                </a>
-              </div>
-              <div class="category-content">
-                <div class="product-button">
-                  <a href="index.html" class="btn btn-common text-uppercase">Shop accessories</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+          
     </div>
   </section>
 
@@ -983,7 +910,7 @@
         <div class="swiper-slide">
           <div class="testimonial-item text-center">
             <blockquote>
-              <p>“More than expected crazy soft, flexible and best fitted white simple denim shirt.”</p>
+              <p>"More than expected crazy soft, flexible and best fitted white simple denim shirt."</p>
               <div class="review-title text-uppercase">casual way</div>
             </blockquote>
           </div>
@@ -991,7 +918,7 @@
         <div class="swiper-slide">
           <div class="testimonial-item text-center">
             <blockquote>
-              <p>“Best fitted white denim shirt more than expected crazy soft, flexible</p>
+              <p>"Best fitted white denim shirt more than expected crazy soft, flexible</p>
               <div class="review-title text-uppercase">uptop</div>
             </blockquote>
           </div>
@@ -999,7 +926,7 @@
         <div class="swiper-slide">
           <div class="testimonial-item text-center">
             <blockquote>
-              <p>“Best fitted white denim shirt more white denim than expected flexible crazy soft.”</p>
+              <p>"Best fitted white denim shirt more white denim than expected flexible crazy soft."</p>
               <div class="review-title text-uppercase">Denim craze</div>
             </blockquote>
           </div>
@@ -1007,7 +934,7 @@
         <div class="swiper-slide">
           <div class="testimonial-item text-center">
             <blockquote>
-              <p>“Best fitted white denim shirt more than expected crazy soft, flexible</p>
+              <p>"Best fitted white denim shirt more than expected crazy soft, flexible</p>
               <div class="review-title text-uppercase">uptop</div>
             </blockquote>
           </div>
