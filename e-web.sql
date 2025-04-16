@@ -75,18 +75,18 @@ INSERT INTO `category` (`cid`, `cname`, `parentid`) VALUES
 (5, 'INTRODUCTION', NULL),
 (6, 'BLOG', NULL),
 (7, 'SHOP FOR MEN', 3),
-(8, 'SHOP FOR WOMEN', 3);
-(9, 'SHORTS', 7);
-(10, 'TROUSERS', 7);
-(11, 'SHIRTS', 7);
-(12, 'T-SHIRTS', 7);
-(13, 'TOPS', 8);
-(14, 'DRESSES', 8);
-(15, 'PANTS', 8);
-(16, 'SKIRTS', 8);
-(17, 'ABOUT US', 5);
-(18, 'MEMBERSHIP', 5);
-(19, 'RECRUITMENT', 5);
+(8, 'SHOP FOR WOMEN', 3),
+(9, 'SHORTS', 7),
+(10, 'TROUSERS', 7),
+(11, 'SHIRTS', 7),
+(12, 'T-SHIRTS', 7),
+(13, 'TOPS', 8),
+(14, 'DRESSES', 8),
+(15, 'PANTS', 8),
+(16, 'SKIRTS', 8),
+(17, 'ABOUT US', 5),
+(18, 'MEMBERSHIP', 5),
+(19, 'RECRUITMENT', 5),
 (20, 'CONTACT', 5);
 -- --------------------------------------------------------
 
@@ -184,6 +184,7 @@ CREATE TRIGGER `before_insert_order_rating` BEFORE INSERT ON `product` FOR EACH 
 END
 $$
 DELIMITER ;
+
 
 -- --------------------------------------------------------
 
@@ -741,6 +742,41 @@ INSERT INTO product (cid, title, price, discount, thumbnail, description, stock,
 VALUES (7, 'Quần tây nam ôm Twill Texture form slim crop', 280000, 250000, 'Quan-tay-nam-om-Twill-Texture-form-slim-crop.webp', 'Twill Texture tạo điểm nhấn cho trang phục.', 10, 'L', 5, 0, 'Vàng cam');
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
 VALUES (7, 'Quần tây nam ôm Twill Texture form slim crop', 295000, 260000, 'Quan-tay-nam-om-Twill-Texture-form-slim-crop.webp', 'Twill Texture tạo điểm nhấn cho trang phục.', 10, 'XL', 5, 0, 'Vàng cam');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'L', 5, 0, 'Đỏ');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'M', 5, 0, 'Đỏ');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Jamie shirt HYGGE - MS01', 210000, 180000, 'Áo kiểu Jamie shirt HYGGE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Jamie shirt HYGGE - MS01', 210000, 180000, 'Áo kiểu Jamie shirt HYGGE - MS01.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'XL', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'XL', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'XL', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'XL', 5, 0, 'Trắng');
+
 
 
 
