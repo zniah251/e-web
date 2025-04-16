@@ -743,40 +743,217 @@ VALUES (7, 'Quần tây nam ôm Twill Texture form slim crop', 280000, 250000, '
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
 VALUES (7, 'Quần tây nam ôm Twill Texture form slim crop', 295000, 260000, 'Quan-tay-nam-om-Twill-Texture-form-slim-crop.webp', 'Twill Texture tạo điểm nhấn cho trang phục.', 10, 'XL', 5, 0, 'Vàng cam');
 
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'L', 5, 0, 'Đỏ');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'M', 5, 0, 'Đỏ');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'L', 5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'M', 5, 0, 'Trắng');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo kiểu Jamie shirt HYGGE - MS01', 210000, 180000, 'Áo kiểu Jamie shirt HYGGE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo kiểu Jamie shirt HYGGE - MS01', 210000, 180000, 'Áo kiểu Jamie shirt HYGGE - MS01.jpg', '...', 10, 'M', 5, 0, 'Trắng');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'XL', 5, 0, 'Trắng');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'XL', 5, 0, 'Trắng');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'XL', 5, 0, 'Trắng');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'XL', 5, 0, 'Trắng');
 
 
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'admin/assets/images/Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'L', 5, 0, 'Đỏ');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'admin/assets/images/Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'M', 5, 0, 'Đỏ');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'admin/assets/images/Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo Gile phối nơ cổ V DUO STYLE - Rebel Gile', 199000, 159000, 'admin/assets/images/Áo gile phối nơ cổ V DUO STYLE(3) - Rebel Gile.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Jamie shirt HYGGE - MS01', 210000, 180000, 'admin/assets/images/Áo kiểu Jamie shirt HYGGE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Jamie shirt HYGGE - MS01', 210000, 180000, 'admin/assets/images/Áo kiểu Jamie shirt HYGGE - MS01.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'admin/assets/images/Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu Rebel gile DUO STYLE - MS01', 210000, 180000, 'admin/assets/images/Áo kiểu Rebel gile DUO STYLE - MS01.jpg', '...', 10, 'M', 5, 0, 'Trắng');
 
 
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu tay dài hoa nổi DUO STYLE - Esther Top', 210000, 180000, 'admin/assets/images/Áo kiểu tay dài hoa nổi DUO STYLE - Esther Top.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu tay dài hoa nổi DUO STYLE - Esther Top', 210000, 180000, 'admin/assets/images/Áo kiểu tay dài hoa nổi DUO STYLE - Esther Top.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu tay phồng cột nơ HYGGE - Naomi Top', 210000, 180000, 'admin/assets/images/Áo kiểu tay phồng cột nơ HYGGE - Naomi Top.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo kiểu tay phồng cột nơ HYGGE - Naomi Top', 210000, 180000, 'admin/assets/images/Áo kiểu tay phồng cột nơ HYGGE - Naomi Top.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo tay ngắn cổ thủy thủ DUO STYLE - Ayako Top', 200000, 150000, 'admin/assets/images/Áo tay ngắn cổ thủy thủ DUO STYLE - Ayako Top.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Áo tay ngắn cổ thủy thủ DUO STYLE - Ayako Top', 200000, 150000, 'admin/assets/images/Áo tay ngắn cổ thủy thủ DUO STYLE - Ayako Top.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Betty Off-ShoulderTop', 220000, 200000, 'admin/assets/images/Betty Off-ShoulderTop.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Betty Off-ShoulderTop', 220000, 200000, 'admin/assets/images/Betty Off-ShoulderTop.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Icy Top', 220000, 200000, 'admin/assets/images/icy top.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Icy Top', 220000, 200000, 'admin/assets/images/icy top.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Icy Top', 220000, 200000, 'admin/assets/images/icy top.jpg', '...', 10, 'L', 5, 0, 'Vàng nhạt');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Icy Top', 220000, 200000, 'admin/assets/images/icy top.jpg', '...', 10, 'M', 5, 0, 'Vàng nhạt');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Kling Top', 200000, 180000, 'admin/assets/images/Kling Top.jpg', '...', 10, 'L', 5, 0, 'Caro nâu');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Kling Top', 200000, 180000, 'admin/assets/images/Kling Top.jpg', '...', 10, 'M', 5, 0, 'Caro nâu');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Marisa Top', 200000, 180000, 'admin/assets/images/Marisa Top.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Marisa Top', 200000, 180000, 'admin/assets/images/Marisa Top.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Riso Tube Top', 200000, 180000, 'admin/assets/images/Riso Tube Top.jpg', '...', 10, 'L', 5, 0, 'Caro xanh');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Riso Tube Top', 200000, 180000, 'admin/assets/images/Riso Tube Top.jpg', '...', 10, 'M', 5, 0, 'Caro xanh');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Romie Cami Top', 200000, 180000, 'admin/assets/images/Romie Cami Top.jpg', '...', 10, 'L', 5, 0, 'Be');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Romie Cami Top', 200000, 180000, 'admin/assets/images/Romie Cami Top.jpg', '...', 10, 'M', 5, 0, 'Be');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Timo Jacket', 250000, 220000, 'admin/assets/images/Timo Jacket.jpg', '...', 10, 'L', 5, 0, 'Be');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (13, 'Timo Jacket', 250000, 220000, 'admin/assets/images/Timo Jacket.jpg', '...', 10, 'M', 5, 0, 'Be');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Chiara Dress', 299000, 279000, 'admin/assets/images/Chiara Dress.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Chiara Dress', 299000, 279000, 'admin/assets/images/Chiara Dress.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Đầm babydoll trễ vai tay dài phối nơ HYGGE - Peachy Dress', 299000, 280000, 'admin/assets/images/Đầm babydoll trễ vai tay dài phối nơ HYGGE - Peachy Dress.jpg', '...', 10, 'L', 5, 0, 'Hồng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Đầm babydoll trễ vai tay dài phối nơ HYGGE - Peachy Dress', 299000, 280000, 'admin/assets/images/Đầm babydoll trễ vai tay dài phối nơ HYGGE - Peachy Dress.jpg', '...', 10, 'M', 5, 0, 'Hồng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Đầm ngắn tay chuông cổ cao HYGGE - Pandora Dress', 299000, 280000, 'admin/assets/images/Đầm ngắn tay chuông cổ cao HYGGE - Pandora Dress.jpg', '...', 10, 'L', 5, 0, 'Xanh đậm');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Đầm ngắn tay chuông cổ cao HYGGE - Pandora Dress', 200000, 180000, 'admin/assets/images/Đầm ngắn tay chuông cổ cao HYGGE - Pandora Dress.jpg', '...', 10, 'M', 5, 0, 'Xanh đậm');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Đầm tơ tay ngắn hạ eo bo chun họa tiêt ren HYGGE - Samantha Dress', 299000, 2690000, 'admin/assets/images/Đầm tơ tay ngắn hạ eo bo chun họa tiêt ren HYGGE - Samantha Dress.jpg', '...', 10, 'L', 5, 0, 'Be');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Đầm tơ tay ngắn hạ eo bo chun họa tiêt ren HYGGE - Samantha Dress', 299000, 269000, 'admin/assets/images/Đầm tơ tay ngắn hạ eo bo chun họa tiêt ren HYGGE - Samantha Dress.jpg', '...', 10, 'M', 5, 0, 'Be');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Flurry Dress', 250000, 220000, 'admin/assets/images/Flurry Dress.jpg', '...', 10, 'L', 5, 0, 'Caro');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Flurry Dress', 250000, 220000, 'admin/assets/images/Flurry Dress.jpg', '...', 10, 'M', 5, 0, 'Caro');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Liltee Dress', 299000, 279000, 'admin/assets/images/Liltee Dress.jpg', '...', 10, 'L', 5, 0, 'Be');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Liltee Dress', 299000, 279000, 'admin/assets/images/Liltee Dress.jpg', '...', 10, 'M', 5, 0, 'Be');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'LINDA DRESS', 299000, 280000, 'admin/assets/images/LINDA DRESS.jpg', '...', 10, 'L', 5, 0, 'Xanh dương');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'LINDA DRESS', 299000, 280000, 'admin/assets/images/LINDA DRESS.jpg', '...', 10, 'M', 5, 0, 'Xanh dương');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Oscar Midi Dress', 299000, 280000, 'admin/assets/images/Oscar Midi Dress.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Oscar Midi Dress', 200000, 280000, 'admin/assets/images/Oscar Midi Dress.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Polo Dress', 299000, 2690000, 'admin/assets/images/polo dress.jpg', '...', 10, 'L', 5, 0, 'Tím nhạt');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Polo Dress', 299000, 269000, 'admin/assets/images/polo dress.jpg', '...', 10, 'M', 5, 0, 'Tím nhạt');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Prim Dress', 250000, 220000, 'admin/assets/images/prim dress.jpg', '...', 10, 'L', 5, 0, 'Caro');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Prim Dress', 250000, 220000, 'admin/assets/images/prim dress.jpg', '...', 10, 'M', 5, 0, 'Caro');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Rosie Dress', 299000, 2690000, 'admin/assets/images/rosie dress.jpg', '...', 10, 'L', 5, 0, 'Hồng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Rosie Dress', 299000, 269000, 'admin/assets/images/rosie dress.jpg', '...', 10, 'M', 5, 0, 'Hồng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Venis Dress', 250000, 220000, 'admin/assets/images/venis dress.jpg', '...', 10, 'L', 5, 0, 'Caro xanh nhạt');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (14, 'Venis Dress', 250000, 220000, 'admin/assets/images/venis dress.jpg', '...', 10, 'M', 5, 0, 'Caro xanh nhạt');
+
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Bonew Parachute Short', 199000, 179000, 'admin/assets/images/Bonew Parachute Short.jpg', '...', 10, 'L', 5, 0, 'Be');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Bonew Parachute Short', 199000, 179000, 'admin/assets/images/Bonew Parachute Short.jpg', '...', 10, 'M', 5, 0, 'Be');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Fomos Jean Short dark blue', 299000, 280000, 'admin/assets/images/Fomos Jean Short dark blue.jpg', '...', 10, 'L', 5, 0, 'Jeans đậm');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Fomos Jean Short dark blue', 299000, 280000, 'admin/assets/imagesFomos Jean Short dark blue.jpg', '...', 10, 'M', 5, 0, 'Jeans đậm');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Fomos Jean Short dark blue', 299000, 280000, 'admin/assets/images/Fomos Jean Short dark blue.jpg', '...', 10, 'L', 5, 0, 'Jeans nhạt');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Fomos Jean Short dark blue', 299000, 280000, 'admin/assets/imagesFomos Jean Short dark blue.jpg', '...', 10, 'M', 5, 0, 'Jeans nhạt');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Hebe Jeans', 299000, 280000, 'admin/assets/images/hebe jeans.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Hebe Jeans', 200000, 280000, 'admin/assets/images/hebe jeans.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Pamin Pants', 250000, 220000, 'admin/assets/images/Pamin Pants.jpg', '...', 10, 'L', 5, 0, 'Xanh');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Pamin Pants', 250000, 220000, 'admin/assets/images/Pamin Pants.jpg', '...', 10, 'M', 5, 0, 'Xanh');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Pull Pants', 299000, 279000, 'admin/assets/images/pull pants.jpg', '...', 10, 'L', 5, 0, 'Xanh');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Pull Pants', 299000, 279000, 'admin/assets/images/pull pants.jpg', '...', 10, 'M', 5, 0, 'Xanh');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Strip Long Pants', 299000, 280000, 'admin/assets/images/Strip Long Pants.jpg', '...', 10, 'L', 5, 0, 'Caro');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (15, 'Strip Long Pants', 299000, 280000, 'admin/assets/images/Strip Long Pants.jpg', '...', 10, 'M', 5, 0, 'Caro');
+
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Bubble Skirt', 199000, 180000, 'admin/assets/images/bubble skirt.jpg', '...', 10, 'L', 5, 0, 'Tím');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Bubble Skirt', 100000, 180000, 'admin/assets/images/bubble skirt.jpg', '...', 10, 'M', 5, 0, 'Tím');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Doris Midi Skirt', 299000, 2690000, 'admin/assets/images/Doris Midi Skirt.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Doris Midi Skirt', 299000, 269000, 'admin/assets/images/Doris Midi Skirt.jpg', '...', 10, 'M', 5, 0, 'Trắng');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Ficus Skirt', 250000, 220000, 'admin/assets/images/ficus skirt.jpg', '...', 10, 'L', 5, 0, 'Xám');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Ficus Skirt', 250000, 220000, 'admin/assets/images/ficus skirt.jpg', '...', 10, 'M', 5, 0, 'Xám');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Hansy Mini Skirt', 199000, 1690000, 'admin/assets/images/Hansy Mini Skirt.jpg', '...', 10, 'L', 5, 0, 'Be');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Hansy Mini Skirt', 199000, 169000, 'admin/assets/images/Hansy Mini Skirt.jpg', '...', 10, 'M', 5, 0, 'Be');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Hiba Skirt', 150000, 120000, 'admin/assets/images/Hiba Skirt.jpg', '...', 10, 'L', 5, 0, 'Caro đỏ');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Hiba Skirt', 150000, 120000, 'admin/assets/images/Hiba Skirt.jpg', '...', 10, 'M', 5, 0, 'Caro đỏ');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Nixie Pleated Skirt', 250000, 220000, 'admin/assets/images/Nixie Pleated Skirt.jpg', '...', 10, 'L', 5, 0, 'Be');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Nixie Pleated Skirt', 250000, 220000, 'admin/assets/images/Nixie Pleated Skirt.jpg', '...', 10, 'M', 5, 0, 'Be');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Rolly Bubble Skirt', 199000, 1690000, 'admin/assets/images/Rolly Bubble Skirt.jpg', '...', 10, 'L', 5, 0, 'Đen');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Rolly Bubble Skirt', 199000, 169000, 'admin/assets/images/Rolly Bubble Skirt.jpg', '...', 10, 'M', 5, 0, 'Đen');
+
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Tacha Bubble Skirt', 150000, 120000, 'admin/assets/images/Tacha Bubble Skirt.jpg', '...', 10, 'L', 5, 0, 'Caro');
+INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+VALUES (16, 'Tacha Bubble Skirt', 150000, 120000, 'admin/assets/images/Tacha Bubble Skirt.jpg', '...', 10, 'M', 5, 0, 'Caro');
