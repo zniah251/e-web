@@ -261,11 +261,16 @@ CREATE TABLE `users` (
 
 CREATE TABLE `voucher` (
   `vid` int(11) NOT NULL,
-  `code` varchar(50) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `discount` decimal(10,2) NOT NULL,
   `minprice` decimal(10,2) NOT NULL,
   `expiry` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `voucher` (`name`, `discount`, `minprice`, `expiry`)
+VALUES
+  ('Free Shipping', 30.00, 300000.00, '2025-12-31'),
+  ('Discount 10%', 50.00, 300000.00, '2025-12-31');
 
 -- --------------------------------------------------------
 
@@ -836,7 +841,7 @@ INSERT INTO product (cid, title, price, discount, thumbnail, description, stock,
 VALUES (14, 'Đầm ngắn tay chuông cổ cao HYGGE - Pandora Dress', 200000, 180000, 'admin/assets/images/Đầm ngắn tay chuông cổ cao HYGGE - Pandora Dress.jpg', '...', 10, 'M', 5, 0, 'Xanh đậm');
 
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (14, 'Đầm tơ tay ngắn hạ eo bo chun họa tiêt ren HYGGE - Samantha Dress', 299000, 2690000, 'admin/assets/images/Đầm tơ tay ngắn hạ eo bo chun họa tiêt ren HYGGE - Samantha Dress.jpg', '...', 10, 'L', 5, 0, 'Be');
+VALUES (14, 'Đầm tơ tay ngắn hạ eo bo chun họa tiêt ren HYGGE - Samantha Dress', 299000, 269000, 'admin/assets/images/Đầm tơ tay ngắn hạ eo bo chun họa tiêt ren HYGGE - Samantha Dress.jpg', '...', 10, 'L', 5, 0, 'Be');
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
 VALUES (14, 'Đầm tơ tay ngắn hạ eo bo chun họa tiêt ren HYGGE - Samantha Dress', 299000, 269000, 'admin/assets/images/Đầm tơ tay ngắn hạ eo bo chun họa tiêt ren HYGGE - Samantha Dress.jpg', '...', 10, 'M', 5, 0, 'Be');
 
@@ -861,7 +866,7 @@ INSERT INTO product (cid, title, price, discount, thumbnail, description, stock,
 VALUES (14, 'Oscar Midi Dress', 200000, 280000, 'admin/assets/images/Oscar Midi Dress.jpg', '...', 10, 'M', 5, 0, 'Trắng');
 
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (14, 'Polo Dress', 299000, 2690000, 'admin/assets/images/polo dress.jpg', '...', 10, 'L', 5, 0, 'Tím nhạt');
+VALUES (14, 'Polo Dress', 299000, 269000, 'admin/assets/images/polo dress.jpg', '...', 10, 'L', 5, 0, 'Tím nhạt');
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
 VALUES (14, 'Polo Dress', 299000, 269000, 'admin/assets/images/polo dress.jpg', '...', 10, 'M', 5, 0, 'Tím nhạt');
 
@@ -871,7 +876,7 @@ INSERT INTO product (cid, title, price, discount, thumbnail, description, stock,
 VALUES (14, 'Prim Dress', 250000, 220000, 'admin/assets/images/prim dress.jpg', '...', 10, 'M', 5, 0, 'Caro');
 
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (14, 'Rosie Dress', 299000, 2690000, 'admin/assets/images/rosie dress.jpg', '...', 10, 'L', 5, 0, 'Hồng');
+VALUES (14, 'Rosie Dress', 299000, 269000, 'admin/assets/images/rosie dress.jpg', '...', 10, 'L', 5, 0, 'Hồng');
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
 VALUES (14, 'Rosie Dress', 299000, 269000, 'admin/assets/images/rosie dress.jpg', '...', 10, 'M', 5, 0, 'Hồng');
 
@@ -924,7 +929,7 @@ INSERT INTO product (cid, title, price, discount, thumbnail, description, stock,
 VALUES (16, 'Bubble Skirt', 100000, 180000, 'admin/assets/images/bubble skirt.jpg', '...', 10, 'M', 5, 0, 'Tím');
 
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (16, 'Doris Midi Skirt', 299000, 2690000, 'admin/assets/images/Doris Midi Skirt.jpg', '...', 10, 'L', 5, 0, 'Trắng');
+VALUES (16, 'Doris Midi Skirt', 299000, 269000, 'admin/assets/images/Doris Midi Skirt.jpg', '...', 10, 'L', 5, 0, 'Trắng');
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
 VALUES (16, 'Doris Midi Skirt', 299000, 269000, 'admin/assets/images/Doris Midi Skirt.jpg', '...', 10, 'M', 5, 0, 'Trắng');
 
@@ -934,7 +939,7 @@ INSERT INTO product (cid, title, price, discount, thumbnail, description, stock,
 VALUES (16, 'Ficus Skirt', 250000, 220000, 'admin/assets/images/ficus skirt.jpg', '...', 10, 'M', 5, 0, 'Xám');
 
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (16, 'Hansy Mini Skirt', 199000, 1690000, 'admin/assets/images/Hansy Mini Skirt.jpg', '...', 10, 'L', 5, 0, 'Be');
+VALUES (16, 'Hansy Mini Skirt', 199000, 169000, 'admin/assets/images/Hansy Mini Skirt.jpg', '...', 10, 'L', 5, 0, 'Be');
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
 VALUES (16, 'Hansy Mini Skirt', 199000, 169000, 'admin/assets/images/Hansy Mini Skirt.jpg', '...', 10, 'M', 5, 0, 'Be');
 
@@ -949,7 +954,7 @@ INSERT INTO product (cid, title, price, discount, thumbnail, description, stock,
 VALUES (16, 'Nixie Pleated Skirt', 250000, 220000, 'admin/assets/images/Nixie Pleated Skirt.jpg', '...', 10, 'M', 5, 0, 'Be');
 
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (16, 'Rolly Bubble Skirt', 199000, 1690000, 'admin/assets/images/Rolly Bubble Skirt.jpg', '...', 10, 'L', 5, 0, 'Đen');
+VALUES (16, 'Rolly Bubble Skirt', 199000, 169000, 'admin/assets/images/Rolly Bubble Skirt.jpg', '...', 10, 'L', 5, 0, 'Đen');
 INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
 VALUES (16, 'Rolly Bubble Skirt', 199000, 169000, 'admin/assets/images/Rolly Bubble Skirt.jpg', '...', 10, 'M', 5, 0, 'Đen');
 
