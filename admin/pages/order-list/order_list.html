@@ -2,12 +2,12 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Order List</title>
-    <link rel="stylesheet" href="/e-web/admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/e-web/admin/template/assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="/e-web/admin/template/assets/css/style.css">
+    <link rel="stylesheet" href="../../../admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../../admin/template/assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -15,29 +15,17 @@
 
 <body>
     <div class="container-scroller">
-        <nav class="navbar p-0 fixed-top d-flex flex-row">
-            <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                    <span class="mdi mdi-menu"></span>
-                </button>
-                <ul class="navbar-nav w-100">
-                    <li class="nav-item w-100">
-                        <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                            <input type="text" class="form-control" placeholder="Search orders">
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
+        <!-- Sidebar -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="/e-web/index.html"><img src="/e-web/admin/template/assets/images/logo1.png" alt="logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="/e-web/index.html"><img src="/e-web/assets/images/logo-mini.svg" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo1.png"
+                        alt="logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img
+                        src="../../assets/images/logo-mini.svg" alt="logo" /></a>
             </div>
             <ul class="nav">
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="/e-web/index.html">
+                    <a class="nav-link" href="../../index.html">
                         <span class="menu-icon">
                             <i class="mdi mdi-speedometer"></i>
                         </span>
@@ -45,7 +33,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="/e-web/admin/pages/product/product_list.html">
+                    <a class="nav-link" href="../product/product_list.html">
                         <span class="menu-icon">
                             <i class="mdi mdi-table-large"></i>
                         </span>
@@ -53,7 +41,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="/e-web/admin/pages/order/order_list.html">
+                    <a class="nav-link" href="../order/order_list.html">
                         <span class="menu-icon">
                             <i class="mdi mdi-cart"></i>
                         </span>
@@ -63,7 +51,34 @@
             </ul>
         </nav>
 
+        <!-- Main Content -->
         <div class="container-fluid page-body-wrapper">
+            <!-- Navbar -->
+            <nav class="navbar p-0 fixed-top d-flex flex-row">
+                <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                        <span class="mdi mdi-menu"></span>
+                    </button>
+                    <ul class="navbar-nav w-100">
+                        <li class="nav-item w-100">
+                            <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                                <input type="text" class="form-control" placeholder="Search orders">
+                            </form>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav navbar-nav-right">
+                        <li class="nav-item nav-profile dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                                <span class="nav-profile-name">Henry Klein</span>
+                                <span class="online-status"></span>
+                                <img src="../../assets/images/faces/face28.jpg" alt="profile" />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Content -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
@@ -76,47 +91,29 @@
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th> Order </th>
-                                                    <th> Date </th>
+                                                    <th> Order ID </th>
                                                     <th> Customer </th>
-                                                    <th> Payment </th>
+                                                    <th> Date </th>
                                                     <th> Status </th>
-                                                    <th> Method </th>
                                                     <th> Actions </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>#6979</td>
+                                                    <td>#12345</td>
+                                                    <td>John Doe</td>
                                                     <td>Apr 15, 2023</td>
-                                                    <td>Cristine Eason</td>
+                                                    <td><span class="badge badge-success">Completed</span></td>
+                                                    <td>
+                                                        <button class="btn btn-primary btn-sm">View</button>
+                                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>#12346</td>
+                                                    <td>Jane Smith</td>
+                                                    <td>Apr 16, 2023</td>
                                                     <td><span class="badge badge-warning">Pending</span></td>
-                                                    <td><span class="badge badge-success">Delivered</span></td>
-                                                    <td>MasterCard</td>
-                                                    <td>
-                                                        <button class="btn btn-primary btn-sm">View</button>
-                                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#6624</td>
-                                                    <td>Apr 17, 2023</td>
-                                                    <td>Fayre Screech</td>
-                                                    <td><span class="badge badge-danger">Failed</span></td>
-                                                    <td><span class="badge badge-success">Delivered</span></td>
-                                                    <td>Visa</td>
-                                                    <td>
-                                                        <button class="btn btn-primary btn-sm">View</button>
-                                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#9305</td>
-                                                    <td>Apr 17, 2023</td>
-                                                    <td>Pauline Pfaffe</td>
-                                                    <td><span class="badge badge-secondary">Cancelled</span></td>
-                                                    <td><span class="badge badge-info">Out for Delivery</span></td>
-                                                    <td>PayPal</td>
                                                     <td>
                                                         <button class="btn btn-primary btn-sm">View</button>
                                                         <button class="btn btn-danger btn-sm">Delete</button>
@@ -143,21 +140,7 @@
         </div>
     </div>
 
-    <script src="/e-web/admin/template/assets/vendors/js/vendor.bundle.base.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const deleteButtons = document.querySelectorAll('.btn-danger');
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    if (confirm('Are you sure you want to delete this order?')) {
-                        const row = this.closest('tr');
-                        row.remove();
-                        alert('Order deleted successfully!');
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="../../../admin/template/assets/vendors/js/vendor.bundle.base.js"></script>
 </body>
 
 </html>
