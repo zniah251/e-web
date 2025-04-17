@@ -5,12 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Product List</title>
-    <link rel="stylesheet" href="/e-web/admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/e-web/admin/template/assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="/e-web/admin/template/assets/vendors/select2/select2.min.css">
-    <link rel="stylesheet" href="/e-web/admin/template/assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
-    <link rel="stylesheet" href="/e-web/admin/template/assets/css/style.css">
-    <link rel="stylesheet" href="/e-web/admin/pages/product/assets/product.css">
+    <link rel="stylesheet" href="../../../admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../../admin/template/assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -18,33 +15,17 @@
 
 <body>
     <div class="container-scroller">
-        <nav class="navbar p-0 fixed-top d-flex flex-row">
-            <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo-mini" href="/e-web/index.html"><img src="/e-web/admin/template/assets/images/logo-mini.svg"
-                        alt="logo" /></a>
-            </div>
-            <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                    <span class="mdi mdi-menu"></span>
-                </button>
-                <ul class="navbar-nav w-100">
-                    <li class="nav-item w-100">
-                        <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                            <input type="text" class="form-control" placeholder="Search products">
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
+        <!-- Sidebar -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="/e-web/index.html"><img src="/e-web/admin/template/assets/images/logo1.png" alt="logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="/e-web/index.html"><img src="/e-web/assets/images/logo-mini.svg" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo1.png"
+                        alt="logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img
+                        src="../../assets/images/logo-mini.svg" alt="logo" /></a>
             </div>
             <ul class="nav">
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="/e-web/index.html">
+                    <a class="nav-link" href="../../index.html">
                         <span class="menu-icon">
                             <i class="mdi mdi-speedometer"></i>
                         </span>
@@ -52,17 +33,52 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="/e-web/admin/pages/product/product_list.html">
+                    <a class="nav-link" href="../product/product_list.html">
                         <span class="menu-icon">
                             <i class="mdi mdi-table-large"></i>
                         </span>
                         <span class="menu-title">Product List</span>
                     </a>
                 </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="../order/order_list.html">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-cart"></i>
+                        </span>
+                        <span class="menu-title">Order List</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 
+        <!-- Main Content -->
         <div class="container-fluid page-body-wrapper">
+            <!-- Navbar -->
+            <nav class="navbar p-0 fixed-top d-flex flex-row">
+                <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                        <span class="mdi mdi-menu"></span>
+                    </button>
+                    <ul class="navbar-nav w-100">
+                        <li class="nav-item w-100">
+                            <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                                <input type="text" class="form-control" placeholder="Search products">
+                            </form>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav navbar-nav-right">
+                        <li class="nav-item nav-profile dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                                <span class="nav-profile-name">Henry Klein</span>
+                                <span class="online-status"></span>
+                                <img src="../../assets/images/faces/face28.jpg" alt="profile" />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Content -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
@@ -75,7 +91,6 @@
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th><input type="checkbox" id="select-all"></th>
                                                     <th> STT </th>
                                                     <th> Product Name </th>
                                                     <th> Price </th>
@@ -84,23 +99,23 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr data-id="1">
-                                                    <td><input type="checkbox" class="select-product"></td>
+                                                <tr>
                                                     <td>1</td>
-                                                    <td class="product-name">Product A</td>
-                                                    <td class="product-price">100</td>
+                                                    <td>Product A</td>
+                                                    <td>100</td>
                                                     <td>In Stock</td>
                                                     <td>
+                                                        <button class="btn btn-primary btn-sm">Edit</button>
                                                         <button class="btn btn-danger btn-sm">Delete</button>
                                                     </td>
                                                 </tr>
-                                                <tr data-id="2">
-                                                    <td><input type="checkbox" class="select-product"></td>
+                                                <tr>
                                                     <td>2</td>
-                                                    <td class="product-name">Product B</td>
-                                                    <td class="product-price">200</td>
+                                                    <td>Product B</td>
+                                                    <td>200</td>
                                                     <td>Out of Stock</td>
                                                     <td>
+                                                        <button class="btn btn-primary btn-sm">Edit</button>
                                                         <button class="btn btn-danger btn-sm">Delete</button>
                                                     </td>
                                                 </tr>
@@ -108,7 +123,7 @@
                                         </table>
                                     </div>
                                     <div class="mt-3">
-                                        <a href="/e-web/admin/pages/product/add-products/product.html" class="btn btn-success">+ Add Product</a>
+                                        <a href="../add-products/product.html" class="btn btn-success">+ Add Product</a>
                                     </div>
                                 </div>
                             </div>
@@ -120,35 +135,12 @@
                         <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright ©
                             bootstrapdash.com 2021</span>
                     </div>
-                </footer>  
+                </footer>
             </div>
         </div>
     </div>
 
-    <script src="/e-web/admin/template/assets/vendors/js/vendor.bundle.base.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const selectAllCheckbox = document.getElementById('select-all');
-            const productCheckboxes = document.querySelectorAll('.select-product');
-
-            selectAllCheckbox.addEventListener('change', function () {
-                productCheckboxes.forEach(checkbox => {
-                    checkbox.checked = selectAllCheckbox.checked;
-                });
-            });
-
-            const deleteButtons = document.querySelectorAll('.btn-danger');
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    if (confirm('Are you sure you want to delete this product?')) {
-                        const row = this.closest('tr');
-                        row.remove();
-                        alert('Product deleted successfully!');
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="../../../admin/template/assets/vendors/js/vendor.bundle.base.js"></script>
 </body>
 
 </html>
