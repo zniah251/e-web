@@ -16,6 +16,7 @@
   <link rel="stylesheet" type="text/css" href="css/vendor.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -409,6 +410,12 @@
       </div>
 
     </div>
+    <a href="/login" class="login-button">
+      <i class="fas fa-user"></i>
+      <span></span>
+    </a>
+    
+    
   </nav>
   <div class="banner-container">
     <div class="banner-wrapper">
@@ -420,18 +427,21 @@
     <div class="swiper-pagination"></div>
   </div>
 
-  <section id="voucher-container" class="voucher">
+  <section class="voucher-container">
     <div class="voucher">
-      <span class="voucher-title"> Voucher </span>
-      <div class="voucher-content">
-        <p class="voucher-text"> FREE SHIPPING </p>
-        <p class="voucher-description"> Đơn hàng từ 300.000 VNĐ. Giảm 50% cho tất cả sản phẩm </p>
-        <p class="voucher-description"> HSD đến 31/12/2025 </p>
+      <div class="voucher-left">
+        <h3 class="voucher-title">FREESHIP</h3>
+        <p class="voucher-condition">Đơn hàng từ 300k</p>
+        <p class="voucher-detail">Giảm giá không giới hạn</p>
+        <p class="voucher-expire"><em>HSD đến: 31-12-2025</em></p>
       </div>
-      <button class="voucher-button">GET VOUCHER</button>
+      <div class="voucher-right">
+        <i class="fa-solid fa-truck"></i>
+        <button class="voucher-btn">Lưu ngay</button>
+      </div>
     </div>
-    
   </section>
+  
   <section id="billboard" class="bg-light py-5">
     <div class="container">
       <div class="row justify-content-center">

@@ -145,54 +145,111 @@
 
 .voucher-container {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  padding: 20px;
+  margin: 20px;
+  border: 2px solid #e0e0e0; 
+  border-radius: 10px; 
+  
 }
 
+
 .voucher {
-  background-color: #f9f9f9;
-  border-radius: 10px;
+  display: flex;
+  background-color: #fff6f6;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+  width: 400px;
+  position: relative;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* Răng cưa giả */
+.voucher::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 120px;
+  width: 1px;
+  height: 100%;
+  border-left: 2px dashed #ff8c8c;
+}
+
+.voucher-left {
+  flex: 1;
   padding: 20px;
-  max-width: 400px;
-  width: 100%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
 }
 
 .voucher-title {
+  color: #d81b60;
+  font-weight: bold;
   font-size: 18px;
-  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.voucher-condition,
+.voucher-detail {
   color: #333;
-  margin-bottom: 10px;
-}
-
-.voucher-content {
-  margin-bottom: 20px;
-}
-
-.voucher-text {
-  font-size: 22px;
-  font-weight: bold;
-  color: #ff4d4d; /* Red color */
-}
-
-.voucher-description {
   font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.voucher-expire {
   color: #888;
-  margin-top: 5px;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.voucher-right {
+  width: 120px;
+  background-color: #fff6f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+}
+
+.voucher-right i {
+  font-size: 24px;
+  color: #d81b60;
 }
 
 .voucher-btn {
-  background-color: #ff4d4d;
+  background-color: #ff6d6d;
   color: white;
   border: none;
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 5px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
   cursor: pointer;
 }
 
 .voucher-btn:hover {
-  background-color: #e43d3d;
+  background-color: #e94a4a;
 }
+
+
+.login-button {
+  display: inline-flex;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-decoration: none;
+  gap: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #555;
+}
+
+.login-button i {
+  font-size: 16px;
+}
+
 
