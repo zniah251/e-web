@@ -88,7 +88,7 @@ body {
   }
   
   .about-section {
-    width: 100%;
+    width: 100vw;
     padding: 60px 20px;
     background-color: #fff;
     display: flex;
