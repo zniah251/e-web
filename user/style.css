@@ -58,6 +58,20 @@ body {
   --bs-link-hover-color: #111;
   --bs-link-hover-color-rgb: 17, 17, 17;
 }
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  
+}
+
+.footer-intro p,
+.footer-menu {
+  color: #ccc;
+  font-size: 15px;
+}
+
+
 
 body {
   letter-spacing: 0.03rem;
@@ -1613,3 +1627,4 @@ a.btn-link.text-light:after {
 .banner-container .swiper-pagination-bullet-active {
   opacity: 1;
 }
+

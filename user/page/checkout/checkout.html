@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh toán</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .checkout-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    .section {
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .payment-methods label {
+      font-weight: normal;
+      margin-right: 20px;
+    }
+    .order-summary {
+      background: #fafafa;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .order-summary p {
+      margin: 5px 0;
+    }
+    .btn-submit {
+      background-color: orange;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      transition: 0.3s;
+    }
+    .btn-submit:hover {
+      background-color: darkorange;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="checkout-container">
+    <h2>Thanh toán đơn hàng</h2>
+
+    <!-- THÔNG TIN KHÁCH HÀNG -->
+    <div class="section">
+      <label for="fullname">Họ và tên</label>
+      <input type="text" id="fullname" placeholder="Nhập họ tên">
+
+      <label for="address">Địa chỉ</label>
+      <input type="text" id="address" placeholder="Nhập địa chỉ nhận hàng">
+
+      <label for="phone">Số điện thoại</label>
+      <input type="tel" id="phone" placeholder="Nhập số điện thoại">
+    </div>
+
+    <!-- PHƯƠNG THỨC THANH TOÁN -->
+    <div class="section payment-methods">
+      <label>Phương thức thanh toán</label>
+      <input type="radio" id="momo" name="payment" value="momo">
+      <label for="momo">Momo</label>
+
+      <input type="radio" id="banking" name="payment" value="banking">
+      <label for="banking">Smart Banking</label>
+
+      <input type="radio" id="credit" name="payment" value="credit">
+      <label for="credit">Credit Card</label>
+    </div>
+
+    <!-- TÓM TẮT ĐƠN HÀNG -->
+    <div class="section order-summary">
+      <h3>Tóm tắt đơn hàng</h3>
+      <p>Sản phẩm: Áo sơ mi nam</p>
+      <p>Số lượng: 2</p>
+      <p>Tổng tiền: 400.000đ</p>
+    </div>
+
+    <!-- NÚT GỬI -->
+    <button class="btn-submit">Đặt hàng</button>
+  </div>
+
+</body>
+</html>
