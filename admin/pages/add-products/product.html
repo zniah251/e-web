@@ -436,17 +436,16 @@
                                             <textarea style=" height: 100px;" class="form-control" id="exampleTextarea1"
                                                 rows="10"></textarea>
                                         </div>
-
                                         <div class="form-group">
-                                            <label for="exampleInputEmail3">Display images</label>
-                                            <div class="upload-area">
-                                                <p>Drag your photo here or <span>Browse from device</span></p>
-                                                <i class="fa-solid fa-image"></i>
-                                                <!-- Input file ẩn để chọn ảnh -->
-                                                <input type="file" accept="image/*" multiple>
+                                            <label>File upload</label>
+                                            <input type="file" name="img[]" class="file-upload-default">
+                                            <div class="input-group col-xs-12">
+                                              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                              <span class="input-group-append">
+                                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                              </span>
                                             </div>
-                                        </div>
-
+                                          </div>
 
                                         <div class="form-group">
                                             <label for="exampleInputPassword4">Inventory</label>
