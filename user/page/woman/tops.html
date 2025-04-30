@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tops</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="../../js/phantrang.js"></script> <!-- Đảm bảo đường dẫn đúng -->
+  <style>
+    .product-card {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 6px;
+      background-color: #eee;
+    }
+    .price-old {
+      text-decoration: line-through;
+      color: #999;
+    }
+    .price-new {
+      color: #d00;
+      font-weight: bold;
+    }
+    .product-card {
+      font-size: 20px;
+    }
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+    a:hover {
+      text-decoration: underline;
+      color: #d00;
+    }
+  </style>
+</head>
+<body style="background-color: #f9f9f9;">
+  <div class="container my-5">
+    <h2 class="text-center mb-4">Tops</h2>
+
+    <!-- Dropdown for Sorting -->
+    <div class="d-flex justify-content-between mb-4">
+      <div>
+        <label for="sort-options" class="form-label">Sắp xếp theo:</label>
+        <select id="sort-options" class="form-select">
+          <option value="price-asc">Giá từ thấp đến cao</option>
+          <option value="price-desc">Giá từ cao đến thấp</option>
+          <option value="rating">Đánh giá</option>
+          <option value="category">Danh mục</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Button to apply sorting -->
+    <div class="text-start mb-4">
+      <button class="btn btn-primary" onclick="sortProducts()">Áp dụng</button>
+    </div>
+
+    <div id="pagination" class="text-center mt-4">
+      <button class="btn btn-secondary" id="prev-page" onclick="changePage(-1, productsData)">Trước</button>
+      <button class="btn btn-secondary" id="next-page" onclick="changePage(1, productsData)">Sau</button>
+    </div>
+
+    <div class="row g-4" id="product-list">
+      <!-- SP01 -->
+      <div class="col-md-3 product" data-price="199000" data-rating="4" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Áo gile phối nơ cổ V DUO STYLE - Rebel Gile.jpg" alt="">
+          <h6>Áo gile phối nơ cổ V DUO STYLE - Rebel Gile</h6>
+          <p class="price-old">219.000đ</p>
+          <p class="price-new">199.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP02 -->
+      <div class="col-md-3 product" data-price="149000" data-rating="5" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Áo kiểu Jamie shirt HYGGE - MS01.jpg" alt="">
+          <h6>Áo kiểu Jamie shirt HYGG</h6>
+          <p class="price-old">169.000đ</p>
+          <p class="price-new">149.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP03 -->
+      <div class="col-md-3 product" data-price="229000" data-rating="5" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Áo kiểu Rebel gile DUO STYLE - MS01.jpg" alt="">
+          <h6>Áo kiểu Rebel gile DUO STYLE</h6>
+          <p class="price-old">259.000đ</p>
+          <p class="price-new">229.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP04 -->
+      <div class="col-md-3 product" data-price="229000" data-rating="4" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Áo kiểu tay dài hoa nổi DUO STYLE - Esther Top.jpg" alt="">
+          <h6>Áo kiểu tay dài hoa nổi DUO STYLE - Esther Top</h6>
+          <p class="price-old">249.000đ</p>
+          <p class="price-new">229.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP05 -->
+      <div class="col-md-3 product" data-price="179000" data-rating="5" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Áo kiểu tay phồng cột nơ HYGGE - Naomi Top.jpg" alt="">
+          <h6>Áo kiểu tay phồng cột nơ HYGGE - Naomi Top</h6>
+          <p class="price-old">209.000đ</p>
+          <p class="price-new">179.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP06 -->
+      <div class="col-md-3 product" data-price="299000" data-rating="5" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Áo tay ngắn cổ thủy thủ DUO STYLE - Ayako Top.jpg" alt="">
+          <h6>Áo tay ngắn cổ thủy thủ DUO STYLE - Ayako Top</h6>
+          <p class="price-old">319.000đ</p>
+          <p class="price-new">299.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP07 -->
+      <div class="col-md-3 product" data-price="145000" data-rating="4" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Betty Off-ShoulderTop.jpg" alt="">
+          <h6>Betty Off-ShoulderTop</h6>
+          <p class="price-old">179.000đ</p>
+          <p class="price-new">145.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP08 -->
+      <div class="col-md-3 product" data-price="269000" data-rating="5" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/icy top.jpg" alt="">
+          <h6>Icy top</h6>
+          <p class="price-old">299.000đ</p>
+          <p class="price-new">269.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP09 -->
+      <div class="col-md-3 product" data-price="215000" data-rating="5" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Kling Top.jpg" alt="">
+          <h6>Kling Top</h6>
+          <p class="price-old">239.000đ</p>
+          <p class="price-new">215.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP10 -->
+      <div class="col-md-3 product" data-price="190000" data-rating="4" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Marisa Top.jpg" alt="">
+          <h6>Marisa Top</h6>
+          <p class="price-old">229.000đ</p>
+          <p class="price-new">190.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP11 -->
+      <div class="col-md-3 product" data-price="215000" data-rating="5" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Riso Tube Top.jpg" alt="">
+          <h6>Riso Tube Top</h6>
+          <p class="price-old">245.000đ</p>
+          <p class="price-new">215.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP12 -->
+      <div class="col-md-3 product" data-price="185000" data-rating="4" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Romie Cami Top.jpg" alt="">
+          <h6>Romie Cami Top</h6>
+          <p class="price-old">215.000đ</p>
+          <p class="price-new">185.000đ</p>
+        </div>
+      </div>
+
+      <!-- SP13 -->
+      <div class="col-md-3 product" data-price="229000" data-rating="5" data-category="Tops">
+        <div class="product-card">
+          <img src="../../../admin/assets/images/Timo Jacket.jpg" alt="">
+          <h6>Timo Jacket</h6>
+          <p class="price-old">259.000đ</p>
+          <p class="price-new">229.000đ</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/sapxep.js"></script> <!-- Thêm đường dẫn tới file sortProducts.js -->
+  <script>
+    // Dữ liệu sản phẩm cho trang này
+    window.productsData = [
+      { name: "Áo gile phối nơ cổ V DUO STYLE - Rebel Gile", priceOld: 219000, priceNew: 199000, rating: 4, category: "Tops", image: "../../../admin/assets/images/Áo gile phối nơ cổ V DUO STYLE - Rebel Gile.jpg" },
+      { name: "Áo kiểu Jamie shirt HYGG - MS01", priceOld: 169000, priceNew: 149000, rating: 5, category: "Tops", image: "../../../admin/assets/images/Áo kiểu Jamie shirt HYGGE - MS01.jpg" },
+      { name: "Áo kiểu Rebel gile DUO STYLE - MS01", priceOld: 259000, priceNew: 229000, rating: 5, category: "Tops", image: "../../../admin/assets/images/Áo kiểu Rebel gile DUO STYLE - MS01.jpg" },
+      { name: "Áo kiểu tay dài hoa nổi DUO STYLE - Esther Top", priceOld: 249000, priceNew: 229000, rating: 4, category: "Tops", image: "../../../admin/assets/images/Áo kiểu tay dài hoa nổi DUO STYLE - Esther Top.jpg" },
+      { name: "Áo kiểu tay phồng cột nơ HYGGE - Naomi Top", priceOld: 209000, priceNew: 179000, rating: 5, category: "Tops", image: "../../../admin/assets/images/Áo kiểu tay phồng cột nơ HYGGE - Naomi Top.jpg" },
+      { name: "Áo tay ngắn cổ thủy thủ DUO STYLE - Ayako Top", priceOld: 319000, priceNew: 299000, rating: 5, category: "Tops", image: "../../../admin/assets/images/Áo tay ngắn cổ thủy thủ DUO STYLE - Ayako Top.jpg" },
+      { name: "Betty Off-ShoulderTop", priceOld: 179000, priceNew: 145000, rating: 4, category: "Tops", image: "../../../admin/assets/images/Betty Off-ShoulderTop.jpg" },
+      { name: "Icy top", priceOld: 299000, priceNew: 269000, rating: 5, category: "Tops", image: "../../../admin/assets/images/icy top.jpg" },
+      { name: "Kling Top", priceOld: 239000, priceNew: 215000, rating: 5, category: "Tops", image: "../../../admin/assets/images/Kling Top.jpg" },
+      { name: "Marisa Top", priceOld: 229000, priceNew: 190000, rating: 4, category: "Tops", image: "../../../admin/assets/images/Marisa Top.jpg" },
+      { name: "Riso Tube Top", priceOld: 245000, priceNew: 215000, rating: 5, category: "Tops", image: "../../../admin/assets/images/Riso Tube Top.jpg" },
+      { name: "Romie Cami Top", priceOld: 215000, priceNew: 185000, rating: 4, category: "Tops", image: "../../../admin/assets/images/Romie Cami Top.jpg" },
+      { name: "Timo Jacket", priceOld: 259000, priceNew: 229000, rating: 5, category: "Tops", image: "../../../admin/assets/images/Timo Jacket.jpg" }
+    ];
+</script>
+
+</body>
+</html>
