@@ -5,71 +5,64 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Product List</title>
-    <!-- Base CSS -->
     <link rel="stylesheet" href="../../../admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../../admin/template/assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
       integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
       crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 
-    <!-- Core JS Libraries -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script> <!-- Required for Excel export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script> <!-- Required for PDF export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> <!-- Required for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-    <!-- Bootstrap JS for Dropdown & Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     <style>
-        /* General Dark Theme Styles */
         body {
-            background-color: #1e1e2f; /* Dark background */
-            color: #ffffff; /* White text */
-            font-family: Arial, sans-serif; /* Match font */
+            background-color: #1e1e2f;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
         }
         .card {
-            background-color: #2c2f33; /* Darker card background */
+            background-color: #2c2f33;
             border: none;
-            border-radius: 8px; /* Match border radius */
+            border-radius: 8px;
         }
         .card-title, .card-description {
-            color: #f8f9fa; /* Light text for titles */
+            color: #f8f9fa;
         }
         .footer {
-            background-color: #2c2f33; /* Match card background */
-            color: #adb5bd; /* Muted text */
+            background-color: #2c2f33;
+            color: #adb5bd;
         }
         .navbar {
-             background-color: #1b1e28 !important; /* New Dark navbar color */
+             background-color: #1b1e28 !important;
         }
         .sidebar {
-            background: #1b1e28; /* New Dark sidebar color */
+            background: #1b1e28;
         }
         .nav-link, .menu-title, .menu-icon i {
-            color: #adb5bd !important; /* Sidebar text color */
+            color: #adb5bd !important;
         }
-        .nav-item.active > .nav-link { /* Target the link for background */
-             color: #ffffff !important; /* Active sidebar item text color */
-             background-color: #252934; /* Adjusted background for active item based on new sidebar color */
+        .nav-item.active > .nav-link {
+             color: #ffffff !important;
+             background-color: #252934;
         }
-        .nav-item.active .menu-icon i { /* Ensure icon color is also white on active */
+        .nav-item.active .menu-icon i {
              color: #ffffff !important;
         }
         .nav-link:hover, .nav-link:hover .menu-icon i, .nav-link:hover .menu-title {
-            color: #ffffff !important; /* Sidebar hover text color */
-            background-color: #252934; /* Adjusted subtle background on hover based on new sidebar color */
+            color: #ffffff !important;
+            background-color: #252934;
         }
-        .form-control { /* Style for search input */
+        .form-control {
             background-color: #3a3f44;
             color: #ffffff;
             border: 1px solid #495057;
@@ -78,26 +71,24 @@
             color: #adb5bd;
         }
 
-        /* Table Styles */
         table.table-striped td, table.table-striped th {
-            color: #ffffff !important; /* White text in table */
-            border-top: 1px solid #495057; /* Darker border */
-            /* Removed border-top from order_list as it's similar */
+            color: #ffffff !important;
+            border-top: 1px solid #495057;
         }
         table.table-striped thead th {
-            border-bottom: 2px solid #495057; /* Header bottom border */
+            border-bottom: 2px solid #495057;
         }
         table.table-striped tbody tr:nth-child(odd) td {
-            background-color: #2c2f33; /* Match order_list odd rows */
+            background-color: #2c2f33;
         }
         table.table-striped tbody tr:nth-child(even) td {
-            background-color: #23272a; /* Match order_list even rows */
+            background-color: #23272a;
         }
         .dataTables_wrapper .dataTables_length,
         .dataTables_wrapper .dataTables_filter,
         .dataTables_wrapper .dataTables_info,
         .dataTables_wrapper .dataTables_paginate .paginate_button {
-            color: #adb5bd !important; /* Light text for DataTable controls */
+            color: #adb5bd !important;
         }
         .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
             color: #6c757d !important;
@@ -107,25 +98,21 @@
             border-color: #495057 !important;
             color: #ffffff !important;
         }
-        .dataTables_wrapper .dataTables_length select { /* Style dropdown for entries */
+        .dataTables_wrapper .dataTables_length select {
              background-color: #3a3f44;
              color: #ffffff;
              border: 1px solid #495057;
         }
 
-        /* Badge Styles */
-        .badge { padding: 6px 12px; font-size: 0.9em; margin-right: 8px; } /* Match padding/size/margin */
-        .badge-success { background-color: #d4edda; color: #155724; } /* Match order_list */
-        .badge-warning { background-color: #ffc107; color: #212529; } /* Match order_list */
-        .badge-danger { background-color: #f8d7da; color: #721c24; } /* Match order_list */
-        .badge-info { background-color: #d1ecf1; color: #0c5460; } /* Match order_list */
-        /* Add specific badge for product status if needed, e.g., .badge-scheduled */
-        .badge-scheduled { background-color: #ffeeba; color: #856404; } /* Example like 'Dispatched' */
-        /* Ensure default badge has some style if needed */
-        .badge:not([class*="badge-"]) { background-color: #6c757d; color: #fff; } /* Example default */
+        .badge { padding: 6px 12px; font-size: 0.9em; margin-right: 8px; }
+        .badge-success { background-color: #d4edda; color: #155724; }
+        .badge-warning { background-color: #ffc107; color: #212529; }
+        .badge-danger { background-color: #f8d7da; color: #721c24; }
+        .badge-info { background-color: #d1ecf1; color: #0c5460; }
+        .badge-scheduled { background-color: #ffeeba; color: #856404; }
+        .badge:not([class*="badge-"]) { background-color: #6c757d; color: #fff; }
 
 
-        /* Button Styles */
         .btn-primary { background-color: #007bff; border-color: #007bff; color: #fff; }
         .btn-primary:hover { background-color: #0056b3; border-color: #0056b3; }
         .btn-danger { background-color: #dc3545; border-color: #dc3545; color: #fff; }
@@ -133,7 +120,6 @@
         .btn-secondary { background-color: #6c757d; border-color: #6c757d; color: #fff; }
         .btn-secondary:hover { background-color: #5a6268; border-color: #545b62; }
 
-        /* Toggle Switch Styles */
         .toggle-switch { position: relative; display: inline-block; width: 34px; height: 20px; vertical-align: middle; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
         .toggle-switch span { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 20px; }
@@ -141,18 +127,15 @@
         .toggle-switch input:checked + span { background-color: #4caf50; }
         .toggle-switch input:checked + span:before { transform: translateX(14px); }
 
-        /* Hide default DataTables buttons container */
         .dt-buttons { display: none !important; }
 
-        /* Dropdown Menu Style */
         .dropdown-menu { background-color: #3a3f44; border: 1px solid #495057; }
         .dropdown-item { color: #ffffff; }
         .dropdown-item:hover { background-color: #007bff; color: #ffffff; }
 
-        /* Toast notification */
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1040; } /* Lower z-index than modal (1050) */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1040; }
         .toast { background-color: #333; color: white; padding: 15px 25px; border-radius: 5px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); display: none; min-width: 250px; }
-        .toast.show { display: block; animation: fadeInOut 3s forwards; } /* Use forwards to keep last frame */
+        .toast.show { display: block; animation: fadeInOut 3s forwards; }
         @keyframes fadeInOut {
             0% { opacity: 0; }
             10% { opacity: 1; }
@@ -160,28 +143,24 @@
             100% { opacity: 0; }
         }
 
-        /* Confirm delete modal - Using Bootstrap 5 classes, but ensuring styles match order_list appearance */
         .modal { display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; outline: 0; background-color: rgba(0, 0, 0, 0.5); }
-        /* Ensure modal dialog is vertically centered */
         .modal-dialog {
             position: relative; width: auto; margin: .5rem; pointer-events: none;
-            display: flex; /* Use flexbox for centering */
-            align-items: center; /* Vertical centering */
-            min-height: calc(100% - 1rem); /* Ensure it takes height */
+            display: flex;
+            align-items: center;
+            min-height: calc(100% - 1rem);
         }
-        @media (min-width: 576px) { .modal-dialog { max-width: 500px; margin: auto; /* Center horizontally and vertically */ min-height: calc(100% - 3.5rem); } }
-        .modal-content { position: relative; display: flex; flex-direction: column; width: 100%; pointer-events: auto; background-color: #2c2f33; background-clip: padding-box; border: 1px solid #444; /* Match border */ border-radius: 8px; /* Match border-radius */ outline: 0; color: #ffffff; }
+        @media (min-width: 576px) { .modal-dialog { max-width: 500px; margin: auto; min-height: calc(100% - 3.5rem); } }
+        .modal-content { position: relative; display: flex; flex-direction: column; width: 100%; pointer-events: auto; background-color: #2c2f33; background-clip: padding-box; border: 1px solid #444; border-radius: 8px; outline: 0; color: #ffffff; }
         .modal-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 1rem 1rem; border-bottom: 1px solid #444; border-top-left-radius: calc(.3rem - 1px); border-top-right-radius: calc(.3rem - 1px); }
         .modal-header .btn-close { padding: .5rem .5rem; margin: -.5rem -.5rem -.5rem auto; background: transparent; border: 0; color: #fff; opacity: .5; }
-        .modal-title { margin-bottom: 0; line-height: 1.5; font-size: 1.25rem; /* Match h4 size */ }
+        .modal-title { margin-bottom: 0; line-height: 1.5; font-size: 1.25rem; }
         .modal-body { position: relative; flex: 1 1 auto; padding: 1rem; }
         .modal-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; padding: .75rem; border-top: 1px solid #444; border-bottom-right-radius: calc(.3rem - 1px); border-bottom-left-radius: calc(.3rem - 1px); }
-        /* Ensure buttons in footer are clickable */
         .modal-footer > * {
-             margin: .25rem; /* Removed position/z-index override as it might not be needed/correct */
+             margin: .25rem;
         }
 
-        /* Hide the DataTables Buttons info overlay (e.g., "Copied X rows") */
         div.dt-button-info {
             display: none !important;
         }
@@ -190,7 +169,6 @@
 
 <body>
     <div class="container-scroller">
-        <!-- Sidebar -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
                 <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo1.png" alt="logo" /></a>
@@ -203,14 +181,13 @@
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item menu-items active"> <!-- Set active class -->
+                <li class="nav-item menu-items active">
                     <a class="nav-link" href="../product/product_list.html">
                         <span class="menu-icon"><i class="mdi mdi-table-large"></i></span>
                         <span class="menu-title">Product List</span>
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <!-- Corrected path to order_list.html -->
                     <a class="nav-link" href="../order-list/order_list.html">
                         <span class="menu-icon"><i class="mdi mdi-cart"></i></span>
                         <span class="menu-title">Order List</span>
@@ -219,9 +196,7 @@
             </ul>
         </nav>
 
-        <!-- Main Content Area -->
         <div class="container-fluid page-body-wrapper">
-            <!-- Top Navbar -->
             <nav class="navbar p-0 fixed-top d-flex flex-row">
                  <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
                     <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
@@ -238,25 +213,22 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav navbar-nav-right">
-                        <!-- Add other navbar items like profile dropdown if needed -->
                          <li class="nav-item dropdown">
                             <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
                                 <i class="mdi mdi-bell"></i>
                                 <span class="count bg-danger"></span>
                             </a>
-                            <!-- Add dropdown menu for notifications -->
                         </li>
                         <li class="nav-item nav-profile dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
                                 <div class="nav-profile-img">
-                                     <img src="../../assets/images/faces/face1.jpg" alt="image"> <!-- Placeholder image -->
+                                     <img src="../../assets/images/faces/face1.jpg" alt="image">
                                      <span class="availability-status online"></span>
                                 </div>
                                 <div class="nav-profile-text">
-                                    <p class="mb-1 text-black">Admin User</p> <!-- Placeholder name -->
+                                    <p class="mb-1 text-black">Admin User</p>
                                 </div>
                             </a>
-                             <!-- Add dropdown menu for profile -->
                         </li>
                     </ul>
                      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -265,7 +237,6 @@
                 </div>
             </nav>
 
-            <!-- Main Panel -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="page-header">
@@ -286,7 +257,6 @@
                                             <h4 class="card-title">Product Overview</h4>
                                             <p class="card-description">Manage your products</p>
                                         </div>
-                                        <!-- Export dropdown -->
                                         <div class="dropdown">
                                             <button class="btn btn-primary dropdown-toggle" type="button" id="exportMenu" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Export
@@ -315,30 +285,25 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="productTableBody">
-                                                <!-- Data will be populated by DataTables -->
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
-                <!-- Footer -->
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © YourWebsite.com 2024</span>
                          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
                     </div>
                 </footer>
-            </div> <!-- main-panel ends -->
-        </div> <!-- page-body-wrapper ends -->
-    </div> <!-- container-scroller ends -->
+            </div>
+        </div>
+    </div>
 
-    <!-- Toast notifications container -->
     <div class="toast-container"></div>
 
-    <!-- Delete confirmation modal -->
     <div id="deleteModal" class="modal" tabindex="-1" style="z-index: 1060;">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -358,19 +323,16 @@
       </div>
     </div>
 
-    <!-- Base Template JS -->
-    <!-- <script src="../../../admin/template/assets/vendors/js/vendor.bundle.base.js"></script> --> <!-- Might conflict if jQuery/Bootstrap loaded separately -->
     <script src="../../../admin/template/assets/js/off-canvas.js"></script>
     <script src="../../../admin/template/assets/js/hoverable-collapse.js"></script>
     <script src="../../../admin/template/assets/js/misc.js"></script>
     <script src="../../../admin/template/assets/js/settings.js"></script>
     <script src="../../../admin/template/assets/js/todolist.js"></script>
 
-    <!-- Page Specific Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // --- Sample Data ---
-            // Replace this with your actual data loading mechanism (e.g., AJAX call)
+
+
             const products = [
                 { id: 1, name: 'Air Jordan XI', category: 'Shoes', stock: true, sku: 'AJXI-001', price: '$225.00', qty: 150, status: 'Active' },
                 { id: 2, name: 'Amazon Echo Dot', category: 'Electronics', stock: true, sku: 'ECHO-DOT-5G', price: '$49.99', qty: 587, status: 'Active' },
@@ -386,19 +348,16 @@
                 { id: 12, name: 'Coffee Maker Keurig', category: 'Home Goods', stock: false, sku: 'KEU-KMINI', price: '$89.99', qty: 0, status: 'Inactive' },
             ];
 
-            // --- Helper Functions ---
             function showToast(message, type = 'success') {
-                // Use a consistent dark background like order_list.html, but keep icons/context via type for accessibility/clarity if needed elsewhere
                 const toastContainer = document.querySelector('.toast-container');
                 if (!toastContainer) {
                     console.error('Toast container not found!');
                     return;
                 }
 
-                // Create elements programmatically to potentially avoid structure-based warnings
                 const toastElement = document.createElement('div');
-                // Apply a consistent dark background and white text, similar to order_list.html's style
-                toastElement.className = 'toast align-items-center text-white bg-dark border-0'; // Use bg-dark for consistency
+
+                toastElement.className = 'toast align-items-center text-white bg-dark border-0';
                 toastElement.setAttribute('role', 'alert');
                 toastElement.setAttribute('aria-live', 'assertive');
                 toastElement.setAttribute('aria-atomic', 'true');
@@ -408,7 +367,7 @@
 
                 const toastBody = document.createElement('div');
                 toastBody.className = 'toast-body';
-                toastBody.textContent = message; // Use textContent for safety vs innerHTML
+                toastBody.textContent = message;
 
                 const closeButton = document.createElement('button');
                 closeButton.type = 'button';
@@ -416,63 +375,49 @@
                 closeButton.setAttribute('data-bs-dismiss', 'toast');
                 closeButton.setAttribute('aria-label', 'Close');
 
-                // Assemble the toast structure
                 toastContent.appendChild(toastBody);
                 toastContent.appendChild(closeButton);
                 toastElement.appendChild(toastContent);
 
-                // Add to container
                 toastContainer.appendChild(toastElement);
 
-                // Initialize and show Bootstrap Toast
                 const bsToast = new bootstrap.Toast(toastElement, { delay: 3000 });
                 bsToast.show();
 
-                // Remove the toast element from DOM after it's hidden
                 toastElement.addEventListener('hidden.bs.toast', () => {
                     toastElement.remove();
                 });
             }
 
-            // --- State Variables ---
             let currentProductBeingDeleted = null;
             const deleteModalElement = document.getElementById('deleteModal');
             const deleteModal = new bootstrap.Modal(deleteModalElement);
 
-            // --- DataTable Initialization ---
             const table = $('#productTable').DataTable({
                 data: products,
-                dom: 'lfrtip', // Standard layout: Length, Filter, Table, Info, Pagination
+                dom: 'lfrtip',
                 columns: [
-                    // 1. Checkbox
                     {
                         data: null,
                         orderable: false,
                         searchable: false,
-                        className: 'dt-center', // Center align checkbox
+                        className: 'dt-center',
                         render: () => '<input type="checkbox" class="product-checkbox">'
                     },
-                    // 2. Product Name
                     { data: 'name', render: d => `<span style="color:#fff; font-weight: 500;">${d}</span>` },
-                    // 3. Category
                     { data: 'category', render: d => `<span style="color:#fff">${d}</span>` },
-                    // 4. Stock (Toggle Switch)
                     {
                         data: 'stock',
                         className: 'dt-center',
                         render: d => `
                             <label class="toggle-switch">
-                                <input type="checkbox" ${d ? 'checked' : ''}> <!-- Removed disabled -->
+                                <input type="checkbox" ${d ? 'checked' : ''}>
                                 <span></span>
                             </label>`
                     },
-                    // 5. SKU
                     { data: 'sku', render: d => `<span style="color:#fff">${d}</span>` },
-                    // 6. Price
                     { data: 'price', render: d => `<span style="color:#fff">${d}</span>` },
-                    // 7. Quantity
                     { data: 'qty', render: d => `<span style="color:#fff">${d}</span>` },
-                    // 8. Status (Badge)
                     {
                         data: 'status',
                         render: d => {
@@ -480,20 +425,18 @@
                             switch (d) {
                                 case 'Active': badgeClass = 'badge-success'; break;
                                 case 'Inactive': badgeClass = 'badge-danger'; break;
-                                case 'Scheduled': badgeClass = 'badge-scheduled'; break; // Use new class
-                                default: badgeClass = 'badge-info'; // Default or other statuses
+                                case 'Scheduled': badgeClass = 'badge-scheduled'; break;
+                                default: badgeClass = 'badge-info';
                             }
                             return `<span class="badge ${badgeClass}">${d}</span>`;
                         }
                     },
-                    // 9. Actions (Buttons)
                     {
                         data: null,
                         orderable: false,
                         searchable: false,
                         className: 'dt-center',
                         render: function(data, type, row) {
-                            // Use data-id attribute to easily identify the product
                             return `
                                 <button class="btn btn-primary btn-sm edit-btn" title="Edit Product" data-id="${row.id}"><i class="fas fa-edit"></i></button>
                                 <button class="btn btn-danger btn-sm delete-btn" title="Delete Product" data-id="${row.id}"><i class="fas fa-trash-alt"></i></button>
@@ -502,22 +445,20 @@
                     }
                 ],
                 pageLength: 10,
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]], // Options for number of entries
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 language: {
-                    search: "_INPUT_", // Use simple input for search
-                    searchPlaceholder: "Search products..." // Placeholder text
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search products..."
                 },
-                // Define Buttons for Export (triggered manually)
                 buttons: [
                     {
                         extend: 'copyHtml5',
-                        copyFlash: false, // Disable the white flash overlay
+                        copyFlash: false,
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5, 6, 7], // Exclude checkbox and actions
-                            modifier: { selected: true } // Only copy selected rows
+                            columns: [1, 2, 3, 4, 5, 6, 7],
+                            modifier: { selected: true }
                         },
                         action: function(e, dt, button, config) {
-                             // Default copy action is fine, just add toast
                              $.fn.dataTable.ext.buttons.copyHtml5.action.call(this, e, dt, button, config);
                              showToast('Products copied to clipboard!', 'info');
                         }
@@ -525,7 +466,7 @@
                     {
                         extend: 'excelHtml5',
                         exportOptions: { columns: [1, 2, 3, 4, 5, 6, 7] },
-                        title: 'ProductListExport', // Filename for Excel
+                        title: 'ProductListExport',
                          action: function(e, dt, button, config) {
                              $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
                              showToast('Products exported to Excel!', 'success');
@@ -534,9 +475,9 @@
                     {
                         extend: 'pdfHtml5',
                         exportOptions: { columns: [1, 2, 3, 4, 5, 6, 7] },
-                        title: 'ProductListExport', // Filename for PDF
-                        orientation: 'landscape', // Optional: PDF orientation
-                        pageSize: 'A4', // Optional: PDF page size
+                        title: 'ProductListExport',
+                        orientation: 'landscape',
+                        pageSize: 'A4',
                          action: function(e, dt, button, config) {
                              $.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, button, config);
                              showToast('Products exported to PDF!', 'success');
@@ -545,8 +486,6 @@
                 ]
             });
 
-            // --- Fix lỗi modal bị màn đen che ---
-            // Thêm style cho modal backdrop
             const style = document.createElement('style');
             style.innerHTML = `
                 .modal-backdrop {
@@ -554,130 +493,104 @@
                     background-color: rgba(0,0,0,0.5) !important;
                 }
                 .modal {
-                    z-index: 1060 !important; /* Ensure modal is above backdrop */
+                    z-index: 1060 !important;
                 }
             `;
             document.head.appendChild(style);
 
-             // --- Custom Search Input ---
              $('#productSearch').on('keyup', function(){
                   table.search($(this).val()).draw() ;
              });
-             // Remove default search label and adjust input position if needed
              $('.dataTables_filter label').contents().filter(function() {
-                return this.nodeType === 3; // Filter out text nodes
+                return this.nodeType === 3;
              }).remove();
-             $('.dataTables_filter input').removeClass('form-control-sm'); // Use default size if needed
+             $('.dataTables_filter input').removeClass('form-control-sm');
 
-            // --- Event Listeners ---
-
-            // Export dropdown functionality
             $('#copyButton').on('click', () => table.button(0).trigger());
             $('#excelButton').on('click', () => table.button(1).trigger());
             $('#pdfButton').on('click', () => table.button(2).trigger());
 
-            // Select All checkbox functionality
             $('#selectAll').on('change', function() {
                 const isChecked = this.checked;
-                $('.product-checkbox').prop('checked', isChecked); // More efficient than .each()
+                $('.product-checkbox').prop('checked', isChecked);
             });
 
-            // Individual checkboxes affect Select All state
-            // Use delegated event listener on the table body
             $('#productTableBody').on('change', '.product-checkbox', function() {
                 const allCheckboxes = $('.product-checkbox').length;
                 const checkedCheckboxes = $('.product-checkbox:checked').length;
-                // Check/uncheck 'selectAll' based on row checkboxes
                 $('#selectAll').prop('checked', allCheckboxes > 0 && allCheckboxes === checkedCheckboxes);
             });
 
-            // Edit button functionality (Example)
             $('#productTableBody').on('click', '.edit-btn', function() {
                 const row = $(this).closest('tr');
                 const data = table.row(row).data();
                 showToast(`Editing product: ${data.name}`, 'warning');
                 console.log('Edit product:', data);
-                // Add your actual edit logic here (e.g., open an edit modal or redirect)
             });
 
-            // Delete button functionality (Show Modal)
             $('#productTableBody').on('click', '.delete-btn', function(e) {
-                e.stopPropagation(); // Ngăn sự kiện bubble up
+                e.stopPropagation();
                 const row = $(this).closest('tr');
-                // Ensure the row is part of the DataTable before proceeding
                 if (table.row(row).length) {
                     const data = table.row(row).data();
-                    console.log("Delete button clicked for:", data); // Log data
-                    currentProductBeingDeleted = { row: row, data: data }; // Store row jQuery object and data
+                    console.log("Delete button clicked for:", data);
+                    currentProductBeingDeleted = { row: row, data: data };
 
-                    // Update modal text and show
                     $('#deleteProductInfo').text(`Product: ${data.name || 'N/A'} (SKU: ${data.sku || 'N/A'})`);
                     deleteModal.show();
-                    $('.modal-backdrop').css('z-index', '1050'); // Ensure backdrop is below modal
-                    console.log("Delete modal shown."); // Log modal show
+                    $('.modal-backdrop').css('z-index', '1050');
+                    console.log("Delete modal shown.");
                 } else {
                     console.warn("Delete button clicked on a row not recognized by DataTables.");
                 }
             });
 
-            // Confirm Delete button inside Modal
             $('#confirmDelete').on('click', function() {
-                console.log("Confirm delete clicked. Current product:", currentProductBeingDeleted); // Add log
-                if (currentProductBeingDeleted && currentProductBeingDeleted.row) { // Check row exists
+                console.log("Confirm delete clicked. Current product:", currentProductBeingDeleted);
+                if (currentProductBeingDeleted && currentProductBeingDeleted.row) {
                     try {
-                        const productName = currentProductBeingDeleted.data.name || 'Selected Product'; // Fallback name
-                        // Get row index before removing, as the row object might become invalid
+                        const productName = currentProductBeingDeleted.data.name || 'Selected Product';
                         const rowIndex = table.row(currentProductBeingDeleted.row).index();
-                        console.log(`Attempting to remove row for product: ${productName}`); // Add log
+                        console.log(`Attempting to remove row for product: ${productName}`);
 
-                        // Remove the row from the DataTable using its index
                         table.row(rowIndex).remove();
-                        console.log("Row removed from DataTables object."); // Add log
+                        console.log("Row removed from DataTables object.");
 
-                        // Redraw the table to reflect the removal
-                        table.draw(false); // Use draw(false) to stay on the current page
-                        console.log("Table redrawn."); // Add log
+                        table.draw(false);
+                        console.log("Table redrawn.");
 
-                        // Show success message
                         showToast(`Product "${productName}" deleted successfully!`, 'success');
 
-                        // Hide the modal
                         deleteModal.hide();
-                        console.log("Delete modal hidden."); // Add log
+                        console.log("Delete modal hidden.");
 
                     } catch (error) {
-                        console.error("Error during product deletion:", error); // Log any errors
+                        console.error("Error during product deletion:", error);
                         showToast('Error deleting product. Please check console.', 'danger');
                     } finally {
-                         // Always reset state, even if redraw/hide fails
                          currentProductBeingDeleted = null;
-                         console.log("currentProductBeingDeleted reset to null after confirm."); // Add log
+                         console.log("currentProductBeingDeleted reset to null after confirm.");
                     }
                 } else {
                      console.warn("Confirm delete clicked, but currentProductBeingDeleted is not set or row is missing.");
-                     // Optionally hide modal anyway or show an error
-                     if (deleteModal) deleteModal.hide(); // Ensure modal is hidden if state is invalid
+                     if (deleteModal) deleteModal.hide();
                 }
             });
 
-            // --- Xử lý Toggle Stock ---
             $('#productTableBody').on('change', '.toggle-switch input', function() {
                 const row = $(this).closest('tr');
-                // Ensure row is valid before proceeding
                 if (table.row(row).length) {
                     const rowData = table.row(row).data();
-                    rowData.stock = this.checked; // Update stock status based on checkbox
-                    table.row(row).data(rowData).invalidate().draw(false); // Update data, invalidate cache, redraw without changing page
+                    rowData.stock = this.checked;
+                    table.row(row).data(rowData).invalidate().draw(false);
                     showToast(`Stock status updated for ${rowData.name}`, 'info');
                 }
             });
 
-            // Handle modal close events (including backdrop click or escape key)
             deleteModalElement.addEventListener('hidden.bs.modal', function (event) {
-                 console.log("Modal hidden event triggered."); // Add log
-                 // Only reset if it wasn't already reset by the confirm button logic
+                 console.log("Modal hidden event triggered.");
                  if (currentProductBeingDeleted) {
-                    console.log("Resetting currentProductBeingDeleted due to modal close/cancel."); // Add log
+                    console.log("Resetting currentProductBeingDeleted due to modal close/cancel.");
                     currentProductBeingDeleted = null;
                  }
             });

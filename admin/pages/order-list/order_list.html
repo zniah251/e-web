@@ -16,9 +16,9 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script> <!-- Required for Excel export -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script> <!-- Required for PDF export -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> <!-- Required for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -109,13 +109,11 @@
       color: #ffffff;
     }
 
-    /* Fix dropdown hover contrast */
     .dropdown-menu .dropdown-item:hover {
       color: #ffffff !important;
       background-color: #007bff !important;
     }
 
-    /* Summary badges */
     #statusSummary .badge {
       margin-right: 8px;
       padding: 6px 12px;
@@ -127,7 +125,6 @@
       color: #212529;
     }
 
-    /* Toast notification */
     .toast-container {
       position: fixed;
       top: 20px;
@@ -135,9 +132,8 @@
       z-index: 9999;
     }
 
-    /* Updated Toast Style to match product_list */
     .toast {
-        background-color: #333; /* Or use bg-dark class */
+        background-color: #333;
         color: white;
         padding: 15px 25px;
         border-radius: 5px;
@@ -149,14 +145,13 @@
 
     .toast.show {
         display: block;
-        animation: fadeInOut 3s forwards; /* Use forwards to keep last frame */
+        animation: fadeInOut 3s forwards;
     }
-    /* Ensure Bootstrap 5 toast structure works */
     .toast .toast-body {
-        padding: 0; /* Adjust if needed based on structure */
+        padding: 0;
     }
     .toast .btn-close {
-        filter: invert(1) grayscale(100%) brightness(200%); /* Make close button white */
+        filter: invert(1) grayscale(100%) brightness(200%);
     }
 
     @keyframes fadeInOut {
@@ -166,14 +161,11 @@
       100% { opacity: 0; }
     }
 
-    /* Hide default DataTables buttons container */
     .dt-buttons { display: none !important; }
 
-    /* Confirm delete modal - Using Bootstrap 5 classes for consistency */
     .modal {
       display: none;
       position: fixed;
-      /* Adjusted z-index to match product_list */
       z-index: 1050;
       left: 0;
       top: 0;
@@ -182,20 +174,19 @@
       background-color: rgba(0, 0, 0, 0.5);
     }
 
-    /* Ensure modal dialog is vertically centered */
     .modal-dialog {
         position: relative; width: auto; margin: .5rem; pointer-events: none;
-        display: flex; /* Use flexbox for centering */
-        align-items: center; /* Vertical centering */
-        min-height: calc(100% - 1rem); /* Ensure it takes height */
+        display: flex;
+        align-items: center;
+        min-height: calc(100% - 1rem);
     }
-    @media (min-width: 576px) { .modal-dialog { max-width: 500px; margin: auto; /* Center horizontally and vertically */ min-height: calc(100% - 3.5rem); } }
+    @media (min-width: 576px) { .modal-dialog { max-width: 500px; margin: auto; min-height: calc(100% - 3.5rem); } }
 
     .modal-content {
       position: relative; display: flex; flex-direction: column; width: 100%; pointer-events: auto;
       background-color: #2c2f33;
       background-clip: padding-box;
-      border: 1px solid #444; /* Match border */
+      border: 1px solid #444;
       border-radius: 8px;
       outline: 0;
       color: #ffffff;
@@ -208,7 +199,7 @@
       border-top-left-radius: calc(.3rem - 1px); border-top-right-radius: calc(.3rem - 1px);
     }
     .modal-header .btn-close { padding: .5rem .5rem; margin: -.5rem -.5rem -.5rem auto; background: transparent; border: 0; color: #fff; opacity: .5; }
-    .modal-title { margin-bottom: 0; line-height: 1.5; font-size: 1.25rem; /* Match h4 size */ }
+    .modal-title { margin-bottom: 0; line-height: 1.5; font-size: 1.25rem; }
     .modal-body { position: relative; flex: 1 1 auto; padding: 1rem; }
     .modal-footer {
       display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end;
@@ -220,13 +211,11 @@
       margin-left: 10px;
     }
 
-    /* Ensure action buttons have consistent spacing and alignment */
     #orderTable .btn-sm {
-        margin-right: 5px; /* Add some space between buttons */
-        padding: 0.25rem 0.5rem; /* Adjust padding if needed */
+        margin-right: 5px;
+        padding: 0.25rem 0.5rem;
     }
 
-    /* Hide the DataTables Buttons info overlay (e.g., "Copied X rows") */
     div.dt-button-info {
         display: none !important;
     }
@@ -259,7 +248,7 @@
                 <span class="menu-title">Product List</span>
             </a>
         </li>
-        <li class="nav-item menu-items active"> <!-- Set active class -->
+        <li class="nav-item menu-items active">
             <a class="nav-link" href="../order-list/order_list.html">
                 <span class="menu-icon">
                     <i class="mdi mdi-cart"></i>
@@ -279,15 +268,13 @@
                 <div class="card-body">
                   <h4 class="card-title">Order List</h4>
                   <p class="card-description">Manage your orders</p>
-                  <!-- Summary badges here -->
                   <div id="statusSummary" class="mb-3"></div>
 
-                  <!-- Export dropdown -->
                   <div class="d-flex justify-content-end mb-3">
                     <div class="dropdown">
                       <button class="btn btn-primary dropdown-toggle" type="button" id="exportMenu"
                         data-bs-toggle="dropdown" aria-expanded="false">Export</button>
-                      <ul class="dropdown-menu" aria-labelledby="exportMenu"> <!-- Structure matches product_list -->
+                      <ul class="dropdown-menu" aria-labelledby="exportMenu">
                           <li><button class="dropdown-item" id="copyButton"><i class="fas fa-copy me-2"></i>Copy</button></li>
                           <li><button class="dropdown-item" id="excelButton"><i class="fas fa-file-excel me-2"></i>Excel</button></li>
                           <li><button class="dropdown-item" id="pdfButton"><i class="fas fa-file-pdf me-2"></i>PDF</button></li>
@@ -328,23 +315,21 @@
     </div>
   </div>
 
-  <!-- Toast notifications container -->
   <div class="toast-container"></div>
 
-  <!-- Delete confirmation modal -->
-  <div id="deleteModal" class="modal" tabindex="-1" style="z-index: 1060;"> <!-- Use Bootstrap 5 structure -->
+  <div id="deleteModal" class="modal" tabindex="-1" style="z-index: 1060;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Confirm Delete</h5> <!-- Use h5 for title -->
+          <h5 class="modal-title">Confirm Delete</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <p>Are you sure you want to delete this order?</p>
-          <p><strong id="deleteOrderInfo"></strong></p> <!-- Use strong tag -->
+          <p><strong id="deleteOrderInfo"></strong></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button> <!-- Use data-bs-dismiss -->
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="button" id="confirmDelete" class="btn btn-danger">Delete</button>
         </div>
       </div>
@@ -376,9 +361,7 @@
         { id: 20, date: 'Apr 3, 2025', customer: 'Zondra Klimkin', payment: 'Failed', status: 'Dispatched', method: 'Credit Card' }
       ];
 
-      // --- Helper Functions ---
-      // Updated showToast function to match product_list.html (using Bootstrap 5 Toast)
-      function showToast(message, type = 'success') { // Added type parameter for consistency
+      function showToast(message, type = 'success') {
         const toastContainer = document.querySelector('.toast-container');
         if (!toastContainer) {
             console.error('Toast container not found!');
@@ -386,7 +369,6 @@
         }
 
         const toastElement = document.createElement('div');
-        // Use bg-dark for consistency, can add type-specific classes if needed later
         toastElement.className = 'toast align-items-center text-white bg-dark border-0';
         toastElement.setAttribute('role', 'alert');
         toastElement.setAttribute('aria-live', 'assertive');
@@ -418,7 +400,6 @@
         });
       }
 
-      // 1) Render summary badges
       const summaryContainer = document.getElementById('statusSummary');
       const counts = orders.reduce((acc, o) => {
         acc[o.status] = (acc[o.status] || 0) + 1;
@@ -437,15 +418,13 @@
       }
       summaryContainer.innerHTML = summaryHtml;
 
-      // Variables to track state
       let currentOrderBeingDeleted = null;
-      const deleteModalElement = document.getElementById('deleteModal'); // Get modal element
-      const deleteModal = new bootstrap.Modal(deleteModalElement); // Initialize Bootstrap modal
+      const deleteModalElement = document.getElementById('deleteModal');
+      const deleteModal = new bootstrap.Modal(deleteModalElement);
 
-      // 2) Initialize DataTable
       const table = $('#orderTable').DataTable({
         data: orders,
-        dom: 'lfrtip', // Changed from Bfrtip to match product_list (Length, Filter, Table, Info, Pagination)
+        dom: 'lfrtip',
         columns: [
           {
             data: null,
@@ -482,10 +461,9 @@
           {
             data: null,
             orderable: false,
-            searchable: false, // Actions column shouldn't be searchable
-            className: 'dt-center', // Center align buttons like in product_list
+            searchable: false,
+            className: 'dt-center',
             render: function(data, type, row) {
-              // Use icons, data-id, and titles like product_list.html
               return `
                 <button class="btn btn-sm btn-primary view-btn" title="View Order" data-id="${row.id}"><i class="fas fa-eye"></i></button>
                 <button class="btn btn-sm btn-danger delete-btn" title="Delete Order" data-id="${row.id}"><i class="fas fa-trash-alt"></i></button>
@@ -494,124 +472,99 @@
           }
         ],
         pageLength: 10,
-        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]], // Added lengthMenu like product_list
-        language: { // Added language settings like product_list
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        language: {
             search: "_INPUT_",
-            searchPlaceholder: "Search orders..." // Adjusted placeholder
+            searchPlaceholder: "Search orders..."
         },
-        // Copied buttons config from product_list.html
         buttons: [
           {
             extend: 'copyHtml5',
-            copyFlash: false, // Add this line to disable the white flash
+            copyFlash: false,
             exportOptions: {
-                columns: [1, 2, 3, 4, 5, 6], // Adjusted columns for order_list
-                modifier: { selected: true } // Only copy selected rows if needed, or remove modifier
+                columns: [1, 2, 3, 4, 5, 6],
+                modifier: { selected: true }
             },
             action: function(e, dt, button, config) {
                  $.fn.dataTable.ext.buttons.copyHtml5.action.call(this, e, dt, button, config);
-                 showToast('Orders copied to clipboard!', 'info'); // Use updated showToast
+                 showToast('Orders copied to clipboard!', 'info');
             }
           },
           {
             extend: 'excelHtml5',
             exportOptions: {
-                columns: [1, 2, 3, 4, 5, 6] // Adjusted columns for order_list
+                columns: [1, 2, 3, 4, 5, 6]
             },
-            title: 'OrderListExport', // Filename for Excel
+            title: 'OrderListExport',
             action: function(e, dt, button, config) {
                  $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
-                 showToast('Orders exported to Excel!', 'success'); // Use updated showToast
+                 showToast('Orders exported to Excel!', 'success');
             }
           },
           {
             extend: 'pdfHtml5',
             exportOptions: {
-                columns: [1, 2, 3, 4, 5, 6] // Adjusted columns for order_list
+                columns: [1, 2, 3, 4, 5, 6]
             },
-            title: 'OrderListExport', // Filename for PDF
-            orientation: 'landscape', // Optional
-            pageSize: 'A4', // Optional
+            title: 'OrderListExport',
+            orientation: 'landscape',
+            pageSize: 'A4',
             action: function(e, dt, button, config) {
               $.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, button, config);
-              showToast('Orders exported to PDF!', 'success'); // Use updated showToast
+              showToast('Orders exported to PDF!', 'success');
             }
           }
         ]
       });
 
-      // 3) Wire up export dropdown
       $('#copyButton').on('click', () => table.button(0).trigger());
       $('#excelButton').on('click', () => table.button(1).trigger());
       $('#pdfButton').on('click', () => table.button(2).trigger());
 
-      // 4) Select All checkbox functionality
       $('#selectAll').on('change', function() {
         const isChecked = this.checked;
-        $('.order-checkbox').prop('checked', isChecked); // More efficient
+        $('.order-checkbox').prop('checked', isChecked);
       });
 
-      // 5) Individual checkboxes affect Select All state
       $('#orderTable').on('change', '.order-checkbox', function() {
         const allCheckboxes = $('.order-checkbox').length;
         const checkedCheckboxes = $('.order-checkbox:checked').length;
-        
-        // Check/uncheck 'selectAll' based on row checkboxes
         $('#selectAll').prop('checked', allCheckboxes > 0 && allCheckboxes === checkedCheckboxes);
       });
 
-      // 6) View button functionality
       $('#orderTable').on('click', '.view-btn', function() {
-        const orderId = $(this).data('id'); // Get ID from data-id attribute
-        // Find the data based on ID if needed, or just use the ID
+        const orderId = $(this).data('id');
         const data = table.rows().data().toArray().find(order => order.id === orderId);
         showToast(`Viewing order #${orderId} - ${data ? data.customer : 'N/A'}`);
-        // You would typically open a detailed view of the order here
       });
 
-      // 7) Delete button functionality
       $('#orderTable').on('click', '.delete-btn', function() {
         const row = $(this).closest('tr');
         const data = table.row(row).data();
-        const orderId = $(this).data('id'); // Get ID from data-id attribute
+        const orderId = $(this).data('id');
 
-        // Use the data retrieved from the row, or find it using the ID if needed
-        if (data && data.id === orderId) { // Ensure data was retrieved and matches the button's ID
-            currentOrderBeingDeleted = { row: row, data: data }; // Store row jQuery object and data
-
-            // Update modal text and show using Bootstrap API
+        if (data && data.id === orderId) {
+            currentOrderBeingDeleted = { row: row, data: data };
             $('#deleteOrderInfo').text(`Order #${data.id || 'N/A'} - ${data.customer || 'N/A'}`);
             deleteModal.show();
-        } else { // Fallback or error handling if data retrieval fails
+        } else {
             console.warn("Delete button clicked on a row not recognized by DataTables.");
         }
       });
 
-      // 8) Handle delete confirmation
       $('#confirmDelete').on('click', function() {
         if (currentOrderBeingDeleted) {
-          // Remove the row from the DataTable
           table.row(currentOrderBeingDeleted.row).remove().draw();
-          
-          // Show success message
           showToast(`Order #${currentOrderBeingDeleted.data.id} deleted successfully!`);
-          
-          // Update the summary counts (would need to recalculate from current data)
-          // Example: updateStatusSummary(); // You'd need to implement this function
-          
-          // Close modal using Bootstrap API
           deleteModal.hide();
           currentOrderBeingDeleted = null;
         }
       });
 
-      // 9) Handle modal close events (including backdrop click, escape key, or cancel button)
-      // No need for separate cancel button listener if using data-bs-dismiss
       deleteModalElement.addEventListener('hidden.bs.modal', function (event) {
-           console.log("Modal hidden event triggered."); // Add log
-           // Only reset if it wasn't already reset by the confirm button logic
+           console.log("Modal hidden event triggered.");
            if (currentOrderBeingDeleted) {
-              console.log("Resetting currentOrderBeingDeleted due to modal close/cancel."); // Add log
+              console.log("Resetting currentOrderBeingDeleted due to modal close/cancel.");
               currentOrderBeingDeleted = null;
            }
       });
