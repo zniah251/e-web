@@ -89,14 +89,44 @@
 
 <body>
     <div id="auth-container">
+        <!-- Login Form -->
         <div id="login-form" class="auth-container">
-            <?php include 'login.html'; ?>
+            <form>
+                <h4>Login</h4>
+                <input type="text" placeholder="Username" class="form-control">
+                <input type="password" placeholder="Password" class="form-control">
+                <button class="btn">Login</button>
+                <div class="text-center">
+                    <a href="#" onclick="showRegisterForm()">Don't have an account? Register</a><br>
+                    <a href="#" onclick="showForgotPasswordForm()">Forgot Password?</a>
+                </div>
+            </form>
         </div>
+
+        <!-- Register Form -->
         <div id="register-form" class="auth-container" style="display: none;">
-            <?php include 'register.html'; ?>
+            <form>
+                <h4>Register</h4>
+                <input type="text" placeholder="Username" class="form-control">
+                <input type="email" placeholder="Email" class="form-control">
+                <input type="password" placeholder="Password" class="form-control">
+                <button class="btn">Register</button>
+                <div class="text-center">
+                    <a href="#" onclick="showLoginForm()">Already have an account? Login</a>
+                </div>
+            </form>
         </div>
+
+        <!-- Forgot Password Form -->
         <div id="forgot-password-form" class="auth-container" style="display: none;">
-            <?php include 'forgot-password.html'; ?>
+            <form>
+                <h4>Forgot Password</h4>
+                <input type="email" placeholder="Email" class="form-control">
+                <button class="btn">Reset Password</button>
+                <div class="text-center">
+                    <a href="#" onclick="showLoginForm()">Back to Login</a>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -119,6 +149,7 @@
             document.getElementById('forgot-password-form').style.display = 'block';
         }
 
+        // Hiển thị form Login mặc định
         showLoginForm();
     </script>
 </body>
