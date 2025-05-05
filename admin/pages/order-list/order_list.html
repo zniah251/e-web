@@ -2,301 +2,575 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Order List</title>
-    <link rel="stylesheet" href="../../../admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../../../admin/template/assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        table.table-striped td, table.table-striped th {
-            color: #e0e0e0;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Order List</title>
+  <link rel="stylesheet" href="../../../admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="../../../admin/template/assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-        table.table-striped tbody tr:nth-child(odd) td {
-            color: #e0e0e0;
-        }
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
 
-        table.table-striped tbody tr:nth-child(even) td {
-            color: #e0e0e0;
-        }
+    .card {
+      background-color: #2c2f33;
+      border: none;
+      border-radius: 8px;
+      padding: 20px;
+    }
 
-        .badge-success {
-            background-color: #28a745;
-            color: #fff;
-        }
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
 
-        .badge-warning {
-            background-color: #ffc107;
-            color: #212529;
-        }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
 
-        .badge-danger {
-            background-color: #dc3545;
-            color: #fff;
-        }
+    table.table-striped td,
+    table.table-striped th {
+      color: #ffffff !important;
+    }
 
-        .badge-info {
-            background-color: #17a2b8;
-            color: #fff;
-        }
+    table.table-striped tbody tr:nth-child(odd) td {
+      background-color: #2c2f33;
+    }
 
-        .pagination li a {
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #007bff;
-            display: inline-block;
-        }
+    table.table-striped tbody tr:nth-child(even) td {
+      background-color: #23272a;
+    }
 
-        .pagination li a.active {
-            background-color: #007bff;
-            color: #fff;
-        }
+    .status-text.pending {
+      color: #ffc107;
+      font-weight: bold;
+    }
 
-        .card-title, .card-description {
-            color: #f8f9fa;
-        }
+    .status-text.failed {
+      color: #dc3545;
+      font-weight: bold;
+    }
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            color: #fff;
-        }
+    .status-text.cancelled {
+      color: #6c757d;
+      font-weight: bold;
+    }
 
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-            color: #fff;
-        }
+    .status-text.paid {
+      color: #28a745;
+      font-weight: bold;
+    }
 
-        .btn-success {
-            background-color: #28a745;
-            border-color: #28a745;
-            color: #fff;
-        }
-    </style>
+    .badge-success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .badge-info {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .badge-dispatched {
+      background-color: #ffeeba;
+      color: #856404;
+    }
+
+    .badge-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .pagination-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pagination-info {
+      color: #ffffff;
+    }
+
+    .dropdown-menu .dropdown-item:hover {
+      color: #ffffff !important;
+      background-color: #007bff !important;
+    }
+
+    #statusSummary .badge {
+      margin-right: 8px;
+      padding: 6px 12px;
+      font-size: 0.9em;
+    }
+
+    .badge-warning {
+      background-color: #ffc107;
+      color: #212529;
+    }
+
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+
+    .toast {
+        background-color: #333;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: none;
+        min-width: 250px;
+    }
+
+    .toast.show {
+        display: block;
+        animation: fadeInOut 3s forwards;
+    }
+    .toast .toast-body {
+        padding: 0;
+    }
+    .toast .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .dt-buttons { display: none !important; }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1050;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-dialog {
+        position: relative; width: auto; margin: .5rem; pointer-events: none;
+        display: flex;
+        align-items: center;
+        min-height: calc(100% - 1rem);
+    }
+    @media (min-width: 576px) { .modal-dialog { max-width: 500px; margin: auto; min-height: calc(100% - 3.5rem); } }
+
+    .modal-content {
+      position: relative; display: flex; flex-direction: column; width: 100%; pointer-events: auto;
+      background-color: #2c2f33;
+      background-clip: padding-box;
+      border: 1px solid #444;
+      border-radius: 8px;
+      outline: 0;
+      color: #ffffff;
+    }
+
+    .modal-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 1rem 1rem;
+      border-bottom: 1px solid #444;
+      border-top-left-radius: calc(.3rem - 1px); border-top-right-radius: calc(.3rem - 1px);
+    }
+    .modal-header .btn-close { padding: .5rem .5rem; margin: -.5rem -.5rem -.5rem auto; background: transparent; border: 0; color: #fff; opacity: .5; }
+    .modal-title { margin-bottom: 0; line-height: 1.5; font-size: 1.25rem; }
+    .modal-body { position: relative; flex: 1 1 auto; padding: 1rem; }
+    .modal-footer {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end;
+      padding: .75rem;
+      border-top: 1px solid #444;
+      border-bottom-right-radius: calc(.3rem - 1px); border-bottom-left-radius: calc(.3rem - 1px);
+    }
+    .modal-footer button {
+      margin-left: 10px;
+    }
+
+    #orderTable .btn-sm {
+        margin-right: 5px;
+        padding: 0.25rem 0.5rem;
+    }
+
+    div.dt-button-info {
+        display: none !important;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container-scroller">
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo1.png"
-                        alt="logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img
-                        src="../../assets/images/logo-mini.svg" alt="logo" /></a>
-            </div>
-            <ul class="nav">
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="../../index.html">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-speedometer"></i>
-                        </span>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="../product/product_list.html">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-table-large"></i>
-                        </span>
-                        <span class="menu-title">Product List</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="../order/order_list.html">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-cart"></i>
-                        </span>
-                        <span class="menu-title">Order List</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+  <div class="container-scroller">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+        <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo1.png"
+            alt="logo" /></a>
+        <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg"
+            alt="logo" /></a>
+      </div>
+      <ul class="nav">
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="../../index.html">
+                <span class="menu-icon">
+                    <i class="mdi mdi-speedometer"></i>
+                </span>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="../product/product_list.html">
+                <span class="menu-icon">
+                    <i class="mdi mdi-table-large"></i>
+                </span>
+                <span class="menu-title">Product List</span>
+            </a>
+        </li>
+        <li class="nav-item menu-items active">
+            <a class="nav-link" href="../order-list/order_list.html">
+                <span class="menu-icon">
+                    <i class="mdi mdi-cart"></i>
+                </span>
+                <span class="menu-title">Order List</span>
+            </a>
+        </li>
+    </ul>
+    </nav>
 
-        <div class="container-fluid page-body-wrapper">
-            <nav class="navbar p-0 fixed-top d-flex flex-row">
-                <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                        <span class="mdi mdi-menu"></span>
-                    </button>
-                    <ul class="navbar-nav w-100">
-                        <li class="nav-item w-100">
-                            <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                                <input type="text" class="form-control" placeholder="Search orders" id="searchInput">
-                            </form>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav navbar-nav-right">
-                        <li class="nav-item nav-profile dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                                <span class="nav-profile-name">Henry Klein</span>
-                                <span class="online-status"></span>
-                                <img src="../../../admin/template/assets/images/faces/face15.jpg" alt="profile" />
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Order List</h4>
+                  <p class="card-description">Manage your orders</p>
+                  <div id="statusSummary" class="mb-3"></div>
 
-            <div class="main-panel">
-                <div class="content-wrapper">
-                    <div class="row">
-                        <div class="col-lg-12 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Order List</h4>
-                                    <p class="card-description"> Manage your orders </p>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th> Order </th>
-                                                    <th> Date </th>
-                                                    <th> Customers </th>
-                                                    <th> Payment </th>
-                                                    <th> Status </th>
-                                                    <th> Method </th>
-                                                    <th> Actions </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="orderTableBody">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="pagination">
-                                        <ul id="pagination">
-                                        </ul>
-                                    </div>
-                                    <div class="mt-3">
-                                        <a href="../add-products/product.html" class="btn btn-success">+ Add Order</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                  <div class="d-flex justify-content-end mb-3">
+                    <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" id="exportMenu"
+                        data-bs-toggle="dropdown" aria-expanded="false">Export</button>
+                      <ul class="dropdown-menu" aria-labelledby="exportMenu">
+                          <li><button class="dropdown-item" id="copyButton"><i class="fas fa-copy me-2"></i>Copy</button></li>
+                          <li><button class="dropdown-item" id="excelButton"><i class="fas fa-file-excel me-2"></i>Excel</button></li>
+                          <li><button class="dropdown-item" id="pdfButton"><i class="fas fa-file-pdf me-2"></i>PDF</button></li>
+                      </ul>
                     </div>
-                </div>
-                <footer class="footer">
-                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright ©
-                            bootstrapdash.com 2021</span>
-                    </div>
-                </footer>
-            </div>
-        </div>
-    </div>
+                  </div>
 
-    <script src="../../../admin/template/assets/vendors/js/vendor.bundle.base.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById('searchInput');
-            const orderTableBody = document.getElementById('orderTableBody');
-            const pagination = document.getElementById('pagination');
-
-            const orders = [
-                { id: 1, date: 'Apr 10, 2025', customer: 'Cristine Eason', payment: 'Pending', status: 'Delivered', method: 'Credit Card' },
-                { id: 2, date: 'Apr 9, 2025', customer: 'Fayre Screech', payment: 'Failed', status: 'Delivered', method: 'PayPal' },
-                { id: 3, date: 'Apr 8, 2025', customer: 'Pauline Pfaffe', payment: 'Cancelled', status: 'Out for Delivery', method: 'PayPal' },
-                { id: 4, date: 'Apr 7, 2025', customer: 'Maurits Nealey', payment: 'Paid', status: 'Dispatched', method: 'Credit Card' },
-                { id: 5, date: 'Apr 6, 2025', customer: 'Eydie Vogelien', payment: 'Cancelled', status: 'Out for Delivery', method: 'PayPal' },
-            ];
-
-            const rowsPerPage = 5;
-            let currentPage = 1;
-
-            function renderOrders(data) {
-                orderTableBody.innerHTML = '';
-                const start = (currentPage - 1) * rowsPerPage;
-                const end = start + rowsPerPage;
-                const paginatedOrders = data.slice(start, end);
-
-                paginatedOrders.forEach(order => {
-                    const row = `
+                  <div class="table-responsive">
+                    <table id="orderTable" class="table table-striped">
+                      <thead>
                         <tr>
-                            <td>#${order.id}</td>
-                            <td>${order.date}</td>
-                            <td>${order.customer}</td>
-                            <td><span class="badge badge-warning">${order.payment}</span></td>
-                            <td><span class="badge badge-success">${order.status}</span></td>
-                            <td>${order.method}</td>
-                            <td>
-                                <button class="btn btn-primary btn-sm">View</button>
-                                <button class="btn btn-danger btn-sm delete-order" data-id="${order.id}">Delete</button>
-                            </td>
+                          <th><input type="checkbox" id="selectAll"></th>
+                          <th>Order</th>
+                          <th>Date</th>
+                          <th>Customers</th>
+                          <th>Payment</th>
+                          <th>Status</th>
+                          <th>Method</th>
+                          <th>Actions</th>
                         </tr>
-                    `;
-                    orderTableBody.innerHTML += row;
-                });
+                      </thead>
+                      <tbody id="orderTableBody">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright ©
+              bootstrapdash.com 2021</span>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
 
-                const rows = document.querySelectorAll('#orderTableBody tr');
-                rows.forEach(row => {
-                    row.style.color = '#e0e0e0';
-                });
+  <div class="toast-container"></div>
 
-                addDeleteEventListeners();
-            }
+  <div id="deleteModal" class="modal" tabindex="-1" style="z-index: 1060;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Delete</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this order?</p>
+          <p><strong id="deleteOrderInfo"></strong></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" id="confirmDelete" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            function renderPagination(data) {
-                pagination.innerHTML = '';
-                const totalPages = Math.ceil(data.length / rowsPerPage);
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const orders = [
+        { id: 1, date: 'Apr 22, 2025', customer: 'Cristine Eason', payment: 'Pending', status: 'Delivered', method: 'Credit Card' },
+        { id: 2, date: 'Apr 21, 2025', customer: 'Fayre Screech', payment: 'Failed', status: 'Delivered', method: 'PayPal' },
+        { id: 3, date: 'Apr 20, 2025', customer: 'Pauline Pfaffe', payment: 'Cancelled', status: 'Out for Delivery', method: 'PayPal' },
+        { id: 4, date: 'Apr 19, 2025', customer: 'Maurits Nealey', payment: 'Paid', status: 'Dispatched', method: 'Credit Card' },
+        { id: 5, date: 'Apr 18, 2025', customer: 'Eydie Vogelien', payment: 'Cancelled', status: 'Out for Delivery', method: 'PayPal' },
+        { id: 6, date: 'Apr 17, 2025', customer: 'John Doe', payment: 'Pending', status: 'Out for Delivery', method: 'Credit Card' },
+        { id: 7, date: 'Apr 16, 2025', customer: 'Jane Smith', payment: 'Paid', status: 'Delivered', method: 'PayPal' },
+        { id: 8, date: 'Apr 15, 2025', customer: 'Alice Johnson', payment: 'Failed', status: 'Cancelled', method: 'Credit Card' },
+        { id: 9, date: 'Apr 14, 2025', customer: 'Bob Brown', payment: 'Pending', status: 'Dispatched', method: 'PayPal' },
+        { id: 10, date: 'Apr 13, 2025', customer: 'Charlie Davis', payment: 'Cancelled', status: 'Out for Delivery', method: 'Credit Card' },
+        { id: 11, date: 'Apr 12, 2025', customer: 'Garreth Rubinowitz', payment: 'Pending', status: 'Out for Delivery', method: 'Credit Card' },
+        { id: 12, date: 'Apr 11, 2025', customer: 'Jarib Siverns', payment: 'Cancelled', status: 'Delivered', method: 'PayPal' },
+        { id: 13, date: 'Apr 10, 2025', customer: 'Elianore Russ', payment: 'Pending', status: 'Out for Delivery', method: 'PayPal' },
+        { id: 14, date: 'Apr 9, 2025', customer: 'Lyndsey Dorey', payment: 'Failed', status: 'Out for Delivery', method: 'Credit Card' },
+        { id: 15, date: 'Apr 8, 2025', customer: 'Godwin Greatbanks', payment: 'Pending', status: 'Delivered', method: 'PayPal' },
+        { id: 16, date: 'Apr 7, 2025', customer: 'Edik Whytock', payment: 'Failed', status: 'Out for Delivery', method: 'Credit Card' },
+        { id: 17, date: 'Apr 6, 2025', customer: 'Dallis Dillestone', payment: 'Failed', status: 'Out for Delivery', method: 'PayPal' },
+        { id: 18, date: 'Apr 5, 2025', customer: 'Rex Farbrace', payment: 'Pending', status: 'Delivered', method: 'Credit Card' },
+        { id: 19, date: 'Apr 4, 2025', customer: 'Tanya Crum', payment: 'Cancelled', status: 'Out for Delivery', method: 'PayPal' },
+        { id: 20, date: 'Apr 3, 2025', customer: 'Zondra Klimkin', payment: 'Failed', status: 'Dispatched', method: 'Credit Card' }
+      ];
 
-                for (let i = 1; i <= totalPages; i++) {
-                    const pageButton = `
-                        <li>
-                            <a href="#" class="${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</a>
-                        </li>
-                    `;
-                    pagination.innerHTML += pageButton;
-                }
+      function showToast(message, type = 'success') {
+        const toastContainer = document.querySelector('.toast-container');
+        if (!toastContainer) {
+            console.error('Toast container not found!');
+            return;
+        }
 
-                const pageLinks = pagination.querySelectorAll('a');
-                pageLinks.forEach(link => {
-                    link.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        currentPage = parseInt(this.getAttribute('data-page'));
-                        renderOrders(orders);
-                        renderPagination(orders);
-                    });
-                });
-            }
+        const toastElement = document.createElement('div');
+        toastElement.className = 'toast align-items-center text-white bg-dark border-0';
+        toastElement.setAttribute('role', 'alert');
+        toastElement.setAttribute('aria-live', 'assertive');
+        toastElement.setAttribute('aria-atomic', 'true');
 
-            function addDeleteEventListeners() {
-                const deleteButtons = document.querySelectorAll('.delete-order');
-                deleteButtons.forEach(button => {
-                    button.addEventListener('click', function () {
-                        const orderId = this.getAttribute('data-id');
-                        if (confirm(`Are you sure you want to delete order #${orderId}?`)) {
-                            const index = orders.findIndex(order => order.id == orderId);
-                            if (index !== -1) {
-                                orders.splice(index, 1);
-                                renderOrders(orders);
-                                renderPagination(orders);
-                                alert(`Order #${orderId} has been deleted.`);
-                            }
-                        }
-                    });
-                });
-            }
+        const toastContent = document.createElement('div');
+        toastContent.className = 'd-flex';
 
-            renderOrders(orders);
-            renderPagination(orders);
+        const toastBody = document.createElement('div');
+        toastBody.className = 'toast-body';
+        toastBody.textContent = message;
 
-            searchInput.addEventListener('input', function () {
-                const searchTerm = searchInput.value.toLowerCase();
-                const filteredOrders = orders.filter(order =>
-                    order.customer.toLowerCase().includes(searchTerm) ||
-                    order.id.toString().includes(searchTerm)
-                );
-                renderOrders(filteredOrders);
-                renderPagination(filteredOrders);
-            });
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'btn-close btn-close-white me-2 m-auto';
+        closeButton.setAttribute('data-bs-dismiss', 'toast');
+        closeButton.setAttribute('aria-label', 'Close');
+
+        toastContent.appendChild(toastBody);
+        toastContent.appendChild(closeButton);
+        toastElement.appendChild(toastContent);
+        toastContainer.appendChild(toastElement);
+
+        const bsToast = new bootstrap.Toast(toastElement, { delay: 3000 });
+        bsToast.show();
+
+        toastElement.addEventListener('hidden.bs.toast', () => {
+            toastElement.remove();
         });
-    </script>
+      }
+
+      const summaryContainer = document.getElementById('statusSummary');
+      const counts = orders.reduce((acc, o) => {
+        acc[o.status] = (acc[o.status] || 0) + 1;
+        return acc;
+      }, {});
+      const badgeDefs = {
+        'Pending': 'badge badge-warning',
+        'Delivered': 'badge badge-success',
+        'Cancelled': 'badge badge-danger',
+        'Out for Delivery': 'badge badge-info',
+        'Dispatched': 'badge badge-dispatched'
+      };
+      let summaryHtml = '';
+      for (let [status, count] of Object.entries(counts)) {
+        summaryHtml += `<span class="${badgeDefs[status] || 'badge'}">${status}: ${count}</span>`;
+      }
+      summaryContainer.innerHTML = summaryHtml;
+
+      let currentOrderBeingDeleted = null;
+      const deleteModalElement = document.getElementById('deleteModal');
+      const deleteModal = new bootstrap.Modal(deleteModalElement);
+
+      const table = $('#orderTable').DataTable({
+        data: orders,
+        dom: 'lfrtip',
+        columns: [
+          {
+            data: null,
+            orderable: false,
+            render: () => '<input type="checkbox" class="order-checkbox">'
+          },
+          {
+            data: 'id',
+            render: d => `<span style="color:#fff">#${d}</span>`
+          },
+          {
+            data: 'date',
+            render: d => `<span style="color:#fff">${d}</span>`
+          },
+          {
+            data: 'customer',
+            render: d => `<span style="color:#fff">${d}</span>`
+          },
+          {
+            data: 'payment',
+            render: d => `<span class="status-text ${d.toLowerCase()}">${d}</span>`
+          },
+          {
+            data: 'status',
+            render: d => {
+              const cls = badgeDefs[d] ? badgeDefs[d].replace('badge ', 'badge-') : '';
+              return `<span class="badge ${badgeDefs[d] || ''}">${d}</span>`;
+            }
+          },
+          {
+            data: 'method',
+            render: d => `<span style="color:#fff">${d}</span>`
+          },
+          {
+            data: null,
+            orderable: false,
+            searchable: false,
+            className: 'dt-center',
+            render: function(data, type, row) {
+              return `
+                <button class="btn btn-sm btn-primary view-btn" title="View Order" data-id="${row.id}"><i class="fas fa-eye"></i></button>
+                <button class="btn btn-sm btn-danger delete-btn" title="Delete Order" data-id="${row.id}"><i class="fas fa-trash-alt"></i></button>
+              `;
+            }
+          }
+        ],
+        pageLength: 10,
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search orders..."
+        },
+        buttons: [
+          {
+            extend: 'copyHtml5',
+            copyFlash: false,
+            exportOptions: {
+                columns: [1, 2, 3, 4, 5, 6],
+                modifier: { selected: true }
+            },
+            action: function(e, dt, button, config) {
+                 $.fn.dataTable.ext.buttons.copyHtml5.action.call(this, e, dt, button, config);
+                 showToast('Orders copied to clipboard!', 'info');
+            }
+          },
+          {
+            extend: 'excelHtml5',
+            exportOptions: {
+                columns: [1, 2, 3, 4, 5, 6]
+            },
+            title: 'OrderListExport',
+            action: function(e, dt, button, config) {
+                 $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
+                 showToast('Orders exported to Excel!', 'success');
+            }
+          },
+          {
+            extend: 'pdfHtml5',
+            exportOptions: {
+                columns: [1, 2, 3, 4, 5, 6]
+            },
+            title: 'OrderListExport',
+            orientation: 'landscape',
+            pageSize: 'A4',
+            action: function(e, dt, button, config) {
+              $.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, button, config);
+              showToast('Orders exported to PDF!', 'success');
+            }
+          }
+        ]
+      });
+
+      $('#copyButton').on('click', () => table.button(0).trigger());
+      $('#excelButton').on('click', () => table.button(1).trigger());
+      $('#pdfButton').on('click', () => table.button(2).trigger());
+
+      $('#selectAll').on('change', function() {
+        const isChecked = this.checked;
+        $('.order-checkbox').prop('checked', isChecked);
+      });
+
+      $('#orderTable').on('change', '.order-checkbox', function() {
+        const allCheckboxes = $('.order-checkbox').length;
+        const checkedCheckboxes = $('.order-checkbox:checked').length;
+        $('#selectAll').prop('checked', allCheckboxes > 0 && allCheckboxes === checkedCheckboxes);
+      });
+
+      $('#orderTable').on('click', '.view-btn', function() {
+        const orderId = $(this).data('id');
+        const data = table.rows().data().toArray().find(order => order.id === orderId);
+        showToast(`Viewing order #${orderId} - ${data ? data.customer : 'N/A'}`);
+      });
+
+      $('#orderTable').on('click', '.delete-btn', function() {
+        const row = $(this).closest('tr');
+        const data = table.row(row).data();
+        const orderId = $(this).data('id');
+
+        if (data && data.id === orderId) {
+            currentOrderBeingDeleted = { row: row, data: data };
+            $('#deleteOrderInfo').text(`Order #${data.id || 'N/A'} - ${data.customer || 'N/A'}`);
+            deleteModal.show();
+        } else {
+            console.warn("Delete button clicked on a row not recognized by DataTables.");
+        }
+      });
+
+      $('#confirmDelete').on('click', function() {
+        if (currentOrderBeingDeleted) {
+          table.row(currentOrderBeingDeleted.row).remove().draw();
+          showToast(`Order #${currentOrderBeingDeleted.data.id} deleted successfully!`);
+          deleteModal.hide();
+          currentOrderBeingDeleted = null;
+        }
+      });
+
+      deleteModalElement.addEventListener('hidden.bs.modal', function (event) {
+           console.log("Modal hidden event triggered.");
+           if (currentOrderBeingDeleted) {
+              console.log("Resetting currentOrderBeingDeleted due to modal close/cancel.");
+              currentOrderBeingDeleted = null;
+           }
+      });
+
+    });
+  </script>
 </body>
 
 </html>

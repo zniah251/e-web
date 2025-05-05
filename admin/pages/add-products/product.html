@@ -400,12 +400,12 @@
             </ul>
         </nav>
         <!-- partial -->
-        <div class="container-fluid page-body-wrapper">
-
-            <div style="width: 100%; padding-top: 60px;">
+        <div class="main-panel">
+            <div class="content-wrapper">
                 <div class="col-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
+
                             <h4 class="card-title">Add a product</h4>
                             <p class="card-description"> Orders placed across your store </p>
                             <div class="action-buttons">
@@ -422,7 +422,7 @@
                                                 placeholder="Write title here...">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleTextarea1">Product Description</label>
+                                            <label for="editor">Product Description</label>
                                             <div class="toolbar">
                                                 <button title="Undo"><i class="fa-solid fa-rotate-left"></i></button>
                                                 <button title="Redo"><i class="fa-solid fa-rotate-right"></i></button>
@@ -441,8 +441,7 @@
                                                         class="fa-solid fa-align-justify"></i></button>
                                                 <button title="Link"><i class="fa-solid fa-link"></i></button>
                                             </div>
-                                            <textarea style=" height: 100px;" class="form-control" id="exampleTextarea1"
-                                                rows="10"></textarea>
+                                            <div id="editor" contenteditable="true" style="border: 1px solid #ccc; padding: 10px; height: 100px;"></div>
                                         </div>
                                         <div class="form-group">
                                             <label>File upload</label>
@@ -591,8 +590,10 @@
                                 admin template</a> from Bootstrapdash.com</span>
                     </div>
                 </footer>
+
+                <!-- partial -->
+
             </div>
-            <!-- partial -->
         </div>
 
     </div>
@@ -618,14 +619,17 @@
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="../../template/assets/js/dashboard.js"></script>
+    <script src="../../template/assets/js/file-upload.js"></script>
+    <script src="../../template/assets/js/typeahead.js"></script>
+    <script src="../../template/assets/js/select2.js"></script>
     <!-- End custom js for this page -->
     <script>
         function addOption() {
-          const container = document.getElementById('variant-container');
-        
-          const group = document.createElement('div');
-          group.className = 'variant-group';
-          group.innerHTML = `
+            const container = document.getElementById('variant-container');
+
+            const group = document.createElement('div');
+            group.className = 'variant-group';
+            group.innerHTML = `
             <label>Options <a href="#" class="remove-option" onclick="removeOption(this)">Remove</a></label>
             <select class="form-select">
               <option value="size">Size</option>
@@ -634,16 +638,56 @@
             </select>
             <textarea placeholder="Enter values..." style="width: 100%; padding: 10px; color: black;"></textarea>
           `;
-        
-          container.appendChild(group);
+
+            container.appendChild(group);
         }
-        
+
         function removeOption(link) {
-          const group = link.closest('.variant-group');
-          group.remove();
+            const group = link.closest('.variant-group');
+            group.remove();
         }
-        </script>
-        
+    </script>
+<script>
+    function execCommand(command, value = null) {
+        document.execCommand(command, false, value);
+    }
+
+    document.querySelectorAll('.toolbar button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault(); // Ngăn form submit nếu có
+            const command = button.getAttribute('title').toLowerCase();
+
+            switch (command) {
+                case 'undo':
+                case 'redo':
+                case 'bold':
+                case 'italic':
+                case 'underline':
+                case 'strikethrough':
+                    execCommand(command);
+                    break;
+                case 'align left':
+                    execCommand('justifyLeft');
+                    break;
+                case 'align center':
+                    execCommand('justifyCenter');
+                    break;
+                case 'align right':
+                    execCommand('justifyRight');
+                    break;
+                case 'justify':
+                    execCommand('justifyFull');
+                    break;
+                case 'link':
+                    const url = prompt('Enter the URL:');
+                    if (url) {
+                        execCommand('createLink', url);
+                    }
+                    break;
+            }
+        });
+    });
+</script>
 
 
 </body>
