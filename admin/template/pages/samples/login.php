@@ -113,7 +113,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
       $(document).ready(function() {
         toastr.error('Không để trống thông tin đăng nhập!', 'Lỗi');
       });
-  </script>";
+    </script>";
     exit;
     } else {
       $sql = "select * from users where uid = '$username' and password = '$password' ";

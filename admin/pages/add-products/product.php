@@ -1,5 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+
+session_start();
+
+$_SESSION['admin_logged_in'] = true;
+if (!isset($_SESSION['admin_logged_in'])) {
+    header("Location: /../admin/template/pages/samples/login.php");
+    exit();
+}
+
+include "/e-web/connect.php";
+// Biến stock mặc định
+$stock = 0;
+
+// --- BƯỚC 1: Nếu nhấn "Confirm"
+if (isset($_POST['confirm_stock'])) {
+    $stock_input = isset($_POST['stock_input']) ? intval($_POST['stock_input']) : 0;
+    $stock = $stock_input;
+}
+
+if (isset($_POST['public_product'])) {
+    $thumbnail = '';
+    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] === 0) {
+        $uploadDir = '../add-products/uploads/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        // Đường dẫn đầy đủ đến file upload
+        $fileName = basename($_FILES['thumbnail']['name']);
+        $thumbnail = $uploadDir . $fileName;
+
+        // Di chuyển file từ thư mục tạm vào thư mục upload
+        if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $thumbnail)) {
+            // Thành công → $thumbnail đã chứa đường dẫn hình ảnh
+            // Ví dụ: uploads/hinh.jpg
+        } else {
+            echo "Upload ảnh thất bại.";
+            $thumbnail = ''; // Xoá đường dẫn nếu upload thất bại
+        }
+    }
+
+
+    $title = isset($_POST['title']) ? $_POST['title'] : '';
+
+    $price = isset($_POST['price']) ? $_POST['price'] : '';
+    $discount = isset($_POST['discount']) ? $_POST['discount'] : '';
+
+    $description = isset($_POST['description']) ? $_POST['description'] : '';
+
+
+    //$stock = isset($_POST['stock']) ? $_POST['stock'] : '';
+    $stock = isset($_SESSION['stock']) ? $_SESSION['stock'] : 0;
+
+    echo "<script>
+        alert('Username: $stock');
+      </script>";
+    $size = isset($_POST['size']) ? $_POST['size'] : '';
+    $rating = isset($_POST['rating']) ? $_POST['rating'] : '1';
+    $sold = isset($_POST['sold']) ? $_POST['sold'] : '';
+    $color = isset($_POST['color']) ? $_POST['color'] : '';
+    $cid = isset($_POST['cid']) ? $_POST['cid'] : '';
+
+    // Chèn dữ liệu
+    $sql = "INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+
+    if (!$stmt = $conn->prepare($sql)) {
+        die("❌ Prepare failed: " . $conn->error);
+    }
+
+
+    $stmt->bind_param("isddssisdis", $cid, $title, $price, $discount, $thumbnail, $description, $stock, $size, $rating, $sold, $color);
+
+    if (!$stmt->execute()) {
+        echo "❌ Lỗi: " . $stmt->error;
+    }
+    // else {
+    //     echo "✅ Thêm sản phẩm thành công!";
+    // }
+
+    $stmt->close();
+}
+$conn->close();
+?>
 
 <head>
     <!-- Required meta tags -->
@@ -23,6 +109,7 @@
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="../../assets/product.css">
+
     <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../../admin/template/assets/images/favicon.png" />
@@ -408,174 +495,187 @@
 
                             <h4 class="card-title">Add a product</h4>
                             <p class="card-description"> Orders placed across your store </p>
-                            <div class="action-buttons">
-                                <button class="discard-btn" style="color: #ffffff;">Discard</button>
-                                <button class="save-draft-btn" style="color: #ffffff;">Save draft</button>
-                                <button class="publish-btn" style="color: #ffffff;">Publish product</button>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <form class="forms-sample">
-                                        <div class="form-group">
-                                            <label for="exampleInputName1">Product Title</label>
-                                            <input type="text" class="form-control" id="exampleInputName1"
-                                                placeholder="Write title here...">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="editor">Product Description</label>
-                                            <div class="toolbar">
-                                                <button title="Undo"><i class="fa-solid fa-rotate-left"></i></button>
-                                                <button title="Redo"><i class="fa-solid fa-rotate-right"></i></button>
-                                                <button title="Bold"><i class="fa-solid fa-bold"></i></button>
-                                                <button title="Italic"><i class="fa-solid fa-italic"></i></button>
-                                                <button title="Underline"><i class="fa-solid fa-underline"></i></button>
-                                                <button title="Strikethrough"><i
-                                                        class="fa-solid fa-strikethrough"></i></button>
-                                                <button title="Align Left"><i
-                                                        class="fa-solid fa-align-left"></i></button>
-                                                <button title="Align Center"><i
-                                                        class="fa-solid fa-align-center"></i></button>
-                                                <button title="Align Right"><i
-                                                        class="fa-solid fa-align-right"></i></button>
-                                                <button title="Justify"><i
-                                                        class="fa-solid fa-align-justify"></i></button>
-                                                <button title="Link"><i class="fa-solid fa-link"></i></button>
-                                            </div>
-                                            <div id="editor" contenteditable="true" style="border: 1px solid #ccc; padding: 10px; height: 100px;"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>File upload</label>
-                                            <input type="file" name="img[]" class="file-upload-default">
-                                            <div class="input-group col-xs-12">
-                                                <input type="text" class="form-control file-upload-info" disabled
-                                                    placeholder="Upload Image">
-                                                <span class="input-group-append">
-                                                    <button class="file-upload-browse btn btn-primary"
-                                                        type="button">Upload</button>
-                                                </span>
-                                            </div>
-                                        </div>
+                            <form action="product.php" method="POST" enctype="multipart/form-data">
 
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword4">Inventory</label>
-                                        </div>
-                                        <div class="container mt-4">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <div class="list-group" id="list-tab" role="tablist">
-                                                        <a class="list-group-item list-group-item-action active"
-                                                            id="list-pricing-list" data-bs-toggle="list"
-                                                            href="#list-pricing" role="tab"
-                                                            style="background-color: #191c24; color: #ffffff; border-color: grey;">Pricing</a>
-                                                        <a class="list-group-item list-group-item-action"
-                                                            id="list-restock-list" data-bs-toggle="list"
-                                                            href="#list-restock" role="tab"
-                                                            style="background-color: #191c24; color: #ffffff; border-color: grey;">Restock</a>
-                                                        <a class="list-group-item list-group-item-action"
-                                                            id="list-shipping-list" data-bs-toggle="list"
-                                                            href="#list-shipping" role="tab"
-                                                            style="background-color: #191c24; color: #ffffff; border-color: grey;">Shipping</a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-9">
-                                                    <div class="tab-content" id="nav-tabContent"
-                                                        style="background-color: #191c24; border-top: 1px;">
-                                                        <div class="tab-pane fade show active" id="list-pricing"
-                                                            role="tabpanel" style="background-color: #191c24;">
-                                                            <label>Regular price: <input type="text"
-                                                                    class="form-control"></label>
-                                                            <label>Sale price: <input type="text"
-                                                                    class="form-control"></label>
-                                                        </div>
-                                                        <div class="tab-pane fade" id="list-restock" role="tabpanel">
-                                                            <label>Quantity: <input type="text" class="form-control">
-                                                                <button
-                                                                    class="btn btn-primary mt-2">Confirm</button></label>
-                                                            <p>Product in stock now: $1,090</p>
-                                                        </div>
-                                                        <div class="tab-pane fade" id="list-shipping" role="tabpanel">
-                                                            <label class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="shipping"> Fulfilled by Seller
-                                                            </label>
-                                                            <label class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="shipping" checked> Fulfilled by Phoenix
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </form>
+                                <div class="action-buttons">
+                                    <button type="submit" name="discard" class="discard-btn" style="color: #ffffff;">Discard</button>
+                                    <button type="submit" name="save_draft" class="save-draft-btn" style="color: #ffffff;">Save draft</button>
+                                    <button type="submit" name="public_product" class="publish-btn" style="color: #ffffff;">Publish product</button>
                                 </div>
-                                <div class="col-sm-4" style="padding: 20px;">
-                                    <div>
-                                        <h3>Organize</h3>
-                                        <div class="organize-section">
-                                            <label for="category" style="color: #ffffff;">Category <a href="#"
-                                                    class="add-new">Add new
-                                                    category</a></label>
-                                            <select id="category" name="category">
-                                                <option value="mens-clothing">Men's Clothing</option>
-                                                <option value="womens-clothing">Women's Clothing</option>
-                                                <option value="accessories">Accessories</option>
-                                            </select>
-                                        </div>
-                                        <div class="organize-section">
-                                            <label for="vendor" style="color: #ffffff;">Vendor <a href="#"
-                                                    class="add-new">Add new
-                                                    vendor</a></label>
-                                            <select id="vendor" name="vendor">
-                                                <option value="mens-clothing">Men's Clothing</option>
-                                                <option value="vendor2">Vendor 2</option>
-                                                <option value="vendor3">Vendor 3</option>
-                                            </select>
-                                        </div>
-                                        <div class="organize-section">
-                                            <label for="collection" style="color: #ffffff;">Collection</label>
-                                            <select id="collection" name="collection">
-                                                <option value="" disabled selected>Select a collection</option>
-                                                <option value="collection1">Collection 1</option>
-                                                <option value="collection2">Collection 2</option>
-                                            </select>
-                                        </div>
-                                        <div class="organize-section">
-                                            <label for="tags" style="color: #ffffff;">Tags <a href="#"
-                                                    class="view-all">View
-                                                    all tags</a></label>
-                                            <select id="tags" name="tags">
-                                                <option value="mens-clothing">Men's Clothing</option>
-                                                <option value="tag2">Tag 2</option>
-                                                <option value="tag3">Tag 3</option>
-                                            </select>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <form class="forms-sample">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Product Title</label>
+                                                <input type="text" class="form-control" id="exampleInputName1" name="title"
+                                                    placeholder="Write title here...">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Product Description</label>
+                                                <div class="toolbar">
+                                                    <button title="Undo"><i class="fa-solid fa-rotate-left"></i></button>
+                                                    <button title="Redo"><i class="fa-solid fa-rotate-right"></i></button>
+                                                    <button title="Bold"><i class="fa-solid fa-bold"></i></button>
+                                                    <button title="Italic"><i class="fa-solid fa-italic"></i></button>
+                                                    <button title="Underline"><i class="fa-solid fa-underline"></i></button>
+                                                    <button title="Strikethrough"><i
+                                                            class="fa-solid fa-strikethrough"></i></button>
+                                                    <button title="Align Left"><i
+                                                            class="fa-solid fa-align-left"></i></button>
+                                                    <button title="Align Center"><i
+                                                            class="fa-solid fa-align-center"></i></button>
+                                                    <button title="Align Right"><i
+                                                            class="fa-solid fa-align-right"></i></button>
+                                                    <button title="Justify"><i
+                                                            class="fa-solid fa-align-justify"></i></button>
+                                                    <button title="Link"><i class="fa-solid fa-link"></i></button>
+                                                </div>
+                                                <textarea class="form-control" id="exampleTextarea1" rows="4" name="description"></textarea>
+                                            </div>
+
+                                            <form method="post" enctype="multipart/form-data">
+                                                <div class="form-group">
+                                                    <label>File upload</label>
+                                                    <input type="file" name="thumbnail" class="file-upload-default">
+                                                    <div class="input-group col-xs-12">
+                                                        <input type="text" class="form-control file-upload-info"
+                                                            name="thumbnail" placeholder="Upload Image">
+                                                        <span class="input-group-append">
+                                                            <button class="file-upload-browse btn btn-primary"
+                                                                type="button">Upload</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword4">Inventory</label>
+                                            </div>
+                                            <div class="container mt-4">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="list-group" id="list-tab" role="tablist">
+                                                            <a class="list-group-item list-group-item-action active"
+                                                                id="list-pricing-list" data-bs-toggle="list"
+                                                                href="#list-pricing" role="tab"
+                                                                style="background-color: #191c24; color: #ffffff; border-color: grey;">Pricing</a>
+                                                            <a class="list-group-item list-group-item-action"
+                                                                id="list-restock-list" data-bs-toggle="list"
+                                                                href="#list-restock" role="tab"
+                                                                style="background-color: #191c24; color: #ffffff; border-color: grey;">Restock</a>
+                                                            <a class="list-group-item list-group-item-action"
+                                                                id="list-shipping-list" data-bs-toggle="list"
+                                                                href="#list-shipping" role="tab"
+                                                                style="background-color: #191c24; color: #ffffff; border-color: grey;">Shipping</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="tab-content" id="nav-tabContent"
+                                                            style="background-color: #191c24; border-top: 1px;">
+                                                            <div class="tab-pane fade show active" id="list-pricing"
+                                                                role="tabpanel" style="background-color: #191c24;">
+                                                                <label>Regular price: <input type="number"
+                                                                        class="form-control" name="price"></label>
+                                                                <label>Sale price: <input type="number"
+                                                                        class="form-control" name="discount"></label>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="list-restock" role="tabpanel">
+
+                                                                <form method="POST" action="">
+                                                                    <label>Quantity:
+                                                                        <input type="number" class="form-control" name="stock_input">
+                                                                        <button type="submit" name="confirm_stock" class="btn btn-primary mt-2">Confirm</button>
+                                                                    </label>
+                                                                </form>
+                                                                <p>Product in stock now: <?php echo $stock; ?></p>
+
+
+                                                            </div>
+
+                                                            <div class="tab-pane fade" id="list-shipping" role="tabpanel">
+                                                                <label class="form-check">
+                                                                    <input class="form-check-input" type="radio"
+                                                                        name="shipping"> Fulfilled by Seller
+                                                                </label>
+                                                                <label class="form-check">
+                                                                    <input class="form-check-input" type="radio"
+                                                                        name="shipping" checked> Fulfilled by Phoenix
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
                                     </div>
-                                    <div>
-                                        <h3><strong>Variants</strong></h3>
-                                        <div id="variant-container">
-                                            <div class="variant-group">
-                                                <label>Options <a href="#" class="remove-option"
-                                                        onclick="removeOption(this)">Remove</a></label>
-                                                <select class="form-select">
-                                                    <option value="size">Size</option>
-                                                    <option value="color">Color</option>
-                                                    <option value="weight">Weight</option>
+                                    <div class="col-sm-4" style="padding: 20px;">
+                                        <div>
+                                            <h3>Organize</h3>
+                                            <div class="organize-section">
+                                                <label for="category" style="color: #ffffff;">Category <a href="#"
+                                                        class="add-new">Add new
+                                                        category</a></label>
+                                                <select id="category" name="category">
+                                                    <option value="mens-clothing">Men's Clothing</option>
+                                                    <option value="womens-clothing">Women's Clothing</option>
+                                                    <option value="accessories">Accessories</option>
                                                 </select>
-                                                <textarea placeholder="Enter values..."
-                                                    style="width: 100%; padding: 10px; color: black;"></textarea>
+                                            </div>
+                                            <div class="organize-section">
+                                                <label for="vendor" style="color: #ffffff;">Vendor <a href="#"
+                                                        class="add-new">Add new
+                                                        vendor</a></label>
+                                                <select id="vendor" name="vendor">
+                                                    <option value="mens-clothing">Men's Clothing</option>
+                                                    <option value="vendor2">Vendor 2</option>
+                                                    <option value="vendor3">Vendor 3</option>
+                                                </select>
+                                            </div>
+                                            <div class="organize-section">
+                                                <label for="collection" style="color: #ffffff;">Collection</label>
+                                                <select id="collection" name="collection">
+                                                    <option value="" disabled selected>Select a collection</option>
+                                                    <option value="collection1">Collection 1</option>
+                                                    <option value="collection2">Collection 2</option>
+                                                </select>
+                                            </div>
+                                            <div class="organize-section">
+                                                <label for="tags" style="color: #ffffff;">Tags <a href="#"
+                                                        class="view-all">View
+                                                        all tags</a></label>
+                                                <select id="tags" name="tags">
+                                                    <option value="mens-clothing">Men's Clothing</option>
+                                                    <option value="tag2">Tag 2</option>
+                                                    <option value="tag3">Tag 3</option>
+                                                </select>
                                             </div>
                                         </div>
+                                        <div>
+                                            <h3><strong>Variants</strong></h3>
+                                            <div id="variant-container">
+                                                <div class="variant-group">
+                                                    <label>Options <a href="#" class="remove-option"
+                                                            onclick="removeOption(this)">Remove</a></label>
+                                                    <select class="form-select">
+                                                        <option value="size">Size</option>
+                                                        <option value="color">Color</option>
+                                                        <option value="weight">Weight</option>
+                                                    </select>
+                                                    <textarea placeholder="Enter values..."
+                                                        style="width: 100%; padding: 10px; color: black;"></textarea>
+                                                </div>
+                                            </div>
 
-                                        <button type="button" onclick="addOption()" style="margin-top: 10px;"
-                                            class="btn btn-primary">
-                                            + Add another option
-                                        </button>
+                                            <button type="button" onclick="addOption()" style="margin-top: 10px;"
+                                                class="btn btn-primary">
+                                                + Add another option
+                                            </button>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
 
                         </div>
                     </div>
@@ -595,8 +695,9 @@
 
             </div>
         </div>
-
+        </form>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- container-scroller -->
     <!-- plugins:js -->
@@ -647,47 +748,47 @@
             group.remove();
         }
     </script>
-<script>
-    function execCommand(command, value = null) {
-        document.execCommand(command, false, value);
-    }
+    <script>
+        function execCommand(command, value = null) {
+            document.execCommand(command, false, value);
+        }
 
-    document.querySelectorAll('.toolbar button').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault(); // Ngăn form submit nếu có
-            const command = button.getAttribute('title').toLowerCase();
+        document.querySelectorAll('.toolbar button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault(); // Ngăn form submit nếu có
+                const command = button.getAttribute('title').toLowerCase();
 
-            switch (command) {
-                case 'undo':
-                case 'redo':
-                case 'bold':
-                case 'italic':
-                case 'underline':
-                case 'strikethrough':
-                    execCommand(command);
-                    break;
-                case 'align left':
-                    execCommand('justifyLeft');
-                    break;
-                case 'align center':
-                    execCommand('justifyCenter');
-                    break;
-                case 'align right':
-                    execCommand('justifyRight');
-                    break;
-                case 'justify':
-                    execCommand('justifyFull');
-                    break;
-                case 'link':
-                    const url = prompt('Enter the URL:');
-                    if (url) {
-                        execCommand('createLink', url);
-                    }
-                    break;
-            }
+                switch (command) {
+                    case 'undo':
+                    case 'redo':
+                    case 'bold':
+                    case 'italic':
+                    case 'underline':
+                    case 'strikethrough':
+                        execCommand(command);
+                        break;
+                    case 'align left':
+                        execCommand('justifyLeft');
+                        break;
+                    case 'align center':
+                        execCommand('justifyCenter');
+                        break;
+                    case 'align right':
+                        execCommand('justifyRight');
+                        break;
+                    case 'justify':
+                        execCommand('justifyFull');
+                        break;
+                    case 'link':
+                        const url = prompt('Enter the URL:');
+                        if (url) {
+                            execCommand('createLink', url);
+                        }
+                        break;
+                }
+            });
         });
-    });
-</script>
+    </script>
 
 
 </body>
