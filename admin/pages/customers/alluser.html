@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -478,43 +477,48 @@
                 </li>
             </ul>
         </nav>
-        <!-- partial -->
-        <div class="container-fluid">
-            <div class="card mt-4">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <input type="text" class="form-control w-25" placeholder="Search Order">
-                        <div>
-                            <select class="form-select d-inline-block w-auto">
-                                <option>25</option>
-                                <option>50</option>
-                                <option>100</option>
-                            </select>
+            <!-- Main content -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                  <div class="d-flex justify-content-between align-items-center mb-3">
+                        <input type="text" class="form-control w-25" placeholder="Search User"> 
+                        <div> 
                             <button class="btn btn-secondary mx-2" disabled>Export</button>
-                            <button class="btn btn-primary">+ Add Customer</button>
+                            <button class="btn btn-primary">+ Add User</button> 
                         </div>
-                    </div>
-                    <div class="custom-table-container">
-                        <table class="table align-middle custom-table">
-                            <thead>
-                                <tr>
-                                    <th scope="col"><input type="checkbox"></th>
-                                    <th scope="col">Customer</th>
-                                    <th scope="col">Customer ID</th>
-                                    <th scope="col">Order</th>
-                                    <th scope="col">Total Spent</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Không có giá trị trong bảng -->
-                            </tbody>
-                        </table>
+                    </div>  
+                                  <h4 class="card-title">Quản lý người dùng</h4>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Họ tên</th>
+                                                    <th>Email</th>
+                                                    <th>Số điện thoại</th>
+                                                    <th>Địa chỉ</th>
+                                                    <th>Mật khẩu</th>
+                                                    <th>Vai trò</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Thêm các dòng dữ liệu khác ở đây -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="../../template/assets/vendors/js/vendor.bundle.base.js"></script>

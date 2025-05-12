@@ -62,7 +62,6 @@ if (isset($_GET['edit'])) {
 }
 ?>
 
-<!-- HTML giữ nguyên -->
 
 <!DOCTYPE html>
 <html lang="en">
