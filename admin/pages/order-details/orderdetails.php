@@ -31,59 +31,22 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-
-        .edit-link {
-            color: #6366F1;
-            /* indigo-500 */
-            text-decoration: none;
-            font-size: 15px;
+        .custom-select-box {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: #111;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 4px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
         }
 
-        .edit-link:hover {
-            text-decoration: underline;
+        .custom-select-box option {
+            background-color: #111;
+            color: #fff;
         }
-        .timeline {
-  list-style: none;
-  padding: 0;
-  position: relative;
-  margin: 0;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 16px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #cbd5e0; /* light blue-gray line */
-}
-
-.timeline-item {
-  position: relative;
-  padding-left: 40px;
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.timeline-icon {
-  position: absolute;
-  left: 8px;
-  top: 5px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #ccc;
-}
-
-.timeline-time {
-  white-space: nowrap;
-  font-size: 0.875rem;
-}
-
-
     </style>
 </head>
 
@@ -462,42 +425,13 @@
 
             <div class="main-panel">
                 <div class="content-wrapper">
-
-                    <div class="card">
-                        <div class="row">
-                            <div class="card-body">
-                                <div class="flex justify-between items-center px-6 py-4 rounded"
-                                    style="background-color: #191c24;">
-                                    <!-- Bên trái: Order info + trạng thái -->
-                                    <div class="flex items-center space-x-4">
-                                        <div>
-                                            <h2 class="text-lg font-semibold text-white-800">Order #32543</h2>
-                                            <p class="text-sm text-gray-500">Aug 17, 2025, 5:48 (ET)</p>
-                                        </div>
-                                        <!-- Trạng thái -->
-                                        <div class="flex space-x-2">
-                                            <span
-                                                class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">Paid</span>
-                                            <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm">Ready to
-                                                Pickup</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Bên phải: Nút Delete -->
-                                    <button
-                                        class="bg-red-100 text-red-600 px-4 py-2 rounded text-sm font-medium hover:bg-red-200 transition">
-                                        Delete Order
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row ">
+                    <div class="row">
                         <div class="col-md-8 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Order details</h4>
-                                    <div class="col-md-8 table-responsive">
+                                    <h4 class="card-title"><strong>Orders #</strong></h4>
+                                     <h6 class="mb-0">Customer ID :</h6>
+                                    <div class="table-responsive">
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -509,10 +443,12 @@
                                                         </div>
                                                     </th>
                                                     <th> PRODUCTS </th>
+                                                    <th> COLOR </th>
+                                                    <th> SIZE </th>
                                                     <th> PRICE </th>
-                                                    <th> QTY </th>
+                                                    <th> QUANTITY </th>
                                                     <th> TOTAL </th>
-
+                                                    <th> Payment Status </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -531,8 +467,11 @@
                                                     <td> 02312 </td>
                                                     <td> $14,500 </td>
                                                     <td> Dashboard </td>
-
-
+                                                    <td> Credit card </td>
+                                                    <td> 04 Dec 2019 </td>
+                                                    <td>
+                                                        <div class="badge badge-outline-success">Approved</div>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -549,8 +488,11 @@
                                                     <td> 02312 </td>
                                                     <td> $14,500 </td>
                                                     <td> Website </td>
-
-
+                                                    <td> Cash on delivered </td>
+                                                    <td> 04 Dec 2019 </td>
+                                                    <td>
+                                                        <div class="badge badge-outline-warning">Pending</div>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -567,8 +509,11 @@
                                                     <td> 02312 </td>
                                                     <td> $14,500 </td>
                                                     <td> App design </td>
-
-
+                                                    <td> Credit card </td>
+                                                    <td> 04 Dec 2019 </td>
+                                                    <td>
+                                                        <div class="badge badge-outline-danger">Rejected</div>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -585,8 +530,11 @@
                                                     <td> 02312 </td>
                                                     <td> $14,500 </td>
                                                     <td> Development </td>
-
-
+                                                    <td> Online Payment </td>
+                                                    <td> 04 Dec 2019 </td>
+                                                    <td>
+                                                        <div class="badge badge-outline-success">Approved</div>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -603,160 +551,204 @@
                                                     <td> 02312 </td>
                                                     <td> $14,500 </td>
                                                     <td> Website </td>
-
+                                                    <td> Credit card </td>
+                                                    <td> 04 Dec 2019 </td>
+                                                    <td>
+                                                        <div class="badge badge-outline-success">Approved</div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="4" class="text-end"><strong>Subtotal:</strong></td>
-                                                    <td><strong>$2093</strong></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="4" class="text-end"><strong>Discount:</strong></td>
-                                                    <td><strong>$2</strong></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="4" class="text-end"><strong>Tax:</strong></td>
-                                                    <td><strong>$28</strong></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="4" class="text-end"><strong>Total:</strong></td>
-                                                    <td><strong>$2113</strong></td>
-                                                </tr>
-                                            </tfoot>
                                         </table>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-4 grid-margin stretch-card">
+                            <div class="card custom-summary-card" style="min-height: auto; height: auto;">
+                                <div class="card-body">
+                                    <h4 class="card-title"><strong>Summary</strong></h4>
+
+                                    <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
+                                        <h6 class="mb-0">Item subtotal :</h6>
+                                        <h6 class="font-weight-bold mb-0">$236</h6>
+                                    </div>
+
+                                    <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
+                                        <h6 class="mb-0">Discount :</h6>
+                                        <h6 class="font-weight-bold mb-0 text-danger">-$59</h6>
+                                    </div>
+
+                                    <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
+                                        <h6 class="mb-0">Tax :</h6>
+                                        <h6 class="font-weight-bold mb-0">$126.20</h6>
+                                    </div>
+
+                                    <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
+                                        <h6 class="mb-0">Subtotal :</h6>
+                                        <h6 class="font-weight-bold mb-0">$665</h6>
+                                    </div>
+
+                                    <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
+                                        <h6 class="mb-0">Shipping Cost :</h6>
+                                        <h6 class="font-weight-bold mb-0">$30</h6>
+                                    </div>
+
+                                    <!-- Đường gạch ngang -->
+                                    <hr class="my-2" style="border-top: 1px solid #ccc;" />
+
+                                    <!-- TOTAL -->
+                                    <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
+                                        <h5 class="mb-0">Total :</h5>
+                                        <h5 class="font-weight-bold mb-0">$695.20</h5>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="row justify-content-center">
-                                        <!-- Customer + Shipping Info -->
-                                        <div class="card p-4 grid-margin">
-                                            <h5><strong>Customer details</strong></h5>
-                                            <div class="mt-3 d-flex align-items-center">
-                                                <div class="preview-thumbnail">
-                                                    <img src="../../template/assets/images/faces/face15.jpg"
-                                                        class="img-xs rounded-circle" />
-                                                </div>
-                                                <div class="ms-2">
-                                                    <strong>Shamus Tuttle</strong><br />
-                                                    <small>Customer ID: #58909</small>
-                                                </div>
-                                            </div>
-                                            <div class="mt-3 d-flex align-items-center">
-                                                <div style="background:#e3ffe3; border-radius: 50%; padding: 10px;">
-                                                    🛒
-                                                </div>
-                                                <span class="ms-2">12 Orders</span>
-                                            </div>
-                                            <div class="mt-3">
-                                                <h6><strong>Contact info</strong> <a href="#"
-                                                        class="float-end text-primary">Edit</a></h6>
-                                                <p class="mb-1">Email: Shamus889@yahoo.com</p>
-                                                <p>Mobile: +1 (609) 972-22-22</p>
-                                            </div>
-                                        </div>
-                                        <!-- Shipping Address -->
-                                        <div class="card p-4 grid-margin">
-                                            <h6><strong>Shipping address</strong> <a href="#"
-                                                    class="float-end text-primary">Edit</a></h6>
-                                            <p class="mb-0">45 Roker Terrace</p>
-                                            <p class="mb-0">Latheronwheel</p>
-                                            <p class="mb-0">KW5 8NW, London</p>
-                                            <p>UK</p>
-                                        </div>
+                                    <div class="row text-white">
+                                        <!-- Billing details -->
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-bold mb-3">Billing details</h5>
 
-                                        <!-- Billing Address -->
-                                        <div class="card p-4 grid-margin">
-                                            <h6><strong>Billing address</strong> <a href="#"
-                                                    class="float-end text-primary">Edit</a>
-                                            </h6>
-                                            <p class="mb-0">45 Roker Terrace</p>
-                                            <p class="mb-0">Latheronwheel</p>
-                                            <p class="mb-0">KW5 8NW, London</p>
-                                            <p>UK</p>
-                                            <br><br>
-                                            <p><strong>Mastercard</strong><br />
-                                                Card Number: ******4291</p>
-                                       
-                                        </div>
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-account-outline mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Customer</small><br />
+                                                    <a href="#" class="text-blue-700">Shatinon Mekalan</a>
+                                                </div>
+                                            </div>
 
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-email-outline mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Email</small><br />
+                                                    <span class="text-blue-700">shatinon@jeemail.com</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-phone-outline mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Phone</small><br />
+                                                    <span class="text-blue-700">+1234567890</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-home-outline mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Address</small><br />
+                                                    <span class="text-white">Shatinon Mekalan<br />Vancouver, British
+                                                        Columbia,<br />Canada</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Shipping details -->
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-bold mb-3">Shipping details</h5>
+
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-email-outline mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Email</small><br />
+                                                    <span class="text-blue-700">shatinon@jeemail.com</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-phone-outline mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Phone</small><br />
+                                                    <span class="text-blue-700">+1234567890</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-calendar-blank-outline mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Shipping Date</small><br />
+                                                    <span class="text-white">12 Nov, 2021</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-home-outline mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Address</small><br />
+                                                    <span class="text-white">Shatinon Mekalan<br />Vancouver, British
+                                                        Columbia<br />Canada</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Other details -->
+                                    <div class="row mt-4 text-white">
+                                        <div class="col-12">
+                                            <h5 class="font-weight-bold mb-3">Other details</h5>
+
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-gift-outline mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Gift order</small><br />
+                                                    <span class="text-white">Yes</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-package-variant-closed mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Wrapping</small><br />
+                                                    <span class="text-white">Magic wrapper</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-start">
+                                                <i class="mdi mdi-account-box-outline mr-2"></i>
+                                                <div>
+                                                    <small class="font-weight-bold">Recipient</small><br />
+                                                    <span class="text-white">Monjito Shiniga</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+                        <div class="col-md-4 grid-margin stretch-card">
+                            <div class="card custom-summary-card" style="min-height: auto; height: auto;">
+                                <div class="card-body">
+                                    <h4 class="font-weight-bold card-title">Order status</h4>
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Payment status</label>
+                                        <select id="destatus" class="custom-select-box">
+                                            <option value="processing">Processing</option>
+                                            <option value="cancel">Cancel</option>
+                                            <option value="completed">Completed</option>
 
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                          <div class="card">
-                            <div class="card-body">
-                              <h4 class="card-title">Shipping activity</h4>
-                              <ul class="timeline">
-                                <li class="timeline-item">
-                                  <div class="timeline-icon bg-primary"></div>
-                                  <div class="timeline-content">
-                                    <h6 class="fw-bold mb-1">Order was placed <span class="text-muted">(Order ID: #32543)</span></h6>
-                                    <p class="text-muted mb-0">Your order has been placed successfully</p>
-                                  </div>
-                                  <div class="timeline-time text-muted">Tuesday 11:29 AM</div>
-                                </li>
-                      
-                                <li class="timeline-item">
-                                  <div class="timeline-icon bg-primary"></div>
-                                  <div class="timeline-content">
-                                    <h6 class="fw-bold mb-1">Pick-up</h6>
-                                    <p class="text-muted mb-0">Pick-up scheduled with courier</p>
-                                  </div>
-                                  <div class="timeline-time text-muted">Wednesday 11:29 AM</div>
-                                </li>
-                      
-                                <li class="timeline-item">
-                                  <div class="timeline-icon bg-primary"></div>
-                                  <div class="timeline-content">
-                                    <h6 class="fw-bold mb-1">Dispatched</h6>
-                                    <p class="text-muted mb-0">Item has been picked up by courier</p>
-                                  </div>
-                                  <div class="timeline-time text-muted">Thursday 11:29 AM</div>
-                                </li>
-                      
-                                <li class="timeline-item">
-                                  <div class="timeline-icon bg-primary"></div>
-                                  <div class="timeline-content">
-                                    <h6 class="fw-bold mb-1">Package arrived</h6>
-                                    <p class="text-muted mb-0">Package arrived at an Amazon facility, NY</p>
-                                  </div>
-                                  <div class="timeline-time text-muted">Saturday 15:20 AM</div>
-                                </li>
-                      
-                                <li class="timeline-item">
-                                  <div class="timeline-icon bg-primary"></div>
-                                  <div class="timeline-content">
-                                    <h6 class="fw-bold mb-1">Dispatched for delivery</h6>
-                                    <p class="text-muted mb-0">Package has left an Amazon facility, NY</p>
-                                  </div>
-                                  <div class="timeline-time text-muted">Today 14:12 PM</div>
-                                </li>
-                      
-                                <li class="timeline-item">
-                                  <div class="timeline-icon bg-secondary"></div>
-                                  <div class="timeline-content">
-                                    <h6 class="fw-bold mb-1">Delivery</h6>
-                                    <p class="text-muted mb-0">Package will be delivered by tomorrow</p>
-                                  </div>
-                                </li>
-                              </ul>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Fulfillment status</label>
+                                        <select id="paystatus" class="custom-select-box">
+                                            <option value="unfulfilled">Unfulfilled</option>
+                                            <option value="fulfilled">Fulfilled</option>
+                                            <option value="pending">Pending</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                             </div>
-                          </div>
                         </div>
-                      </div>
-                      
+                        
+                    </div>
+
                     <!-- content-wrapper ends -->
                     <!-- partial:partials/_footer.html -->
                     <footer class="footer">
