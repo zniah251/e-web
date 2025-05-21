@@ -964,11 +964,3 @@ INSERT INTO product (cid, title, price, discount, thumbnail, description, stock,
 VALUES (16, 'Tacha Bubble Skirt', 150000, 120000, 'admin/assets/images/Tacha Bubble Skirt.jpg', '...', 10, 'M', 5, 0, 'Caro');
 
 INSERT INTO blog (title, content, image) VALUES ('Test', 'Nội dung thử nghiệm', 'test.jpg');
-
-
-SET @i := 0;
-UPDATE voucher SET vid = (@i := @i + 1);
-
-
-ALTER TABLE voucher ADD PRIMARY KEY (vid);
-ALTER TABLE voucher MODIFY vid INT(11) NOT NULL AUTO_INCREMENT;
