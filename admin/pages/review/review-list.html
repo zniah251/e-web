@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Manage Reviews</title>
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="../../../admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../../admin/template/assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+    <!-- Core JS Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <!-- Bootstrap JS for Dropdown & Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        /* General Dark Theme Styles (Copied from product_list.html) */
+        body { background-color: #1e1e2f; color: #ffffff; font-family: Arial, sans-serif; }
+        .card { background-color: #2c2f33; border: none; border-radius: 8px; }
+        .card-title, .card-description { color: #f8f9fa; }
+        .footer { background-color: #2c2f33; color: #adb5bd; }
+        .navbar { background-color: #2c2f33 !important; }
+        .sidebar { background: #2c2f33; }
+        .nav-link, .menu-title, .menu-icon i { color: #adb5bd !important; }
+        .nav-item.active > .nav-link, .nav-item.active .menu-icon i { color: #ffffff !important; }
+        .nav-link:hover, .nav-link:hover .menu-icon i, .nav-link:hover .menu-title { color: #ffffff !important; }
+        .form-control { background-color: #3a3f44; color: #ffffff; border: 1px solid #495057; }
+        .form-control::placeholder { color: #adb5bd; }
+
+        /* Table Styles (Copied from product_list.html) */
+        table.table-striped td, table.table-striped th { color: #ffffff !important; border-top: 1px solid #495057; vertical-align: middle; }
+        table.table-striped thead th { border-bottom: 2px solid #495057; }
+        table.table-striped tbody tr:nth-child(odd) td { background-color: #2c2f33; }
+        table.table-striped tbody tr:nth-child(even) td { background-color: #23272a; }
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_paginate .paginate_button { color: #adb5bd !important; }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled { color: #6c757d !important; }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover { background: #3a3f44 !important; border-color: #495057 !important; color: #ffffff !important; }
+        .dataTables_wrapper .dataTables_length select { background-color: #3a3f44; color: #ffffff; border: 1px solid #495057; }
+
+        /* Badge Styles (Copied and adapted from product_list.html) */
+        .badge { padding: 6px 12px; font-size: 0.9em; margin-right: 8px; }
+        .badge-success { background-color: #d4edda; color: #155724; } /* Published */
+        .badge-warning { background-color: #ffeeba; color: #856404; } /* Pending */
+        .badge-danger { background-color: #f8d7da; color: #721c24; } /* Rejected (example) */
+        .badge-info { background-color: #d1ecf1; color: #0c5460; }
+        .badge:not([class*="badge-"]) { background-color: #6c757d; color: #fff; }
+
+        /* Button Styles (Copied from product_list.html) */
+        .btn-primary { background-color: #007bff; border-color: #007bff; color: #fff; }
+        .btn-primary:hover { background-color: #0056b3; border-color: #0056b3; }
+        .btn-danger { background-color: #dc3545; border-color: #dc3545; color: #fff; }
+        .btn-danger:hover { background-color: #c82333; border-color: #bd2130; }
+        .btn-secondary { background-color: #6c757d; border-color: #6c757d; color: #fff; }
+        .btn-secondary:hover { background-color: #5a6268; border-color: #545b62; }
+        .btn-success { background-color: #28a745; border-color: #28a745; color: #fff; } /* Approve */
+        .btn-success:hover { background-color: #218838; border-color: #1e7e34; }
+        .btn-warning { background-color: #ffc107; border-color: #ffc107; color: #212529; } /* Pending/Edit */
+        .btn-warning:hover { background-color: #e0a800; border-color: #d39e00; }
+
+        /* Review Specific Styles */
+        .product-cell img { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 10px; }
+        .reviewer-cell img { width: 30px; height: 30px; border-radius: 50%; margin-right: 8px; }
+        .rating-stars .fa-star { color: #ffc107; /* Yellow for stars */ margin-right: 2px; }
+        .rating-stars .fa-star-o { color: #adb5bd; /* Grey for empty stars */ margin-right: 2px; }
+        .review-text { max-width: 300px; white-space: normal; /* Allow wrapping */ }
+        .action-buttons .btn { margin-right: 5px; }
+
+        /* Hide default DataTables buttons container */
+        .dt-buttons { display: none !important; }
+
+        /* Dropdown Menu Style (Copied from product_list.html) */
+        .dropdown-menu { background-color: #3a3f44; border: 1px solid #495057; }
+        .dropdown-item { color: #ffffff; }
+        .dropdown-item:hover { background-color: #007bff; color: #ffffff; }
+
+        /* Toast notification (Copied from product_list.html) */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1040; }
+        .toast { background-color: #333; color: white; padding: 15px 25px; border-radius: 5px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); display: none; min-width: 250px; }
+        .toast.show { display: block; animation: fadeInOut 3s forwards; }
+        @keyframes fadeInOut { 0% { opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; } }
+
+        /* Confirm delete modal (Copied from product_list.html) */
+        .modal { display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; outline: 0; background-color: rgba(0, 0, 0, 0.5); }
+        .modal-dialog { position: relative; width: auto; margin: .5rem; pointer-events: none; display: flex; align-items: center; min-height: calc(100% - 1rem); }
+        @media (min-width: 576px) { .modal-dialog { max-width: 500px; margin: auto; min-height: calc(100% - 3.5rem); } }
+        .modal-content { position: relative; display: flex; flex-direction: column; width: 100%; pointer-events: auto; background-color: #2c2f33; background-clip: padding-box; border: 1px solid #444; border-radius: 8px; outline: 0; color: #ffffff; }
+        .modal-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 1rem 1rem; border-bottom: 1px solid #444; border-top-left-radius: calc(.3rem - 1px); border-top-right-radius: calc(.3rem - 1px); }
+        .modal-header .btn-close { padding: .5rem .5rem; margin: -.5rem -.5rem -.5rem auto; background: transparent; border: 0; color: #fff; opacity: .5; }
+        .modal-title { margin-bottom: 0; line-height: 1.5; font-size: 1.25rem; }
+        .modal-body { position: relative; flex: 1 1 auto; padding: 1rem; }
+        .modal-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; padding: .75rem; border-top: 1px solid #444; border-bottom-right-radius: calc(.3rem - 1px); border-bottom-left-radius: calc(.3rem - 1px); }
+        .modal-footer > * { margin: .25rem; }
+
+        /* Hide the DataTables Buttons info overlay */
+        div.dt-button-info { display: none !important; }
+
+        /* Ensure modal backdrop is styled correctly */
+        .modal-backdrop { z-index: 1050 !important; background-color: rgba(0,0,0,0.5) !important; }
+        .modal { z-index: 1060 !important; }
+    </style>
+</head>
+
+<body>
+    <div class="container-scroller">
+        <!-- Sidebar -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+                <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo1.png" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
+            </div>
+            <ul class="nav">
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="../../index.html">
+                        <span class="menu-icon"><i class="mdi mdi-speedometer"></i></span>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="../product/product_list.html">
+                        <span class="menu-icon"><i class="mdi mdi-table-large"></i></span>
+                        <span class="menu-title">Product List</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="../order-list/order_list.html">
+                        <span class="menu-icon"><i class="mdi mdi-cart"></i></span>
+                        <span class="menu-title">Order List</span>
+                    </a>
+                </li>
+                 <li class="nav-item menu-items active"> <!-- Set active class for Reviews -->
+                    <a class="nav-link" href="../reviews/review_list.html">
+                        <span class="menu-icon"><i class="mdi mdi-star-circle"></i></span>
+                        <span class="menu-title">Manage Reviews</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- Top Navbar -->
+            <nav class="navbar p-0 fixed-top d-flex flex-row">
+                 <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+                    <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
+                 </div>
+                <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                        <span class="mdi mdi-menu"></span>
+                    </button>
+                    <ul class="navbar-nav w-100">
+                        <li class="nav-item w-100">
+                            <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                                <input type="text" id="reviewSearch" class="form-control" placeholder="Search reviews...">
+                            </form>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav navbar-nav-right">
+                         <li class="nav-item dropdown">
+                            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
+                                <i class="mdi mdi-bell"></i>
+                                <span class="count bg-danger"></span>
+                            </a>
+                            <!-- Add dropdown menu for notifications -->
+                        </li>
+                        <li class="nav-item nav-profile dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
+                                <div class="nav-profile-img">
+                                     <img src="../../assets/images/faces/face1.jpg" alt="image">
+                                     <span class="availability-status online"></span>
+                                </div>
+                                <div class="nav-profile-text">
+                                    <p class="mb-1 text-black">Admin User</p>
+                                </div>
+                            </a>
+                             <!-- Add dropdown menu for profile -->
+                        </li>
+                    </ul>
+                     <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                        <span class="mdi mdi-format-line-spacing"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Main Panel -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="page-header">
+                        <h3 class="page-title"> Manage Reviews </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">E-commerce</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Manage Reviews</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <h4 class="card-title">Review List</h4>
+                                            <p class="card-description">Approve, edit, or delete customer reviews</p>
+                                        </div>
+                                        <!-- Optional: Add Export or Filter buttons if needed -->
+                                        <!-- <div class="dropdown"> ... </div> -->
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table id="reviewTable" class="table table-striped" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 30px;"><input type="checkbox" id="selectAll"></th>
+                                                    <th>Product</th>
+                                                    <th>Reviewer</th>
+                                                    <th>Review</th>
+                                                    <th>Rating</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                    <th style="width: 150px;">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="reviewTableBody">
+                                                <!-- Data will be populated by DataTables -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer -->
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © YourWebsite.com 2024</span>
+                         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+                    </div>
+                </footer>
+            </div> <!-- main-panel ends -->
+        </div> <!-- page-body-wrapper ends -->
+    </div> <!-- container-scroller ends -->
+
+    <!-- Toast notifications container -->
+    <div class="toast-container"></div>
+
+    <!-- Delete confirmation modal -->
+    <div id="deleteModal" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm Delete</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete this review?</p>
+            <p><strong id="deleteReviewInfo"></strong></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" id="confirmDelete" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Base Template JS -->
+    <script src="../../../admin/template/assets/js/off-canvas.js"></script>
+    <script src="../../../admin/template/assets/js/hoverable-collapse.js"></script>
+    <script src="../../../admin/template/assets/js/misc.js"></script>
+    <script src="../../../admin/template/assets/js/settings.js"></script>
+    <script src="../../../admin/template/assets/js/todolist.js"></script>
+
+    <!-- Page Specific Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Sample Data ---
+            // Replace with actual data loading (AJAX)
+            // Use placeholder paths for images
+            const reviews = [
+                { id: 1, product: { name: 'Air Jordan XI', image: '../../assets/images/faces/face3.jpg' }, reviewer: { name: 'Alice Green', avatar: '../../assets/images/faces/face1.jpg' }, review: 'Absolutely love these shoes! Perfect fit and style.', rating: 5, date: '2024-07-25', status: 'Published' },
+                { id: 2, product: { name: 'Amazon Echo Dot', image: '../../assets/images/faces/face4.jpg' }, reviewer: { name: 'Bob White', avatar: '../../assets/images/faces/face2.jpg' }, review: 'Works great, easy setup. Sound quality is decent for the price.', rating: 4, date: '2024-07-24', status: 'Published' },
+                { id: 3, product: { name: 'Classic Leather Jacket', image: '../../assets/images/faces/face5.jpg' }, reviewer: { name: 'Charlie Black', avatar: '../../assets/images/faces/face3.jpg' }, review: 'The quality is not as expected. Stitching seems weak.', rating: 2, date: '2024-07-23', status: 'Pending' },
+                { id: 4, product: { name: 'Wireless Mouse MX', image: '../../assets/images/faces/face6.jpg' }, reviewer: { name: 'Diana Blue', avatar: '../../assets/images/faces/face4.jpg' }, review: 'Very comfortable and responsive mouse. Worth the investment.', rating: 5, date: '2024-07-22', status: 'Published' },
+                { id: 5, product: { name: 'Organic Green Tea', image: '../../assets/images/faces/face7.jpg' }, reviewer: { name: 'Ethan Gray', avatar: '../../assets/images/faces/face5.jpg' }, review: 'Good flavor, but a bit pricey for the quantity.', rating: 3, date: '2024-07-21', status: 'Pending' },
+                { id: 6, product: { name: 'Air Jordan XI', image: '../../assets/images/faces/face3.jpg' }, reviewer: { name: 'Fiona Purple', avatar: '../../assets/images/faces/face6.jpg' }, review: 'Had an issue with delivery, but the product itself is great.', rating: 4, date: '2024-07-20', status: 'Published' },
+            ];
+
+            // --- Helper Functions ---
+            function showToast(message, type = 'success') {
+                const toastContainer = document.querySelector('.toast-container');
+                if (!toastContainer) return;
+                const toastElement = document.createElement('div');
+                toastElement.className = `toast align-items-center text-white bg-${type === 'danger' ? 'danger' : type === 'warning' ? 'warning' : type === 'info' ? 'info' : 'dark'} border-0`; // Use contextual colors or dark default
+                toastElement.setAttribute('role', 'alert');
+                toastElement.setAttribute('aria-live', 'assertive');
+                toastElement.setAttribute('aria-atomic', 'true');
+                toastElement.innerHTML = `
+                    <div class="d-flex">
+                        <div class="toast-body">${message}</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>`;
+                toastContainer.appendChild(toastElement);
+                const bsToast = new bootstrap.Toast(toastElement, { delay: 3000 });
+                bsToast.show();
+                toastElement.addEventListener('hidden.bs.toast', () => toastElement.remove());
+            }
+
+            function renderRatingStars(rating) {
+                let starsHtml = '<span class="rating-stars">';
+                for (let i = 1; i <= 5; i++) {
+                    starsHtml += `<i class="fa ${i <= rating ? 'fa-star' : 'fa-star-o'}"></i>`; // Use fa-star-o for empty
+                }
+                starsHtml += '</span>';
+                return starsHtml;
+            }
+
+            // --- State Variables ---
+            let currentReviewBeingDeleted = null;
+            const deleteModalElement = document.getElementById('deleteModal');
+            const deleteModal = new bootstrap.Modal(deleteModalElement);
+
+            // --- DataTable Initialization ---
+            const table = $('#reviewTable').DataTable({
+                data: reviews,
+                dom: 'lfrtip', // Standard layout
+                columns: [
+                    // 1. Checkbox
+                    { data: null, orderable: false, searchable: false, className: 'dt-center', render: () => '<input type="checkbox" class="review-checkbox">' },
+                    // 2. Product
+                    { data: 'product', className: 'product-cell', render: d => `<img src="${d.image}" alt="${d.name}"> <span style="color:#fff;">${d.name}</span>` },
+                    // 3. Reviewer
+                    { data: 'reviewer', className: 'reviewer-cell', render: d => `<img src="${d.avatar}" alt="${d.name}"> <span style="color:#fff;">${d.name}</span>` },
+                    // 4. Review Text
+                    { data: 'review', className: 'review-text', render: d => `<span style="color:#fff;">${d}</span>` },
+                    // 5. Rating
+                    { data: 'rating', className: 'dt-center', render: d => renderRatingStars(d) },
+                    // 6. Date
+                    { data: 'date', render: d => `<span style="color:#fff;">${d}</span>` },
+                    // 7. Status
+                    {
+                        data: 'status',
+                        render: d => {
+                            let badgeClass = '';
+                            switch (d) {
+                                case 'Published': badgeClass = 'badge-success'; break;
+                                case 'Pending': badgeClass = 'badge-warning'; break;
+                                // Add more cases if needed (e.g., Rejected: badge-danger)
+                                default: badgeClass = 'badge-secondary';
+                            }
+                            return `<span class="badge ${badgeClass}">${d}</span>`;
+                        }
+                    },
+                    // 8. Actions
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: 'dt-center action-buttons',
+                        render: function(data, type, row) {
+                            let approveButton = '';
+                            if (row.status === 'Pending') {
+                                approveButton = `<button class="btn btn-success btn-sm approve-btn" title="Approve Review" data-id="${row.id}"><i class="fas fa-check"></i></button>`;
+                            }
+                            return `
+                                ${approveButton}
+                                <button class="btn btn-primary btn-sm view-btn" title="View Details" data-id="${row.id}"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-warning btn-sm edit-btn" title="Edit Review" data-id="${row.id}"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm delete-btn" title="Delete Review" data-id="${row.id}"><i class="fas fa-trash-alt"></i></button>
+                            `;
+                        }
+                    }
+                ],
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search reviews..."
+                },
+                // No default buttons needed here unless you want export
+                buttons: [] // Keep empty if no export needed from here
+            });
+
+             // --- Custom Search Input ---
+             $('#reviewSearch').on('keyup', function(){
+                  table.search($(this).val()).draw() ;
+             });
+             $('.dataTables_filter label').contents().filter(function() { return this.nodeType === 3; }).remove();
+             $('.dataTables_filter input').removeClass('form-control-sm');
+
+            // --- Event Listeners ---
+
+            // Select All checkbox functionality
+            $('#selectAll').on('change', function() {
+                $('.review-checkbox').prop('checked', this.checked);
+            });
+
+            // Individual checkboxes affect Select All state
+            $('#reviewTableBody').on('change', '.review-checkbox', function() {
+                const allCount = $('.review-checkbox').length;
+                const checkedCount = $('.review-checkbox:checked').length;
+                $('#selectAll').prop('checked', allCount > 0 && allCount === checkedCount);
+            });
+
+            // Action Buttons
+            $('#reviewTableBody').on('click', '.view-btn', function() {
+                const row = $(this).closest('tr');
+                const data = table.row(row).data();
+                showToast(`Viewing review ID: ${data.id} by ${data.reviewer.name}`, 'info');
+                // Add logic to show review details (e.g., in a modal)
+            });
+
+            $('#reviewTableBody').on('click', '.edit-btn', function() {
+                const row = $(this).closest('tr');
+                const data = table.row(row).data();
+                showToast(`Editing review ID: ${data.id}`, 'warning');
+                // Add logic to open an edit form/modal
+            });
+
+            $('#reviewTableBody').on('click', '.approve-btn', function() {
+                const row = $(this).closest('tr');
+                if (table.row(row).length) {
+                    const data = table.row(row).data();
+                    data.status = 'Published'; // Update status
+                    table.row(row).data(data).draw(false); // Redraw row
+                    showToast(`Review ID: ${data.id} approved!`, 'success');
+                }
+            });
+
+            // Delete button functionality (Show Modal)
+            $('#reviewTableBody').on('click', '.delete-btn', function(e) {
+                e.stopPropagation();
+                const row = $(this).closest('tr');
+                if (table.row(row).length) {
+                    const data = table.row(row).data();
+                    currentReviewBeingDeleted = { row: row, data: data };
+                    $('#deleteReviewInfo').text(`Review by ${data.reviewer.name} on ${data.product.name}`);
+                    deleteModal.show();
+                } else {
+                    console.warn("Delete button clicked on unrecognized row.");
+                }
+            });
+
+            // Confirm Delete button inside Modal
+            $('#confirmDelete').on('click', function() {
+                if (currentReviewBeingDeleted && currentReviewBeingDeleted.row) {
+                    try {
+                        const reviewId = currentReviewBeingDeleted.data.id;
+                        table.row(currentReviewBeingDeleted.row).remove().draw(false);
+                        showToast(`Review ID: ${reviewId} deleted successfully!`, 'success');
+                        deleteModal.hide();
+                    } catch (error) {
+                        console.error("Error deleting review:", error);
+                        showToast('Error deleting review.', 'danger');
+                    } finally {
+                        currentReviewBeingDeleted = null;
+                    }
+                } else {
+                     console.warn("Confirm delete clicked, but no review selected.");
+                     if (deleteModal) deleteModal.hide();
+                }
+            });
+
+            // Handle modal close events
+            deleteModalElement.addEventListener('hidden.bs.modal', function (event) {
+                 if (currentReviewBeingDeleted) {
+                    currentReviewBeingDeleted = null;
+                 }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

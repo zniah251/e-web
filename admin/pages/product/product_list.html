@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Product List</title>
+    <link rel="stylesheet" href="../../../admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../../admin/template/assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            background-color: #1e1e2f;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            background-color: #2c2f33;
+            border: none;
+            border-radius: 8px;
+        }
+        .card-title, .card-description {
+            color: #f8f9fa;
+        }
+        .footer {
+            background-color: #2c2f33;
+            color: #adb5bd;
+        }
+        .navbar {
+             background-color: #1b1e28 !important;
+        }
+        .sidebar {
+            background: #1b1e28;
+        }
+        .nav-link, .menu-title, .menu-icon i {
+            color: #adb5bd !important;
+        }
+        .nav-item.active > .nav-link {
+             color: #ffffff !important;
+             background-color: #252934;
+        }
+        .nav-item.active .menu-icon i {
+             color: #ffffff !important;
+        }
+        .nav-link:hover, .nav-link:hover .menu-icon i, .nav-link:hover .menu-title {
+            color: #ffffff !important;
+            background-color: #252934;
+        }
+        .form-control {
+            background-color: #3a3f44;
+            color: #ffffff;
+            border: 1px solid #495057;
+        }
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+        table.table-striped td, table.table-striped th {
+            color: #ffffff !important;
+            border-top: 1px solid #495057;
+        }
+        table.table-striped thead th {
+            border-bottom: 2px solid #495057;
+        }
+        table.table-striped tbody tr:nth-child(odd) td {
+            background-color: #2c2f33;
+        }
+        table.table-striped tbody tr:nth-child(even) td {
+            background-color: #23272a;
+        }
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            color: #adb5bd !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+            color: #6c757d !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #3a3f44 !important;
+            border-color: #495057 !important;
+            color: #ffffff !important;
+        }
+        .dataTables_wrapper .dataTables_length select {
+             background-color: #3a3f44;
+             color: #ffffff;
+             border: 1px solid #495057;
+        }
+
+        .badge { padding: 6px 12px; font-size: 0.9em; margin-right: 8px; }
+        .badge-success { background-color: #d4edda; color: #155724; }
+        .badge-warning { background-color: #ffc107; color: #212529; }
+        .badge-danger { background-color: #f8d7da; color: #721c24; }
+        .badge-info { background-color: #d1ecf1; color: #0c5460; }
+        .badge-scheduled { background-color: #ffeeba; color: #856404; }
+        .badge:not([class*="badge-"]) { background-color: #6c757d; color: #fff; }
+
+
+        .btn-primary { background-color: #007bff; border-color: #007bff; color: #fff; }
+        .btn-primary:hover { background-color: #0056b3; border-color: #0056b3; }
+        .btn-danger { background-color: #dc3545; border-color: #dc3545; color: #fff; }
+        .btn-danger:hover { background-color: #c82333; border-color: #bd2130; }
+        .btn-secondary { background-color: #6c757d; border-color: #6c757d; color: #fff; }
+        .btn-secondary:hover { background-color: #5a6268; border-color: #545b62; }
+
+        .toggle-switch { position: relative; display: inline-block; width: 34px; height: 20px; vertical-align: middle; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-switch span { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 20px; }
+        .toggle-switch span:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; }
+        .toggle-switch input:checked + span { background-color: #4caf50; }
+        .toggle-switch input:checked + span:before { transform: translateX(14px); }
+
+        .dt-buttons { display: none !important; }
+
+        .dropdown-menu { background-color: #3a3f44; border: 1px solid #495057; }
+        .dropdown-item { color: #ffffff; }
+        .dropdown-item:hover { background-color: #007bff; color: #ffffff; }
+
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1040; }
+        .toast { background-color: #333; color: white; padding: 15px 25px; border-radius: 5px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); display: none; min-width: 250px; }
+        .toast.show { display: block; animation: fadeInOut 3s forwards; }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .modal { display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; outline: 0; background-color: rgba(0, 0, 0, 0.5); }
+        .modal-dialog {
+            position: relative; width: auto; margin: .5rem; pointer-events: none;
+            display: flex;
+            align-items: center;
+            min-height: calc(100% - 1rem);
+        }
+        @media (min-width: 576px) { .modal-dialog { max-width: 500px; margin: auto; min-height: calc(100% - 3.5rem); } }
+        .modal-content { position: relative; display: flex; flex-direction: column; width: 100%; pointer-events: auto; background-color: #2c2f33; background-clip: padding-box; border: 1px solid #444; border-radius: 8px; outline: 0; color: #ffffff; }
+        .modal-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 1rem 1rem; border-bottom: 1px solid #444; border-top-left-radius: calc(.3rem - 1px); border-top-right-radius: calc(.3rem - 1px); }
+        .modal-header .btn-close { padding: .5rem .5rem; margin: -.5rem -.5rem -.5rem auto; background: transparent; border: 0; color: #fff; opacity: .5; }
+        .modal-title { margin-bottom: 0; line-height: 1.5; font-size: 1.25rem; }
+        .modal-body { position: relative; flex: 1 1 auto; padding: 1rem; }
+        .modal-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; padding: .75rem; border-top: 1px solid #444; border-bottom-right-radius: calc(.3rem - 1px); border-bottom-left-radius: calc(.3rem - 1px); }
+        .modal-footer > * {
+             margin: .25rem;
+        }
+
+        div.dt-button-info {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-scroller">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+                <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo1.png" alt="logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
+            </div>
+            <ul class="nav">
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="../../index.html">
+                        <span class="menu-icon"><i class="mdi mdi-speedometer"></i></span>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items active">
+                    <a class="nav-link" href="../product/product_list.html">
+                        <span class="menu-icon"><i class="mdi mdi-table-large"></i></span>
+                        <span class="menu-title">Product List</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="../order-list/order_list.html">
+                        <span class="menu-icon"><i class="mdi mdi-cart"></i></span>
+                        <span class="menu-title">Order List</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container-fluid page-body-wrapper">
+            <nav class="navbar p-0 fixed-top d-flex flex-row">
+                 <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+                    <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
+                 </div>
+                <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                        <span class="mdi mdi-menu"></span>
+                    </button>
+                    <ul class="navbar-nav w-100">
+                        <li class="nav-item w-100">
+                            <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                                <input type="text" id="productSearch" class="form-control" placeholder="Search products">
+                            </form>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav navbar-nav-right">
+                         <li class="nav-item dropdown">
+                            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
+                                <i class="mdi mdi-bell"></i>
+                                <span class="count bg-danger"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item nav-profile dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
+                                <div class="nav-profile-img">
+                                     <img src="../../assets/images/faces/face1.jpg" alt="image">
+                                     <span class="availability-status online"></span>
+                                </div>
+                                <div class="nav-profile-text">
+                                    <p class="mb-1 text-black">Admin User</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                     <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                        <span class="mdi mdi-format-line-spacing"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="page-header">
+                        <h3 class="page-title"> Product List </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Products</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Product List</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <h4 class="card-title">Product Overview</h4>
+                                            <p class="card-description">Manage your products</p>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" id="exportMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Export
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="exportMenu">
+                                                <li><button class="dropdown-item" id="copyButton"><i class="fas fa-copy me-2"></i>Copy</button></li>
+                                                <li><button class="dropdown-item" id="excelButton"><i class="fas fa-file-excel me-2"></i>Excel</button></li>
+                                                <li><button class="dropdown-item" id="pdfButton"><i class="fas fa-file-pdf me-2"></i>PDF</button></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table id="productTable" class="table table-striped" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 30px;"><input type="checkbox" id="selectAll"></th>
+                                                    <th>Product</th>
+                                                    <th>Category</th>
+                                                    <th>Stock</th>
+                                                    <th>SKU</th>
+                                                    <th>Price</th>
+                                                    <th>Qty</th>
+                                                    <th>Status</th>
+                                                    <th style="width: 120px;">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="productTableBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © YourWebsite.com 2024</span>
+                         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container"></div>
+
+    <div id="deleteModal" class="modal" tabindex="-1" style="z-index: 1060;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm Delete</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete this product?</p>
+            <p><strong id="deleteProductInfo"></strong></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" id="confirmDelete" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../../admin/template/assets/js/off-canvas.js"></script>
+    <script src="../../../admin/template/assets/js/hoverable-collapse.js"></script>
+    <script src="../../../admin/template/assets/js/misc.js"></script>
+    <script src="../../../admin/template/assets/js/settings.js"></script>
+    <script src="../../../admin/template/assets/js/todolist.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+
+            const products = [
+                { id: 1, name: 'Air Jordan XI', category: 'Shoes', stock: true, sku: 'AJXI-001', price: '$225.00', qty: 150, status: 'Active' },
+                { id: 2, name: 'Amazon Echo Dot', category: 'Electronics', stock: true, sku: 'ECHO-DOT-5G', price: '$49.99', qty: 587, status: 'Active' },
+                { id: 3, name: 'Classic Leather Jacket', category: 'Apparel', stock: false, sku: 'CLJ-BLK-L', price: '$199.50', qty: 0, status: 'Inactive' },
+                { id: 4, name: 'Wireless Mouse MX', category: 'Accessories', stock: true, sku: 'LOGI-MXM3', price: '$99.99', qty: 320, status: 'Active' },
+                { id: 5, name: 'Organic Green Tea', category: 'Groceries', stock: true, sku: 'OGT-50BAG', price: '$12.75', qty: 800, status: 'Scheduled' },
+                { id: 6, name: 'Gaming Keyboard K95', category: 'Electronics', stock: false, sku: 'COR-K95-RGB', price: '$189.00', qty: 0, status: 'Inactive' },
+                { id: 7, name: 'Running Shoes Ultraboost', category: 'Shoes', stock: true, sku: 'ADI-UB23', price: '$180.00', qty: 210, status: 'Active' },
+                { id: 8, name: 'Smart Thermostat Nest', category: 'Home Goods', stock: true, sku: 'GOOG-NEST-T3', price: '$249.00', qty: 95, status: 'Active' },
+                { id: 9, name: 'Denim Jeans Slim Fit', category: 'Apparel', stock: true, sku: 'LEVI-511-32', price: '$69.50', qty: 450, status: 'Scheduled' },
+                { id: 10, name: 'Bluetooth Speaker JBL', category: 'Electronics', stock: true, sku: 'JBL-FLIP6', price: '$129.95', qty: 180, status: 'Active' },
+                { id: 11, name: 'Yoga Mat Premium', category: 'Sports', stock: true, sku: 'YOGA-MAT-PRM', price: '$35.00', qty: 600, status: 'Active' },
+                { id: 12, name: 'Coffee Maker Keurig', category: 'Home Goods', stock: false, sku: 'KEU-KMINI', price: '$89.99', qty: 0, status: 'Inactive' },
+            ];
+
+            function showToast(message, type = 'success') {
+                const toastContainer = document.querySelector('.toast-container');
+                if (!toastContainer) {
+                    console.error('Toast container not found!');
+                    return;
+                }
+
+                const toastElement = document.createElement('div');
+
+                toastElement.className = 'toast align-items-center text-white bg-dark border-0';
+                toastElement.setAttribute('role', 'alert');
+                toastElement.setAttribute('aria-live', 'assertive');
+                toastElement.setAttribute('aria-atomic', 'true');
+
+                const toastContent = document.createElement('div');
+                toastContent.className = 'd-flex';
+
+                const toastBody = document.createElement('div');
+                toastBody.className = 'toast-body';
+                toastBody.textContent = message;
+
+                const closeButton = document.createElement('button');
+                closeButton.type = 'button';
+                closeButton.className = 'btn-close btn-close-white me-2 m-auto';
+                closeButton.setAttribute('data-bs-dismiss', 'toast');
+                closeButton.setAttribute('aria-label', 'Close');
+
+                toastContent.appendChild(toastBody);
+                toastContent.appendChild(closeButton);
+                toastElement.appendChild(toastContent);
+
+                toastContainer.appendChild(toastElement);
+
+                const bsToast = new bootstrap.Toast(toastElement, { delay: 3000 });
+                bsToast.show();
+
+                toastElement.addEventListener('hidden.bs.toast', () => {
+                    toastElement.remove();
+                });
+            }
+
+            let currentProductBeingDeleted = null;
+            const deleteModalElement = document.getElementById('deleteModal');
+            const deleteModal = new bootstrap.Modal(deleteModalElement);
+
+            const table = $('#productTable').DataTable({
+                data: products,
+                dom: 'lfrtip',
+                columns: [
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: 'dt-center',
+                        render: () => '<input type="checkbox" class="product-checkbox">'
+                    },
+                    { data: 'name', render: d => `<span style="color:#fff; font-weight: 500;">${d}</span>` },
+                    { data: 'category', render: d => `<span style="color:#fff">${d}</span>` },
+                    {
+                        data: 'stock',
+                        className: 'dt-center',
+                        render: d => `
+                            <label class="toggle-switch">
+                                <input type="checkbox" ${d ? 'checked' : ''}>
+                                <span></span>
+                            </label>`
+                    },
+                    { data: 'sku', render: d => `<span style="color:#fff">${d}</span>` },
+                    { data: 'price', render: d => `<span style="color:#fff">${d}</span>` },
+                    { data: 'qty', render: d => `<span style="color:#fff">${d}</span>` },
+                    {
+                        data: 'status',
+                        render: d => {
+                            let badgeClass = '';
+                            switch (d) {
+                                case 'Active': badgeClass = 'badge-success'; break;
+                                case 'Inactive': badgeClass = 'badge-danger'; break;
+                                case 'Scheduled': badgeClass = 'badge-scheduled'; break;
+                                default: badgeClass = 'badge-info';
+                            }
+                            return `<span class="badge ${badgeClass}">${d}</span>`;
+                        }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: 'dt-center',
+                        render: function(data, type, row) {
+                            return `
+                                <button class="btn btn-primary btn-sm edit-btn" title="Edit Product" data-id="${row.id}"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm delete-btn" title="Delete Product" data-id="${row.id}"><i class="fas fa-trash-alt"></i></button>
+                            `;
+                        }
+                    }
+                ],
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search products..."
+                },
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                        copyFlash: false,
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7],
+                            modifier: { selected: true }
+                        },
+                        action: function(e, dt, button, config) {
+                             $.fn.dataTable.ext.buttons.copyHtml5.action.call(this, e, dt, button, config);
+                             showToast('Products copied to clipboard!', 'info');
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: { columns: [1, 2, 3, 4, 5, 6, 7] },
+                        title: 'ProductListExport',
+                         action: function(e, dt, button, config) {
+                             $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
+                             showToast('Products exported to Excel!', 'success');
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: { columns: [1, 2, 3, 4, 5, 6, 7] },
+                        title: 'ProductListExport',
+                        orientation: 'landscape',
+                        pageSize: 'A4',
+                         action: function(e, dt, button, config) {
+                             $.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, button, config);
+                             showToast('Products exported to PDF!', 'success');
+                        }
+                    }
+                ]
+            });
+
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .modal-backdrop {
+                    z-index: 1050 !important;
+                    background-color: rgba(0,0,0,0.5) !important;
+                }
+                .modal {
+                    z-index: 1060 !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+             $('#productSearch').on('keyup', function(){
+                  table.search($(this).val()).draw() ;
+             });
+             $('.dataTables_filter label').contents().filter(function() {
+                return this.nodeType === 3;
+             }).remove();
+             $('.dataTables_filter input').removeClass('form-control-sm');
+
+            $('#copyButton').on('click', () => table.button(0).trigger());
+            $('#excelButton').on('click', () => table.button(1).trigger());
+            $('#pdfButton').on('click', () => table.button(2).trigger());
+
+            $('#selectAll').on('change', function() {
+                const isChecked = this.checked;
+                $('.product-checkbox').prop('checked', isChecked);
+            });
+
+            $('#productTableBody').on('change', '.product-checkbox', function() {
+                const allCheckboxes = $('.product-checkbox').length;
+                const checkedCheckboxes = $('.product-checkbox:checked').length;
+                $('#selectAll').prop('checked', allCheckboxes > 0 && allCheckboxes === checkedCheckboxes);
+            });
+
+            $('#productTableBody').on('click', '.edit-btn', function() {
+                const row = $(this).closest('tr');
+                const data = table.row(row).data();
+                showToast(`Editing product: ${data.name}`, 'warning');
+                console.log('Edit product:', data);
+            });
+
+            $('#productTableBody').on('click', '.delete-btn', function(e) {
+                e.stopPropagation();
+                const row = $(this).closest('tr');
+                if (table.row(row).length) {
+                    const data = table.row(row).data();
+                    console.log("Delete button clicked for:", data);
+                    currentProductBeingDeleted = { row: row, data: data };
+
+                    $('#deleteProductInfo').text(`Product: ${data.name || 'N/A'} (SKU: ${data.sku || 'N/A'})`);
+                    deleteModal.show();
+                    $('.modal-backdrop').css('z-index', '1050');
+                    console.log("Delete modal shown.");
+                } else {
+                    console.warn("Delete button clicked on a row not recognized by DataTables.");
+                }
+            });
+
+            $('#confirmDelete').on('click', function() {
+                console.log("Confirm delete clicked. Current product:", currentProductBeingDeleted);
+                if (currentProductBeingDeleted && currentProductBeingDeleted.row) {
+                    try {
+                        const productName = currentProductBeingDeleted.data.name || 'Selected Product';
+                        const rowIndex = table.row(currentProductBeingDeleted.row).index();
+                        console.log(`Attempting to remove row for product: ${productName}`);
+
+                        table.row(rowIndex).remove();
+                        console.log("Row removed from DataTables object.");
+
+                        table.draw(false);
+                        console.log("Table redrawn.");
+
+                        showToast(`Product "${productName}" deleted successfully!`, 'success');
+
+                        deleteModal.hide();
+                        console.log("Delete modal hidden.");
+
+                    } catch (error) {
+                        console.error("Error during product deletion:", error);
+                        showToast('Error deleting product. Please check console.', 'danger');
+                    } finally {
+                         currentProductBeingDeleted = null;
+                         console.log("currentProductBeingDeleted reset to null after confirm.");
+                    }
+                } else {
+                     console.warn("Confirm delete clicked, but currentProductBeingDeleted is not set or row is missing.");
+                     if (deleteModal) deleteModal.hide();
+                }
+            });
+
+            $('#productTableBody').on('change', '.toggle-switch input', function() {
+                const row = $(this).closest('tr');
+                if (table.row(row).length) {
+                    const rowData = table.row(row).data();
+                    rowData.stock = this.checked;
+                    table.row(row).data(rowData).invalidate().draw(false);
+                    showToast(`Stock status updated for ${rowData.name}`, 'info');
+                }
+            });
+
+            deleteModalElement.addEventListener('hidden.bs.modal', function (event) {
+                 console.log("Modal hidden event triggered.");
+                 if (currentProductBeingDeleted) {
+                    console.log("Resetting currentProductBeingDeleted due to modal close/cancel.");
+                    currentProductBeingDeleted = null;
+                 }
+            });
+
+        });
+    </script>
+</body>
+
+</html>
