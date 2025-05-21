@@ -26,9 +26,9 @@ body {
   
   .abt-header {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
     flex: 1;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
   
   .abt-header h1 {
@@ -50,7 +50,7 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 20px 0;
+    padding: 10px 0;
     margin-top: 0;
   }
   
@@ -89,7 +89,7 @@ body {
   
   .about-section {
     width: 100vw;
-    padding: 60px 20px;
+    padding: 20px 10px;
     background-color: #fff;
     display: flex;
     justify-content: center;
@@ -135,7 +135,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 40px;
+    gap: 5px;
     width: 100%;
 
   }

@@ -1,27 +1,18 @@
-<?php
-// connect.php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "e-web";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-?>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <title>Kaira</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../../user/css/vendor.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="stylesheet" type="text/css" href="../../style.css">
     <link rel="stylesheet" type="text/css" href="../../css/normalize.css">
     <link rel="stylesheet" type="text/css" href="../../css/swiper-bundle.min.css">
     <link rel="stylesheet" type="text/css" href="../../index.html">
+    <link rel="stylesheet" type="text/css" href="../aboutus/abtus.css">
     <link rel="stylesheet" type="text/css" href="../faq/faqstyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,101 +23,69 @@ if ($conn->connect_error) {
         * {
             font-family: 'Times New Roman', Times, serif !important;
         }
+        .dropdown-submenu {
+            position: relative;
+        }
 
-        .container_onsale {
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+        }
+
+        .dropdown-submenu:hover .dropdown-menu {
+            display: block;
+        }
+
+        .note-box {
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             max-width: 1200px;
             margin: auto;
-            padding: 40px 20px;
+            color: #000;
         }
 
-        .onsale-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 32px;
+        .note-box p {
             font-weight: bold;
+            margin-bottom: 10px;
         }
 
-        .onsale-header span {
-            display: inline-block;
-            background-color: #d70018;
-            color: white;
-            font-size: 20px;
-            padding: 5px 10px;
-            border-radius: 6px;
+        .note-box ul {
+            list-style-type: none;
+            padding-left: 0;
         }
 
-        .sort-filter {
-            display: flex;
-            align-items: center;
-            margin: 30px 0;
-        }
-
-        .sort-filter label {
-            margin-right: 10px;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .sort-filter select {
-            padding: 8px 12px;
-            font-size: 16px;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            outline: none;
-        }
-
-        .empty-sale {
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        .empty-sale img {
-            max-width: 250px;
-            margin-bottom: 30px;
-        }
-
-        .empty-sale h3 {
-            font-weight: bold;
-            font-size: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .empty-sale p {
-            font-size: 15px;
-            color: #444;
+        .note-box li::before {
+            content: "- ";
         }
     </style>
 </head>
 
 <body>
-    <?php include('../../../navbar.php'); ?>
+   <?php include('../../../navbar.php'); ?>
+    <!-------------------------------MEMBERSHIP------------------------------------->
     <nav class="breadcrumb">
-        <a href="../../index.html">Trang chủ</a> <span class="breadcrumb-separator">&gt;</span> <span>ON SALE</span>
+        <a href="../../index.html">Trang chủ</a> <span class="breadcrumb-separator">&gt;</span> <a
+            href="./member.html">Membership</a>
     </nav>
-
-    <body>
-        <div class="container_onsale">
-            <div class="onsale-header">
-                <span>%</span>
-                On Sale
-            </div>
-
-            <div class="sort-filter">
-                <label for="sort">Sắp xếp theo</label>
-                <select id="sort">
-                    <option value="low-high">Giá thấp nhất</option>
-                    <option value="high-low">Giá cao nhất</option>
-                    <option value="new">Mới nhất</option>
-                </select>
-            </div>
-
-            <div class="empty-sale">
-                <img src="../onsale/img-onsale/empty-sale.png" alt="Sale off sắp diễn ra">
-                <h3>Chương trình Sale off sắp diễn ra!</h3>
-                <p>Chương trình Sale off của KAIRA sẽ diễn ra trong thời gian sắp tới, bạn cùng theo dõi và đón mua nhé!</p>
-            </div>
-        </div>
+    <div class="container-abtus">
+        <section class="abt-header">
+            <h1>Chính sách Membership </h1>
+            <img src="./img-mem/membership.png" alt="The KAIRA Team" class="team-photo">
+        </section>
+    </div>
+    <div class="note-box">
+        <p><strong>Lưu ý:</strong></p>
+        <ul>
+            <li>Ưu đãi chỉ áp dụng khi khách xuất trình thẻ VIP/Premium lúc thanh toán và không áp dụng chung cho
+                các chương trình khuyến mãi khác.</li>
+            <li>Ưu đãi sinh nhật chỉ áp dụng 1 lần trong tháng sinh nhật.</li>
+            <li>Điểm tích lũy sẽ được giữ nguyên trong suốt thời gian khách hàng tham gia membership. Với điều kiện
+                thành viên cần phát sinh giao dịch trong vòng 12 tháng.</li>
+        </ul>
+    </div>
+    <!--footer-->
         <footer id="footer" class="footer-custom mt-5">
             <div class="container">
                 <div class="row justify-content-between py-5">
@@ -176,4 +135,12 @@ if ($conn->connect_error) {
                 </div>
             </div>
         </footer>
-    </body>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/SmoothScroll.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="js/script.min.js"></script>
+</body>

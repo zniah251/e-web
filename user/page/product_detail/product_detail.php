@@ -72,11 +72,10 @@ if ($conn->connect_error) {
             align-items: center;
             justify-content: center;
         }
-       
-  * {
-    font-family: 'Times New Roman', Times, serif !important;
-  }
 
+        * {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
     </style>
 
 
