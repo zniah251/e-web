@@ -1,3 +1,4 @@
+
 <?php
 // connect.php
 $servername = "localhost";
@@ -9,6 +10,21 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+// 2. Lấy product ID từ URL
+$pid = isset($_GET['pid']) ? (int)$_GET['pid'] : 0;
+if ($pid <= 0) {
+    die('ID sản phẩm không hợp lệ');
+}
+
+// 3. Truy vấn sản phẩm
+$sql = "SELECT * FROM product WHERE pid = $pid LIMIT 1";
+$result = $conn->query($sql);
+
+if ($result->num_rows == 0) {
+    die('Không tìm thấy sản phẩm');
+}
+
+$product = $result->fetch_assoc();
 ?>
 
 <head>
@@ -89,44 +105,153 @@ if ($conn->connect_error) {
         <nav class="text-sm text-gray-600 p-4">
             <a href="../../index.html" class="hover:underline">Trang chủ</a> &gt;
             <a href="../woman/tops.php" class="hover:underline">Sản phẩm</a> &gt;
-            <span>Áo kiểu layer hai dây...</span>
+            <span><?= htmlspecialchars($product['title']) ?></span>
         </nav>
         <div class="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start">
             <!-- Cột trái: ảnh sản phẩm -->
             <div class="flex flex-col sm:flex-row">
                 <!-- Ảnh chính -->
-                <img id="mainImage" src="./img-product/aokieuhaiday.jpg" alt="Ảnh chính" class="w-full max-w-sm h-auto rounded-xl shadow" />
+                <?php
+                // Lấy đường dẫn ảnh từ CSDL
+                $thumbnail = $product['thumbnail'];
+
+                // Nếu đường dẫn bắt đầu bằng 'admin/assets/images/', loại bỏ phần đó
+                if (strpos($thumbnail, 'admin/assets/images/') === 0) {
+                    $thumbnail = substr($thumbnail, strlen('admin/assets/images/'));
+                }
+
+                // Đảm bảo đường dẫn đúng và encode lại cho URL (đặc biệt với tên file có dấu tiếng Việt, khoảng trắng)
+                $thumbnail_url = '/e-web/admin/assets/images/' . rawurlencode($thumbnail);
+                ?>
+                <div class="relative group" style="width:fit-content;">
+                    <img id="mainImage" src="<?= $thumbnail_url ?>" alt="<?= htmlspecialchars($product['title']) ?>" class="w-full max-w-sm h-auto rounded-xl shadow" style="display:block;" />
+                    
+                </div>
 
                 <!-- Ảnh phụ bên phải ảnh chính -->
-                <div class="flex flex-col gap-3 ml-4 scale-90 sm:scale-100 origin-top-left">
-                    <img src="./img-product/aokieuhaiday1.jpg" class="w-16 md:w-20 h-24 object-cover border rounded cursor-pointer thumb" />
-                    <img src="./img-product/aokieuhaiday2.jpg" class="w-16 md:w-20 h-24 object-cover border rounded cursor-pointer thumb" />
-                    <img src="./img-product/aokieuhaiday3.jpg" class="w-16 md:w-20 h-24 object-cover border rounded cursor-pointer thumb" />
-                </div>
+                <?php
+                // Lấy các ảnh phụ (thumbnail, thumbnail2, thumbnail3) của các sản phẩm cùng title
+                $images = [];
+                $stmt = $conn->prepare("SELECT thumbnail, thumbnail2, thumbnail3 FROM product WHERE title = ? ORDER BY pid ASC");
+                $stmt->bind_param("s", $product['title']);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                while ($row = $res->fetch_assoc()) {
+                    foreach (['thumbnail', 'thumbnail2', 'thumbnail3'] as $field) {
+                        if (!empty($row[$field])) {
+                            $img = $row[$field];
+                            if (strpos($img, 'admin/assets/images/') === 0) {
+                                $img = substr($img, strlen('admin/assets/images/'));
+                            }
+                            $img = trim($img);
+                            $url = '/e-web/admin/assets/images/' . rawurlencode($img);
+                            if (!in_array($url, $images)) {
+                                $images[] = $url;
+                            }
+                        }
+                    }
+                }
+                $stmt->close();
+                ?>
+
+                <?php if (!empty($images)): ?>
+                    <div class="flex flex-col gap-3 ml-4 scale-90 sm:scale-100 origin-top-left">
+                        <?php foreach ($images as $img): ?>
+                            <img src="<?= $img ?>" class="w-16 md:w-20 h-24 object-cover border rounded cursor-pointer thumb" onerror="this.style.display='none'" />
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
 
             <!-- Cột phải: thông tin sản phẩm -->
             <div class="w-full lg:max-w-xl">
-                <h1 class="text-2xl font-bold mb-3">Áo kiểu layer hai dây trơn dáng ôm KAIRA – Betty Tank Top</h1>
-                <p class="mb-3 text-gray-600">Thiết kế tối giản nhưng tinh tế, Betty Tank Top là item không thể thiếu trong tủ đồ nàng yêu thời trang hiện đại. Áo dáng ôm nhẹ, tôn đường cong cơ thể, kết hợp phần dây mảnh nữ tính tạo hiệu ứng layer thời thượng khi phối cùng sơ mi, blazer hoặc cardigan</p>
-                <p class="text-red-600 text-xl font-semibold mb-3">175.000₫</p>
-
+                <h1 class="text-2xl font-bold mb-3"><?= htmlspecialchars($product['title']) ?></h1>
+                <p class="mb-3 text-gray-600"><?= nl2br(htmlspecialchars($product['description'])) ?></p>
+                <p class="text-red-600 text-xl font-semibold mb-3"><?= number_format($product['price'], 0, ',', '.') ?>₫</p>
+                 <!--Chọn màu sắc-->      
                 <div class="mb-3">
-                    <p class="font-semibold">Màu sắc: <span id="selectedColor" class="font-normal"></span></p>
-                    <!-- Màu sắc -->
+                    <p class="font-semibold">Màu sắc: 
+                        <span id="selectedColor" class="font-normal">
+                            <?= htmlspecialchars($product['color']) ?>
+                        </span>
+                    </p>
+                    <!-- Màu sắc động từ CSDL -->
                     <div class="flex gap-2 mt-2">
-                        <img src="./img-product/mauden.jpg" data-color="Black" class="w-10 h-10 border rounded cursor-pointer color-option  ring-1 ring-black" />
-                        <img src="./img-product/mautrang.jpg" data-color="White" class="w-10 h-10 border rounded cursor-pointer color-option" />
+                        <?php
+                        // Lấy tất cả màu sắc (color, color2) và thumbnail của sản phẩm cùng title
+                        $colors = [];
+                        $stmt = $conn->prepare("SELECT color, color2, thumbnail FROM product WHERE title = ? ORDER BY pid ASC");
+                        $stmt->bind_param("s", $product['title']);
+                        $stmt->execute();
+                        $res = $stmt->get_result();
+                        while ($row = $res->fetch_assoc()) {
+                            foreach (['color', 'color2'] as $colorField) {
+                                $color = $row[$colorField];
+                                if (!empty($color) && !in_array($color, $colors)) {
+                                    $img = $row['thumbnail'];
+                                    if (strpos($img, 'admin/assets/images/') === 0) {
+                                        $img = substr($img, strlen('admin/assets/images/'));
+                                    }
+                                    $img = trim($img);
+                                    $img_url = '/e-web/admin/assets/images/' . rawurlencode($img);
+                                    $selected = ($product['color'] == $color) ? 'ring-1 ring-black' : '';
+                                    echo '<img src="' . $img_url . '" data-color="' . htmlspecialchars($color) . '" class="w-10 h-10 border rounded cursor-pointer color-option ' . $selected . '" />';
+                                    $colors[] = $color;
+                                }
+                            }
+                        }
+                        $stmt->close();
+                        ?>
                     </div>
                 </div>
                 <!-- Chọn Size -->
                 <div class="mb-3">
-                    <p class="font-semibold">Size:</p>
+                    <?php
+                    // Lấy tất cả các size (size, size2, size3) có cùng title với sản phẩm hiện tại
+                    $sizes = [];
+                    $stmt = $conn->prepare("SELECT size, size2, size3 FROM product WHERE title = ?");
+                    $stmt->bind_param("s", $product['title']);
+                    $stmt->execute();
+                    $res = $stmt->get_result();
+                    while ($row = $res->fetch_assoc()) {
+                        foreach (['size', 'size2', 'size3'] as $field) {
+                            $sz = $row[$field];
+                            if (!empty($sz) && !in_array($sz, $sizes)) {
+                                $sizes[] = $sz;
+                            }
+                        }
+                    }
+                    $stmt->close();
+
+                    // Sắp xếp size theo thứ tự S, M, L, XL, XXL, XXXL...
+                    $size_order = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', '4XL', '5XL'];
+                    usort($sizes, function($a, $b) use ($size_order) {
+                        $posA = array_search(strtoupper($a), $size_order);
+                        $posB = array_search(strtoupper($b), $size_order);
+                        if ($posA === false) $posA = 100;
+                        if ($posB === false) $posB = 100;
+                        return $posA - $posB;
+                    });
+                    ?>
+                    <p class="font-semibold">Size:
+                        <span id="selectedSize"><?= htmlspecialchars($product['size']) ?></span>
+                    </p>
                     <div class="flex gap-2 mt-2 size-options">
-                        <button class="size-btn selected" data-size="S">S</button>
-                        <button class="size-btn" data-size="M">M</button>
-                        <button class="size-btn" data-size="L">L</button>
+                        <?php foreach ($sizes as $size): ?>
+                            <button class="size-btn <?= $product['size'] == $size ? 'selected' : '' ?>" data-size="<?= htmlspecialchars($size) ?>">
+                                <?= htmlspecialchars($size) ?>
+                            </button>
+                        <?php endforeach; ?>
                     </div>
+                    <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        document.querySelectorAll(".size-btn").forEach(btn =>
+                            btn.addEventListener("click", function() {
+                                document.getElementById("selectedSize").textContent = btn.getAttribute("data-size");
+                            })
+                        );
+                    });
+                    </script>
                     <div class="mt-2 flex items-center gap-1">
                         <a href="#" id="openSizeGuide" class="text-black underline font-medium hover:opacity-80">
                             Hướng dẫn chọn size
@@ -159,7 +284,7 @@ if ($conn->connect_error) {
                 </div>
 
 
-                <p class="mb-2">Tồn kho: <span class="font-semibold">4</span></p>
+                <p class="mb-2">Tồn kho: <span class="font-semibold"><?= $product['stock'] ?></span></p>
 
                 <!-- Số lượng -->
                 <div class="flex items-center gap-2 mb-4">
@@ -168,7 +293,7 @@ if ($conn->connect_error) {
                     <input type="text" id="quantity" value="1" class="w-10 text-center border rounded" readonly />
                     <button id="increase" class="px-2 border rounded">+</button>
                 </div>
-
+                    
                 <!-- Nút -->
                 <div class="flex gap-4 mb-3">
                     <button class="px-4 py-2 border rounded">Thêm vào giỏ</button>
@@ -183,9 +308,22 @@ if ($conn->connect_error) {
         </div>
         <!-- Danh sách yêu thích -->
         <div class="flex items-center gap-3 mb-8">
-            <button class="text-xl p-1 rounded-full hover:bg-gray-100 transition">
-                🤍
+            <button id="favoriteBtn" class="text-xl p-1 rounded-full hover:bg-gray-100 transition">
+                <span id="heartIcon" style="color: #aaa; transition: color 0.2s;">&#10084;</span>
             </button>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const btn = document.getElementById("favoriteBtn");
+                    const icon = document.getElementById("heartIcon");
+                    btn.addEventListener("click", function() {
+                        if (icon.style.color === "red") {
+                            icon.style.color = "#aaa";
+                        } else {
+                            icon.style.color = "red";
+                        }
+                    });
+                });
+            </script>
             <div class="text-gray-700">
                 Thêm vào danh sách yêu thích
             </div>
@@ -201,7 +339,7 @@ if ($conn->connect_error) {
         <!-- Nội dung của tab -->
         <div id="tab-contents">
             <div class="tab-content" id="details">
-                <p>Thiết kế tối giản nhưng tinh tế, Betty Tank Top là item không thể thiếu trong tủ đồ nàng yêu thời trang hiện đại. Áo dáng ôm nhẹ, tôn đường cong cơ thể, kết hợp phần dây mảnh nữ tính tạo hiệu ứng layer thời thượng khi phối cùng sơ mi, blazer hoặc cardigan.</p>
+                <p>Sản phẩm được thiết kế theo phong cách hiện đại, dễ dàng phối đồ và phù hợp với nhiều hoàn cảnh sử dụng như đi chơi, đi học, đi làm hoặc dạo phố. Chất liệu vải mềm mại, co giãn nhẹ và thoáng mát, mang lại cảm giác thoải mái khi mặc trong thời gian dài. Đường may tỉ mỉ, form dáng chuẩn giúp tôn lên vóc dáng người mặc. Màu sắc trang nhã, dễ kết hợp với phụ kiện và các item thời trang khác. Đây là lựa chọn lý tưởng cho những ai yêu thích sự đơn giản nhưng vẫn muốn nổi bật và cuốn hút.</p>
             </div>
             <div class="tab-content hidden" id="additional">
                 <img style="aspect-ratio:1000/1142;" src="./img-product/thongtinbosung.jpg" width="1000" height="1142" />
@@ -210,56 +348,63 @@ if ($conn->connect_error) {
                 <p>Giao hàng toàn quốc từ 2 - 5 ngày làm việc. Hỗ trợ đổi trả trong 7 ngày nếu sản phẩm bị lỗi từ nhà sản xuất hoặc giao sai.</p>
             </div>
         </div>
+        <?php
+        // Lấy cid của sản phẩm hiện tại
+        $cid = $product['cid'];
+
+        // Lấy ngẫu nhiên 4 sản phẩm cùng cid, loại trừ sản phẩm hiện tại và loại trừ các title đã hiển thị
+        $displayed_pids = [$pid];
+        $displayed_titles = [mb_strtolower(trim($product['title']))];
+
+        // Lấy các sản phẩm cùng cid, loại trừ sản phẩm hiện tại
+        $stmt = $conn->prepare("SELECT pid, title, price, thumbnail FROM product WHERE cid = ? AND pid != ? ORDER BY RAND()");
+        $stmt->bind_param("ii", $cid, $pid);
+        $stmt->execute();
+        $related = $stmt->get_result();
+
+        $shown = 0;
+        $max_show = 4;
+        $shown_pids = [];
+        $shown_titles = [];
+
+        if ($related->num_rows > 0): ?>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
-            <!-- Card sản phẩm -->
+            <?php while ($row = $related->fetch_assoc()):
+            $row_title = mb_strtolower(trim($row['title']));
+            if (
+                in_array($row['pid'], $displayed_pids) ||
+                in_array($row['pid'], $shown_pids) ||
+                in_array($row_title, $displayed_titles) ||
+                in_array($row_title, $shown_titles)
+            ) continue;
+            $shown_pids[] = $row['pid'];
+            $shown_titles[] = $row_title;
+            // Xử lý đường dẫn ảnh
+            $img = $row['thumbnail'];
+            if (strpos($img, 'admin/assets/images/') === 0) {
+                $img = substr($img, strlen('admin/assets/images/'));
+            }
+            $img_url = '/e-web/admin/assets/images/' . rawurlencode(trim($img));
+            ?>
             <div class="bg-gray-100 rounded-xl p-3 flex flex-col">
-                <img src="./img-product/icytop(4).jpg" alt="Irene Top - White" class="rounded mb-3 h-72 object-cover w-full" />
-                <h3 class="font-medium text-sm line-clamp-2 mb-1">Áo kiểu form ngắn tay phồng...</h3>
-                <p class="font-bold text-lg mb-2">295.000₫</p>
-                <div class="mb-2">
-                    <img src="./img-product/icytop(4).jpg" class="w-10 h-10 border rounded" />
-                </div>
-                <button class="btn-primary mb-2">Mua ngay</button>
-                <button class="border py-2 rounded-full hover:bg-gray-200">Thêm vào giỏ</button>
+            <a href="product_detail.php?pid=<?= $row['pid'] ?>">
+                <img src="<?= $img_url ?>" alt="<?= htmlspecialchars($row['title']) ?>" class="rounded mb-3 h-72 object-cover w-full" />
+            </a>
+            <h3 class="font-medium text-sm line-clamp-2 mb-1"><?= htmlspecialchars($row['title']) ?></h3>
+            <p class="font-bold text-lg mb-2"><?= number_format($row['price'], 0, ',', '.') ?>₫</p>
+            <div class="mb-2">
+                <img src="<?= $img_url ?>" class="w-10 h-10 border rounded" />
+            </div>
+            <a href="product_detail.php?pid=<?= $row['pid'] ?>" class="btn-primary mb-2 text-center">Mua ngay</a>
+            <button class="border py-2 rounded-full hover:bg-gray-200">Thêm vào giỏ</button>
             </div>
 
-            <!-- Card sản phẩm -->
-            <div class="bg-gray-100 rounded-xl p-3 flex flex-col">
-                <img src="./img-product/naomitop.jpg" alt="Ivy Top - Black" class="rounded mb-3 h-72 object-cover w-full" />
-                <h3 class="font-medium text-sm line-clamp-2 mb-1">Áo kiểu tay phồng phối bèo dáng...</h3>
-                <p class="font-bold text-lg mb-2">295.000₫</p>
-                <div class="mb-2">
-                    <img src="./img-product/naomitop.jpg" class="w-10 h-10 border rounded" />
-                </div>
-                <button class="btn-primary mb-2">Mua ngay</button>
-                <button class="border py-2 rounded-full hover:bg-gray-200">Thêm vào giỏ</button>
-            </div>
-
-            <!-- Card sản phẩm -->
-            <div class="bg-gray-100 rounded-xl p-3 flex flex-col relative">
-                <!-- Nhãn NEW -->
-                <img src="./img-product/RisoTubeTop2.jpg" alt="Gigi Top - Cream" class="rounded mb-3 h-72 object-cover w-full" />
-                <h3 class="font-medium text-sm line-clamp-2 mb-1">Áo babydoll cổ sen tay phồng ...</h3>
-                <p class="font-bold text-lg mb-2">295.000₫</p>
-                <div class="mb-2">
-                    <img src="./img-product/RisoTubeTop2.jpg" class="w-10 h-10 border rounded" />
-                </div>
-                <button class="btn-primary mb-2">Mua ngay</button>
-                <button class="border py-2 rounded-full hover:bg-gray-200">Thêm vào giỏ</button>
-            </div>
-
-            <!-- Card sản phẩm -->
-            <div class="bg-gray-100 rounded-xl p-3 flex flex-col">
-                <img src="./img-product/aogile.jpg" alt="Áo thun polo" class="rounded mb-3 h-72 object-cover w-full" />
-                <h3 class="font-medium text-sm line-clamp-2 mb-1">Áo thun polo tay dài dáng ôm ...</h3>
-                <p class="font-bold text-lg mb-2">335.000₫</p>
-                <div class="mb-2">
-                    <img src="./img-product/aogile.jpg" class="w-10 h-10 border rounded" />
-                </div>
-                <button class="btn-primary mb-2">Mua ngay</button>
-                <button class="border py-2 rounded-full hover:bg-gray-200">Thêm vào giỏ</button>
-            </div>
+            <?php
+            $shown++;
+            if ($shown >= $max_show) break;
+            endwhile; ?>
         </div>
+        <?php endif; $stmt->close(); ?>
 
         <!-- Nút xem thêm -->
         <div class="text-center mt-8">
@@ -390,3 +535,4 @@ if ($conn->connect_error) {
         });
     });
 </script>
+
