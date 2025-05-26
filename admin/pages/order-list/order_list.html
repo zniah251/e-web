@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,122 +7,195 @@
   <link rel="stylesheet" href="../../../admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="../../../admin/template/assets/vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css " crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css ">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css ">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js "></script>
+  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js "></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js "></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js "></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js "></script>
   <style>
+    /* --- Thay đổi màu nền chính để khớp Corona Admin --- */
     body {
-      background-color: #1e1e2f;
-      color: #ffffff;
+      background-color: #191c24 !important; /* Thay đổi từ #0A192F */
+      color: #e0e0e0 !important;
       font-family: Arial, sans-serif;
     }
 
-    .card {
-      background-color: #2c2f33;
+    /* --- Thanh điều hướng trên cùng (Navbar) --- */
+    .navbar {
+      background-color: #191c24 !important; /* Đã khớp */
+    }
+
+    /* --- Menu Navigation (Sidebar) --- */
+    .sidebar {
+      background: #191c24 !important; /* Thêm để khớp */
+    }
+
+    .nav-link {
+      color: #e0e0e0 !important; /* Màu chữ xám nhạt */
+    }
+
+    .nav-item.active > .nav-link {
+      color: #fff !important;
+      background-color: #23243a !important; /* Màu nền active của sidebar */
+    }
+    .nav-item.active .menu-icon i {
+      color: #fff !important;
+    }
+    .nav-link:hover, .nav-link:hover .menu-icon i, .nav-link:hover .menu-title {
+      color: #fff !important;
+      background-color: #23243a !important;
+    }
+
+    /* --- Nút "+ Create New Project" (nếu có) --- */
+    .create-new-button {
+      background-color: #00d25b !important; /* Giữ nguyên màu xanh lá */
+      color: #fff !important;
+    }
+
+    /* --- Icon và nút thông báo --- */
+    .count-indicator .mdi, 
+    .dropdown-item {
+      color: #e0e0e0 !important; /* Màu xám nhạt cho icon và nút */
+    }
+
+    /* --- Card chính và Modal --- */
+    .card, .modal-content {
+      background-color: #191c24 !important; /* Thay đổi từ #0A192F */
+      color: #fff !important;
       border: none;
       border-radius: 8px;
       padding: 20px;
     }
+    .card-title, .card-description {
+      color: #fff !important; /* Đảm bảo tiêu đề và mô tả có màu trắng */
+    }
 
+    /* --- Header bảng (thead) --- */
+    .table thead th {
+      background-color: #2d3748 !important; /* Giữ nguyên màu xám đậm */
+      color: #fff !important; /* Màu chữ trắng */
+      border-bottom: 2px solid #495057 !important; /* Thêm viền dưới khớp Product List */
+    }
+
+    /* --- Text trong bảng --- */
+    .table td, .table th {
+      color: #e0e0e0 !important; /* Đổi từ #fff sang #e0e0e0 để khớp Product List */
+      background-color: #191c24 !important; /* Đảm bảo màu nền ô khớp */
+      border-color: transparent !important; /* Loại bỏ viền ô mặc định */
+      vertical-align: middle !important; /* Căn giữa dọc */
+    }
+
+    /* --- Các phần còn lại giữ nguyên --- */
     .btn-primary {
-      background-color: #007bff;
-      border: none;
+      background-color: #0090e7 !important;
+      border-color: #0090e7 !important;
+      color: #fff !important;
     }
-
     .btn-primary:hover {
-      background-color: #0056b3;
+      background-color: #0069d9 !important;
+      border-color: #0062cc !important;
+    }
+    .btn-danger {
+      background-color: #fc424a !important;
+      border-color: #fc424a !important;
+      color: #fff !important;
+    }
+    .btn-danger:hover {
+      background-color: #c82333 !important;
+      border-color: #bd2130 !important;
+    }
+    .btn-secondary { /* Thêm nếu chưa có */
+      background-color: #6c757d !important;
+      border-color: #6c757d !important;
+      color: #fff !important;
+    }
+    .btn-secondary:hover { /* Thêm nếu chưa có */
+      background-color: #5a6268 !important;
+      border-color: #545b62 !important;
     }
 
-    table.table-striped td,
-    table.table-striped th {
-      color: #ffffff !important;
-    }
-
-    table.table-striped tbody tr:nth-child(odd) td {
-      background-color: #2c2f33;
-    }
-
+    /* --- Sửa màu nền hàng bảng xen kẽ --- */
+    table.table-striped tbody tr:nth-child(odd) td,
     table.table-striped tbody tr:nth-child(even) td {
-      background-color: #23272a;
+      background-color: #191c24 !important; /* Thay đổi từ #0A192F */
+    }
+    /* --- Thêm đường kẻ ngang giữa các dòng (tinh tế hơn) --- */
+    .table tbody tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important; /* Màu viền tinh tế hơn */
+    }
+    .table tbody tr:last-child {
+      border-bottom: none !important;
     }
 
     .status-text.pending {
-      color: #ffc107;
+      color: #ffab00;
       font-weight: bold;
     }
-
     .status-text.failed {
-      color: #dc3545;
+      color: #fc424a;
       font-weight: bold;
     }
-
     .status-text.cancelled {
-      color: #6c757d;
+      color: #6c7293;
       font-weight: bold;
     }
-
     .status-text.paid {
-      color: #28a745;
+      color: #00d25b;
       font-weight: bold;
     }
-
     .badge-success {
-      background-color: #d4edda;
-      color: #155724;
+      background-color: #00d25b !important;
+      color: #fff !important;
+      border-radius: 6px;
+      font-weight: 500;
+      border: 1.5px solid #00d25b; /* Thêm viền để khớp */
     }
-
     .badge-info {
-      background-color: #d1ecf1;
-      color: #0c5460;
+      background-color: #248afd !important;
+      color: #fff !important;
+      border-radius: 6px;
+      font-weight: 500;
+      border: 1.5px solid #248afd; /* Thêm viền để khớp */
     }
-
-    .badge-dispatched {
-      background-color: #ffeeba;
-      color: #856404;
+    .badge-dispatched { /* Tương tự badge-info, nhưng cũng thêm viền */
+      background-color: #248afd !important;
+      color: #fff !important;
+      border-radius: 6px;
+      font-weight: 500;
+      border: 1.5px solid #248afd;
     }
-
     .badge-danger {
-      background-color: #f8d7da;
-      color: #721c24;
+      background-color: #fc424a !important;
+      color: #fff !important;
+      border-radius: 6px;
+      font-weight: 500;
+      border: 1.5px solid #fc424a; /* Thêm viền để khớp */
     }
-
-    .pagination-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .badge-warning {
+      background-color: #ffab00 !important;
+      color: #fff !important;
+      border-radius: 6px;
+      font-weight: 500;
+      border: 1.5px solid #ffab00; /* Thêm viền để khớp */
     }
-
-    .pagination-info {
-      color: #ffffff;
-    }
-
-    .dropdown-menu .dropdown-item:hover {
-      color: #ffffff !important;
-      background-color: #007bff !important;
-    }
-
     #statusSummary .badge {
       margin-right: 8px;
       padding: 6px 12px;
       font-size: 0.9em;
+      border-radius: 6px; /* Đảm bảo đồng nhất */
     }
-
-    .badge-warning {
-      background-color: #ffc107;
-      color: #212529;
-    }
+    /* Các badge specific cho Order List */
+    .badge.badge-outline-danger { border: 1.5px solid #fc424a !important; color: #fc424a !important; background: transparent !important; }
+    .badge.badge-outline-warning { border: 1.5px solid #ffab00 !important; color: #ffab00 !important; background: transparent !important; }
+    .badge.badge-outline-info { border: 1.5px solid #248afd !important; color: #248afd !important; background: transparent !important; }
+    .badge.badge-outline-success { border: 1.5px solid #00d25b !important; color: #00d25b !important; background: transparent !important; }
 
     .toast-container {
       position: fixed;
@@ -131,38 +203,33 @@
       right: 20px;
       z-index: 9999;
     }
-
     .toast {
-        background-color: #333;
-        color: white;
-        padding: 15px 25px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        display: none;
-        min-width: 250px;
+      background-color: #333;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      display: none;
+      min-width: 250px;
     }
-
     .toast.show {
-        display: block;
-        animation: fadeInOut 3s forwards;
+      display: block;
+      animation: fadeInOut 3s forwards;
     }
     .toast .toast-body {
-        padding: 0;
+      padding: 0;
     }
     .toast .btn-close {
-        filter: invert(1) grayscale(100%) brightness(200%);
+      filter: invert(1) grayscale(100%) brightness(200%);
     }
-
     @keyframes fadeInOut {
       0% { opacity: 0; }
       10% { opacity: 1; }
       90% { opacity: 1; }
       100% { opacity: 0; }
     }
-
     .dt-buttons { display: none !important; }
-
     .modal {
       display: none;
       position: fixed;
@@ -173,95 +240,332 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
     }
-
     .modal-dialog {
-        position: relative; width: auto; margin: .5rem; pointer-events: none;
-        display: flex;
-        align-items: center;
-        min-height: calc(100% - 1rem);
+      position: relative;
+      width: auto;
+      margin: .5rem;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      min-height: calc(100% - 1rem);
     }
-    @media (min-width: 576px) { .modal-dialog { max-width: 500px; margin: auto; min-height: calc(100% - 3.5rem); } }
-
+    @media (min-width: 576px) { 
+      .modal-dialog { 
+        max-width: 500px; 
+        margin: auto; 
+        min-height: calc(100% - 3.5rem); 
+      }
+    }
     .modal-content {
-      position: relative; display: flex; flex-direction: column; width: 100%; pointer-events: auto;
-      background-color: #2c2f33;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      pointer-events: auto;
+      background-color: #191c24 !important; /* Thay đổi từ #0A192F */
       background-clip: padding-box;
-      border: 1px solid #444;
+      border: 1px solid #444; /* Giữ nguyên */
       border-radius: 8px;
       outline: 0;
-      color: #ffffff;
+      color: #fff !important;
     }
-
     .modal-header {
-      display: flex; align-items: flex-start; justify-content: space-between;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
       padding: 1rem 1rem;
-      border-bottom: 1px solid #444;
-      border-top-left-radius: calc(.3rem - 1px); border-top-right-radius: calc(.3rem - 1px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Thay đổi từ #444 */
+      border-top-left-radius: calc(.3rem - 1px);
+      border-top-right-radius: calc(.3rem - 1px);
     }
-    .modal-header .btn-close { padding: .5rem .5rem; margin: -.5rem -.5rem -.5rem auto; background: transparent; border: 0; color: #fff; opacity: .5; }
-    .modal-title { margin-bottom: 0; line-height: 1.5; font-size: 1.25rem; }
-    .modal-body { position: relative; flex: 1 1 auto; padding: 1rem; }
+    .modal-header .btn-close {
+      padding: .5rem .5rem;
+      margin: -.5rem -.5rem -.5rem auto;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      opacity: .5;
+    }
+    .modal-title { 
+      margin-bottom: 0; 
+      line-height: 1.5; 
+      font-size: 1.25rem; 
+    }
+    .modal-body { 
+      position: relative; 
+      flex: 1 1 auto; 
+      padding: 1rem; 
+    }
     .modal-footer {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
       padding: .75rem;
-      border-top: 1px solid #444;
-      border-bottom-right-radius: calc(.3rem - 1px); border-bottom-left-radius: calc(.3rem - 1px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1); /* Thay đổi từ #444 */
+      border-bottom-right-radius: calc(.3rem - 1px);
+      border-bottom-left-radius: calc(.3rem - 1px);
     }
     .modal-footer button {
       margin-left: 10px;
     }
-
     #orderTable .btn-sm {
-        margin-right: 5px;
-        padding: 0.25rem 0.5rem;
+      margin-right: 5px;
+      padding: 0.25rem 0.5rem;
+    }
+    div.dt-button-info {
+      display: none !important;
+    }
+    .status-cell, td.status-cell, th.status-cell {
+      text-align: center !important;
+      vertical-align: middle !important;
+    }
+    .badge {
+      font-weight: 700 !important;
+      font-size: 0.95em !important;
+      letter-spacing: 0.01em;
+      padding: 0.45em 1em;
+    }
+    .table td, .table th {
+      vertical-align: middle !important;
+    }
+    .table-controls-custom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0;
+      flex-wrap: nowrap;
+      margin-bottom: 1rem;
+    }
+    .table-controls-custom > * {
+      margin-bottom: 0 !important;
+    }
+    .table-controls-custom .right-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
 
-    div.dt-button-info {
-        display: none !important;
+    /* Input tìm kiếm */
+    #reviewSearch { /* Đổi tên từ Product List's #orderSearch */
+      width: 250px;
+      transition: width 0.3s ease;
+      background-color: #2A2F3D !important; /* Thay đổi từ #23243a */
+      color: #fff !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important; /* Thay đổi từ #444 */
+      flex-shrink: 0;
+      margin: 0;
+      height: 38px; /* Thêm để khớp */
+      padding: 6px 12px; /* Thêm để khớp */
+      border-radius: 4px; /* Thêm để khớp */
+    }
+    #reviewSearch::placeholder {
+      color: #adb5bd !important;
+    }
+
+    #reviewSearch:focus {
+      width: 300px;
+    }
+
+    /* Select số lượng mục hiển thị */
+    #customLength {
+      background-color: #fff !important; /* Thay đổi từ #23243a */
+      color: #333 !important; /* Thay đổi từ #fff */
+      border: 1px solid #ccc !important; /* Thay đổi từ #444 */
+      border-radius: 4px !important; /* Đảm bảo bo góc */
+      padding-right: 25px !important; /* Đảm bảo đủ không gian cho mũi tên dropdown */
+      height: 38px !important; /* Thêm để khớp */
+      padding: 6px 8px !important; /* Thêm để khớp */
+      min-width: 80px; /* Giữ nguyên */
+    }
+    /* Tùy chỉnh mũi tên dropdown cho #customLength */
+    #customLength::-ms-expand { /* For IE 11 */
+        display: none;
+    }
+    #customLength {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+        background-size: 1em;
+    }
+
+    .table,
+    .table-responsive,
+    #orderTable {
+      background-color: #191c24 !important; /* Thay đổi từ #0A192F */
+    }
+    /* Đảm bảo các hàng không có màu nền khác biệt */
+    .table th,
+    .table td {
+      background-color: #191c24 !important; /* Thay đổi từ #0A192F */
+      border-color: transparent !important;
+      color: #e0e0e0 !important;
+    }
+    .table-striped tbody tr:nth-child(odd),
+    .table-striped tbody tr:nth-child(even) {
+      background-color: #191c24 !important; /* Thay đổi từ #0A192F */
+    }
+
+    /* Dropdown menu cho Export */
+    .dropdown-menu { 
+      background-color: #23243a !important; 
+      border: 1px solid #444 !important; 
+    }
+    .dropdown-item { 
+      color: #fff !important; 
+    }
+    .dropdown-item:hover { 
+      background-color: #0090e7 !important; 
+      color: #fff !important; 
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #191c24 !important; /* Thêm để khớp */
+      color: #adb5bd;
+    }
+
+    @media (max-width: 900px) {
+      .table-controls-custom {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px;
+      }
+      .table-controls-custom .d-flex {
+        justify-content: flex-start !important;
+      }
     }
   </style>
 </head>
-
 <body>
   <div class="container-scroller">
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-        <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo1.png"
-            alt="logo" /></a>
-        <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg"
-            alt="logo" /></a>
+        <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../assets/images/logo1.png" alt="logo" /></a>
+        <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
       </div>
       <ul class="nav">
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="../../index.html">
-                <span class="menu-icon">
-                    <i class="mdi mdi-speedometer"></i>
-                </span>
-                <span class="menu-title">Dashboard</span>
-            </a>
+        <!-- Phần profile-desc có thể thêm vào đây nếu cần -->
+        <li class="nav-item nav-category">
+          <span class="nav-link">Navigation</span>
         </li>
         <li class="nav-item menu-items">
-            <a class="nav-link" href="../product/product_list.html">
-                <span class="menu-icon">
-                    <i class="mdi mdi-table-large"></i>
-                </span>
-                <span class="menu-title">Product List</span>
-            </a>
+          <a class="nav-link" href="../../index.html">
+            <span class="menu-icon">
+              <i class="mdi mdi-speedometer"></i>
+            </span>
+            <span class="menu-title">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="../product/product_list.html">
+            <span class="menu-icon">
+              <i class="mdi mdi-table-large"></i>
+            </span>
+            <span class="menu-title">Product List</span>
+          </a>
         </li>
         <li class="nav-item menu-items active">
-            <a class="nav-link" href="../order-list/order_list.html">
-                <span class="menu-icon">
-                    <i class="mdi mdi-cart"></i>
-                </span>
-                <span class="menu-title">Order List</span>
-            </a>
+          <a class="nav-link" href="../order-list/order_list.html">
+            <span class="menu-icon">
+              <i class="mdi mdi-cart"></i>
+            </span>
+            <span class="menu-title">Order List</span>
+          </a>
         </li>
-    </ul>
+        <!-- Thêm các mục menu khác từ Product List nếu muốn đồng bộ hoàn toàn sidebar -->
+      </ul>
     </nav>
-
     <div class="container-fluid page-body-wrapper">
+      <!-- Navbar trên cùng, có thể copy từ Product List để đồng bộ hoàn toàn -->
+      <nav class="navbar p-0 fixed-top d-flex flex-row">
+          <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+              <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+          </div>
+          <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+              <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                  <span class="mdi mdi-menu"></span>
+              </button>
+              <ul class="navbar-nav w-100">
+                  <li class="nav-item w-100">
+                      <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                          <!-- Input search chung của navbar -->
+                          <input type="text" class="form-control" placeholder="Search orders">
+                      </form>
+                  </li>
+              </ul>
+              <!-- Thêm các icon thông báo, profile từ Product List nếu muốn đồng bộ hoàn toàn navbar -->
+              <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item dropdown d-none d-lg-block">
+                    <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
+                        <h6 class="p-3 mb-0">Projects</h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon bg-dark rounded-circle">
+                                    <i class="mdi mdi-file-outline text-primary"></i>
+                                </div>
+                            </div>
+                            <div class="preview-item-content">
+                                <p class="preview-subject ellipsis mb-1">Software Development</p>
+                            </div>
+                        </a>
+                        <!-- ... các mục khác ... -->
+                    </div>
+                </li>
+                <li class="nav-item nav-settings d-none d-lg-block">
+                    <a class="nav-link" href="#">
+                        <i class="mdi mdi-view-grid"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown border-left">
+                    <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-email"></i>
+                        <span class="count bg-success"></span>
+                    </a>
+                    <!-- ... dropdown messages ... -->
+                </li>
+                <li class="nav-item dropdown border-left">
+                    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
+                        <i class="mdi mdi-bell"></i>
+                        <span class="count bg-danger"></span>
+                    </a>
+                    <!-- ... dropdown notifications ... -->
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown">
+                        <div class="navbar-profile">
+                            <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
+                            <p class="mb-0 d-none d-sm-block navbar-profile-name">Henry Klein</p>
+                            <i class="mdi mdi-menu-down d-none d-sm-block"></i>
+                        </div>
+                    </a>
+                    <!-- ... dropdown profile ... -->
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                <span class="mdi mdi-format-line-spacing"></span>
+            </button>
+          </div>
+      </nav>
+      <!-- end Navbar -->
       <div class="main-panel">
         <div class="content-wrapper">
+          <!-- Page Header from Product List (Thêm nếu muốn) -->
+          <!-- <div class="page-header">
+              <h3 class="page-title">Order List</h3>
+              <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="#">Orders</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Order List</li>
+                  </ol>
+              </nav>
+          </div> -->
+
           <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
@@ -269,21 +573,28 @@
                   <h4 class="card-title">Order List</h4>
                   <p class="card-description">Manage your orders</p>
                   <div id="statusSummary" class="mb-3"></div>
-
-                  <div class="d-flex justify-content-end mb-3">
-                    <div class="dropdown">
-                      <button class="btn btn-primary dropdown-toggle" type="button" id="exportMenu"
-                        data-bs-toggle="dropdown" aria-expanded="false">Export</button>
-                      <ul class="dropdown-menu" aria-labelledby="exportMenu">
+                  <!-- Controls: Search (trái) | Export | Select entries -->
+                  <div class="table-controls-custom">
+                    <input type="text" id="reviewSearch" class="form-control" placeholder="Search orders...">
+                    <div class="right-controls">
+                      <div class="dropdown ms-2">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="exportMenu" data-bs-toggle="dropdown" aria-expanded="false">Export</button>
+                        <ul class="dropdown-menu" aria-labelledby="exportMenu">
                           <li><button class="dropdown-item" id="copyButton"><i class="fas fa-copy me-2"></i>Copy</button></li>
                           <li><button class="dropdown-item" id="excelButton"><i class="fas fa-file-excel me-2"></i>Excel</button></li>
                           <li><button class="dropdown-item" id="pdfButton"><i class="fas fa-file-pdf me-2"></i>PDF</button></li>
-                      </ul>
+                        </ul>
+                      </div>
+                      <select id="customLength" class="form-select ms-2" style="min-width:80px;height:38px;padding:6px 8px;">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="-1">All</option>
+                      </select>
                     </div>
                   </div>
-
                   <div class="table-responsive">
-                    <table id="orderTable" class="table table-striped">
+                    <table id="orderTable" class="table">
                       <thead>
                         <tr>
                           <th><input type="checkbox" id="selectAll"></th>
@@ -307,16 +618,13 @@
         </div>
         <footer class="footer">
           <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright ©
-              bootstrapdash.com 2021</span>
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2021</span>
           </div>
         </footer>
       </div>
     </div>
   </div>
-
   <div class="toast-container"></div>
-
   <div id="deleteModal" class="modal" tabindex="-1" style="z-index: 1060;">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -335,7 +643,6 @@
       </div>
     </div>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const orders = [
@@ -360,71 +667,60 @@
         { id: 19, date: 'Apr 4, 2025', customer: 'Tanya Crum', payment: 'Cancelled', status: 'Out for Delivery', method: 'PayPal' },
         { id: 20, date: 'Apr 3, 2025', customer: 'Zondra Klimkin', payment: 'Failed', status: 'Dispatched', method: 'Credit Card' }
       ];
-
       function showToast(message, type = 'success') {
         const toastContainer = document.querySelector('.toast-container');
-        if (!toastContainer) {
-            console.error('Toast container not found!');
-            return;
-        }
-
+        if (!toastContainer) return;
         const toastElement = document.createElement('div');
         toastElement.className = 'toast align-items-center text-white bg-dark border-0';
         toastElement.setAttribute('role', 'alert');
         toastElement.setAttribute('aria-live', 'assertive');
         toastElement.setAttribute('aria-atomic', 'true');
-
         const toastContent = document.createElement('div');
         toastContent.className = 'd-flex';
-
         const toastBody = document.createElement('div');
         toastBody.className = 'toast-body';
         toastBody.textContent = message;
-
         const closeButton = document.createElement('button');
         closeButton.type = 'button';
         closeButton.className = 'btn-close btn-close-white me-2 m-auto';
         closeButton.setAttribute('data-bs-dismiss', 'toast');
         closeButton.setAttribute('aria-label', 'Close');
-
         toastContent.appendChild(toastBody);
         toastContent.appendChild(closeButton);
         toastElement.appendChild(toastContent);
         toastContainer.appendChild(toastElement);
-
         const bsToast = new bootstrap.Toast(toastElement, { delay: 3000 });
         bsToast.show();
-
         toastElement.addEventListener('hidden.bs.toast', () => {
-            toastElement.remove();
+          toastElement.remove();
         });
       }
-
       const summaryContainer = document.getElementById('statusSummary');
       const counts = orders.reduce((acc, o) => {
         acc[o.status] = (acc[o.status] || 0) + 1;
         return acc;
       }, {});
       const badgeDefs = {
-        'Pending': 'badge badge-warning',
-        'Delivered': 'badge badge-success',
-        'Cancelled': 'badge badge-danger',
-        'Out for Delivery': 'badge badge-info',
-        'Dispatched': 'badge badge-dispatched'
+        'Pending': 'badge badge-outline-danger',
+        'In progress': 'badge badge-outline-warning',
+        'Fixed': 'badge badge-outline-info',
+        'Completed': 'badge badge-outline-success',
+        'Delivered': 'badge badge-success', /* Đổi từ outline sang solid để khớp Product List */
+        'Cancelled': 'badge badge-danger', /* Đổi từ outline sang solid để khớp Product List */
+        'Out for Delivery': 'badge badge-info', /* Đổi từ outline sang solid để khớp Product List */
+        'Dispatched': 'badge badge-warning' /* Đổi từ outline sang solid để khớp Product List */
       };
       let summaryHtml = '';
       for (let [status, count] of Object.entries(counts)) {
         summaryHtml += `<span class="${badgeDefs[status] || 'badge'}">${status}: ${count}</span>`;
       }
       summaryContainer.innerHTML = summaryHtml;
-
       let currentOrderBeingDeleted = null;
       const deleteModalElement = document.getElementById('deleteModal');
       const deleteModal = new bootstrap.Modal(deleteModalElement);
-
       const table = $('#orderTable').DataTable({
         data: orders,
-        dom: 'lfrtip',
+        dom: 'rtip',
         columns: [
           {
             data: null,
@@ -433,15 +729,15 @@
           },
           {
             data: 'id',
-            render: d => `<span style="color:#fff">#${d}</span>`
+            render: d => `<span style="color:#e0e0e0">#${d}</span>` /* Đổi từ #fff */
           },
           {
             data: 'date',
-            render: d => `<span style="color:#fff">${d}</span>`
+            render: d => `<span style="color:#e0e0e0">${d}</span>` /* Đổi từ #fff */
           },
           {
             data: 'customer',
-            render: d => `<span style="color:#fff">${d}</span>`
+            render: d => `<span style="color:#e0e0e0">${d}</span>` /* Đổi từ #fff */
           },
           {
             data: 'payment',
@@ -449,14 +745,24 @@
           },
           {
             data: 'status',
+            className: 'status-cell',
             render: d => {
-              const cls = badgeDefs[d] ? badgeDefs[d].replace('badge ', 'badge-') : '';
-              return `<span class="badge ${badgeDefs[d] || ''}">${d}</span>`;
+              let badgeClass = '';
+              switch (d) {
+                case 'Delivered': badgeClass = 'badge badge-success'; break;
+                case 'Cancelled': badgeClass = 'badge badge-danger'; break;
+                case 'Out for Delivery': badgeClass = 'badge badge-info'; break;
+                case 'Dispatched': badgeClass = 'badge badge-warning'; break;
+                case 'Pending': badgeClass = 'badge badge-warning'; break; /* Pending thường là warning */
+                case 'Failed': badgeClass = 'badge badge-danger'; break; /* Failed là danger */
+                default: badgeClass = 'badge badge-info';
+              }
+              return `<span class="${badgeClass}">${d}</span>`;
             }
           },
           {
             data: 'method',
-            render: d => `<span style="color:#fff">${d}</span>`
+            render: d => `<span style="color:#e0e0e0">${d}</span>` /* Đổi từ #fff */
           },
           {
             data: null,
@@ -474,37 +780,37 @@
         pageLength: 10,
         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
         language: {
-            search: "_INPUT_",
-            searchPlaceholder: "Search orders..."
+          search: "_INPUT_",
+          searchPlaceholder: "Search orders..."
         },
         buttons: [
           {
             extend: 'copyHtml5',
             copyFlash: false,
             exportOptions: {
-                columns: [1, 2, 3, 4, 5, 6],
-                modifier: { selected: true }
+              columns: [1, 2, 3, 4, 5, 6],
+              modifier: { selected: true }
             },
             action: function(e, dt, button, config) {
-                 $.fn.dataTable.ext.buttons.copyHtml5.action.call(this, e, dt, button, config);
-                 showToast('Orders copied to clipboard!', 'info');
+              $.fn.dataTable.ext.buttons.copyHtml5.action.call(this, e, dt, button, config);
+              showToast('Orders copied to clipboard!', 'info');
             }
           },
           {
             extend: 'excelHtml5',
             exportOptions: {
-                columns: [1, 2, 3, 4, 5, 6]
+              columns: [1, 2, 3, 4, 5, 6]
             },
             title: 'OrderListExport',
             action: function(e, dt, button, config) {
-                 $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
-                 showToast('Orders exported to Excel!', 'success');
+              $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
+              showToast('Orders exported to Excel!', 'success');
             }
           },
           {
             extend: 'pdfHtml5',
             exportOptions: {
-                columns: [1, 2, 3, 4, 5, 6]
+              columns: [1, 2, 3, 4, 5, 6]
             },
             title: 'OrderListExport',
             orientation: 'landscape',
@@ -516,42 +822,41 @@
           }
         ]
       });
-
+      $('#customLength').on('change', function() {
+        $('#orderTable').DataTable().page.len($(this).val()).draw();
+      });
+      $('#reviewSearch').on('keyup', function() {
+        table.search(this.value).draw();
+      });
       $('#copyButton').on('click', () => table.button(0).trigger());
       $('#excelButton').on('click', () => table.button(1).trigger());
       $('#pdfButton').on('click', () => table.button(2).trigger());
-
       $('#selectAll').on('change', function() {
         const isChecked = this.checked;
         $('.order-checkbox').prop('checked', isChecked);
       });
-
       $('#orderTable').on('change', '.order-checkbox', function() {
         const allCheckboxes = $('.order-checkbox').length;
         const checkedCheckboxes = $('.order-checkbox:checked').length;
         $('#selectAll').prop('checked', allCheckboxes > 0 && allCheckboxes === checkedCheckboxes);
       });
-
       $('#orderTable').on('click', '.view-btn', function() {
         const orderId = $(this).data('id');
         const data = table.rows().data().toArray().find(order => order.id === orderId);
         showToast(`Viewing order #${orderId} - ${data ? data.customer : 'N/A'}`);
       });
-
       $('#orderTable').on('click', '.delete-btn', function() {
         const row = $(this).closest('tr');
         const data = table.row(row).data();
         const orderId = $(this).data('id');
-
         if (data && data.id === orderId) {
-            currentOrderBeingDeleted = { row: row, data: data };
-            $('#deleteOrderInfo').text(`Order #${data.id || 'N/A'} - ${data.customer || 'N/A'}`);
-            deleteModal.show();
+          currentOrderBeingDeleted = { row: row, data: data };
+          $('#deleteOrderInfo').text(`Order #${data.id || 'N/A'} - ${data.customer || 'N/A'}`);
+          deleteModal.show();
         } else {
-            console.warn("Delete button clicked on a row not recognized by DataTables.");
+          console.warn("Delete button clicked on a row not recognized by DataTables.");
         }
       });
-
       $('#confirmDelete').on('click', function() {
         if (currentOrderBeingDeleted) {
           table.row(currentOrderBeingDeleted.row).remove().draw();
@@ -560,17 +865,12 @@
           currentOrderBeingDeleted = null;
         }
       });
-
-      deleteModalElement.addEventListener('hidden.bs.modal', function (event) {
-           console.log("Modal hidden event triggered.");
-           if (currentOrderBeingDeleted) {
-              console.log("Resetting currentOrderBeingDeleted due to modal close/cancel.");
-              currentOrderBeingDeleted = null;
-           }
+      deleteModalElement.addEventListener('hidden.bs.modal', function(event) {
+        if (currentOrderBeingDeleted) {
+          currentOrderBeingDeleted = null;
+        }
       });
-
     });
   </script>
 </body>
-
 </html>
