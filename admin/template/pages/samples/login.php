@@ -33,7 +33,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
   <!-- Layout styles -->
   <link rel="stylesheet" href="../../assets/css/style.css">
   <link rel="stylesheet" href="../../../assets/product.css">
-
+  <link rel="stylesheet" href="../../index.php">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="../../assets/images/favicon.png" />
   <!-- jQuery -->
@@ -93,7 +93,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
     <!-- page-body-wrapper ends -->
   </div>
   <?php
-  include "/e-web/connect.php";
+  include "../../../../connect.php";
 
   // Kiểm tra nếu người dùng đã ân nút đăng nhập thì mới xử lý
   if (isset($_POST["btn_login"])) {
@@ -133,8 +133,8 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
       while ($row = $query->fetch_row()) {
         if ($row[6] == 1) {
           $_SESSION['username'] = $username;  // lưu username vào session
-          $_SESSION['role'] = 1;        // nếu muốn phân quyền
-          header('Location: /../admin/template/index.php');
+            $_SESSION['role'] = 1;        // nếu muốn phân quyền
+            header('Location: /e-web/admin/template/index.php');
           echo "Username: " . htmlspecialchars($username) . "<br>";
           exit;
         } else {
