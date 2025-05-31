@@ -61,6 +61,9 @@ if ($conn->connect_error) {
   display: block;
 }
 
+* {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
   </style>
 </head>
 <body>

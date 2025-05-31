@@ -91,6 +91,9 @@ if ($conn->connect_error) {
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
+* {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
   </style>
 </head>
 <body>
@@ -107,7 +110,7 @@ if ($conn->connect_error) {
 
     <div class="row g-4" id="product-list">
       <?php
-      $sql = "SELECT * FROM product WHERE cid = 13 AND SIZE = 'M' ORDER BY price ASC";
+      $sql = "SELECT * FROM product WHERE cid = 14 AND SIZE = 'M' ORDER BY price ASC";
       $result = $conn->query($sql);
       if ($result->num_rows > 0) {
           while($row = $result->fetch_assoc()) {
