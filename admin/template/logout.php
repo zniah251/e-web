@@ -5,6 +5,6 @@ session_start();
 if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
     unset($_SESSION['username']);
     unset($_SESSION['role']);
-    header('Location: /../admin/template/pages/samples/login.php');
+    header('Location: /e-web/admin/template/login.php');
 }
 ?>

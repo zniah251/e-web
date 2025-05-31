@@ -5,7 +5,7 @@ session_start();
 
 // Kiểm tra nếu chưa login thì quay về login
 if (!isset($_SESSION['username']) || $_SESSION['role'] != 1) { // hoặc != 2 nếu là user
-  header('Location: pages/samples/login.php');
+  header('Location: /e-web/admin/template/login.php');
   exit();
 }
 
@@ -372,7 +372,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 1) { // hoặc != 2 n�
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item preview-item" href="./pages/samples/login.php">
+                <a class="dropdown-item preview-item" href="/e-web/admin/template/logout.php">
                   <div class="preview-thumbnail">
                     <div class="preview-icon bg-dark rounded-circle">
                       <i class="mdi mdi-logout text-danger"></i>

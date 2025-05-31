@@ -23,19 +23,19 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Corona Admin</title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <!-- endinject -->
   <!-- Layout styles -->
-  <link rel="stylesheet" href="../../assets/css/style.css">
-  <link rel="stylesheet" href="../../../assets/product.css">
-  <link rel="stylesheet" href="../../index.php">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/product.css">
+  
   <!-- End layout styles -->
-  <link rel="shortcut icon" href="../../assets/images/favicon.png" />
+  <link rel="shortcut icon" href="assets/images/favicon.png" />
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Toastr CSS -->
@@ -93,7 +93,8 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
     <!-- page-body-wrapper ends -->
   </div>
   <?php
-  include "../../../../connect.php";
+
+include $_SERVER['DOCUMENT_ROOT'] . '/e-web/connect.php';
 
   // Kiểm tra nếu người dùng đã ân nút đăng nhập thì mới xử lý
   if (isset($_POST["btn_login"])) {
@@ -140,7 +141,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
         } else {
           $_SESSION['username'] = $username;
           $_SESSION['role'] = 2;
-          header('Location: /../user/index.html');
+          header('Location: /e-web/user/index.html');
           exit;
         }
       }
@@ -149,16 +150,16 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
   ?>
   <!-- container-scroller -->
   <!-- plugins:js -->
-  <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="assets/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
   <!-- End plugin js for this page -->
   <!-- inject:js -->
-  <script src="../../assets/js/off-canvas.js"></script>
-  <script src="../../assets/js/hoverable-collapse.js"></script>
-  <script src="../../assets/js/misc.js"></script>
-  <script src="../../assets/js/settings.js"></script>
-  <script src="../../assets/js/todolist.js"></script>
+  <script src="assets/js/off-canvas.js"></script>
+  <script src="assets/js/hoverable-collapse.js"></script>
+  <script src="assets/js/misc.js"></script>
+  <script src="assets/js/settings.js"></script>
+  <script src="assets/js/todolist.js"></script>
   <script>
     window.addEventListener('pageshow', function(event) {
       if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
