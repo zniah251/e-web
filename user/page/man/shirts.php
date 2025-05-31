@@ -60,6 +60,9 @@ if ($conn->connect_error) {
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
+* {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
   </style>
 </head>
 <body>

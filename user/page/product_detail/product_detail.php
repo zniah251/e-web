@@ -4,7 +4,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "e-web";
+$dbname = "product";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
