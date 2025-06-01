@@ -669,390 +669,91 @@
             </nav>
             <!-- partial -->
 
-            <div class="main-panel">
-                <div class="content-wrapper">
-                    <!-- Page Header from Product List -->
-                    <div class="page-header">
-                        <h3 class="page-title">Product List</h3>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Products</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Product List</li>
-                            </ol>
-                        </nav>
-                    </div>
-
-                    <!-- Product Table Section from Product List -->
-                    <div class="row">
-                        <div class="col-lg-12 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Product List</h4>
-                                    <p class="card-description">Manage your products</p>
-                                    
-                                    <!-- Moved controls below "Manage your products" -->
-                                    <div class="product-table-controls"> 
-                                        <!-- Search Input for Orders -->
-                                        <input type="text" id="orderSearch" class="form-control" placeholder="Search orders...">
-                                        
-                                        <!-- Export Button & Page Length Select -->
-                                        <div class="export-and-length-controls">
-                                            <div class="dropdown">
-                                                <button class="btn btn-primary dropdown-toggle" type="button" id="exportMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Export
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="exportMenu">
-                                                    <li><button class="dropdown-item" id="copyButton"><i class="fas fa-copy me-2"></i>Copy</button></li>
-                                                    <li><button class="dropdown-item" id="excelButton"><i class="fas fa-file-excel me-2"></i>Excel</button></li>
-                                                    <li><button class="dropdown-item" id="pdfButton"><i class="fas fa-file-pdf me-2"></i>PDF</button></li>
-                                                </ul>
-                                            </div>
-                                            <select id="customLength" class="form-select" style="min-width:80px;height:38px;padding:6px 8px;">
-                                                <option value="10">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="-1">All</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!-- Table -->
-                                    <div class="table-responsive">
-                                        <table id="productTable" class="table table-striped" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 30px;"><input type="checkbox" id="selectAll"></th>
-                                                    <th>Product</th>
-                                                    <th>Category</th>
-                                                    <th>Stock</th>
-                                                    <th>SKU</th>
-                                                    <th>Price</th>
-                                                    <th>Qty</th>
-                                                    <th>Status</th>
-                                                    <th style="width: 120px;">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="productTableBody">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer -->
-                    <footer class="footer">
-                        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © YourWebsite.com 2024</span>
-                            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
-                        </div>
-                    </footer>
-                </div>
-                <!-- main-panel ends -->
-            </div>
-            <!-- page-body-wrapper ends -->
-        </div>
-    </div>
-
-    <!-- Toast Container (specific to Product List) -->
-    <div class="toast-container"></div>
-
-    <!-- Delete Modal (specific to Product List) -->
-    <div id="deleteModal" class="modal" tabindex="-1" style="z-index: 1060;">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Confirm Delete</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>Are you sure you want to delete this product?</p>
-            <p><strong id="deleteProductInfo"></strong></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" id="confirmDelete" class="btn btn-danger">Delete</button>
-          </div>
+              <div class="container mt-5">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Category List</h4>
+        <div class="table-responsive">
+          <table id="categoryTable" class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Category Name</th>
+                <th>Shipping</th>
+                <th>Payment</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- External Scripts from Corona Admin Template -->
-    <script src="../../template/assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="../../template/assets/vendors/chart.js/Chart.min.js"></script>
-    <script src="../../template/assets/vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="../../template/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-    <script src="../../template/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="../../template/assets/vendors/owl-carousel-2/owl.carousel.min.js"></script> 
-    <script src="../../template/assets/js/jquery.cookie.js" type="text/javascript"></script>
-    <script src="../../template/assets/js/off-canvas.js"></script>
-    <script src="../../template/assets/js/hoverable-collapse.js"></script>
-    <script src="../../template/assets/js/misc.js"></script>
-    <script src="../../template/assets/js/settings.js"></script>
-    <script src="../../template/assets/js/todolist.js"></script>
-    <script src="../../template/assets/js/dashboard.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+  <script>
+    const categories = [
+      { id: 1, name: "Shirts", shipping: true, payment: true },
+      { id: 2, name: "Pants", shipping: false, payment: true },
+      { id: 3, name: "Shoes", shipping: true, payment: false },
+    ];
 
-    <!-- External DataTables Scripts (specific to Product List) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js "></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js "></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js "></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js "></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js "></script>
-
-    <!-- Custom Script (specific to Product List functionality) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const products = [
-                { id: 1, name: 'Air Jordan XI', category: 'Shoes', stock: true, sku: 'AJXI-001', price: '$225.00', qty: 150, status: 'Active' },
-                { id: 2, name: 'Amazon Echo Dot', category: 'Electronics', stock: true, sku: 'ECHO-DOT-5G', price: '$49.99', qty: 587, status: 'Active' },
-                { id: 3, name: 'Classic Leather Jacket', category: 'Apparel', stock: false, sku: 'CLJ-BLK-L', price: '$199.50', qty: 0, status: 'Inactive' },
-                { id: 4, name: 'Wireless Mouse MX', category: 'Accessories', stock: true, sku: 'LOGI-MXM3', price: '$99.99', qty: 320, status: 'Active' },
-                { id: 5, name: 'Organic Green Tea', category: 'Groceries', stock: true, sku: 'OGT-50BAG', price: '$12.75', qty: 800, status: 'Scheduled' },
-                { id: 6, name: 'Gaming Keyboard K95', category: 'Electronics', stock: false, sku: 'COR-K95-RGB', price: '$189.00', qty: 0, status: 'Inactive' },
-                { id: 7, name: 'Running Shoes Ultraboost', category: 'Shoes', stock: true, sku: 'ADI-UB23', price: '$180.00', qty: 210, status: 'Active' },
-                { id: 8, name: 'Smart Thermostat Nest', category: 'Home Goods', stock: true, sku: 'GOOG-NEST-T3', price: '$249.00', qty: 95, status: 'Active' },
-                { id: 9, name: 'Denim Jeans Slim Fit', category: 'Apparel', stock: true, sku: 'LEVI-511-32', price: '$69.50', qty: 450, status: 'Scheduled' },
-                { id: 10, name: 'Bluetooth Speaker JBL', category: 'Electronics', stock: true, sku: 'JBL-FLIP6', price: '$129.95', qty: 180, status: 'Active' },
-                { id: 11, name: 'Yoga Mat Premium', category: 'Sports', stock: true, sku: 'YOGA-MAT-PRM', price: '$35.00', qty: 600, status: 'Active' },
-                { id: 12, name: 'Coffee Maker Keurig', category: 'Home Goods', stock: false, sku: 'KEU-KMINI', price: '$89.99', qty: 0, status: 'Inactive' },
-            ];
-            
-            function showToast(message, type = 'success') {
-                const toastContainer = document.querySelector('.toast-container');
-                if (!toastContainer) {
-                    console.error('Toast container not found!');
-                    return;
-                }
-                const toastElement = document.createElement('div');
-                toastElement.className = 'toast align-items-center text-white bg-dark border-0';
-                toastElement.setAttribute('role', 'alert');
-                toastElement.setAttribute('aria-live', 'assertive');
-                toastElement.setAttribute('aria-atomic', 'true');
-                const toastContent = document.createElement('div');
-                toastContent.className = 'd-flex';
-                const toastBody = document.createElement('div');
-                toastBody.className = 'toast-body';
-                toastBody.textContent = message;
-                const closeButton = document.createElement('button');
-                closeButton.type = 'button';
-                closeButton.className = 'btn-close btn-close-white me-2 m-auto';
-                closeButton.setAttribute('data-bs-dismiss', 'toast');
-                closeButton.setAttribute('aria-label', 'Close');
-                toastContent.appendChild(toastBody);
-                toastContent.appendChild(closeButton);
-                toastElement.appendChild(toastContent);
-                toastContainer.appendChild(toastElement);
-                const bsToast = new bootstrap.Toast(toastElement, { delay: 3000 });
-                bsToast.show();
-                toastElement.addEventListener('hidden.bs.toast', () => {
-                    toastElement.remove();
-                });
+    $(document).ready(function () {
+      const table = $('#categoryTable').DataTable({
+        data: categories,
+        columns: [
+          { data: 'id' },
+          { data: 'name' },
+          {
+            data: 'shipping',
+            render: function (data, type, row) {
+              return `
+                <label class="toggle-switch">
+                  <input type="checkbox" class="toggle-shipping" data-id="${row.id}" ${data ? 'checked' : ''}>
+                  <span></span>
+                </label>`;
             }
-            
-            let currentProductBeingDeleted = null;
-            const deleteModalElement = document.getElementById('deleteModal');
-            const deleteModal = new bootstrap.Modal(deleteModalElement);
-            
-            const table = $('#productTable').DataTable({
-                data: products,
-                dom: 'rtip', /* 'rtip' means: R=processing, t=table, i=information, p=pagination. Removed 'l' (length) and 'f' (filter) because we custom-implemented them. */
-                columns: [
-                    {
-                        data: null,
-                        orderable: false,
-                        searchable: false,
-                        className: 'dt-center',
-                        render: () => '<input type="checkbox" class="product-checkbox">'
-                    },
-                    { data: 'name', render: d => `<span style="color:#fff; font-weight: 500;">${d}</span>` },
-                    { data: 'category', render: d => `<span style="color:#fff">${d}</span>` },
-                    {
-                        data: 'stock',
-                        className: 'dt-center',
-                        render: d => `
-                            <label class="toggle-switch">
-                                <input type="checkbox" ${d ? 'checked' : ''}>
-                                <span></span>
-                            </label>`
-                    },
-                    { data: 'sku', render: d => `<span style="color:#fff">${d}</span>` },
-                    { data: 'price', render: d => `<span style="color:#fff">${d}</span>` },
-                    { data: 'qty', render: d => `<span style="color:#fff">${d}</span>` },
-                    {
-                        data: 'status',
-                        render: d => {
-                            let badgeClass = '';
-                            switch (d) {
-                                case 'Active': badgeClass = 'badge badge-success'; break;
-                                case 'Inactive': badgeClass = 'badge badge-danger'; break;
-                                case 'Scheduled': badgeClass = 'badge badge-warning'; break;
-                                default: badgeClass = 'badge badge-info';
-                            }
-                            return `<span class="${badgeClass}">${d}</span>`;
-                        }
-                    },
-                    {
-                        data: null,
-                        orderable: false,
-                        searchable: false,
-                        className: 'dt-center',
-                        render: function(data, type, row) {
-                            return `
-                                <button class="btn btn-primary btn-sm edit-btn" title="Edit Product" data-id="${row.id}"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-danger btn-sm delete-btn" title="Delete Product" data-id="${row.id}"><i class="fas fa-trash-alt"></i></button>
-                            `;
-                        }
-                    }
-                ],
-                pageLength: 10,
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                buttons: [
-                    {
-                        extend: 'copyHtml5',
-                        copyFlash: false,
-                        exportOptions: {
-                            columns: [1, 2, 3, 4, 5, 6, 7],
-                            modifier: { selected: true }
-                        },
-                        action: function(e, dt, button, config) {
-                             $.fn.dataTable.ext.buttons.copyHtml5.action.call(this, e, dt, button, config);
-                             showToast('Products copied to clipboard!', 'info');
-                        }
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        exportOptions: { columns: [1, 2, 3, 4, 5, 6, 7] },
-                        title: 'ProductListExport',
-                         action: function(e, dt, button, config) {
-                             $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
-                             showToast('Products exported to Excel!', 'success');
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        exportOptions: { columns: [1, 2, 3, 4, 5, 6, 7] },
-                        title: 'ProductListExport',
-                        orientation: 'landscape',
-                        pageSize: 'A4',
-                         action: function(e, dt, button, config) {
-                             $.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, button, config);
-                             showToast('Products exported to PDF!', 'success');
-                        }
-                    }
-                ]
-            });
-            
-            // Ensures modal backdrop z-index is correct
-            const style = document.createElement('style');
-            style.innerHTML = `
-                .modal-backdrop {
-                    z-index: 1050 !important;
-                    background-color: rgba(0,0,0,0.5) !important;
-                }
-                .modal {
-                    z-index: 1060 !important;
-                }
-            `;
-            document.head.appendChild(style);
-            
-            // Custom length change event listener (for #customLength)
-            $('#customLength').on('change', function(){
-                table.page.len($(this).val()).draw();
-            });
-            
-            // Custom product search keyup event listener (for #orderSearch)
-            $('#orderSearch').on('keyup', function(){
-                table.search($(this).val()).draw();
-            });
-            
-            $('#copyButton').on('click', () => table.button(0).trigger());
-            $('#excelButton').on('click', () => table.button(1).trigger());
-            $('#pdfButton').on('click', () => table.button(2).trigger());
-            
-            $('#selectAll').on('change', function() {
-                const isChecked = this.checked;
-                $('.product-checkbox').prop('checked', isChecked);
-            });
-            
-            $('#productTableBody').on('change', '.product-checkbox', function() {
-                const allCheckboxes = $('.product-checkbox').length;
-                const checkedCheckboxes = $('.product-checkbox:checked').length;
-                $('#selectAll').prop('checked', allCheckboxes > 0 && allCheckboxes === checkedCheckboxes);
-            });
-            
-            $('#productTableBody').on('click', '.edit-btn', function() {
-                const row = $(this).closest('tr');
-                const data = table.row(row).data();
-                showToast(`Editing product: ${data.name}`, 'warning');
-                console.log('Edit product:', data);
-            });
-            
-            $('#productTableBody').on('click', '.delete-btn', function(e) {
-                e.stopPropagation();
-                const row = $(this).closest('tr');
-                if (table.row(row).length) {
-                    const data = table.row(row).data();
-                    console.log("Delete button clicked for:", data);
-                    currentProductBeingDeleted = { row: row, data: data };
-                    $('#deleteProductInfo').text(`Product: ${data.name || 'N/A'} (SKU: ${data.sku || 'N/A'})`);
-                    deleteModal.show();
-                    $('.modal-backdrop').css('z-index', '1050');
-                    console.log("Delete modal shown.");
-                } else {
-                    console.warn("Delete button clicked on a row not recognized by DataTables.");
-                }
-            });
-            
-            $('#confirmDelete').on('click', function() {
-                console.log("Confirm delete clicked. Current product:", currentProductBeingDeleted);
-                if (currentProductBeingDeleted && currentProductBeingDeleted.row) {
-                    try {
-                        const productName = currentProductBeingDeleted.data.name || 'Selected Product';
-                        const rowIndex = table.row(currentProductBeingDeleted.row).index();
-                        console.log(`Attempting to remove row for product: ${productName}`);
-                        table.row(rowIndex).remove();
-                        console.log("Row removed from DataTables object.");
-                        table.draw(false);
-                        console.log("Table redrawn.");
-                        showToast(`Product "${productName}" deleted successfully!`, 'success');
-                        deleteModal.hide();
-                        console.log("Delete modal hidden.");
-                    } catch (error) {
-                        console.error("Error during product deletion:", error);
-                        showToast('Error deleting product. Please check console.', 'danger');
-                    } finally {
-                         currentProductBeingDeleted = null;
-                         console.log("currentProductBeingDeleted reset to null after confirm.");
-                    }
-                } else {
-                     console.warn("Confirm delete clicked, but currentProductBeingDeleted is not set or row is missing.");
-                     if (deleteModal) deleteModal.hide();
-                }
-            });
-            
-            $('#productTableBody').on('change', '.toggle-switch input', function() {
-                const row = $(this).closest('tr');
-                if (table.row(row).length) {
-                    const rowData = table.row(row).data();
-                    rowData.stock = this.checked;
-                    table.row(row).data(rowData).invalidate().draw(false);
-                    showToast(`Stock status updated for ${rowData.name}`, 'info');
-                }
-            });
-            
-            deleteModalElement.addEventListener('hidden.bs.modal', function (event) {
-                 console.log("Modal hidden event triggered.");
-                 if (currentProductBeingDeleted) {
-                    console.log("Resetting currentProductBeingDeleted due to modal close/cancel.");
-                    currentProductBeingDeleted = null;
-                 }
-            });
-        });
-    </script>
+          },
+          {
+            data: 'payment',
+            render: function (data, type, row) {
+              return `
+                <label class="toggle-switch">
+                  <input type="checkbox" class="toggle-payment" data-id="${row.id}" ${data ? 'checked' : ''}>
+                  <span></span>
+                </label>`;
+            }
+          },
+          {
+            data: null,
+            render: function (data, type, row) {
+              return `
+                <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}"><i class="fas fa-trash"></i></button>`;
+            }
+          }
+        ]
+      });
+
+      $('#categoryTable tbody').on('change', '.toggle-shipping', function () {
+        const id = $(this).data('id');
+        const checked = $(this).is(':checked');
+        const row = categories.find(c => c.id === id);
+        row.shipping = checked;
+        alert(`Shipping status updated for ${row.name}: ${checked}`);
+      });
+
+      $('#categoryTable tbody').on('change', '.toggle-payment', function () {
+        const id = $(this).data('id');
+        const checked = $(this).is(':checked');
+        const row = categories.find(c => c.id === id);
+        row.payment = checked;
+        alert(`Payment status updated for ${row.name}: ${checked}`);
+      });
+    });
+  </script>
 </body>
 </html>

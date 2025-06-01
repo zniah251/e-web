@@ -24,11 +24,56 @@
     <link rel="shortcut icon" href="../../../admin/template/assets/images/favicon.png" />
     <!-- Sử dụng liên kết CDN mới nhất của Font Awesome -->
 
-    </style>
     <!-- Thêm vào trước thẻ </body> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 32px;
+            height: 18px;
+        }
 
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: gray;
+            border-radius: 34px;
+            box-shadow: 0 2px 8px 0 #7b7bff33;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background: #6366f1;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(14px);
+        }
+    </style>
 </head>
 
 <body>
@@ -123,22 +168,37 @@
                                     <div class="d-flex justify-content-between align-items-center mb-3">
 
                                         <div class="add-items">
-                                            <input type="text" id="searchOrder" class="form-control todo-list-input w-75" placeholder="Search order" style="color:white;">
+                                            <input type="text" id="searchProduct" class="form-control todo-list-input w-75" placeholder="Search product" style="color:white;">
                                         </div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="mdi mdi-logout"></i> Export
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                                <a class="dropdown-item" href="#"><span class="mdi mdi-printer"></span> Print</a>
-                                                <a class="dropdown-item" href="#" onclick="exportTableToExcel('orders.xls')">
-                                                    <span class="mdi mdi-file-excel"></span> Excel
-                                                </a>
-                                                <a class="dropdown-item" href="#" onclick="exportTableToPDF()">
-                                                    <span class="mdi mdi-file-pdf"></span> Pdf
-                                                </a>
-                                                <a class="dropdown-item" href="#"><span class="mdi mdi-content-copy"></span> Copy</a>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <!-- Select số lượng sản phẩm -->
+                                            <select class="btn btn-secondary dropdown-toggle" id="productPerPage" style="text-align: center; text-align-last: center;">
+                                                <option>10</option>
+                                                <option>25</option>
+                                                <option>50</option>
+                                                <option>100</option>
+                                            </select>
+
+                                            <!-- Nút Export -->
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-logout"></i> Export
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                                    <a class="dropdown-item" href="#"><span class="mdi mdi-printer"></span> Print</a>
+                                                    <a class="dropdown-item" href="#" onclick="exportTableToExcel('orders.xls')">
+                                                        <span class="mdi mdi-file-excel"></span> Excel
+                                                    </a>
+                                                    <a class="dropdown-item" href="#" onclick="exportTableToPDF()">
+                                                        <span class="mdi mdi-file-pdf"></span> Pdf
+                                                    </a>
+                                                    <a class="dropdown-item" href="#"><span class="mdi mdi-content-copy"></span> Copy</a>
+                                                </div>
                                             </div>
+                                            <!-- Nút Add Product -->
+                                            <a href="/e-web/admin/pages/add-product/product.php" class="btn" style="background:#6366f1;color:#fff;font-weight:500;box-shadow:0 2px 8px 0 #7b7bff33;">
+                                                <i class="mdi mdi-plus"></i> Add Product
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="table-responsive">
@@ -152,12 +212,12 @@
                                                             </label>
                                                         </div>
                                                     </th>
-                                                    <th> ORDER </th>
-                                                    <th> TOTAL </th>
-                                                    <th> CUSTOMERS </th>
-                                                    <th> PAYMENT STATUS </th>
-                                                    <th> STATUS </th>
-                                                    <th> DATE </th>
+                                                    <th> PRODUCT </th>
+                                                    <th> CATEGORY </th>
+                                                    <th> STOCK </th>
+                                                    <th> SKU </th>
+                                                    <th> PRICE </th>
+                                                    <th> QTY </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -169,112 +229,88 @@
                                                             </label>
                                                         </div>
                                                     </td>
-
-                                                    <td> 02312 </td>
-                                                    <td> $14,500 </td>
                                                     <td>
+                                                        <img src="/e-web/admin/template/assets/images/faces/face1.jpg" alt="image" style="width:40px;height:40px;object-fit:cover;border-radius:0;">
                                                         <span class="ps-2">Henry Klein</span>
                                                     </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-success">Paid</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-success">Delivered</div>
-                                                    </td>
-                                                    <td> 04 Dec 2019 </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
-                                                    </td>
                                                     <td> 02312 </td>
-                                                    <td> $14,500 </td>
                                                     <td>
-                                                        <span class="ps-2">Henry Klein</span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-warning">Pending</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-info">Out of delivery</div>
-                                                    </td>
-                                                    <td> 04 Dec 2019 </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                    <td> 02312 </td>
-                                                    <td> $14,500 </td>
-                                                    <td>
-                                                        <span class="ps-2">Henry Klein</span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-danger">Refuned</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-warning">Dispatched</div>
-                                                    </td>
-                                                    <td> 04 Dec 2019 </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                    <td> 02312 </td>
-                                                    <td> $14,500 </td>
-                                                    <td>
-                                                        <span class="ps-2">Henry Klein</span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-success">Paid</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-secondary">New</div>
-                                                    </td>
-                                                    <td> 04 Dec 2019 </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
+                                                        <label class="switch">
+                                                            <input type="checkbox">
+                                                            <span class="slider"></span>
+                                                        </label>
                                                     </td>
                                                     <td> 02315 </td>
-                                                    <td> $14,500 </td>
+                                                    <td>
+                                                        23
+                                                    </td>
+                                                    <td> 02312 </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check form-check-muted m-0">
+                                                            <label class="form-check-label">
+                                                                <input type="checkbox" class="form-check-input">
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <img src="/e-web/admin/template/assets/images/faces/face1.jpg" alt="image" style="width:40px;height:40px;object-fit:cover;border-radius:0;">
+                                                        <span class="ps-2">Henry Klein</span>
+                                                    </td>
+                                                    <td> 02312 </td>
+                                                    <td>
+                                                        <label class="switch">
+                                                            <input type="checkbox">
+                                                            <span class="slider"></span>
+                                                        </label>
+                                                    </td>
                                                     <td>
                                                         <span class="ps-2">Henry Klein</span>
                                                     </td>
                                                     <td>
-                                                        <div class="badge badge-outline-success">Paid</div>
+                                                        12
                                                     </td>
                                                     <td>
-                                                        <div class="badge badge-outline-primary">Confirm</div>
+                                                        34
                                                     </td>
-                                                    <td> 04 Dec 2019 </td>
+
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check form-check-muted m-0">
+                                                            <label class="form-check-label">
+                                                                <input type="checkbox" class="form-check-input">
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <img src="/e-web/admin/template/assets/images/faces/face1.jpg" alt="image" style="width:40px;height:40px;object-fit:cover;border-radius:0;">
+                                                        <span class="ps-2">Henry Klein</span>
+                                                    </td>
+                                                    <td> 02312 </td>
+                                                    <td>
+                                                        <label class="switch">
+                                                            <input type="checkbox">
+                                                            <span class="slider"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        22
+                                                    </td>
+                                                    <td>
+                                                        33
+                                                    </td>
+                                                    <td>
+                                                        222
+                                                    </td>
+
+                                                </tr>
+
                                             </tbody>
                                         </table>
                                         <script>
-                                            document.getElementById('searchOrder').addEventListener('input', function() {
+                                            document.getElementById('searchProduct').addEventListener('input', function() {
                                                 var filter = this.value.trim().toUpperCase();
                                                 var table = document.querySelector('.table');
                                                 var trs = table.getElementsByTagName('tr');
