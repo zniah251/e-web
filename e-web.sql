@@ -568,261 +568,42 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo cổ bé tay ngắn in hoạ tiết chữ hiện đại', 199000, 159000, 'ao-polo-co-be-tay-ngan-in-hoa-tiet-chU-hien-ai.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Đen');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo cổ bé tay ngắn in hoạ tiết chữ hiện đại', 210000, 180000, 'ao-polo-co-be-tay-ngan-in-hoa-tiet-chU-hien-ai.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Đen');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo nam cổ bé tay ngắn trẻ trung', 160000, 140000, 'ao-polo-nam-co-be-tay-ngan-tre-trung.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 4.5, 0, 'Cam');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo nam cổ bé tay ngắn trẻ trung', 170000, 150000, 'ao-polo-nam-co-be-tay-ngan-tre-trung.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 4.5, 0, 'Cam');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo ngắn tay nam S.cafe phối cổ.fitted', 299000, 269000, 'ao-polo-ngan-tay-nam-S.Cafe-phoi-co.Fitted.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 4.5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo ngắn tay nam S.cafe phối cổ.fitted', 319000, 289000, 'ao-polo-ngan-tay-nam-S.Cafe-phoi-co.Fitted.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 4.5, 0, 'Trắng');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo cổ bé tay ngắn thời thượng', 249000, 239000, 'ao-polo-co-be-tay-ngan-thoi-thuong.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo cổ bé tay ngắn thời thượng', 279000, 269000, 'ao-polo-co-be-tay-ngan-thoi-thuong.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Trắng');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo nam ngắn tay cotton', 199000, 159000, 'ao-polo-nam-ngan-tay-cotton.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 4.5, 0, 'Đen');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo nam ngắn tay cotton', 219000, 179000, 'ao-polo-nam-ngan-tay-cotton.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 4.5, 0, 'Đen');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo nam premium 100% cotton phối sọc form fitt', 310000, 300000, 'ao-polo-nam-premium-100_-cotton-phoi-soc-form-fitt.webp', 'Sản phẩm thời trang nam cao cấp.', 20, 'L', 4.8, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo nam premium 100% cotton phối sọc form fitt', 330000, 310000, 'ao-polo-nam-premium-100_-cotton-phoi-soc-form-fitt.webp', 'Sản phẩm thời trang nam cao cấp.', 20, 'XL', 4.8, 0, 'Trắng');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo nam thời trang basic dễ phối đồ', 149000, 129000, 'ao-polo-nam-thoi-trang-basic-de-phoi-o.jpg', 'Sản phẩm thời trang nam cao cấp.', 15, 'L', 4.5, 0, 'Nâu');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo nam thời trang basic dễ phối đồ', 169000, 149000, 'ao-polo-nam-thoi-trang-basic-de-phoi-o.jpg', 'Sản phẩm thời trang nam cao cấp.', 15, 'XL', 4.5, 0, 'Nâu');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo nam trơn vải cotton polyester', 299000, 269000, 'ao-polo-nam-tron-vai-cotton-polyester.webp', 'Sản phẩm thời trang nam cao cấp.', 30, 'L', 4.6, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo polo nam trơn vải cotton polyester', 319000, 289000, 'ao-polo-nam-tron-vai-cotton-polyester.webp', 'Sản phẩm thời trang nam cao cấp.', 30, 'XL', 4.6, 0, 'Trắng');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo thun ngắn tay nam', 189000, 159000, 'ao-Thun-Ngan-Tay-Nam.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 4.5, 0, 'Xanh');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo thun ngắn tay nam', 199000, 169000, 'ao-Thun-Ngan-Tay-Nam.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 4.5, 0, 'Xanh');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi Linen nam tay ngắn xanh', 299000, 259000, 'ao-Thun-Ngan-Tay-Nam.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 4.5, 0, 'Đen');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi Linen nam tay ngắn xanh', 299000, 259000, 'ao-Thun-Ngan-Tay-Nam.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 4.5, 0, 'Đen');
-
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo Sơ Mi Cuban Nam Họa Tiết Marvel Comic', 150000, 120000, 'ao-So-Mi-Cuban-Nam-Hoa-Tiet-Marvel-Comic.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Trắng đen');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo Sơ Mi Cuban Nam Họa Tiết Marvel Comic', 170000, 130000, 'ao-So-Mi-Cuban-Nam-Hoa-Tiet-Marvel-Comic.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Trắng đen');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo Sơ Mi Cuban Nam Tay', 210000, 180000, 'ao-So-Mi-Cuban-Nam-Tay.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo Sơ Mi Cuban Nam Tay', 225000, 190000, 'ao-So-Mi-Cuban-Nam-Tay.webp', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Trắng');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi dài tay nam kẻ caro cotton màu xanh da trời', 195000, 165000, 'ao-so-mi-dai-tay-nam-ke-caro-cotton-mau-xanh-da-troi.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Xanh da trời');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi dài tay nam kẻ caro cotton màu xanh da trời', 210000, 170000, 'ao-so-mi-dai-tay-nam-ke-caro-cotton-mau-xanh-da-troi.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Xanh da trời');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi dài tay nam kẻ caro màu xanh dương', 220000, 185000, 'ao-so-mi-dai-tay-nam-ke-caro-mau-xanh-duong.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Xanh dương');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi dài tay nam kẻ caro màu xanh dương', 230000, 195000, 'ao-so-mi-dai-tay-nam-ke-caro-mau-xanh-duong.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Xanh dương');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi dài tay nam màu đen trơn', 300000, 265000, 'ao-so-mi-dai-tay-nam-mau-den-tron.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Đen');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi dài tay nam màu đen trơn', 320000, 280000, 'ao-so-mi-dai-tay-nam-mau-den-tron.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Đen');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi dài tay nam màu xanh', 250000, 220000, 'ao-so-mi-dai-tay-nam-mau-xanh.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Xanh');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi dài tay nam màu xanh', 270000, 230000, 'ao-so-mi-dai-tay-nam-mau-xanh.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Xanh');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi dài tay nam tím than', 290000, 250000, 'ao-so-mi-dai-tay-nam-tim-than.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Tím than');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo sơ mi dài tay nam tím than', 310000, 270000, 'ao-so-mi-dai-tay-nam-tim-than.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Tím than');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo Sơ Mi Linen Nam Tay Ngắn Xanh', 190000, 150000, 'ao-So-Mi-Linen-Nam-Tay-Ngan-Xanh.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'L', 5, 0, 'Xanh rêu');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Áo Sơ Mi Linen Nam Tay Ngắn Xanh', 210000, 170000, 'ao-So-Mi-Linen-Nam-Tay-Ngan-Xanh.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', 5, 0, 'Xanh rêu');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short thể thao nam phối viền polyester', 200000, 170000, 'Quan-short-the-thao-nam-phoi-vien-polyester.webp', 'Sản phẩm quần short nam thoải mái, năng động.', 10, 'L', 5, 0, 'Xám');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short thể thao nam phối viền polyester', 210000, 180000, 'Quan-short-the-thao-nam-phoi-vien-polyester.webp', 'Sản phẩm quần short nam thoải mái, năng động.', 10, 'XL', 5, 0, 'Xám');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short denim nam form straight', 250000, 220000, 'Quan-short-denim-nam-form-straight.webp', 'Chất liệu denim bền đẹp, kiểu dáng trẻ trung.', 10, 'L', 5, 0, 'Xanh dương');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short denim nam form straight', 270000, 230000, 'Quan-short-denim-nam-form-straight.webp', 'Chất liệu denim bền đẹp, kiểu dáng trẻ trung.', 10, 'XL', 5, 0, 'Xanh dương');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short nam nỉ gân French Terry form relax', 180000, 150000, 'Quan-short-nam-ni-gan-french-terry-form-relax.webp', 'Chất liệu nỉ cao cấp, thoáng mát, phù hợp tập luyện.', 10, 'L', 5, 0, 'Đen');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short nam nỉ gân French Terry form relax', 190000, 160000, 'Quan-short-nam-ni-gan-french-terry-form-relax.webp', 'Chất liệu nỉ cao cấp, thoáng mát, phù hợp tập luyện.', 10, 'XL', 5, 0, 'Đen');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short nam nylon form relax', 160000, 135000, 'Quan-short-nam-nylon-form-relax.webp', 'Kiểu dáng cơ bản, dễ phối đồ, chất liệu nhẹ.', 10, 'L', 5, 0, 'Kem');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short nam nylon form relax', 180000, 150000, 'Quan-short-nam-nylon-form-relax.webp', 'Kiểu dáng cơ bản, dễ phối đồ, chất liệu nhẹ.', 10, 'XL', 5, 0, 'Kem');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short nam trơn cotton form straight', 230000, 195000, 'Quan-short-nam-tron-cotton-form-straight.webp', 'Chất liệu cotton thấm hút, thiết kế đơn giản.', 10, 'L', 5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short nam trơn cotton form straight', 250000, 210000, 'Quan-short-nam-tron-cotton-form-straight.webp', 'Chất liệu cotton thấm hút, thiết kế đơn giản.', 10, 'XL', 5, 0, 'Trắng');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short nỉ nam nhấn trang trí form relax', 200000, 170000, 'Quan-short-ni-nam-nhan-trang-tri-form-relax.webp', 'Thiết kế thời trang với điểm nhấn độc đáo.', 10, 'L', 5, 0, 'Xanh dương');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần short nỉ nam nhấn trang trí form relax', 210000, 180000, 'Quan-short-ni-nam-nhan-trang-tri-form-relax.webp', 'Thiết kế thời trang với điểm nhấn độc đáo.', 10, 'XL', 5, 0, 'Xanh dương');
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần shorts thể thao nam dây kéo sau regular', 270000, 230000, 'Quan-shorts-the-thao-nam-day-keo-sau-regular.webp', 'Form regular thể thao, dễ di chuyển, năng động.', 10, 'L', 5, 0, 'Xanh dương');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần shorts thể thao nam dây kéo sau regular', 290000, 250000, 'Quan-shorts-the-thao-nam-day-keo-sau-regular.webp', 'Form regular thể thao, dễ di chuyển, năng động.', 10, 'XL', 5, 0, 'Xanh dương');
-
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần dài nam điều gân form carrot', 260000, 230000, 'Quan-dai-nam-dieu-gan-form-carrot.webp', 'Chất vải điều gân thoải mái, form carrot trẻ trung.', 10, 'L', 5, 0, 'Đen');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần dài nam điều gân form carrot', 270000, 240000, 'Quan-dai-nam-dieu-gan-form-carrot.webp', 'Chất vải điều gân thoải mái, form carrot trẻ trung.', 10, 'XL', 5, 0, 'Đen');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần tây dài nam gấp ống form slim crop', 300000, 270000, 'Quan-tay-dai-nam-gap-ong-form-slimcrop-2.webp', 'Thiết kế gấp ống hiện đại, form ôm nhẹ.', 10, 'L', 5, 0, 'Đen');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần tây dài nam gấp ống form slim crop', 320000, 280000, 'Quan-tay-dai-nam-gap-ong-form-slimcrop-2.webp', 'Thiết kế gấp ống hiện đại, form ôm nhẹ.', 10, 'XL', 5, 0, 'Đen');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần tây nam dài lưng thun', 210000, 180000, 'Quan-tay-nam-dai-lung-thun.webp', 'Thiết kế thoải mái với lưng thun, dễ mặc.', 10, 'L', 5, 0, 'Xám');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần tây nam dài lưng thun', 220000, 190000, 'Quan-tay-nam-dai-lung-thun.webp', 'Thiết kế thoải mái với lưng thun, dễ mặc.', 10, 'XL', 5, 0, 'Xám');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần vải nam dài phối lót trơn form slim', 290000, 250000, 'Quan-vai-nam-dai-phoi-lot-tron-form-slim.webp', 'Lót trơn bên trong, sang trọng, lịch lãm.', 10, 'L', 5, 0, 'Trắng');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần vải nam dài phối lót trơn form slim', 310000, 270000, 'Quan-vai-nam-dai-phoi-lot-tron-form-slim.webp', 'Lót trơn bên trong, sang trọng, lịch lãm.', 10, 'XL', 5, 0, 'Trắng');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần denim nam ống rộng form loose', 270000, 235000, 'Quan-denim-nam-ong-rong-form-loose.webp', 'Phong cách trẻ trung, thoải mái vận động.', 10, 'L', 5, 0, 'Xanh jeans');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần denim nam ống rộng form loose', 290000, 250000, 'Quan-denim-nam-ong-rong-form-loose.webp', 'Phong cách trẻ trung, thoải mái vận động.', 10, 'XL', 5, 0, 'Xanh jeans');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần denim nam ống đứng form straight', 260000, 225000, 'Quan-denim-nam-ong-dung-form-straight.webp', 'Thiết kế cổ điển, bền đẹp theo thời gian.', 10, 'L', 5, 0, 'Xanh đậm');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần denim nam ống đứng form straight', 280000, 240000, 'Quan-denim-nam-ong-dung-form-straight.webp', 'Thiết kế cổ điển, bền đẹp theo thời gian.', 10, 'XL', 5, 0, 'Xanh đậm');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần jeans nam dài recycled form cocoon', 300000, 260000, 'Quan-jeans-nam-dai-recycled-form-cocoon.webp', 'Sử dụng chất liệu recycled thân thiện môi trường.', 10, 'L', 5, 0, 'Đen');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần jeans nam dài recycled form cocoon', 320000, 270000, 'Quan-jeans-nam-dai-recycled-form-cocoon.webp', 'Sử dụng chất liệu recycled thân thiện môi trường.', 10, 'XL', 5, 0, 'Đen');
-
-
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần tây nam ôm Twill Texture form slim crop', 280000, 250000, 'Quan-tay-nam-om-Twill-Texture-form-slim-crop.webp', 'Twill Texture tạo điểm nhấn cho trang phục.', 10, 'L', 5, 0, 'Vàng cam');
-INSERT INTO product (cid, title, price, discount, thumbnail, description, stock, size, rating, sold, color)
-VALUES (7, 'Quần tây nam ôm Twill Texture form slim crop', 295000, 260000, 'Quan-tay-nam-om-Twill-Texture-form-slim-crop.webp', 'Twill Texture tạo điểm nhấn cho trang phục.', 10, 'XL', 5, 0, 'Vàng cam');
-
 
 
 INSERT INTO `product` (`pid`, `cid`, `title`, `price`, `discount`, `thumbnail`, `thumbnail2`, `thumbnail3`, `description`, `stock`, `size`, `size2`, `size3`, `rating`, `sold`, `color`, `color2`) VALUES
-(1, 7, 'Áo polo cổ bé tay ngắn in hoạ tiết chữ hiện đại', 199000.00, 159000.00, 'ao-polo-co-be-tay-ngan-in-hoa-tiet-chU-hien-ai.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 5, 0, 'Đen', NULL),
-(2, 7, 'Áo polo cổ bé tay ngắn in hoạ tiết chữ hiện đại', 210000.00, 180000.00, 'ao-polo-co-be-tay-ngan-in-hoa-tiet-chU-hien-ai.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 5, 0, 'Đen', NULL),
-(3, 7, 'Áo polo nam cổ bé tay ngắn trẻ trung', 160000.00, 140000.00, 'ao-polo-nam-co-be-tay-ngan-tre-trung.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 4.5, 0, 'Cam', NULL),
-(4, 7, 'Áo polo nam cổ bé tay ngắn trẻ trung', 170000.00, 150000.00, 'ao-polo-nam-co-be-tay-ngan-tre-trung.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 4.5, 0, 'Cam', NULL),
-(5, 7, 'Áo polo ngắn tay nam S.cafe phối cổ.fitted', 299000.00, 269000.00, 'ao-polo-ngan-tay-nam-S.Cafe-phoi-co.Fitted.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 4.5, 0, 'Trắng', NULL),
-(6, 7, 'Áo polo ngắn tay nam S.cafe phối cổ.fitted', 319000.00, 289000.00, 'ao-polo-ngan-tay-nam-S.Cafe-phoi-co.Fitted.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 4.5, 0, 'Trắng', NULL),
-(7, 7, 'Áo polo cổ bé tay ngắn thời thượng', 249000.00, 239000.00, 'ao-polo-co-be-tay-ngan-thoi-thuong.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 5, 0, 'Trắng', NULL),
-(8, 7, 'Áo polo cổ bé tay ngắn thời thượng', 279000.00, 269000.00, 'ao-polo-co-be-tay-ngan-thoi-thuong.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 5, 0, 'Trắng', NULL),
-(9, 7, 'Áo polo nam ngắn tay cotton', 199000.00, 159000.00, 'ao-polo-nam-ngan-tay-cotton.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 4.5, 0, 'Đen', NULL),
-(10, 7, 'Áo polo nam ngắn tay cotton', 219000.00, 179000.00, 'ao-polo-nam-ngan-tay-cotton.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 4.5, 0, 'Đen', NULL),
-(11, 7, 'Áo polo nam premium 100% cotton phối sọc form fitt', 310000.00, 300000.00, 'ao-polo-nam-premium-100_-cotton-phoi-soc-form-fitt.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 20, 'L', NULL, NULL, 4.8, 0, 'Trắng', NULL),
-(12, 7, 'Áo polo nam premium 100% cotton phối sọc form fitt', 330000.00, 310000.00, 'ao-polo-nam-premium-100_-cotton-phoi-soc-form-fitt.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 20, 'XL', NULL, NULL, 4.8, 0, 'Trắng', NULL),
-(13, 7, 'Áo polo nam thời trang basic dễ phối đồ', 149000.00, 129000.00, 'ao-polo-nam-thoi-trang-basic-de-phoi-o.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 15, 'L', NULL, NULL, 4.5, 0, 'Nâu', NULL),
-(14, 7, 'Áo polo nam thời trang basic dễ phối đồ', 169000.00, 149000.00, 'ao-polo-nam-thoi-trang-basic-de-phoi-o.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 15, 'XL', NULL, NULL, 4.5, 0, 'Nâu', NULL),
-(15, 7, 'Áo polo nam trơn vải cotton polyester', 299000.00, 269000.00, 'ao-polo-nam-tron-vai-cotton-polyester.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 30, 'L', NULL, NULL, 4.6, 0, 'Trắng', NULL),
-(16, 7, 'Áo polo nam trơn vải cotton polyester', 319000.00, 289000.00, 'ao-polo-nam-tron-vai-cotton-polyester.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 30, 'XL', NULL, NULL, 4.6, 0, 'Trắng', NULL),
-(17, 7, 'Áo thun ngắn tay nam', 189000.00, 159000.00, 'ao-Thun-Ngan-Tay-Nam.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 4.5, 0, 'Xanh', NULL),
-(18, 7, 'Áo thun ngắn tay nam', 199000.00, 169000.00, 'ao-Thun-Ngan-Tay-Nam.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 4.5, 0, 'Xanh', NULL),
-(19, 7, 'Áo sơ mi Linen nam tay ngắn xanh', 299000.00, 259000.00, 'ao-Thun-Ngan-Tay-Nam.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 4.5, 0, 'Đen', NULL),
-(20, 7, 'Áo sơ mi Linen nam tay ngắn xanh', 299000.00, 259000.00, 'ao-Thun-Ngan-Tay-Nam.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 4.5, 0, 'Đen', NULL),
-(21, 7, 'Áo Sơ Mi Cuban Nam Họa Tiết Marvel Comic', 150000.00, 120000.00, 'ao-So-Mi-Cuban-Nam-Hoa-Tiet-Marvel-Comic.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 5, 0, 'Trắng đen', NULL),
-(22, 7, 'Áo Sơ Mi Cuban Nam Họa Tiết Marvel Comic', 170000.00, 130000.00, 'ao-So-Mi-Cuban-Nam-Hoa-Tiet-Marvel-Comic.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 5, 0, 'Trắng đen', NULL),
-(23, 7, 'Áo Sơ Mi Cuban Nam Tay', 210000.00, 180000.00, 'ao-So-Mi-Cuban-Nam-Tay.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 5, 0, 'Trắng', NULL),
-(24, 7, 'Áo Sơ Mi Cuban Nam Tay', 225000.00, 190000.00, 'ao-So-Mi-Cuban-Nam-Tay.webp', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 5, 0, 'Trắng', NULL),
-(25, 7, 'Áo sơ mi dài tay nam kẻ caro cotton màu xanh da trời', 195000.00, 165000.00, 'ao-so-mi-dai-tay-nam-ke-caro-cotton-mau-xanh-da-troi.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 5, 0, 'Xanh da trời', NULL),
-(26, 7, 'Áo sơ mi dài tay nam kẻ caro cotton màu xanh da trời', 210000.00, 170000.00, 'ao-so-mi-dai-tay-nam-ke-caro-cotton-mau-xanh-da-troi.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 5, 0, 'Xanh da trời', NULL),
-(27, 7, 'Áo sơ mi dài tay nam kẻ caro màu xanh dương', 220000.00, 185000.00, 'ao-so-mi-dai-tay-nam-ke-caro-mau-xanh-duong.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 5, 0, 'Xanh dương', NULL),
-(28, 7, 'Áo sơ mi dài tay nam kẻ caro màu xanh dương', 230000.00, 195000.00, 'ao-so-mi-dai-tay-nam-ke-caro-mau-xanh-duong.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 5, 0, 'Xanh dương', NULL),
-(29, 7, 'Áo sơ mi dài tay nam màu đen trơn', 300000.00, 265000.00, 'ao-so-mi-dai-tay-nam-mau-den-tron.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 5, 0, 'Đen', NULL),
-(30, 7, 'Áo sơ mi dài tay nam màu đen trơn', 320000.00, 280000.00, 'ao-so-mi-dai-tay-nam-mau-den-tron.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 5, 0, 'Đen', NULL),
-(31, 7, 'Áo sơ mi dài tay nam màu xanh', 250000.00, 220000.00, 'ao-so-mi-dai-tay-nam-mau-xanh.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 5, 0, 'Xanh', NULL),
-(32, 7, 'Áo sơ mi dài tay nam màu xanh', 270000.00, 230000.00, 'ao-so-mi-dai-tay-nam-mau-xanh.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 5, 0, 'Xanh', NULL),
-(33, 7, 'Áo sơ mi dài tay nam tím than', 290000.00, 250000.00, 'ao-so-mi-dai-tay-nam-tim-than.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 5, 0, 'Tím than', NULL),
-(34, 7, 'Áo sơ mi dài tay nam tím than', 310000.00, 270000.00, 'ao-so-mi-dai-tay-nam-tim-than.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 5, 0, 'Tím than', NULL),
-(35, 7, 'Áo Sơ Mi Linen Nam Tay Ngắn Xanh', 190000.00, 150000.00, 'ao-So-Mi-Linen-Nam-Tay-Ngan-Xanh.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'L', NULL, NULL, 5, 0, 'Xanh rêu', NULL),
-(36, 7, 'Áo Sơ Mi Linen Nam Tay Ngắn Xanh', 210000.00, 170000.00, 'ao-So-Mi-Linen-Nam-Tay-Ngan-Xanh.jpg', NULL, NULL, 'Sản phẩm thời trang nam cao cấp.', 10, 'XL', NULL, NULL, 5, 0, 'Xanh rêu', NULL),
-(37, 7, 'Quần short thể thao nam phối viền polyester', 200000.00, 170000.00, 'Quan-short-the-thao-nam-phoi-vien-polyester.webp', NULL, NULL, 'Sản phẩm quần short nam thoải mái, năng động.', 10, 'L', NULL, NULL, 5, 0, 'Xám', NULL),
-(38, 7, 'Quần short thể thao nam phối viền polyester', 210000.00, 180000.00, 'Quan-short-the-thao-nam-phoi-vien-polyester.webp', NULL, NULL, 'Sản phẩm quần short nam thoải mái, năng động.', 10, 'XL', NULL, NULL, 5, 0, 'Xám', NULL),
-(39, 7, 'Quần short denim nam form straight', 250000.00, 220000.00, 'Quan-short-denim-nam-form-straight.webp', NULL, NULL, 'Chất liệu denim bền đẹp, kiểu dáng trẻ trung.', 10, 'L', NULL, NULL, 5, 0, 'Xanh dương', NULL),
-(40, 7, 'Quần short denim nam form straight', 270000.00, 230000.00, 'Quan-short-denim-nam-form-straight.webp', NULL, NULL, 'Chất liệu denim bền đẹp, kiểu dáng trẻ trung.', 10, 'XL', NULL, NULL, 5, 0, 'Xanh dương', NULL),
-(41, 7, 'Quần short nam nỉ gân French Terry form relax', 180000.00, 150000.00, 'Quan-short-nam-ni-gan-french-terry-form-relax.webp', NULL, NULL, 'Chất liệu nỉ cao cấp, thoáng mát, phù hợp tập luyện.', 10, 'L', NULL, NULL, 5, 0, 'Đen', NULL),
-(42, 7, 'Quần short nam nỉ gân French Terry form relax', 190000.00, 160000.00, 'Quan-short-nam-ni-gan-french-terry-form-relax.webp', NULL, NULL, 'Chất liệu nỉ cao cấp, thoáng mát, phù hợp tập luyện.', 10, 'XL', NULL, NULL, 5, 0, 'Đen', NULL),
-(43, 7, 'Quần short nam nylon form relax', 160000.00, 135000.00, 'Quan-short-nam-nylon-form-relax.webp', NULL, NULL, 'Kiểu dáng cơ bản, dễ phối đồ, chất liệu nhẹ.', 10, 'L', NULL, NULL, 5, 0, 'Kem', NULL),
-(44, 7, 'Quần short nam nylon form relax', 180000.00, 150000.00, 'Quan-short-nam-nylon-form-relax.webp', NULL, NULL, 'Kiểu dáng cơ bản, dễ phối đồ, chất liệu nhẹ.', 10, 'XL', NULL, NULL, 5, 0, 'Kem', NULL),
-(45, 7, 'Quần short nam trơn cotton form straight', 230000.00, 195000.00, 'Quan-short-nam-tron-cotton-form-straight.webp', NULL, NULL, 'Chất liệu cotton thấm hút, thiết kế đơn giản.', 10, 'L', NULL, NULL, 5, 0, 'Trắng', NULL),
-(46, 7, 'Quần short nam trơn cotton form straight', 250000.00, 210000.00, 'Quan-short-nam-tron-cotton-form-straight.webp', NULL, NULL, 'Chất liệu cotton thấm hút, thiết kế đơn giản.', 10, 'XL', NULL, NULL, 5, 0, 'Trắng', NULL),
-(47, 7, 'Quần short nỉ nam nhấn trang trí form relax', 200000.00, 170000.00, 'Quan-short-ni-nam-nhan-trang-tri-form-relax.webp', NULL, NULL, 'Thiết kế thời trang với điểm nhấn độc đáo.', 10, 'L', NULL, NULL, 5, 0, 'Xanh dương', NULL),
-(48, 7, 'Quần short nỉ nam nhấn trang trí form relax', 210000.00, 180000.00, 'Quan-short-ni-nam-nhan-trang-tri-form-relax.webp', NULL, NULL, 'Thiết kế thời trang với điểm nhấn độc đáo.', 10, 'XL', NULL, NULL, 5, 0, 'Xanh dương', NULL),
-(49, 7, 'Quần shorts thể thao nam dây kéo sau regular', 270000.00, 230000.00, 'Quan-shorts-the-thao-nam-day-keo-sau-regular.webp', NULL, NULL, 'Form regular thể thao, dễ di chuyển, năng động.', 10, 'L', NULL, NULL, 5, 0, 'Xanh dương', NULL),
-(50, 7, 'Quần shorts thể thao nam dây kéo sau regular', 290000.00, 250000.00, 'Quan-shorts-the-thao-nam-day-keo-sau-regular.webp', NULL, NULL, 'Form regular thể thao, dễ di chuyển, năng động.', 10, 'XL', NULL, NULL, 5, 0, 'Xanh dương', NULL),
-(51, 7, 'Quần dài nam điều gân form carrot', 260000.00, 230000.00, 'Quan-dai-nam-dieu-gan-form-carrot.webp', NULL, NULL, 'Chất vải điều gân thoải mái, form carrot trẻ trung.', 10, 'L', NULL, NULL, 5, 0, 'Đen', NULL),
-(52, 7, 'Quần dài nam điều gân form carrot', 270000.00, 240000.00, 'Quan-dai-nam-dieu-gan-form-carrot.webp', NULL, NULL, 'Chất vải điều gân thoải mái, form carrot trẻ trung.', 10, 'XL', NULL, NULL, 5, 0, 'Đen', NULL),
-(53, 7, 'Quần tây dài nam gấp ống form slim crop', 300000.00, 270000.00, 'Quan-tay-dai-nam-gap-ong-form-slimcrop-2.webp', NULL, NULL, 'Thiết kế gấp ống hiện đại, form ôm nhẹ.', 10, 'L', NULL, NULL, 5, 0, 'Đen', NULL),
-(54, 7, 'Quần tây dài nam gấp ống form slim crop', 320000.00, 280000.00, 'Quan-tay-dai-nam-gap-ong-form-slimcrop-2.webp', NULL, NULL, 'Thiết kế gấp ống hiện đại, form ôm nhẹ.', 10, 'XL', NULL, NULL, 5, 0, 'Đen', NULL),
-(55, 7, 'Quần tây nam dài lưng thun', 210000.00, 180000.00, 'Quan-tay-nam-dai-lung-thun.webp', NULL, NULL, 'Thiết kế thoải mái với lưng thun, dễ mặc.', 10, 'L', NULL, NULL, 5, 0, 'Xám', NULL),
-(56, 7, 'Quần tây nam dài lưng thun', 220000.00, 190000.00, 'Quan-tay-nam-dai-lung-thun.webp', NULL, NULL, 'Thiết kế thoải mái với lưng thun, dễ mặc.', 10, 'XL', NULL, NULL, 5, 0, 'Xám', NULL),
-(57, 7, 'Quần vải nam dài phối lót trơn form slim', 290000.00, 250000.00, 'Quan-vai-nam-dai-phoi-lot-tron-form-slim.webp', NULL, NULL, 'Lót trơn bên trong, sang trọng, lịch lãm.', 10, 'L', NULL, NULL, 5, 0, 'Trắng', NULL),
-(58, 7, 'Quần vải nam dài phối lót trơn form slim', 310000.00, 270000.00, 'Quan-vai-nam-dai-phoi-lot-tron-form-slim.webp', NULL, NULL, 'Lót trơn bên trong, sang trọng, lịch lãm.', 10, 'XL', NULL, NULL, 5, 0, 'Trắng', NULL),
-(59, 7, 'Quần denim nam ống rộng form loose', 270000.00, 235000.00, 'Quan-denim-nam-ong-rong-form-loose.webp', NULL, NULL, 'Phong cách trẻ trung, thoải mái vận động.', 10, 'L', NULL, NULL, 5, 0, 'Xanh jeans', NULL),
-(60, 7, 'Quần denim nam ống rộng form loose', 290000.00, 250000.00, 'Quan-denim-nam-ong-rong-form-loose.webp', NULL, NULL, 'Phong cách trẻ trung, thoải mái vận động.', 10, 'XL', NULL, NULL, 5, 0, 'Xanh jeans', NULL),
-(61, 7, 'Quần denim nam ống đứng form straight', 260000.00, 225000.00, 'Quan-denim-nam-ong-dung-form-straight.webp', NULL, NULL, 'Thiết kế cổ điển, bền đẹp theo thời gian.', 10, 'L', NULL, NULL, 5, 0, 'Xanh đậm', NULL),
-(62, 7, 'Quần denim nam ống đứng form straight', 280000.00, 240000.00, 'Quan-denim-nam-ong-dung-form-straight.webp', NULL, NULL, 'Thiết kế cổ điển, bền đẹp theo thời gian.', 10, 'XL', NULL, NULL, 5, 0, 'Xanh đậm', NULL),
-(63, 7, 'Quần jeans nam dài recycled form cocoon', 300000.00, 260000.00, 'Quan-jeans-nam-dai-recycled-form-cocoon.webp', NULL, NULL, 'Sử dụng chất liệu recycled thân thiện môi trường.', 10, 'L', NULL, NULL, 5, 0, 'Đen', NULL),
-(64, 7, 'Quần jeans nam dài recycled form cocoon', 320000.00, 270000.00, 'Quan-jeans-nam-dai-recycled-form-cocoon.webp', NULL, NULL, 'Sử dụng chất liệu recycled thân thiện môi trường.', 10, 'XL', NULL, NULL, 5, 0, 'Đen', NULL),
-(65, 7, 'Quần tây nam ôm Twill Texture form slim crop', 280000.00, 250000.00, 'Quan-tay-nam-om-Twill-Texture-form-slim-crop.webp', NULL, NULL, 'Twill Texture tạo điểm nhấn cho trang phục.', 10, 'L', NULL, NULL, 5, 0, 'Vàng cam', NULL),
-(66, 7, 'Quần tây nam ôm Twill Texture form slim crop', 295000.00, 260000.00, 'Quan-tay-nam-om-Twill-Texture-form-slim-crop.webp', NULL, NULL, 'Twill Texture tạo điểm nhấn cho trang phục.', 10, 'XL', NULL, NULL, 5, 0, 'Vàng cam', NULL),
+(1, 11, 'Áo polo cổ bé tay ngắn in hoạ tiết chữ hiện đại', 199000.00, 159000.00, 'ao-polo-co-be-tay-ngan-in-hoa-tiet-chU-hien-ai.webp', 'ao-polo-co-be-tay-ngan-in-hoa-tiet-chU-hien-ai-2.webp', 'ao-polo-co-be-tay-ngan-in-hoa-tiet-chU-hien-ai-3.webp', 'Chiếc áo polo cổ bé tay ngắn với họa tiết chữ cá tính, mang đến vẻ ngoài hiện đại, trẻ trung và dễ dàng phối đồ cho mọi dịp.', 10, 'M', 'L', 'XL', 5, 0, 'Đen', NULL),
+(2, 11, 'Áo polo nam cổ bé tay ngắn trẻ trung', 160000.00, 140000.00, 'ao-polo-nam-co-be-tay-ngan-tre-trung.webp', 'ao-polo-nam-co-be-tay-ngan-tre-trung-2.webp', 'ao-polo-nam-co-be-tay-ngan-tre-trung-3.webp', 'Áo polo nam cổ bé tay ngắn thiết kế trẻ trung, năng động, tôn dáng và dễ phối với nhiều kiểu trang phục thường ngày', 10, 'M', 'L', 'XL', 4.5, 0, 'Cam', NULL),
+(3, 11, 'Áo polo ngắn tay nam S.cafe phối cổ.fitted', 299000.00, 269000.00, 'ao-polo-ngan-tay-nam-S.Cafe-phoi-co.Fitted.webp', 'ao-polo-ngan-tay-nam-S.Cafe-phoi-co.Fitted-2.webp', 'ao-polo-ngan-tay-nam-S.Cafe-phoi-co.Fitted-3.webp', 'Chất liệu S.Cafe thoáng mát, phối cổ thời trang, phom ôm vừa vặn – phong cách và tiện lợi mỗi ngày.', 10, 'M', 'L', 'XL', 4.5, 0, 'Trắng', NULL),
+(4, 11, 'Áo polo cổ bé tay ngắn thời thượng', 249000.00, 239000.00, 'ao-polo-co-be-tay-ngan-thoi-thuong-2.webp', 'ao-polo-co-be-tay-ngan-thoi-thuong-3.webp', 'ao-polo-co-be-tay-ngan-thoi-thuong-4.webp', 'Thiết kế cổ bé hiện đại, tay ngắn thoải mái, mang lại vẻ ngoài lịch lãm và trẻ trung cho phái mạnh.', 10, 'M', 'L', 'XL', 5, 0, 'Trắng', NULL),
+(5, 11, 'Áo polo nam ngắn tay cotton', 199000.00, 159000.00, 'ao-polo-nam-ngan-tay-cotton.webp', 'ao-polo-nam-ngan-tay-cotton-2.webp', 'ao-polo-nam-ngan-tay-cotton-3.webp', 'Chất liệu cotton mềm mại, thấm hút tốt, thiết kế tối giản dễ mặc và phù hợp với nhiều phong cách hàng ngày.', 10, 'M', 'L', 'XL', 4.5, 0, 'Đen', NULL),
+(6, 11, 'Áo polo nam premium 100% cotton phối sọc form fitt', 310000.00, 300000.00, 'ao-polo-nam-premium-100_-cotton-phoi-soc-form-fitt.webp', 'ao-polo-nam-premium-100_-cotton-phoi-soc-form-fitt-2.webp', 'ao-polo-nam-premium-100_-cotton-phoi-soc-form-fitt-3.webp', 'Thiết kế form ôm hiện đại kết hợp chất liệu cotton cao cấp và họa tiết sọc tinh tế, mang lại sự lịch lãm và thoải mái tối đa.', 20, 'M', 'L', 'XL', 4.8, 0, 'Trắng', NULL),
+(7, 11, 'Áo polo nam thời trang basic dễ phối đồ', 149000.00, 129000.00, 'ao-polo-nam-thoi-trang-basic-de-phoi-o.jpg', 'ao-polo-nam-thoi-trang-basic-de-phoi-o-2.jpg', 'ao-polo-nam-thoi-trang-basic-de-phoi-o-3.jpg', 'Thiết kế đơn giản nhưng tinh tế, dễ dàng phối hợp với nhiều phong cách thường ngày.', 15, 'M', 'L', 'XL', 4.5, 0, 'Nâu', NULL),
+(8, 11, 'Áo polo nam trơn vải cotton polyester', 299000.00, 269000.00, 'ao-polo-nam-tron-vai-cotton-polyester.webp', 'ao-polo-nam-tron-vai-cotton-polyester-2.webp', 'ao-polo-nam-tron-vai-cotton-polyester-3.webp', 'Chất vải cotton polyester mềm mại, thấm hút tốt, kiểu dáng trơn hiện đại phù hợp cho mọi hoạt động.', 30, 'M', 'L', 'XL', 4.6, 0, 'Trắng', NULL),
+(9, 11, 'Áo thun ngắn tay nam', 189000.00, 159000.00, 'ao-Thun-Ngan-Tay-Nam.webp', 'ao-Thun-Ngan-Tay-Nam-2.webp', 'ao-Thun-Ngan-Tay-Nam-3.webp', 'Áo thun nam tay ngắn thoáng mát, năng động, phù hợp mặc hằng ngày hay khi tập luyện.', 10, 'M', 'L', 'XL', 4.5, 0, 'Xanh', NULL),
+(10, 12, 'Áo sơ mi Linen nam tay ngắn xanh', 299000.00, 259000.00, 'ao-Thun-Ngan-Tay-Nam.webp', 'ao-Thun-Ngan-Tay-Nam-2.webp','ao-Thun-Ngan-Tay-Nam-3.webp' , 'Chất liệu linen cao cấp, nhẹ và thoáng, mang đến cảm giác thoải mái trong ngày hè.', 10, 'M', 'L', 'XL', 4.5, 0, 'Đen', NULL),
+(11, 12, 'Áo Sơ Mi Cuban Nam Họa Tiết Marvel Comic', 150000.00, 120000.00, 'ao-So-Mi-Cuban-Nam-Hoa-Tiet-Marvel-Comic.webp', 'ao-So-Mi-Cuban-Nam-Hoa-Tiet-Marvel-Comic-2.webp', 'ao-So-Mi-Cuban-Nam-Hoa-Tiet-Marvel-Comic-3.webp', 'Thiết kế Cuban độc đáo kết hợp họa tiết Marvel đầy cá tính, tạo điểm nhấn nổi bật cho outfit.', 10, 'M', 'L', 'XL', 5, 0, 'Trắng đen', NULL),
+(12, 12, 'Áo Sơ Mi Cuban Nam Tay', 210000.00, 180000.00, 'ao-So-Mi-Cuban-Nam-Tay.webp', 'ao-So-Mi-Cuban-Nam-Tay-2.webp', 'ao-So-Mi-Cuban-Nam-Tay-3.webp', 'Form Cuban cổ điển pha chút phóng khoáng, lý tưởng cho những buổi đi chơi hay dạo phố.', 10, 'M', 'L', 'XL', 5, 0, 'Trắng', NULL),
+(13, 12, 'Áo sơ mi dài tay nam kẻ caro cotton màu xanh da trời', 195000.00, 165000.00, 'ao-so-mi-dai-tay-nam-ke-caro-cotton-mau-xanh-da-troi.jpg', 'ao-so-mi-dai-tay-nam-ke-caro-cotton-mau-xanh-da-troi-2.jpg', 'ao-so-mi-dai-tay-nam-ke-caro-cotton-mau-xanh-da-troi-3.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'M', 'L', 'XL', 5, 0, 'Xanh da trời', NULL),
+(14, 12, 'Áo sơ mi dài tay nam kẻ caro màu xanh dương', 220000.00, 185000.00, 'ao-so-mi-dai-tay-nam-ke-caro-mau-xanh-duong.jpg', 'ao-so-mi-dai-tay-nam-ke-caro-mau-xanh-duong-2.jpg', 'ao-so-mi-dai-tay-nam-ke-caro-mau-xanh-duong-3.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'M', 'L', 'XL', 5, 0, 'Xanh dương', NULL),
+(15, 12, 'Áo sơ mi dài tay nam màu đen trơn', 300000.00, 265000.00, 'ao-so-mi-dai-tay-nam-mau-en-tron.jpg', 'ao-so-mi-dai-tay-nam-mau-en-tron-2.jpg', 'ao-so-mi-dai-tay-nam-mau-en-tron-3.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'M', 'L', 'XL', 5, 0, 'Đen', NULL),
+(16, 12, 'Áo sơ mi dài tay nam màu xanh', 250000.00, 220000.00, 'ao-so-mi-dai-tay-nam-mau-xanh.jpg', 'ao-so-mi-dai-tay-nam-mau-xanh-2.jpg', 'ao-so-mi-dai-tay-nam-mau-xanh-3.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'M', 'L', 'XL', 5, 0, 'Xanh', NULL),
+(17, 12, 'Áo sơ mi dài tay nam tím than', 290000.00, 250000.00, 'ao-so-mi-dai-tay-nam-tim-than.jpg', 'ao-so-mi-dai-tay-nam-tim-than-2.jpg', 'ao-so-mi-dai-tay-nam-tim-than-3.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'M', 'L', 'XL', 5, 0, 'Tím than', NULL),
+(18, 12, 'Áo Sơ Mi Linen Nam Tay Ngắn Xanh', 190000.00, 150000.00, 'ao-So-Mi-Linen-Nam-Tay-Ngan-Xanh.jpg', 'ao-So-Mi-Linen-Nam-Tay-Ngan-Xanh-2.jpg', 'ao-So-Mi-Linen-Nam-Tay-Ngan-Xanh-3.jpg', 'Sản phẩm thời trang nam cao cấp.', 10, 'M', 'L', 'XL', 5, 0, 'Xanh rêu', NULL),
+(19, 9, 'Quần short thể thao nam phối viền polyester', 200000.00, 170000.00, 'Quan-short-the-thao-nam-phoi-vien-polyester.webp', 'Quan-short-the-thao-nam-phoi-vien-polyester-2.webp', 'Quan-short-the-thao-nam-phoi-vien-polyester-3.webp', 'Sản phẩm quần short nam thoải mái, năng động.', 10, 'M', 'L', 'XL', 5, 0, 'Xám', NULL),
+(20, 9, 'Quần short denim nam form straight', 250000.00, 220000.00, 'Quan-short-denim-nam-form-straight.webp', 'Quan-short-denim-nam-form-straight-2.webp', 'Quan-short-denim-nam-form-straight-3.webp', 'Chất liệu denim bền đẹp, kiểu dáng trẻ trung.', 10, 'M', 'L', 'XL', 5, 0, 'Xanh dương', NULL),
+(21, 9, 'Quần short nam nỉ gân French Terry form relax', 180000.00, 150000.00, 'Quan-short-nam-ni-gan-french-terry-form-relax.webp', 'Quan-short-nam-ni-gan-french-terry-form-relax-2.webp', 'Quan-short-nam-ni-gan-french-terry-form-relax-3.webp', 'Chất liệu nỉ cao cấp, thoáng mát, phù hợp tập luyện.', 10, 'M', 'L', 'XL', 5, 0, 'Đen', NULL),
+(22, 9, 'Quần short nam nylon form relax', 160000.00, 135000.00, 'Quan-short-nam-nylon-form-relax.webp', 'Quan-short-nam-nylon-form-relax-2.webp', 'Quan-short-nam-nylon-form-relax-3.webp', 'Kiểu dáng cơ bản, dễ phối đồ, chất liệu nhẹ.', 10, 'M', 'L', 'XL', 5, 0, 'Kem', NULL),
+(23, 9, 'Quần short nam trơn cotton form straight', 230000.00, 195000.00, 'Quan-short-nam-tron-cotton-form-straight.webp', 'Quan-short-nam-tron-cotton-form-straight-2.webp', 'Quan-short-nam-tron-cotton-form-straight-3.webp', 'Chất liệu cotton thấm hút, thiết kế đơn giản.', 10, 'M', 'L', 'XL', 5, 0, 'Trắng', NULL),
+(24, 9, 'Quần short nỉ nam nhấn trang trí form relax', 200000.00, 170000.00, 'Quan-short-ni-nam-nhan-trang-tri-form-relax.webp', 'Quan-short-ni-nam-nhan-trang-tri-form-relax-2.webp', 'Quan-short-ni-nam-nhan-trang-tri-form-relax-3.webp', 'Thiết kế thời trang với điểm nhấn độc đáo.', 10, 'M', 'L', 'XL', 5, 0, 'Xanh dương', NULL),
+(25, 9, 'Quần shorts thể thao nam dây kéo sau regular', 270000.00, 230000.00, 'Quan-shorts-the-thao-nam-day-keo-sau-regular.webp', 'Quan-shorts-the-thao-nam-day-keo-sau-regular-2.webp', 'Quan-shorts-the-thao-nam-day-keo-sau-regular-3.webp', 'Form regular thể thao, dễ di chuyển, năng động.', 10, 'M', 'L', 'XL', 5, 0, 'Xanh dương', NULL),
+(26, 10, 'Quần dài nam điều gân form carrot', 260000.00, 230000.00, 'Quan-dai-nam-dieu-gan-form-carrot.webp', 'Quan-dai-nam-dieu-gan-form-carrot-2.webp', 'Quan-dai-nam-dieu-gan-form-carrot-3.webp', 'Chất vải điều gân thoải mái, form carrot trẻ trung.', 10, 'M', 'L', 'XL', 5, 0, 'Đen', NULL),
+(27, 10, 'Quần tây dài nam gấp ống form slim crop', 300000.00, 270000.00, 'Quan-tay-dai-nam-gap-ong-form-slimcrop-2.webp', 'Quan-tay-dai-nam-gap-ong-form-slimcrop-3.webp', 'Quan-tay-dai-nam-gap-ong-form-slimcrop-4.webp', 'Thiết kế gấp ống hiện đại, form ôm nhẹ.', 10, 'M', 'L', 'XL', 5, 0, 'Đen', NULL),
+(28, 10, 'Quần tây nam dài lưng thun', 210000.00, 180000.00, 'Quan-tay-nam-dai-lung-thun.webp', 'Quan-tay-nam-dai-lung-thun-2.webp', 'Quan-tay-nam-dai-lung-thun-3.webp', 'Thiết kế thoải mái với lưng thun, dễ mặc.', 10, 'M', 'L', 'XL', 5, 0, 'Xám', NULL),
+(29, 10, 'Quần vải nam dài phối lót trơn form slim', 290000.00, 250000.00, 'Quan-vai-nam-dai-phoi-lot-tron-form-slim.webp', 'Quan-vai-nam-dai-phoi-lot-tron-form-slim-2.webp', 'Quan-vai-nam-dai-phoi-lot-tron-form-slim-3.webp', 'Lót trơn bên trong, sang trọng, lịch lãm.', 10, 'M', 'L', 'XL', 5, 0, 'Trắng', NULL),
+(30, 10, 'Quần denim nam ống rộng form loose', 270000.00, 235000.00, 'Quan-denim-nam-ong-rong-form-loose.webp', 'Quan-denim-nam-ong-rong-form-loose-2.webp', 'Quan-denim-nam-ong-rong-form-loose-3.webp', 'Phong cách trẻ trung, thoải mái vận động.', 10, 'M', 'L', 'XL', 5, 0, 'Xanh jeans', NULL),
+(31, 10, 'Quần denim nam ống đứng form straight', 260000.00, 225000.00, 'Quan-denim-nam-ong-dung-form-straight.webp', 'Quan-denim-nam-ong-dung-form-straight-2.webp', 'Quan-denim-nam-ong-dung-form-straight-3.webp', 'Thiết kế cổ điển, bền đẹp theo thời gian.', 10, 'M', 'L', 'XL', 5, 0, 'Xanh đậm', NULL),
+(32, 10, 'Quần jeans nam dài recycled form cocoon', 300000.00, 260000.00, 'Quan-jeans-nam-dai-recycled-form-cocoon.webp', 'Quan-jeans-nam-dai-recycled-form-cocoon-2.webp', 'Quan-jeans-nam-dai-recycled-form-cocoon-3.webp', 'Sử dụng chất liệu recycled thân thiện môi trường.', 10, 'M', 'L', 'XL', 5, 0, 'Đen', NULL),
+(33, 10, 'Quần tây nam ôm Twill Texture form slim crop', 280000.00, 250000.00, 'Quan-tay-nam-om-Twill-Texture-form-slim-crop.webp', 'Quan-tay-nam-om-Twill-Texture-form-slim-crop-2.webp', 'Quan-tay-nam-om-Twill-Texture-form-slim-crop-3.webp', 'Twill Texture tạo điểm nhấn cho trang phục.', 10, 'M', 'L', 'XL', 5, 0, 'Vàng cam', NULL),
 (71, 13, 'Jamie shirt', 210000.00, 180000.00, 'Jamie-shirt.jpg', 'Jamie-shirt2.jpg', 'Jamie-shirt3.jpg', '...', 10, 'L', 'M', 'S', 5, 0, 'Trắng', NULL),
 (73, 13, 'Rebel gile', 210000.00, 180000.00, 'Rebel-Gile.jpg', 'Rebel-Gile2.jpg', 'Rebel-Gile3.jpg', '...', 10, 'S', 'M', 'L', 5, 0, 'Đỏ', NULL),
 (74, 13, 'Rebel gile', 210000.00, 180000.00, 'Rebel-Gile3.jpg', 'Rebel-Gile.jpg', 'Rebel-Gile2.jpg', '...', 10, 'S', 'M', 'L', 5, 0, 'Trắng', NULL),
