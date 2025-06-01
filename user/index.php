@@ -1,3 +1,7 @@
+<?php
+include('../connect.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,11 +39,55 @@
     .dropdown-submenu:hover .dropdown-menu {
       display: block;
     }
+    body, footer {
+  font-family: 'Times New Roman', Times, serif; 
+}
+
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.section-title {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.image-holder {
+  width: 100%;
+  aspect-ratio: 3 / 4; /* Hoặc 4/5, tùy phong cách bạn muốn */
+  overflow: hidden;
+  position: relative;
+}
+
+.image-holder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease; /* Hiệu ứng zoom giữ nguyên */
+}
+
+.product-image {
+  width: 100%;
+  aspect-ratio: 5 / 12; /* Hoặc 4/5, tùy phong cách bạn muốn */
+  overflow: hidden;
+  position: relative;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Hiệu ứng zoom giữ nguyên */
+}
+
   </style>
 </head>
 
 <body class="homepage">
-  
+
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <defs>
       <symbol xmlns="http://www.w3.org/2000/svg" id="instagram" viewBox="0 0 15 15">
@@ -288,16 +336,15 @@
                   <a class="nav-link dropdown-toggle" href="#" id="dropdownShop" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">Collection</a>
                   <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownShop">
-                    <li>
-                      <a href="page/collection/collection1.html" class="dropdown-item item-anchor">Collection 1</a>
-                    </li>
-                    <li>
-                      <a href="collection2.html" class="dropdown-item item-anchor">Collection 2</a>
-                    </li>
-                    <li>
-                      <a href="collection3.html" class="dropdown-item item-anchor">Collection 3</a>
-                    </li>
-
+                    <?php
+                    if ($collections && $collections->num_rows > 0) {
+                      while ($collection = $collections->fetch_assoc()) {
+                        echo '<li><a href="page/collection/collection.php?id=' . $collection['cid'] . '" class="dropdown-item item-anchor">' . $collection['cname'] . '</a></li>';
+                      }
+                    } else {
+                      echo '<li><a href="#" class="dropdown-item item-anchor">No collections found</a></li>';
+                    }
+                    ?>
                   </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -335,7 +382,7 @@
                         <li>
                           <a href="page/woman/pants.php" class="dropdown-item item-anchor"> Pants </a>
                         </li>
-                         <li>
+                        <li>
                           <a href="page/woman/skirt.php" class="dropdown-item item-anchor"> Skirts </a>
                         </li>
                       </ul>
@@ -362,7 +409,7 @@
                       <a href="page/faq/faq.html" class="dropdown-item item-anchor"> Contact </a>
                     </li>
                   </ul>
-                </li>               
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="page/blog/blog.php">Blog</a>
                 </li>
@@ -414,14 +461,14 @@
       <i class="fas fa-user"></i>
       <span></span>
     </a>
-    
-    
+
+
   </nav>
   <div class="banner-container">
     <div class="banner-wrapper">
       <img src="images/banner.png" alt="banner" class="banner-image">
       <div class="banner-content">
-      <!--<a href="#collection" class="banner-cta">Xem Bộ Sưu Tập</a>-->
+        <!--<a href="#collection" class="banner-cta">Xem Bộ Sưu Tập</a>-->
       </div>
     </div>
     <div class="swiper-pagination"></div>
@@ -454,245 +501,176 @@
       </div>
     </div>
   </section>
-  
+
   <section id="billboard" class="bg-light py-5">
     <div class="container">
       <div class="row justify-content-center">
         <h1 class="section-title text-center mt-4" data-aos="fade-up">New Collections</h1>
         <div class="col-md-6 text-center" data-aos="fade-up" data-aos-delay="300">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe voluptas ut dolorum consequuntur, adipisci
-            repellat! Eveniet commodi voluptatem voluptate, eum minima, in suscipit explicabo voluptatibus harum,
-            quibusdam ex repellat eaque!</p>
+          <p>Khám phá bộ sưu tập váy mới gồm 10 thiết kế độc đáo, lấy cảm hứng từ phong cách học đường hiện đại kết hợp nét cổ điển tinh tế. Từ những chiếc váy dáng xòe đáng yêu, cổ áo cách điệu đến hoạ tiết kẻ caro thời thượng – mỗi mẫu váy là một tuyên ngôn phong cách dành cho những cô nàng yêu sự thanh lịch nhưng không kém phần năng động.</p>
         </div>
       </div>
       <div class="row">
         <div class="swiper main-swiper py-4" data-aos="fade-up" data-aos-delay="600">
           <div class="swiper-wrapper d-flex border-animation-left">
-            <div class="swiper-slide">
-              <div class="banner-item image-zoom-effect">
-                <div class="image-holder">
-                  <a href="#">
-                    <img src="images/banner-image-6.jpg" alt="product" class="img-fluid">
-                  </a>
-                </div>
-                <div class="banner-content py-4">
-                  <h5 class="element-title text-uppercase">
-                    <a href="index.html" class="item-anchor">Soft leather jackets</a>
-                  </h5>
-                  <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
-                  <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="banner-item image-zoom-effect">
-                <div class="image-holder">
-                  <a href="#">
-                    <img src="images/banner-image-1.jpg" alt="product" class="img-fluid">
-                  </a>
-                </div>
-                <div class="banner-content py-4">
-                  <h5 class="element-title text-uppercase">
-                    <a href="index.html" class="item-anchor">Soft leather jackets</a>
-                  </h5>
-                  <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
-                  <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="banner-item image-zoom-effect">
-                <div class="image-holder">
-                  <a href="#">
-                    <img src="images/banner-image-2.jpg" alt="product" class="img-fluid">
-                  </a>
-                </div>
-                <div class="banner-content py-4">
-                  <h5 class="element-title text-uppercase">
-                    <a href="index.html" class="item-anchor">Soft leather jackets</a>
-                  </h5>
-                  <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
-                  <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="banner-item image-zoom-effect">
-                <div class="image-holder">
-                  <a href="#">
-                    <img src="images/banner-image-3.jpg" alt="product" class="img-fluid">
-                  </a>
-                </div>
-                <div class="banner-content py-4">
-                  <h5 class="element-title text-uppercase">
-                    <a href="index.html" class="item-anchor">Soft leather jackets</a>
-                  </h5>
-                  <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
-                  <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="banner-item image-zoom-effect">
-                <div class="image-holder">
-                  <a href="#">
-                    <img src="images/banner-image-4.jpg" alt="product" class="img-fluid">
-                  </a>
-                </div>
-                <div class="banner-content py-4">
-                  <h5 class="element-title text-uppercase">
-                    <a href="index.html" class="item-anchor">Out crop sweater</a>
-                  </h5>
-                  <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
-                  <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="banner-item image-zoom-effect">
-                <div class="image-holder">
-                  <a href="#">
-                    <img src="images/banner-image-5.jpg" alt="product" class="img-fluid">
-                  </a>
-                </div>
-                <div class="banner-content py-4">
-                  <h5 class="element-title text-uppercase">
-                    <a href="index.html" class="item-anchor">Soft leather jackets</a>
-                  </h5>
-                  <p>Scelerisque duis aliquam qui lorem ipsum dolor amet, consectetur adipiscing elit.</p>
-                  <div class="btn-left">
-                    <a href="#" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <?php
+            $str = "SELECT * FROM product WHERE pid > 100 LIMIT 10";
+            $query = $conn->query($str);
+            while ($row = $query->fetch_assoc()) {
+              echo "<div class='swiper-slide'>";
+              echo "  <div class='banner-item image-zoom-effect'>";
+              echo "    <div class='image-holder'>";
+              echo "      <a href='#'>";
+              echo "        <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='product' class='img-fluid'>";
+              echo "      </a>";
+              echo "    </div>";
+              echo "    <div class='banner-content py-4'>";
+              echo "      <h5 class='element-title text-uppercase' style='font-family: \'Times New Roman'\ Times, serif';";
+              echo "        <a href='index.html' class='item-anchor'>" . $row["title"] . "</a>";
+              echo "      </h5>";
+              echo "      <p class='line-clamp-2'>" . $row["description"] . "</p>";
+              echo "      <div class='btn-left'>";
+              echo "        <a href='#' class='btn-link fs-6 text-uppercase item-anchor text-decoration-none' style='font-family: 'Times New Roman' Times, serif';>Discover Now</a>";
+              echo "      </div>";
+              echo "    </div>";
+              echo "  </div>";
+              echo "</div>";
+            }
+            ?>
           </div>
           <div class="swiper-pagination"></div>
         </div>
-        
       </div>
     </div>
   </section>
 
-
-
   <section id="new-arrival" class="new-arrival product-carousel py-5 position-relative overflow-hidden">
     <div class="container">
       <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
-        <h4 class="text-uppercase">Our New Arrivals</h4>
+        <h4 class="text-uppercase" style="font-family: 'Times New Roman', Times, serif;">Our New Arrivals</h4>
         <a href="index.html" class="btn-link">View All Products</a>
       </div>
       <div class="swiper product-swiper open-up" data-aos="zoom-out">
         <div class="swiper-wrapper d-flex">
           <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
+            <?php
+              $str = "SELECT * FROM product WHERE pid = 10";
+              $query = $conn->query($str);
+              while ($row = $query->fetch_assoc()) {
+              echo '
+              <div class="product-item image-zoom-effect link-effect">
               <div class="image-holder position-relative">
-                <a href="index.html">
-                  <img src="images/product-item-1.jpg" alt="categories" class="product-image img-fluid">
+                <a href="index.html">';
+              echo "      <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='categories' class='product-image img-fluid'>";
+
+              echo '
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="#heart"></use>
                   </svg>
                 </a>
-                <div class="product-content">
-                  <h5 class="element-title text-uppercase fs-5 mt-3">
-                    <a href="index.html">Dark florish onepiece</a>
-                  </h5>
-                  <a href="#" class="text-decoration-none" data-after="Add to cart"><span>$95.00</span></a>
-                </div>
               </div>
             </div>
+            ';
+              }
+            ?>
           </div>
           <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
+            <?php
+              $str = "SELECT * FROM product WHERE pid = 12";
+              $query = $conn->query($str);
+              while ($row = $query->fetch_assoc()) {
+              echo '
+              <div class="product-item image-zoom-effect link-effect">
               <div class="image-holder position-relative">
-                <a href="index.html">
-                  <img src="images/product-item-2.jpg" alt="categories" class="product-image img-fluid">
+                <a href="index.html">';
+              echo "      <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='categories' class='product-image img-fluid'>";
+
+              echo '
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="#heart"></use>
                   </svg>
                 </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Baggy Shirt</a>
-                  </h5>
-                  <a href="#" class="text-decoration-none" data-after="Add to cart"><span>$55.00</span></a>
-                </div>
               </div>
             </div>
+            ';
+              }
+            ?>
           </div>
           <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
+            <?php
+              $str = "SELECT * FROM product WHERE pid = 14";
+              $query = $conn->query($str);
+              while ($row = $query->fetch_assoc()) {
+              echo '
+              <div class="product-item image-zoom-effect link-effect">
               <div class="image-holder position-relative">
-                <a href="index.html">
-                  <img src="images/product-item-3.jpg" alt="categories" class="product-image img-fluid">
+                <a href="index.html">';
+              echo "      <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='categories' class='product-image img-fluid'>";
+
+              echo '
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="#heart"></use>
                   </svg>
                 </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Cotton off-white shirt</a>
-                  </h5>
-                  <a href="#" class="text-decoration-none" data-after="Add to cart"><span>$65.00</span></a>
-                </div>
               </div>
             </div>
+            ';
+              }
+            ?>
           </div>
           <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
+            <?php
+              $str = "SELECT * FROM product WHERE pid = 16";
+              $query = $conn->query($str);
+              while ($row = $query->fetch_assoc()) {
+              echo '
+              <div class="product-item image-zoom-effect link-effect">
               <div class="image-holder position-relative">
-                <a href="index.html">
-                  <img src="images/product-item-4.jpg" alt="categories" class="product-image img-fluid">
+                <a href="index.html">';
+              echo "      <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='categories' class='product-image img-fluid'>";
+
+              echo '
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="#heart"></use>
                   </svg>
                 </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Crop sweater</a>
-                  </h5>
-                  <a href="#" class="text-decoration-none" data-after="Add to cart"><span>$50.00</span></a>
-                </div>
               </div>
             </div>
+            ';
+              }
+            ?>
           </div>
           <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
+            <?php
+              $str = "SELECT * FROM product WHERE pid = 18";
+              $query = $conn->query($str);
+              while ($row = $query->fetch_assoc()) {
+              echo '
+              <div class="product-item image-zoom-effect link-effect">
               <div class="image-holder position-relative">
-                <a href="index.html">
-                  <img src="images/product-item-10.jpg" alt="categories" class="product-image img-fluid">
+                <a href="index.html">';
+              echo "      <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='categories' class='product-image img-fluid'>";
+
+              echo '
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="#heart"></use>
                   </svg>
                 </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Crop sweater</a>
-                  </h5>
-                  <a href="#" class="text-decoration-none" data-after="Add to cart"><span>$70.00</span></a>
-                </div>
               </div>
             </div>
+            ';
+              }
+            ?>
           </div>
         </div>
         <div class="swiper-pagination"></div>
@@ -710,130 +688,130 @@
   <section id="best-sellers" class="best-sellers product-carousel py-5 position-relative overflow-hidden">
     <div class="container">
       <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
-        <h4 class="text-uppercase">Best Selling Items</h4>
+        <h4 class="text-uppercase" style="font-family:'Times New Roman', Times, serif;">Best Selling Items</h4>
         <a href="index.html" class="btn-link">View All Products</a>
       </div>
       <div class="swiper product-swiper open-up" data-aos="zoom-out">
         <div class="swiper-wrapper d-flex">
-          <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-4.jpg" alt="categories" class="product-image img-fluid">
+           <div class="swiper-slide">
+            <?php
+              $str = "SELECT * FROM product WHERE pid = 103";
+              $query = $conn->query($str);
+              while ($row = $query->fetch_assoc()) {
+              echo '
+              <div class="product-item image-zoom-effect link-effect">
+              <div class="image-holder position-relative">
+                <a href="index.html">';
+              echo "      <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='categories' class='product-image img-fluid'>";
+
+              echo '
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="#heart"></use>
                   </svg>
                 </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Dark florish onepiece</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$95.00</span></a>
-                </div>
               </div>
             </div>
+            ';
+              }
+            ?>
           </div>
           <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-3.jpg" alt="product" class="product-image img-fluid">
+            <?php
+              $str = "SELECT * FROM product WHERE pid = 115";
+              $query = $conn->query($str);
+              while ($row = $query->fetch_assoc()) {
+              echo '
+              <div class="product-item image-zoom-effect link-effect">
+              <div class="image-holder position-relative">
+                <a href="index.html">';
+              echo "      <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='categories' class='product-image img-fluid'>";
+
+              echo '
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="#heart"></use>
                   </svg>
                 </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Baggy Shirt</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$55.00</span></a>
-                </div>
               </div>
             </div>
+            ';
+              }
+            ?>
           </div>
           <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-5.jpg" alt="categories" class="product-image img-fluid">
+            <?php
+              $str = "SELECT * FROM product WHERE pid = 40";
+              $query = $conn->query($str);
+              while ($row = $query->fetch_assoc()) {
+              echo '
+              <div class="product-item image-zoom-effect link-effect">
+              <div class="image-holder position-relative">
+                <a href="index.html">';
+              echo "      <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='categories' class='product-image img-fluid'>";
+
+              echo '
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="#heart"></use>
                   </svg>
                 </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Cotton off-white shirt</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$65.00</span></a>
-                </div>
               </div>
             </div>
+            ';
+              }
+            ?>
           </div>
           <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-6.jpg" alt="categories" class="product-image img-fluid">
+            <?php
+              $str = "SELECT * FROM product WHERE pid = 32";
+              $query = $conn->query($str);
+              while ($row = $query->fetch_assoc()) {
+              echo '
+              <div class="product-item image-zoom-effect link-effect">
+              <div class="image-holder position-relative">
+                <a href="index.html">';
+              echo "      <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='categories' class='product-image img-fluid'>";
+
+              echo '
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="#heart"></use>
                   </svg>
                 </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Handmade crop sweater</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$50.00</span></a>
-                </div>
               </div>
             </div>
+            ';
+              }
+            ?>
           </div>
           <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-9.jpg" alt="categories" class="product-image img-fluid">
+            <?php
+              $str = "SELECT * FROM product WHERE pid = 123";
+              $query = $conn->query($str);
+              while ($row = $query->fetch_assoc()) {
+              echo '
+              <div class="product-item image-zoom-effect link-effect">
+              <div class="image-holder position-relative">
+                <a href="index.html">';
+              echo "      <img src='../admin/assets/images/" . $row["thumbnail"] . "' alt='categories' class='product-image img-fluid'>";
+
+              echo '
                 </a>
                 <a href="index.html" class="btn-icon btn-wishlist">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="#heart"></use>
                   </svg>
                 </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Dark florish onepiece</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$70.00</span></a>
-                </div>
               </div>
             </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-10.jpg" alt="categories" class="product-image img-fluid">
-                </a>
-                <a href="index.html" class="btn-icon btn-wishlist">
-                  <svg width="24" height="24" viewBox="0 0 24 24">
-                    <use xlink:href="#heart"></use>
-                  </svg>
-                </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Cotton off-white shirt</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$70.00</span></a>
-                </div>
-              </div>
-            </div>
+            ';
+              }
+            ?>
           </div>
         </div>
         <div class="swiper-pagination"></div>
@@ -866,127 +844,6 @@
       </div>
     </div>
   </section>
-
-  <section id="related-products" class="related-products product-carousel py-5 position-relative overflow-hidden">
-    <div class="container">
-      <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
-        <h4 class="text-uppercase">You May Also Like</h4>
-        <a href="index.html" class="btn-link">View All Products</a>
-      </div>
-      <div class="swiper product-swiper open-up" data-aos="zoom-out">
-        <div class="swiper-wrapper d-flex">
-          <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-5.jpg" alt="product" class="product-image img-fluid">
-                </a>
-                <a href="index.html" class="btn-icon btn-wishlist">
-                  <svg width="24" height="24" viewBox="0 0 24 24">
-                    <use xlink:href="#heart"></use>
-                  </svg>
-                </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Dark florish onepiece</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$95.00</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-6.jpg" alt="product" class="product-image img-fluid">
-                </a>
-                <a href="index.html" class="btn-icon btn-wishlist">
-                  <svg width="24" height="24" viewBox="0 0 24 24">
-                    <use xlink:href="#heart"></use>
-                  </svg>
-                </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Baggy Shirt</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$55.00</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-7.jpg" alt="product" class="product-image img-fluid">
-                </a>
-                <a href="index.html" class="btn-icon btn-wishlist">
-                  <svg width="24" height="24" viewBox="0 0 24 24">
-                    <use xlink:href="#heart"></use>
-                  </svg>
-                </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Cotton off-white shirt</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$65.00</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-8.jpg" alt="product" class="product-image img-fluid">
-                </a>
-                <a href="index.html" class="btn-icon btn-wishlist">
-                  <svg width="24" height="24" viewBox="0 0 24 24">
-                    <use xlink:href="#heart"></use>
-                  </svg>
-                </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Handmade crop sweater</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$50.00</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="product-item image-zoom-effect link-effect">
-              <div class="image-holder">
-                <a href="index.html">
-                  <img src="images/product-item-1.jpg" alt="product" class="product-image img-fluid">
-                </a>
-                <a href="index.html" class="btn-icon btn-wishlist">
-                  <svg width="24" height="24" viewBox="0 0 24 24">
-                    <use xlink:href="#heart"></use>
-                  </svg>
-                </a>
-                <div class="product-content">
-                  <h5 class="text-uppercase fs-5 mt-3">
-                    <a href="index.html">Handmade crop sweater</a>
-                  </h5>
-                  <a href="index.html" class="text-decoration-none" data-after="Add to cart"><span>$70.00</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-pagination"></div>
-      </div>
-      <div class="icon-arrow icon-arrow-left"><svg width="30" height="30" viewBox="0 0 24 24">
-          <use xlink:href="#arrow-left"></use>
-        </svg></div>
-      <div class="icon-arrow icon-arrow-right"><svg width="30" height="30" viewBox="0 0 24 24">
-          <use xlink:href="#arrow-right"></use>
-        </svg></div>
-    </div>
-  </section>
-
   <section class="blog py-5">
     <div class="container">
       <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
@@ -1122,10 +979,10 @@
   <footer id="footer" class="footer-custom mt-5">
     <div class="container">
       <div class="row justify-content-between py-5">
-  
+
         <!-- Logo & mô tả -->
         <div class="col-md-3 col-sm-6">
-          <h4 class="fw-bold mb-3">KAIRA</h4>
+          <h4 class="fw-bold mb-3" style="font-family: 'Times New Roman', Times, serif;">KAIRA</h4>
           <p>Chúng tôi là cửa hàng thời trang phong cách hiện đại, mang đến trải nghiệm mua sắm tiện lợi và thân thiện.</p>
           <div class="social-icons mt-3">
             <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -1133,10 +990,10 @@
             <a href="#"><i class="fab fa-youtube"></i></a>
           </div>
         </div>
-  
+
         <!-- Liên kết nhanh -->
         <div class="col-md-3 col-sm-6">
-          <h5 class="fw-semibold mb-3">LIÊN KẾT NHANH</h5>
+          <h5 class="fw-semibold mb-3" style="font-family: 'Times New Roman', Times, serif;">LIÊN KẾT NHANH</h5>
           <ul class="list-unstyled">
             <li><a href="index.html">Trang chủ</a></li>
             <li><a href="page/aboutus/aboutus.html">Giới thiệu</a></li>
@@ -1145,32 +1002,32 @@
             <li><a href="page/member/member.html">Membership</a></li>
           </ul>
         </div>
-  
+
         <!-- Thông tin liên hệ -->
         <div class="col-md-3 col-sm-6">
-          <h5 class="fw-semibold mb-3">THÔNG TIN LIÊN HỆ</h5>
+          <h5 class="fw-semibold mb-3" style="font-family: 'Times New Roman', Times, serif;">THÔNG TIN LIÊN HỆ</h5>
           <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường Lê Lợi, TP.HCM</p>
           <p><i class="fas fa-envelope me-2"></i>contact@kairashop.com</p>
           <p><i class="fas fa-phone me-2"></i>0901 234 567</p>
         </div>
-  
+
         <!-- Bản đồ -->
         <div class="col-md-3 col-sm-6">
-          <h5 class="fw-semibold mb-3">BẢN ĐỒ</h5>
+          <h5 class="fw-semibold mb-3" style="font-family: 'Times New Roman', Times, serif;">BẢN ĐỒ</h5>
           <div class="map-embed">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.726643481827!2d106.6901211153343!3d10.75666499233459!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3b5f6a90ed%3A0xf7b2b4f40e527417!2zMTIzIMSQLiBMw6ogTOG7m2ksIFTDom4gVGjhu5FuZyBI4buTbmcsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgSOG7kyBDaMOidSwgVMOibiBwaOG7kSBIw7JhIE5haQ!5e0!3m2!1svi!2s!4v1614089999097!5m2!1svi!2s" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
           </div>
         </div>
-  
+
       </div>
       <div class="text-center py-3 border-top small">
         © 2025 Kaira. Thiết kế lại bởi nhóm <strong>5 IS207</strong> | Dự án học phần Phát triển Web
       </div>
     </div>
   </footer>
-  
 
-  
+
+
   <script src="js/jquery.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/SmoothScroll.js"></script>
@@ -1180,5 +1037,7 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
   <script src="js/script.min.js"></script>
 </body>
+
+</html>
 
 </html>
