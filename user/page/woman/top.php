@@ -21,10 +21,11 @@ $stmt_cat->close();
     <title>Đầm Nữ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="../woman/woman.css" rel="stylesheet">
+    <link href="./woman.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
@@ -36,7 +37,7 @@ $stmt_cat->close();
     <div class="w-full max-w-[1200px] mx-auto px-6">
         <nav class="text-sm text-gray-600 mb-4 me-2 pt-3">
             <a href="../../index.html" class="hover:underline">Trang chủ</a> &gt;
-            <a href="" class="hover:underline">Sản phẩm</a> &gt;
+          <a href="" class="hover:underline">Sản phẩm</a> &gt;
             <a href="" class="hover:underline"><?= htmlspecialchars($category_name ?? "Danh mục") ?></a>
         </nav>
         <div class="w-full border-b border-gray-300 mb-6">
@@ -46,7 +47,7 @@ $stmt_cat->close();
                 $current_category_slug = isset($_GET['category']) ? $_GET['category'] : '';
 
                 // Lấy dữ liệu từ bảng category
-                $sql = "SELECT * FROM category WHERE parentid = 7";
+                $sql = "SELECT * FROM category WHERE parentid = 8";
                 $result = $conn->query($sql);
 
                 // Kiểm tra xem có dữ liệu trả về hay không
@@ -62,7 +63,7 @@ $stmt_cat->close();
                         }
 
                         // Xây dựng đường dẫn
-                        $base_path = dirname($_SERVER['PHP_SELF']) . '/';
+                       $base_path = dirname($_SERVER['PHP_SELF']) . '/';
                         $href = $base_path . htmlspecialchars($row['cfile']);
                 ?>
                         <a href="<?= $href ?>" class="<?= $link_class ?>">
@@ -86,7 +87,7 @@ $stmt_cat->close();
 
         <div class="row g-4" id="product-list">
             <?php
-            $sql = "SELECT * FROM product WHERE cid = 10";
+            $sql = "SELECT * FROM product WHERE cid = 13";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -119,48 +120,54 @@ $stmt_cat->close();
     </div>
 
     <footer id="footer" class="footer-custom mt-5">
-        <div class="container">
-            <div class="row justify-content-between py-5">
-                <div class="col-md-3 col-sm-6">
-                    <h4 class="fw-bold mb-3">KAIRA</h4>
-                    <p>Chúng tôi là cửa hàng thời trang phong cách hiện đại, mang đến trải nghiệm mua sắm tiện lợi và thân thiện.</p>
-                    <div class="social-icons mt-3">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
+    <div class="container">
+      <div class="row justify-content-between py-5">
 
-                <div class="col-md-3 col-sm-6">
-                    <h5 class="fw-semibold mb-3">LIÊN KẾT NHANH</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="index.html">Trang chủ</a></li>
-                        <li><a href="page/aboutus/aboutus.html">Giới thiệu</a></li>
-                        <li><a href="page/faq/faq.html">Hỏi đáp</a></li>
-                        <li><a href="page/recruitment/recruit.html">Tuyển dụng</a></li>
-                        <li><a href="page/member/member.html">Membership</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <h5 class="fw-semibold mb-3">THÔNG TIN LIÊN HỆ</h5>
-                    <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường Lê Lợi, TP.HCM</p>
-                    <p><i class="fas fa-envelope me-2"></i>contact@kairashop.com</p>
-                    <p><i class="fas fa-phone me-2"></i>0901 234 567</p>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <h5 class="fw-semibold mb-3">BẢN ĐỒ</h5>
-                    <div class="map-embed">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.726643481827!2d106.6901211153343!3d10.75666499233459!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3b5f6a90ed%3A0xf7b2b4f40e527417!2zMTIzIMSQLiBMw6ogTOG7m2ksIFTDom4gVGjhu5FuZyBI4buTbmcsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgSOG7kyBDaMOidSwgVMOibiBwaOG7kSBIw7JhIE5haQ!5e0!3m2!1svi!2s" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center py-3 border-top small">
-                © 2025 Kaira. Thiết kế lại bởi nhóm <strong>5 IS207</strong> | Dự án học phần Phát triển Web
-            </div>
+        <!-- Logo & mô tả -->
+        <div class="col-md-3 col-sm-6">
+          <h4 class="fw-bold mb-3" style="font-family: 'Times New Roman', Times, serif;">KAIRA</h4>
+          <p>Chúng tôi là cửa hàng thời trang phong cách hiện đại, mang đến trải nghiệm mua sắm tiện lợi và thân thiện.</p>
+          <div class="social-icons mt-3">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
         </div>
-    </footer>
+
+        <!-- Liên kết nhanh -->
+        <div class="col-md-3 col-sm-6">
+          <h5 class="fw-semibold mb-3" style="font-family: 'Times New Roman', Times, serif;">LIÊN KẾT NHANH</h5>
+          <ul class="list-unstyled">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="page/aboutus/aboutus.html">Giới thiệu</a></li>
+            <li><a href="page/faq/faq.html">Hỏi đáp</a></li>
+            <li><a href="page/recruitment/recruit.html">Tuyển dụng</a></li>
+            <li><a href="page/member/member.html">Membership</a></li>
+          </ul>
+        </div>
+
+        <!-- Thông tin liên hệ -->
+        <div class="col-md-3 col-sm-6">
+          <h5 class="fw-semibold mb-3" style="font-family: 'Times New Roman', Times, serif;">THÔNG TIN LIÊN HỆ</h5>
+          <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường Lê Lợi, TP.HCM</p>
+          <p><i class="fas fa-envelope me-2"></i>contact@kairashop.com</p>
+          <p><i class="fas fa-phone me-2"></i>0901 234 567</p>
+        </div>
+
+        <!-- Bản đồ -->
+        <div class="col-md-3 col-sm-6">
+          <h5 class="fw-semibold mb-3" style="font-family: 'Times New Roman', Times, serif;">BẢN ĐỒ</h5>
+          <div class="map-embed">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.726643481827!2d106.6901211153343!3d10.75666499233459!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3b5f6a90ed%3A0xf7b2b4f40e527417!2zMTIzIMSQLiBMw6ogTOG7m2ksIFTDom4gVGjhu5FuZyBI4buTbmcsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgSOG7kyBDaMOidSwgVMOibiBwaOG7kSBIw7JhIE5haQ!5e0!3m2!1svi!2s!4v1614089999097!5m2!1svi!2s" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+
+      </div>
+      <div class="text-center py-3 border-top small">
+        © 2025 Kaira. Thiết kế lại bởi nhóm <strong>5 IS207</strong> | Dự án học phần Phát triển Web
+      </div>
+    </div>
+  </footer>
 
     <script>
         function sortBy(option) {

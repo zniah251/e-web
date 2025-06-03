@@ -99,7 +99,6 @@ function displayProductGrid($conn, $category_id = null, $max_show = 4, $title = 
     <link rel="stylesheet" type="text/css" href="../../style.css">
     <link rel="stylesheet" type="text/css" href="../../css/normalize.css">
     <link rel="stylesheet" type="text/css" href="../../css/swiper-bundle.min.css">
-    <link rel="stylesheet" type="text/css" href="../../index.html">
     <link rel="stylesheet" type="text/css" href="../faq/faqstyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

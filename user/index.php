@@ -1,5 +1,5 @@
 <?php
-include('../connect.php');
+include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 ?>
 
 <!DOCTYPE html>

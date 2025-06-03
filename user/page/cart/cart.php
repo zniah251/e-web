@@ -7,8 +7,6 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
   $cart_items = $_SESSION['cart'];
 }
 
-// ...existing code...
-
 // Xử lý xóa sản phẩm khỏi giỏ hàng
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
   $removeKey = $_POST['remove_key'];
@@ -39,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     @media (min-width: 1025px) {
@@ -146,6 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
                           <tbody>
                             <?php
                             $total = 0;
+                            $index = 0; // Khởi tạo biến đếm
                             if (!empty($cart_items)) {
                               foreach ($cart_items as $key => $item) {
                                 // $item should have: image, name, size, color, quantity, price
@@ -173,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
                                         <i class="fas fa-minus"></i>
                                       </button>
                                       <input min="1" name="quantity" value="<?php echo $item['quantity']; ?>" type="number"
-                                        class="form-control form-control-sm mx-1 quantity-input" style="width: 50px;" readonly
+                                        class="form-control form-control-sm mx-1 quantity-input" style="width: 50px;" 
                                         data-index="<?php echo $index; ?>"
                                         data-price="<?php echo $item['price']; ?>" />
                                       <button class="btn btn-link px-1 btn-qty-plus" type="button">
@@ -183,7 +183,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
                                   </td>
                                   <td class="text-center">
                                     <h6 class="mb-0 item-total" id="item-total-<?php echo $index; ?>">
-                                      <?php echo number_format($item_total, 0, ',', '.'); ?>
+                                      <span id="item-total-value-<?php echo $index; ?>" data-original-price="<?php echo $item['price']; ?>">
+                                        <?php echo number_format($item['quantity'] * $item['price'], 0, ',', '.'); ?>
+                                      </span>
                                       <span style="font-size: 20px; font-weight: 500; vertical-align: middle;">₫</span>
                                     </h6>
                                   </td>
@@ -295,103 +297,110 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
 </html>
 <!-- Thêm đoạn script để xử lý cập nhật số lượng và tính toán tổng tiền-->
 
-<script>
-  function updateTotals() {
-      let total = 0;
-      document.querySelectorAll('.quantity-input').forEach(function(input) {
-        const qty = parseInt(input.value, 10);
-        const price = parseInt(input.dataset.price, 10);
-        const index = input.dataset.index;
-        const itemTotal = qty * price;
-        total += itemTotal;
-        // Update item total
-        const itemTotalElem = document.getElementById('item-total-' + index);
-        if (itemTotalElem) {
-          itemTotalElem.innerHTML = itemTotal.toLocaleString('vi-VN') +
-            '<span style="font-size: 20px; font-weight: 500; vertical-align: middle;">₫</span>';
-        }
-      });
-      // Update cart total
-      document.getElementById('cart-total').innerText = total.toLocaleString('vi-VN');
-    }
-// Thêm sự kiện click cho nút tăng/giảm số lượng
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.btn-qty-minus').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        const input = this.parentNode.querySelector('.quantity-input');
-        if (parseInt(input.value, 10) > 1) {
-          input.value = parseInt(input.value, 10) - 1;
-          updateTotals();
-          // TODO: Gửi AJAX cập nhật quantity về server nếu cần
-        }
-      });
-    });
 
-    document.querySelectorAll('.btn-qty-plus').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        const input = this.parentNode.querySelector('.quantity-input');
-        input.value = parseInt(input.value, 10) + 1;
-        updateTotals();
-        // TODO: Gửi AJAX cập nhật quantity về server nếu cần
-      });
-    });
-  });
-</script>
 <!-- Thêm đoạn script để xử lý xóa sản phẩm trong giỏ hàng -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.remove-item-form .remove-btn').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (!confirm('Remove this item from cart?')) return;
-      const form = btn.closest('form');
-      const key = form.getAttribute('data-key');
-      fetch('', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: 'remove_key=' + encodeURIComponent(key)
-      })
-      .then(res => res.text())
-      .then(() => {
-        form.closest('tr').remove();
-        if (typeof updateTotals === 'function') updateTotals();
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.remove-item-form .remove-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (!confirm('Remove this item from cart?')) return;
+        const form = btn.closest('form');
+        const key = form.getAttribute('data-key');
+        fetch('', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'remove_key=' + encodeURIComponent(key)
+          })
+          .then(res => res.text())
+          .then(() => {
+            form.closest('tr').remove();
+            if (typeof updateTotals === 'function') updateTotals();
+          });
       });
     });
   });
-});
 </script>
 <!-- Thêm đoạn script để xử lý chọn tất cả sản phẩm -->
- <script>
-function updateTotals() {
+<script>
+  function updateTotals() {
   let total = 0;
-  document.querySelectorAll('.product-checkbox').forEach(function(checkbox, idx) {
+  document.querySelectorAll('.product-checkbox').forEach(function(checkbox) { // Bỏ idx vì không dùng
+    const row = checkbox.closest('tr');
+    const input = row.querySelector('.quantity-input');
+
+    const qty = parseInt(input.value, 10); // Lấy SỐ LƯỢNG HIỆN TẠI từ ô input
+    const index = input.dataset.index;
+
+    // LẤY GIÁ GỐC CỦA MỘT ĐƠN VỊ SẢN PHẨM từ data-price của input
+    const originalPrice = parseFloat(input.dataset.price);
+
+    // Tính TỔNG GIÁ CHO DÒNG SẢN PHẨM HIỆN TẠI: số lượng mới * giá gốc 1 đơn vị
+    const itemTotal = qty * originalPrice;
+
+    // Cập nhật hiển thị tổng giá của dòng sản phẩm (cột "Price")
+    const itemTotalElem = document.getElementById('item-total-value-' + index);
+    if (itemTotalElem) {
+      itemTotalElem.innerHTML = itemTotal.toLocaleString('vi-VN'); // Hiển thị tổng giá mới
+    }
+
+    // Chỉ cộng vào tổng giỏ hàng nếu sản phẩm được chọn
     if (checkbox.checked) {
-      // Tìm input số lượng và giá ở cùng hàng
-      const row = checkbox.closest('tr');
-      const input = row.querySelector('.quantity-input');
-      const qty = parseInt(input.value, 10);
-      const price = parseInt(input.dataset.price, 10);
-      const index = input.dataset.index;
-      const itemTotal = qty * price;
       total += itemTotal;
-      // Update item total
-      const itemTotalElem = document.getElementById('item-total-' + index);
-      if (itemTotalElem) {
-        itemTotalElem.innerHTML = itemTotal.toLocaleString('vi-VN') +
-          '<span style="font-size: 20px; font-weight: 500; vertical-align: middle;">₫</span>';
-      }
     }
   });
-  // Update cart total
+
+  // Cập nhật tổng giá toàn giỏ hàng
   document.getElementById('cart-total').innerText = total.toLocaleString('vi-VN');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Sự kiện tick/bỏ tick từng sản phẩm
+  // Xử lý nút giảm số lượng
+  document.querySelectorAll('.btn-qty-minus').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const input = this.parentNode.querySelector('.quantity-input');
+      if (parseInt(input.value, 10) > 1) {
+        input.value = parseInt(input.value, 10) - 1;
+        updateTotals(); // Gọi updateTotals để cập nhật cả itemTotal và total
+      }
+    });
+  });
+
+  // Xử lý nút tăng số lượng
+  document.querySelectorAll('.btn-qty-plus').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const input = this.parentNode.querySelector('.quantity-input');
+      input.value = parseInt(input.value, 10) + 1;
+      updateTotals(); // Gọi updateTotals để cập nhật cả itemTotal và total
+    });
+  });
+
+  // Xử lý sự kiện khi người dùng gõ số lượng trực tiếp
+  document.querySelectorAll('.quantity-input').forEach(function(inputElement) {
+      inputElement.addEventListener('input', function() { // Sử dụng 'input' để cập nhật real-time
+          let enteredQty = parseInt(this.value, 10);
+          if (isNaN(enteredQty) || enteredQty < 1) {
+              this.value = 1; // Đảm bảo số lượng không âm hoặc NaN
+          }
+          updateTotals(); // Gọi updateTotals để cập nhật cả itemTotal và total
+      });
+      // Tùy chọn: Xử lý khi người dùng nhấn Enter (có thể bỏ nếu input đã xử lý tốt)
+      inputElement.addEventListener('keypress', function(e) {
+          if (e.which === 13) {
+              this.blur(); // Bỏ focus
+              e.preventDefault(); // Ngăn hành vi mặc định của Enter
+          }
+      });
+  });
+
+  // Xử lý checkbox chọn/bỏ chọn sản phẩm
   document.querySelectorAll('.product-checkbox').forEach(function(checkbox) {
     checkbox.addEventListener('change', updateTotals);
   });
-  // Sự kiện tick/bỏ tick tất cả
+
+  // Xử lý checkbox chọn tất cả
   const selectAll = document.getElementById('select-all');
   if (selectAll) {
     selectAll.addEventListener('change', function() {
@@ -401,7 +410,8 @@ document.addEventListener('DOMContentLoaded', function() {
       updateTotals();
     });
   }
-  // Gọi updateTotals lần đầu để tổng tiền đúng khi load trang
+
+  // Gọi updateTotals lần đầu khi trang tải xong để hiển thị đúng
   updateTotals();
 });
-</script>
+</script> 

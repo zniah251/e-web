@@ -683,3 +683,34 @@ ALTER TABLE `product`
 COMMIT;
 
 INSERT INTO blog (title, content, image) VALUES ('Test', 'Nội dung thử nghiệm', 'test.jpg');
+
+-- Add new columns to `category` table
+ALTER TABLE category
+ADD COLUMN cslug VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci AFTER cname;
+
+ALTER TABLE category
+ADD COLUMN cfile VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci AFTER cslug;
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`cid`, `cname`, `cslug`, `cfile`, `parentid`) VALUES
+(1, 'HOME', NULL, NULL, NULL),
+(2, 'COLLECTIONS', NULL, NULL, NULL),
+(3, 'SHOP', NULL, NULL, NULL),
+(4, 'ON SALE', NULL, NULL, NULL),
+(5, 'INTRODUCTION', NULL, NULL, NULL),
+(6, 'BLOG', NULL, NULL, NULL),
+(7, 'SHOP FOR MEN', NULL, NULL, 3),
+(8, 'SHOP FOR WOMEN', NULL, NULL, 3),
+(9, 'SHORTS', 'shorts', 'shorts.php', 7),
+(10, 'TROUSERS', 'trousers', 'trousers.php', 7),
+(11, 'SHIRTS', 'shirts', 'shirts.php', 7),
+(12, 'T-SHIRTS', 't-shirts', 't-shirts.php', 7),
+(13, 'TOPS', 'top', 'top.php', 8),
+(14, 'DRESSES', 'dresses', 'dresses.php', 8),
+(15, 'PANTS', 'pants', 'pants.php', 8),
+(16, 'SKIRTS', 'skirt', 'skirt.php', 8),
+(17, 'ABOUT US', NULL, NULL, 5),
+(18, 'MEMBERSHIP', NULL, NULL, 5),
+(19, 'RECRUITMENT', NULL, NULL, 5),
+(20, 'CONTACT', NULL, NULL, 5);
