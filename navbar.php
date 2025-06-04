@@ -31,13 +31,13 @@
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3">
               <li class="nav-item">
-                <a class="nav-link" href="/e-web/user/index.html" id="Home">Home</a>
+                <a class="nav-link" href="/e-web/user/index.php" id="Home">Home</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdownCollection" data-bs-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">Collection</a>
                 <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownCollection">
-                  <li><a href="/e-web/user/page/collection/collection1.html" class="dropdown-item">Collection 1</a></li>
+                  <li><a href="/e-web/user/page/collection/collection1.php" class="dropdown-item">Collection 1</a></li>
                   <li><a href="collection2.html" class="dropdown-item">Collection 2</a></li>
                   <li><a href="collection3.html" class="dropdown-item">Collection 3</a></li>
                 </ul>
@@ -77,14 +77,14 @@
                   aria-haspopup="true" aria-expanded="false">Introduction</a>
                 <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownBlog">
                   <li><a href="/e-web/user/page/aboutus/aboutus.html" class="dropdown-item">About Us</a></li>
-                  <li><a href="/e-web/user/page/member/member.html" class="dropdown-item">Membership</a></li>
-                  <li><a href="/e-web/user/page/recruitment/recruit.html" class="dropdown-item">Recruitment</a></li>
+                  <li><a href="/e-web/user/page/member/member.php" class="dropdown-item">Membership</a></li>
+                  <li><a href="/e-web/user/page/recruitment/recruit.php" class="dropdown-item">Recruitment</a></li>
                   <li><a href="/e-web/user/page/faq/faq.html" class="dropdown-item">Contact</a></li>
                 </ul>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="/e-web/user/blog.html">Blog</a>
+                <a class="nav-link" href="/e-web/user/blog.php">Blog</a>
               </li>
             </ul>
           </div>
@@ -97,7 +97,7 @@
               </a>
             </li>
             <li class="d-none d-lg-block">
-              <a href="index.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
+              <a href="cart.php" class="text-uppercase mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
                 aria-controls="offcanvasCart">Cart <span class="cart-count">(0)</span>
               </a>
             </li>
@@ -125,7 +125,10 @@
             </li>
           </ul>
         </div>
-
     </div>
+     <a href="/login" class="login-button">
+          <i class="fas fa-user"></i>
+          <span></span>
+        </a>
   </div>
 </nav>
