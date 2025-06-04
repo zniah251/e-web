@@ -129,9 +129,9 @@ $stmt_cat->close();
                     <h4 class="fw-bold mb-3">KAIRA</h4>
                     <p>Chúng tôi là cửa hàng thời trang phong cách hiện đại, mang đến trải nghiệm mua sắm tiện lợi và thân thiện.</p>
                     <div class="social-icons mt-3">
-                        <a href="#"><i class="fas fa-heart"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fas fa-video"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
 

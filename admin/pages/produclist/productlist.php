@@ -1,3 +1,112 @@
+<?php
+session_start();
+
+// Bao gồm file kết nối cơ sở dữ liệu
+include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
+
+// 1. Xử lý tham số phân trang
+$allowed_limits = [10, 25, 50, 100];
+$limit = 25;
+if (isset($_GET['limit']) && is_numeric($_GET['limit']) && in_array(intval($_GET['limit']), $allowed_limits)) {
+    $limit = intval($_GET['limit']);
+}
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+$offset = ($page - 1) * $limit;
+
+// 2. Lọc theo danh mục nếu có
+$filter_cid = null;
+$where_clause = "";
+$where_params = [];
+$where_types = "";
+if (isset($_GET['category_id']) && is_numeric($_GET['category_id'])) {
+    $filter_cid = intval($_GET['category_id']);
+    $where_clause = " WHERE p.cid = ?";
+    $where_types = "i";
+    $where_params[] = $filter_cid;
+}
+
+// 3. Truy vấn tổng số sản phẩm (có filter)
+$total_products_sql = "SELECT COUNT(p.pid) AS total_count FROM product p" . $where_clause;
+$stmt_total = $conn->prepare($total_products_sql);
+if (!empty($where_params)) {
+    $stmt_total->bind_param($where_types, ...$where_params);
+}
+$stmt_total->execute();
+$total_result = $stmt_total->get_result();
+$total_row = $total_result->fetch_assoc();
+$total_products = $total_row['total_count'];
+$stmt_total->close();
+
+// 4. Tính tổng số trang
+$total_pages = max(1, ceil($total_products / $limit));
+
+// 5. Đảm bảo trang hiện tại không vượt quá tổng số trang
+if ($page > $total_pages && $total_pages > 0) {
+    $page = $total_pages;
+    $offset = ($page - 1) * $limit;
+} elseif ($page < 1) {
+    $page = 1;
+    $offset = 0;
+}
+
+// 6. Tính chỉ số hiển thị
+$start_entry = $total_products > 0 ? $offset + 1 : 0;
+$end_entry = min($offset + $limit, $total_products);
+
+// 7. Truy vấn danh sách sản phẩm (có phân trang + filter)
+$sql_products = "SELECT 
+                    p.pid, 
+                    p.title, 
+                    p.thumbnail, 
+                    p.price, 
+                    p.stock, 
+                    p.size, 
+                    p.color,
+                    c.cname as category_name
+                FROM 
+                    product p
+                JOIN 
+                    category c ON p.cid = c.cid" .
+    $where_clause . "
+                ORDER BY 
+                    p.pid DESC
+                LIMIT ?, ?";
+
+$stmt_products = $conn->prepare($sql_products);
+
+if (!empty($where_params)) {
+    $stmt_products->bind_param("iii", $filter_cid, $offset, $limit); // Có filter category
+} else {
+    $stmt_products->bind_param("ii", $offset, $limit); // Không có filter
+}
+
+$stmt_products->execute();
+$result_products = $stmt_products->get_result();
+
+$products = [];
+if ($result_products) {
+    while ($row_product = $result_products->fetch_assoc()) {
+        $products[] = $row_product;
+    }
+} else {
+    error_log("Lỗi truy vấn sản phẩm: " . $conn->error);
+}
+// Lấy tất cả danh mục để hiển thị cho select filter
+$sql_categories = "SELECT cid, cname FROM category WHERE is_product_category = 1 ORDER BY cname ASC";
+$result_categories = $conn->query($sql_categories);
+
+$categories = []; // Khởi tạo mảng $categories
+if ($result_categories) { // Luôn kiểm tra $result_categories có hợp lệ không
+    if ($result_categories->num_rows > 0) {
+        while ($row_cat = $result_categories->fetch_assoc()) {
+            $categories[] = $row_cat;
+        }
+    }
+}
+$stmt_products->close();
+// $conn->close();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,50 +137,52 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js"></script>
     <style>
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 32px;
-            height: 18px;
+        body {
+            font-family: 'Times New Roman', serif;
+            /* Thêm fallback font */
         }
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
+        /* Đảm bảo chữ trong label cũng là màu đen nếu chúng mặc định không phải vậy */
+        #productDetailModal label.form-label {
+            font-weight: bold;
+            /* Hoặc một màu tối phù hợp, tùy thuộc vào màu nền label hiện tại */
         }
 
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: gray;
-            border-radius: 34px;
-            box-shadow: 0 2px 8px 0 #7b7bff33;
-            transition: .4s;
+        /* Có thể bạn cũng muốn chỉnh màu chữ của tiêu đề modal */
+        #productDetailModal .modal-header .modal-title {
+            font-weight: bold;
+            /* Hoặc màu tối phù hợp */
         }
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 12px;
-            width: 12px;
-            left: 3px;
-            bottom: 3px;
-            background: #fff;
-            border-radius: 50%;
-            transition: .4s;
+        /* Màu nền cho toàn bộ modal content */
+        #productDetailModal .modal-content {
+            background-color: #D1C4E9;
+            /* Màu nền mới */
         }
 
-        input:checked+.slider {
-            background: #6366f1;
+        /* Màu nền và màu chữ cho input, textarea, select trong modal */
+        #productDetailModal input.form-control,
+        #productDetailModal textarea.form-control,
+        #productDetailModal select.form-control {
+            background-color: #DCD7D5;
+            /* Màu nền cho input/textarea/select */
+            color: black !important;
+            /* Màu chữ đen */
         }
 
-        input:checked+.slider:before {
-            transform: translateX(14px);
+        /* Chỉnh màu nền cho các nút phân trang */
+        .pagination .page-item.active .page-link {
+            background-color: #6366F1;
+            /* Màu hơi tối hơn cho trạng thái active */
+            border-color: #6366F1;
+            /* Đồng bộ màu viền */
+            color: white;
+            /* Giữ màu chữ trắng */
+        }
+
+        .pagination .page-item .page-link {
+            color: white;
+            /* Màu chữ trắng để dễ nhìn trên nền tối */
         }
     </style>
 </head>
@@ -165,20 +276,40 @@
                         <div class="col-12 grid-margin">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
 
-                                        <div class="add-items">
-                                            <input type="text" id="searchProduct" class="form-control todo-list-input w-75" placeholder="Search product" style="color:white;">
+                                    <div class="row align-items-center mb-4">
+                                        <div class="col">
+                                            <input type="text" id="searchProduct" class="form-control todo-list-input" placeholder="Search product" style="color:white;">
                                         </div>
+                                        <div class="col">
+                                            <select class="form-control form-select" id="categoryFilter" style="color: #fff;">
+                                                <option value="">Tất cả danh mục</option>
+                                                <?php foreach ($categories as $cat): ?>
+                                                    <option value="<?= htmlspecialchars($cat['cid']) ?>"
+                                                        <?= (isset($filter_cid) && $filter_cid == $cat['cid']) ? 'selected' : '' ?>>
+                                                        <?= htmlspecialchars($cat['cname']) ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-control">
+                                                <option>Category1</option>
+                                                <option>Category2</option>
+                                                <option>Category3</option>
+                                                <option>Category4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center mb-3 border-bottom">
                                         <div class="d-flex align-items-center gap-3">
                                             <!-- Select số lượng sản phẩm -->
                                             <select class="btn btn-secondary dropdown-toggle" id="productPerPage" style="text-align: center; text-align-last: center;">
-                                                <option>10</option>
-                                                <option>25</option>
-                                                <option>50</option>
-                                                <option>100</option>
+                                                <option value="10" <?php if ($limit == 10) echo 'selected'; ?>>10</option>
+                                                <option value="25" <?php if ($limit == 25) echo 'selected'; ?>>25</option>
+                                                <option value="50" <?php if ($limit == 50) echo 'selected'; ?>>50</option>
+                                                <option value="100" <?php if ($limit == 100) echo 'selected'; ?>>100</option>
                                             </select>
-
                                             <!-- Nút Export -->
                                             <div class="dropdown">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -196,7 +327,7 @@
                                                 </div>
                                             </div>
                                             <!-- Nút Add Product -->
-                                            <a href="/e-web/admin/pages/add-product/product.php" class="btn" style="background:#6366f1;color:#fff;font-weight:500;box-shadow:0 2px 8px 0 #7b7bff33;">
+                                            <a href="/e-web/admin/pages/add-products/product.php" class="btn" style="background:#6366f1;color:#fff;font-weight:500;box-shadow:0 2px 8px 0 #7b7bff33;">
                                                 <i class="mdi mdi-plus"></i> Add Product
                                             </a>
                                         </div>
@@ -205,143 +336,231 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
+                                                    <th></th>
                                                     <th>
                                                         <div class="form-check form-check-muted m-0">
                                                             <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
+                                                                <input type="checkbox" class="form-check-input"></label>
                                                         </div>
                                                     </th>
-                                                    <th> PRODUCT </th>
-                                                    <th> CATEGORY </th>
-                                                    <th> STOCK </th>
-                                                    <th> SKU </th>
-                                                    <th> PRICE </th>
-                                                    <th> QTY </th>
+                                                    <th class="fw-bold">ID</th>
+                                                    <th class="fw-bold">PRODUCT</th>
+                                                    <th class="fw-bold">CATEGORY</th>
+                                                    <th class="fw-bold">PRICE</th>
+                                                    <th class="fw-bold">STOCK</th>
+                                                    <th class="fw-bold">SIZE</th>
+                                                    <th class="fw-bold">COLOR</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <img src="/e-web/admin/template/assets/images/faces/face1.jpg" alt="image" style="width:40px;height:40px;object-fit:cover;border-radius:0;">
-                                                        <span class="ps-2">Henry Klein</span>
-                                                    </td>
-                                                    <td> 02312 </td>
-                                                    <td>
-                                                        <label class="switch">
-                                                            <input type="checkbox">
-                                                            <span class="slider"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td> 02315 </td>
-                                                    <td>
-                                                        23
-                                                    </td>
-                                                    <td> 02312 </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <img src="/e-web/admin/template/assets/images/faces/face1.jpg" alt="image" style="width:40px;height:40px;object-fit:cover;border-radius:0;">
-                                                        <span class="ps-2">Henry Klein</span>
-                                                    </td>
-                                                    <td> 02312 </td>
-                                                    <td>
-                                                        <label class="switch">
-                                                            <input type="checkbox">
-                                                            <span class="slider"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <span class="ps-2">Henry Klein</span>
-                                                    </td>
-                                                    <td>
-                                                        12
-                                                    </td>
-                                                    <td>
-                                                        34
-                                                    </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <img src="/e-web/admin/template/assets/images/faces/face1.jpg" alt="image" style="width:40px;height:40px;object-fit:cover;border-radius:0;">
-                                                        <span class="ps-2">Henry Klein</span>
-                                                    </td>
-                                                    <td> 02312 </td>
-                                                    <td>
-                                                        <label class="switch">
-                                                            <input type="checkbox">
-                                                            <span class="slider"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        22
-                                                    </td>
-                                                    <td>
-                                                        33
-                                                    </td>
-                                                    <td>
-                                                        222
-                                                    </td>
-
-                                                </tr>
-
+                                                <?php
+                                                // Kiểm tra xem mảng $products có dữ liệu không
+                                                if (!empty($products)) {
+                                                    foreach ($products as $product) {
+                                                ?>
+                                                        <tr>
+                                                            <td>
+                                                                <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#productDetailModal" data-product-id="<?php echo htmlspecialchars($product['pid']); ?>">
+                                                                    <i class="mdi mdi-plus"></i>
+                                                                </button>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check form-check-muted m-0">
+                                                                    <label class="form-check-label">
+                                                                        <input type="checkbox" class="form-check-input">
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td><?php echo htmlspecialchars($product['pid']); ?></td>
+                                                            <td>
+                                                                <?php
+                                                                $img = $product['thumbnail'];
+                                                                // Nếu đường dẫn bắt đầu bằng 'admin/assets/images/', loại bỏ phần này
+                                                                if (strpos($img, 'admin/assets/images/') === 0) {
+                                                                    $img = substr($img, strlen('admin/assets/images/'));
+                                                                }
+                                                                // Đảm bảo không có khoảng trắng và mã hóa URL
+                                                                $img_url = '/e-web/admin/assets/images/' . rawurlencode(trim($img));
+                                                                ?>
+                                                                <img src="<?php echo $img_url; ?>" alt="Thumbnail" style="width:40px;height:40px;object-fit:cover;border-radius:0;">
+                                                                <span class="ps-2"><?php echo htmlspecialchars($product['title']); ?></span>
+                                                            </td>
+                                                            <td><?php echo htmlspecialchars($product['category_name']); ?></td>
+                                                            <td><?php echo htmlspecialchars(number_format($product['price'])); ?></td>
+                                                            <td><?php echo htmlspecialchars($product['stock']); ?></td>
+                                                            <td><?php echo htmlspecialchars($product['size']); ?></td>
+                                                            <td><?php echo htmlspecialchars($product['color']); ?></td>
+                                                        </tr>
+                                                <?php
+                                                    }
+                                                } else {
+                                                    // Hiển thị thông báo nếu không có sản phẩm nào
+                                                    echo '<tr><td colspan="10" class="text-center">Không có sản phẩm nào được tìm thấy.</td></tr>';
+                                                }
+                                                ?>
                                             </tbody>
                                         </table>
-                                        <script>
-                                            document.getElementById('searchProduct').addEventListener('input', function() {
-                                                var filter = this.value.trim().toUpperCase();
-                                                var table = document.querySelector('.table');
-                                                var trs = table.getElementsByTagName('tr');
-                                                // Bắt đầu từ 1 để bỏ qua header
-                                                for (var i = 1; i < trs.length; i++) {
-                                                    var td = trs[i].getElementsByTagName('td')[1]; // cột ORDER (thường là cột thứ 2)
-                                                    if (td) {
-                                                        var txtValue = td.textContent.trim() || td.innerText.trim();
-                                                        trs[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <nav aria-label="Product list pagination">
+                                            <ul class="pagination mb-0">
+                                                <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+                                                    <a class="page-link" href="?page=<?php echo $page - 1; ?>&limit=<?php echo $limit; ?><?php echo ($filter_cid !== null ? '&category_id=' . $filter_cid : ''); ?>" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+
+                                                <?php
+                                                // Hiển thị các nút số trang
+                                                $start_page = max(1, $page - 2);
+                                                $end_page = min($total_pages, $page + 2);
+
+                                                if ($end_page - $start_page + 1 < 5 && $total_pages > 5) {
+                                                    if ($page <= 3) {
+                                                        $end_page = min($total_pages, 5);
+                                                        $start_page = 1;
+                                                    } elseif ($page >= $total_pages - 2) {
+                                                        $start_page = max(1, $total_pages - 4);
+                                                        $end_page = $total_pages;
                                                     }
                                                 }
-                                            });
-                                        </script>
+
+                                                for ($i = $start_page; $i <= $end_page; $i++) {
+                                                    $active_class = ($i == $page) ? 'active' : '';
+                                                ?>
+                                                    <li class="page-item <?php echo $active_class; ?>">
+                                                        <a class="page-link" href="?page=<?php echo $i; ?>&limit=<?php echo $limit; ?><?php echo ($filter_cid !== null ? '&category_id=' . $filter_cid : ''); ?>">
+                                                            <?php echo $i; ?>
+                                                        </a>
+                                                    </li>
+                                                <?php
+                                                }
+                                                ?>
+
+                                                <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
+                                                    <a class="page-link" href="?page=<?php echo $page + 1; ?>&limit=<?php echo $limit; ?><?php echo ($filter_cid !== null ? '&category_id=' . $filter_cid : ''); ?>" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        function openPrintTab(e) {
-            e.preventDefault();
-            // Lấy HTML phần bảng
-            var printContents = document.querySelector('.table-responsive').outerHTML;
-            // Tạo cửa sổ/tab mới
-            var printWindow = window.open('', '_blank');
-            // Ghi nội dung vào tab mới
-            printWindow.document.write(`
+    <!-- Modal for Product Details -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header align-items-center">
+                    <h5 class="modal-title" id="productDetailModalLabel">DETAILS OF <span id="modalProductName">Product Name</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="productDetailModalBody">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img id="modalProductThumbnail" src="" alt="Thumbnail" class="img-fluid mb-3">
+                            <div class="mb-3">
+                                <label for="editThumbnail" class="form-label">Change Thumbnail URL:</label>
+                                <input type="text" class="form-control" id="editThumbnail" name="edit_thumbnail" style="color: white;">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="hidden" id="editProductId">
+
+                            <div class="mb-3">
+                                <label for="editTitle" class="form-label">Product Title:</label>
+                                <input type="text" class="form-control" id="editTitle" name="edit_title" style="color: white;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editDescription" class="form-label">Description:</label>
+                                <textarea class="form-control" id="editDescription" name="edit_description" rows="3" style="color: white;"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Category:</label>
+                                <p class="form-control-plaintext" id="modalProductCategoryStatic" style="color: white;"></p>
+                                <input type="hidden" id="editCategoryCidStatic" name="edit_category_cid">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editPrice" class="form-label">Price:</label>
+                                <input type="number" step="0.01" class="form-control" id="editPrice" name="edit_price" style="color: white;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editStock" class="form-label">Stock:</label>
+                                <input type="number" class="form-control" id="editStock" name="edit_stock" style="color: white;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editSize" class="form-label">Size:</label>
+                                <input type="text" class="form-control" id="editSize" name="edit_size" placeholder="S, M, L..." style="color: white;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editSize2" class="form-label">Size 2 (Optional):</label>
+                                <input type="text" class="form-control" id="editSize2" name="edit_size2" placeholder="XL, XXL..." style="color: white;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editSize3" class="form-label">Size 3 (Optional):</label>
+                                <input type="text" class="form-control" id="editSize3" name="edit_size3" placeholder="Free size, One size..." style="color: white;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editColor" class="form-label">Color:</label>
+                                <input type="text" class="form-control" id="editColor" name="edit_color" placeholder="Red, Blue, Black..." style="color: white;">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info" id="saveProductDetails">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../../template/assets/vendors/js/vendor.bundle.base.js"></script>
+<script src="../../template/assets/vendors/chart.js/Chart.min.js"></script>
+<script src="../../template/assets/js/jquery.cookie.js" type="text/javascript"></script>
+<script src="../../template/assets/js/misc.js"></script>
+<!-- SCRIPT TÌM SẢN PHẨM THEO ID -->
+<script>
+    document.getElementById('searchProduct').addEventListener('input', function() {
+        var filter = this.value.trim().toUpperCase();
+        var table = document.querySelector('.table');
+        var trs = table.getElementsByTagName('tr');
+        // Bắt đầu từ 1 để bỏ qua header
+        for (var i = 1; i < trs.length; i++) {
+            var td = trs[i].getElementsByTagName('td')[2]; // cột ORDER (thường là cột thứ 2)
+            if (td) {
+                var txtValue = td.textContent.trim() || td.innerText.trim();
+                trs[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+            }
+        }
+    });
+</script>
+<!-- SCRIPT CHỌN SỐ LƯỢNG SẢN PHẨM TRÊN MỖI TRANG -->
+<script>
+    function openPrintTab(e) {
+        e.preventDefault();
+        // Lấy HTML phần bảng
+        var printContents = document.querySelector('.table-responsive').outerHTML;
+        // Tạo cửa sổ/tab mới
+        var printWindow = window.open('', '_blank');
+        // Ghi nội dung vào tab mới
+        printWindow.document.write(`
         <html>
         <head>
             <title>Print</title>
@@ -361,37 +580,182 @@
         </body>
         </html>
     `);
-            printWindow.document.close();
-        }
-    </script>
-    <!-- Thêm nút in vào trang -->
-    <script>
-        function exportTableToExcel(filename) {
-            var dataType = 'application/vnd.ms-excel';
-            var tableSelect = document.querySelector('.table');
-            var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-            var downloadLink = document.createElement("a");
-            document.body.appendChild(downloadLink);
-            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-            downloadLink.download = filename;
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        }
-    </script>
-    <script>
-        function exportTableToPDF() {
-            var {
-                jsPDF
-            } = window.jspdf;
-            var doc = new jsPDF();
-            doc.autoTable({
-                html: '.table'
+        printWindow.document.close();
+    }
+</script>
+<!-- Thêm nút in vào trang -->
+<script>
+    function exportTableToExcel(filename) {
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.querySelector('.table');
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+        var downloadLink = document.createElement("a");
+        document.body.appendChild(downloadLink);
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+        downloadLink.download = filename;
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>
+<script>
+    function exportTableToPDF() {
+        var {
+            jsPDF
+        } = window.jspdf;
+        var doc = new jsPDF();
+        doc.autoTable({
+            html: '.table'
+        });
+        doc.save('orders.pdf');
+    }
+</script>
+<!-- Thêm script để xử lý modal chi tiết sản phẩm -->
+<script>
+    $(document).ready(function() {
+        // Xử lý sự kiện thay đổi số lượng sản phẩm mỗi trang
+        $('#productPerPage').on('change', function() {
+            var newLimit = $(this).val();
+            var currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('limit', newLimit);
+            currentUrl.searchParams.set('page', 1); // Reset về trang 1 khi thay đổi limit
+            window.location.href = currentUrl.toString();
+        });
+
+        // Xử lý sự kiện thay đổi bộ lọc danh mục (nếu bạn thêm dropdown lọc danh mục)
+        // Ví dụ: giả sử dropdown lọc danh mục có ID là 'categoryFilter'
+        $('#categoryFilter').on('change', function() {
+            var newCategoryId = $(this).val();
+            var currentUrl = new URL(window.location.href);
+            if (newCategoryId) {
+                currentUrl.searchParams.set('category_id', newCategoryId);
+            } else {
+                currentUrl.searchParams.delete('category_id'); // Xóa param nếu chọn "Tất cả"
+            }
+            currentUrl.searchParams.set('page', 1); // Reset về trang 1 khi thay đổi bộ lọc
+            window.location.href = currentUrl.toString();
+        });
+
+        // ... (Thêm các script khác của bạn, ví dụ cho modal chi tiết sản phẩm) ...
+        // Xử lý sự kiện khi modal được hiển thị
+        $('#productDetailModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Nút kích hoạt modal
+            var productId = button.data('product-id'); // Lấy product-id từ data-product-id của nút
+
+            // Xóa dữ liệu cũ trong modal (nếu có)
+            $('#modalProductName').text('');
+            $('#editProductId').val('');
+            $('#modalProductThumbnail').attr('src', '');
+            $('#editThumbnail').val('');
+            $('#editTitle').val('');
+            $('#editDescription').val('');
+            $('#modalProductCategoryStatic').text(''); // Clear static category text
+            $('#editCategoryCidStatic').val(''); // Clear hidden category ID
+            $('#editPrice').val('');
+            $('#editStock').val('');
+            $('#editSize').val('');
+            $('#editSize2').val('');
+            $('#editSize3').val('');
+            $('#editColor').val('');
+
+
+            // Tải dữ liệu sản phẩm bằng AJAX
+            $.ajax({
+                url: '/e-web/admin/pages/produclist/fetch_product_details.php', // Điều chỉnh đường dẫn của bạn
+                method: 'GET',
+                data: {
+                    pid: productId
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        var product = response.product;
+                        // var categories = response.categories; // Không cần thiết nếu category là static
+
+                        // Điền dữ liệu vào form
+                        $('#modalProductName').text(product.title);
+                        $('#editProductId').val(product.pid);
+                        
+                        // Xử lý đường dẫn ảnh
+                        var imgPath = product.thumbnail;
+                        if (imgPath.startsWith('admin/assets/images/')) {
+                            imgPath = imgPath.substring('admin/assets/images/'.length);
+                        }
+                        var imgUrl = '/e-web/admin/assets/images/' + encodeURIComponent(imgPath.trim());
+                        
+                        $('#modalProductThumbnail').attr('src', imgUrl);
+                        $('#editThumbnail').val(product.thumbnail); // Giữ nguyên giá trị gốc cho input
+                        $('#editTitle').val(product.title);
+                        $('#editDescription').val(product.description);
+
+                        // Điền category tĩnh
+                        $('#modalProductCategoryStatic').text(product.category_name); // Hiển thị tên category
+                        $('#editCategoryCidStatic').val(product.cid); // Lưu category ID vào input hidden
+
+                        $('#editPrice').val(product.price);
+                        $('#editStock').val(product.stock);
+                        $('#editSize').val(product.size);
+                        $('#editSize2').val(product.size2 || '');
+                        $('#editSize3').val(product.size3 || '');
+                        $('#editColor').val(product.color);
+
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error:", status, error, xhr.responseText);
+                    alert('An error occurred while fetching product details.');
+                }
             });
-            doc.save('orders.pdf');
-        }
-    </script>
-</body>
-<script src="../../template/assets/vendors/js/vendor.bundle.base.js"></script>
-<script src="../../template/assets/vendors/chart.js/Chart.min.js"></script>
-<script src="../../template/assets/js/jquery.cookie.js" type="text/javascript"></script>
-<script src="../../template/assets/js/misc.js"></script>
+        });
+
+        // Xử lý sự kiện khi nút "Save changes" được click
+        $('#saveProductDetails').on('click', function() {
+            var productId = $('#editProductId').val();
+            var newTitle = $('#editTitle').val();
+            var newThumbnail = $('#editThumbnail').val();
+            var newPrice = $('#editPrice').val();
+            var newStock = $('#editStock').val();
+            var newSize = $('#editSize').val();
+            var newSize2 = $('#editSize2').val();
+            var newSize3 = $('#editSize3').val();
+            var newColor = $('#editColor').val();
+            var newDescription = $('#editDescription').val();
+            var categoryCidStatic = $('#editCategoryCidStatic').val(); // Lấy CID từ input hidden
+
+            var formData = {
+                pid: productId,
+                title: newTitle,
+                thumbnail: newThumbnail,
+                price: newPrice,
+                stock: newStock,
+                size: newSize,
+                size2: newSize2,
+                size3: newSize3,
+                color: newColor,
+                description: newDescription,
+                category_cid: categoryCidStatic // Gửi category ID tĩnh về server
+            };
+
+            $.ajax({
+                url: '/e-web/admin/pages/produclist/update_product_details.php', // Điều chỉnh đường dẫn của bạn
+                method: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        alert('Product updated successfully!');
+                        $('#productDetailModal').modal('hide'); // Đóng modal
+                        location.reload(); // Tải lại trang để cập nhật bảng
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error:", status, error, xhr.responseText);
+                    alert('An error occurred while saving changes.');
+                }
+            });
+        });
+    });
+</script>

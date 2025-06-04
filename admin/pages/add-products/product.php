@@ -11,12 +11,31 @@ if (!isset($_SESSION['admin_logged_in'])) {
 }
 
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
+// Đặt đoạn code PHP lấy danh mục sản phẩm TẠI ĐÂY
+// ====================================================================
+$sql_categories = "SELECT cid, cname FROM category WHERE is_product_category = 1 ORDER BY cname ASC";
+$result_categories = $conn->query($sql_categories);
+
+$categories = []; // Khởi tạo mảng $categories
+if ($result_categories) { // Luôn kiểm tra $result_categories có hợp lệ không
+    if ($result_categories->num_rows > 0) {
+        while ($row_cat = $result_categories->fetch_assoc()) {
+            $categories[] = $row_cat;
+        }
+    }
+} else {
+    // Xử lý lỗi truy vấn nếu có
+    error_log("Lỗi truy vấn danh mục: " . $conn->error);
+    // Bạn có thể hiển thị thông báo lỗi cho người dùng hoặc log lại
+    // echo "Có lỗi khi tải danh mục sản phẩm. Vui lòng thử lại sau.";
+}
+// ====================================================================
 // Xử lý khi form được submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
     // Lấy dữ liệu từ form
     $title = $_POST['title'] ?? '';
     $pid = $_POST['pid'] ?? '';
-    $cid = $_POST['cid'] ?? '';
+    $cid = $_POST['cid'] ?? ''; // Giá trị cid từ dropdown
     $description = $_POST['description'] ?? '';
     $description = preg_replace('/<\/?div[^>]*>/', '', $description);
     $description = preg_replace('/<br\s*\/?>/i', '', $description);
@@ -134,6 +153,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            /* Thêm fallback font */
+        }
         .custom-select-box {
             width: 100%;
             padding: 4px 12px;
@@ -214,11 +237,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label for="productIdInput">Product id</label>
-                                                    <input type="text" class="form-control" id="productIdInput" name="pid" placeholder="pid" required>
+                                                    <input type="text" class="form-control" id="productIdInput" name="pid" placeholder="pid">
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="categoryIdInput">Category id</label>
-                                                    <input type="text" class="form-control" id="categoryIdInput" name="cid" placeholder="cid" required>
+                                                    <input type="text" class="form-control" id="categoryIdInput" name="cid" placeholder="cid">
                                                 </div>
                                             </div>
                                         </div>
@@ -318,7 +341,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
                                                         <select class="form-control" name="option_type[]">
                                                             <option>Size</option>
                                                             <option>Color</option>
-
+                                                            <option>Rating</option>
+                                                            <option>Sold</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-7"> <input type="text" class="form-control" name="option_value[]" placeholder="Enter size"> </div>
@@ -358,12 +382,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
                                             </div>
                                             <!-- Content -->
                                             <div class="col-md-8" style="padding-left: 24px;">
-                                                <div id="tab-restock" class="tab-content-inventory">
+                                                <div id="tab-restock" class="tab-content-inventory" style="display:block;">
                                                     <!-- Nội dung Restock -->
                                                     <h6>Options</h6>
                                                     <label class="me-2 mb-0">Add to Stock</label>
                                                     <div class="d-flex align-items-center mb-3" style="gap: 10px; max-width: 350px;">
-                                                        <input type="number" name="stock" class="form-control" placeholder="Quantity" style="max-width: 200px;">
+                                                        <input type="number" name="stock" class="form-control" placeholder="Quantity" style="max-width: 200px; ">
                                                         <button class="btn btn-outline-info btn-md">Confirm</button>
                                                     </div>
 
@@ -472,10 +496,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleSelectCategory">Collection</label>
-                                                <select class="form-control" id="exampleSelectCategory">
-                                                    <option id="7">Shop for men</option>
-                                                    <option id="8">Shop for women</option>
+                                                <label for="cid">Collection</label>
+                                                <select class="form-control" id="cid" name="cid" required>
+                                                    <option value="">-- Select Collection --</option>
+                                                    <?php
+                                                    foreach ($categories as $category) {
+                                                        echo '<option value="' . htmlspecialchars($category['cid']) . '">' . htmlspecialchars($category['cname']) . '</option>';
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -656,7 +684,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
             });
         });
     </script>
-    <!-- -->
+    <!---->
 
 </body>
 
