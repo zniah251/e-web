@@ -273,11 +273,8 @@ CREATE TABLE `voucher` (
   `expiry` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `voucher` (`name`, `discount`, `minprice`, `expiry`)
-VALUES
-  ('Free Shipping', 30.00, 300000.00, '2025-12-31'),
-  ('Discount 10%', 50.00, 300000.00, '2025-12-31');
-
+INSERT INTO `voucher`(`vid`, `name`, `discount`, `minprice`, `expiry`) VALUES ('1','Free Shipping', '30.00', '300000.00', '2025-12-31');
+INSERT INTO `voucher`(`vid`, `name`, `discount`, `minprice`, `expiry`) VALUES ('2','Discount 10%', '50.00', '300000.00', '2025-12-31');
 -- --------------------------------------------------------
 
 --
