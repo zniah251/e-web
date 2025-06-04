@@ -210,6 +210,8 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
         response = 'Phí ship sẽ là 30.000đ/đơn hàng nha.';
       } else if (lower.includes('có sẵn') || lower.includes('màu') || lower.includes('size') || lower.includes('còn hàng') || lower.includes('sẵn hàng')) {
         response = 'Chào bạn, tất cả thông tin về số lượng sẵn có của sản phẩm, màu sắc và size đều hiển thị chi tiết trong phần "xem chi tiết sản phẩm". \n Nếu còn thắc mắc gì thêm hãy hỏi mình nhé!';
+      } else if (lower.includes('kiểm tra trước khi nhận') || lower.includes('kiểm tra rồi mới nhận') || lower.includes('kiểm tra trước khi lấy') || lower.includes('kiểm tra rồi mới lấy') || lower.includes('kiểm tra sản phẩm')) {
+        response = 'Được kiểm tra sản phẩm trước khi nhận, nếu có sai sót hay nhầm lẫn bạn có thể gửi lại cho shipper để thực hiện đổi/trả. Nhưng vui lòng không thử đồ (mặc vào) nhé, cảm ơn bạn!';
       }
       setTimeout(() => appendMessage(response, 'bot'), 500);
     }
