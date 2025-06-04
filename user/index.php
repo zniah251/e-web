@@ -1,5 +1,5 @@
 <?php
-include('../connect.php');
+include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 ?>
 
 <!DOCTYPE html>
@@ -332,6 +332,7 @@ include('../connect.php');
                 <li class="nav-item">
                   <a class="nav-link" href="#" id="Home">Home</a>
                 </li>
+<<<<<<< HEAD
                  <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdownCollection" data-bs-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">Collection</a>
@@ -340,8 +341,7 @@ include('../connect.php');
                   <li><a href="collection2.html" class="dropdown-item">Collection 2</a></li>
                   <li><a href="collection3.html" class="dropdown-item">Collection 3</a></li>
                 </ul>
-              </li>
-
+              </li>g
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="dropdownShop" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">Shop</a>

@@ -1,10 +1,9 @@
-
 <?php
 // connect.php
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "product";
+$dbname = "e-web";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -92,6 +91,14 @@ $product = $result->fetch_assoc();
         * {
             font-family: 'Times New Roman', Times, serif !important;
         }
+
+        .product-title-ellipsis {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            max-width: 100%;
+        }
     </style>
 
 
@@ -125,7 +132,7 @@ $product = $result->fetch_assoc();
                 ?>
                 <div class="relative group" style="width:fit-content;">
                     <img id="mainImage" src="<?= $thumbnail_url ?>" alt="<?= htmlspecialchars($product['title']) ?>" class="w-full max-w-sm h-auto rounded-xl shadow" style="display:block;" />
-                    
+
                 </div>
 
                 <!-- Ảnh phụ bên phải ảnh chính -->
@@ -168,9 +175,9 @@ $product = $result->fetch_assoc();
                 <h1 class="text-2xl font-bold mb-3"><?= htmlspecialchars($product['title']) ?></h1>
                 <p class="mb-3 text-gray-600"><?= nl2br(htmlspecialchars($product['description'])) ?></p>
                 <p class="text-red-600 text-xl font-semibold mb-3"><?= number_format($product['price'], 0, ',', '.') ?>₫</p>
-                 <!--Chọn màu sắc-->      
+                <!--Chọn màu sắc-->
                 <div class="mb-3">
-                    <p class="font-semibold">Màu sắc: 
+                    <p class="font-semibold">Màu sắc:
                         <span id="selectedColor" class="font-normal">
                             <?= htmlspecialchars($product['color']) ?>
                         </span>
@@ -225,7 +232,7 @@ $product = $result->fetch_assoc();
 
                     // Sắp xếp size theo thứ tự S, M, L, XL, XXL, XXXL...
                     $size_order = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', '4XL', '5XL'];
-                    usort($sizes, function($a, $b) use ($size_order) {
+                    usort($sizes, function ($a, $b) use ($size_order) {
                         $posA = array_search(strtoupper($a), $size_order);
                         $posB = array_search(strtoupper($b), $size_order);
                         if ($posA === false) $posA = 100;
@@ -244,13 +251,13 @@ $product = $result->fetch_assoc();
                         <?php endforeach; ?>
                     </div>
                     <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        document.querySelectorAll(".size-btn").forEach(btn =>
-                            btn.addEventListener("click", function() {
-                                document.getElementById("selectedSize").textContent = btn.getAttribute("data-size");
-                            })
-                        );
-                    });
+                        document.addEventListener("DOMContentLoaded", function() {
+                            document.querySelectorAll(".size-btn").forEach(btn =>
+                                btn.addEventListener("click", function() {
+                                    document.getElementById("selectedSize").textContent = btn.getAttribute("data-size");
+                                })
+                            );
+                        });
                     </script>
                     <div class="mt-2 flex items-center gap-1">
                         <a href="#" id="openSizeGuide" class="text-black underline font-medium hover:opacity-80">
@@ -293,13 +300,78 @@ $product = $result->fetch_assoc();
                     <input type="text" id="quantity" value="1" class="w-10 text-center border rounded" readonly />
                     <button id="increase" class="px-2 border rounded">+</button>
                 </div>
-                    
-                <!-- Nút -->
-                <div class="flex gap-4 mb-3">
-                    <button class="px-4 py-2 border rounded">Thêm vào giỏ</button>
-                    <button class="px-4 py-2 bg-gray-800 text-white rounded">Mua ngay</button>
-                </div>
 
+                <!-- Nút -->
+                <form id="addToCartForm" method="post" action="/e-web/user/page/cart/cart.php" class="flex gap-4 mb-3">
+                    <input type="hidden" name="pid" value="<?= $product['pid'] ?>">
+                    <input type="hidden" name="thumbnail" id="cartThumbnail" value="<?= htmlspecialchars($thumbnail_url) ?>">
+                    <input type="hidden" name="title" value="<?= htmlspecialchars($product['title']) ?>">
+                    <input type="hidden" name="size" id="cartSize" value="<?= htmlspecialchars($product['size']) ?>">
+                    <input type="hidden" name="color" id="cartColor" value="<?= htmlspecialchars($product['color']) ?>">
+                    <input type="hidden" name="quantity" id="cartQuantity" value="1">
+                    <input type="hidden" name="price" value="<?= $product['price'] ?>">
+
+                    <button type="submit" name="add_to_cart" class="px-4 py-2 border rounded">Thêm vào giỏ</button>
+                    <button type="submit" name="buy_now" class="px-4 py-2 bg-gray-800 text-white rounded">Mua ngay</button>
+                </form>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // Cập nhật size khi chọn
+                        document.querySelectorAll(".size-btn").forEach(btn =>
+                            btn.addEventListener("click", function() {
+                                document.getElementById("cartSize").value = btn.getAttribute("data-size");
+                            })
+                        );
+                        // Cập nhật color khi chọn
+                        document.querySelectorAll(".color-option").forEach(img =>
+                            img.addEventListener("click", function() {
+                                document.getElementById("cartColor").value = img.getAttribute("data-color");
+                                document.getElementById("cartThumbnail").value = img.src;
+                            })
+                        );
+                        // Cập nhật quantity khi thay đổi
+                        document.getElementById("increase")?.addEventListener("click", function() {
+                            setTimeout(function() {
+                                document.getElementById("cartQuantity").value = document.getElementById("quantity").value;
+                            }, 10);
+                        });
+                        document.getElementById("decrease")?.addEventListener("click", function() {
+                            setTimeout(function() {
+                                document.getElementById("cartQuantity").value = document.getElementById("quantity").value;
+                            }, 10);
+                        });
+                        // Xử lý thêm vào giỏ hàng bằng AJAX
+                        const form = document.getElementById("addToCartForm");
+                        form.addEventListener("submit", function(e) {
+                            e.preventDefault();
+                            const formData = new FormData(form);
+                            fetch('/e-web/user/page/cart/add_to_cart.php', {
+                                    method: "POST",
+                                    body: formData
+                                })
+                                .then(res => res.text())
+                                .then(() => {
+                                    // Hiện thông báo thành công
+                                    const toast = document.getElementById("cart-success-toast");
+                                    toast.style.display = "block";
+                                    setTimeout(() => {
+                                        toast.style.display = "none";
+                                    }, 2000);
+                                });
+                        });
+                    });
+                </script>
+                <!-- Thông báo thêm vào giỏ hàng -->
+                <div id="cart-success-toast" style="display:none;position:fixed;top:32px;right:32px;z-index:9999;">
+                    <div style="display:flex;align-items:center;gap:12px;background:#fff;padding:16px 24px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.08);font-size:1.2rem;font-weight:500;">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#4ade80;border-radius:50%;">
+                            <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M5 13l4 4L19 7" />
+                            </svg>
+                        </span>
+                        <span>Đã thêm vào giỏ hàng!</span>
+                    </div>
+                </div>
                 <!-- Địa chỉ -->
                 <div class="text-sm text-purple-600 flex items-center gap-1">
                     <span>📍</span> <span>Địa chỉ còn hàng</span>
@@ -368,43 +440,44 @@ $product = $result->fetch_assoc();
         $shown_titles = [];
 
         if ($related->num_rows > 0): ?>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
-            <?php while ($row = $related->fetch_assoc()):
-            $row_title = mb_strtolower(trim($row['title']));
-            if (
-                in_array($row['pid'], $displayed_pids) ||
-                in_array($row['pid'], $shown_pids) ||
-                in_array($row_title, $displayed_titles) ||
-                in_array($row_title, $shown_titles)
-            ) continue;
-            $shown_pids[] = $row['pid'];
-            $shown_titles[] = $row_title;
-            // Xử lý đường dẫn ảnh
-            $img = $row['thumbnail'];
-            if (strpos($img, 'admin/assets/images/') === 0) {
-                $img = substr($img, strlen('admin/assets/images/'));
-            }
-            $img_url = '/e-web/admin/assets/images/' . rawurlencode(trim($img));
-            ?>
-            <div class="bg-gray-100 rounded-xl p-3 flex flex-col">
-            <a href="product_detail.php?pid=<?= $row['pid'] ?>">
-                <img src="<?= $img_url ?>" alt="<?= htmlspecialchars($row['title']) ?>" class="rounded mb-3 h-72 object-cover w-full" />
-            </a>
-            <h3 class="font-medium text-sm line-clamp-2 mb-1"><?= htmlspecialchars($row['title']) ?></h3>
-            <p class="font-bold text-lg mb-2"><?= number_format($row['price'], 0, ',', '.') ?>₫</p>
-            <div class="mb-2">
-                <img src="<?= $img_url ?>" class="w-10 h-10 border rounded" />
-            </div>
-            <a href="product_detail.php?pid=<?= $row['pid'] ?>" class="btn-primary mb-2 text-center">Mua ngay</a>
-            <button class="border py-2 rounded-full hover:bg-gray-200">Thêm vào giỏ</button>
-            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+                <?php while ($row = $related->fetch_assoc()):
+                    $row_title = mb_strtolower(trim($row['title']));
+                    if (
+                        in_array($row['pid'], $displayed_pids) ||
+                        in_array($row['pid'], $shown_pids) ||
+                        in_array($row_title, $displayed_titles) ||
+                        in_array($row_title, $shown_titles)
+                    ) continue;
+                    $shown_pids[] = $row['pid'];
+                    $shown_titles[] = $row_title;
+                    // Xử lý đường dẫn ảnh
+                    $img = $row['thumbnail'];
+                    if (strpos($img, 'admin/assets/images/') === 0) {
+                        $img = substr($img, strlen('admin/assets/images/'));
+                    }
+                    $img_url = '/e-web/admin/assets/images/' . rawurlencode(trim($img));
+                ?>
+                    <div class="bg-gray-100 rounded-xl p-3 flex flex-col">
+                        <a href="product_detail.php?pid=<?= $row['pid'] ?>">
+                            <img src="<?= $img_url ?>" alt="<?= htmlspecialchars($row['title']) ?>" class="rounded mb-3 h-72 object-cover w-full" />
+                        </a>
+                        <h3 class="font-medium text-sm mb-1 product-title-ellipsis"><?= htmlspecialchars($row['title']) ?></h3>
+                        <p class="font-bold text-lg mb-2"><?= number_format($row['price'], 0, ',', '.') ?>₫</p>
+                        <div class="mb-2">
+                            <img src="<?= $img_url ?>" class="w-10 h-10 border rounded" />
+                        </div>
+                        <a href="product_detail.php?pid=<?= $row['pid'] ?>" class="btn-primary mb-2 text-center">Mua ngay</a>
+                        <button class="border py-2 rounded-full hover:bg-gray-200">Thêm vào giỏ</button>
+                    </div>
 
-            <?php
-            $shown++;
-            if ($shown >= $max_show) break;
-            endwhile; ?>
-        </div>
-        <?php endif; $stmt->close(); ?>
+                <?php
+                    $shown++;
+                    if ($shown >= $max_show) break;
+                endwhile; ?>
+            </div>
+        <?php endif;
+        $stmt->close(); ?>
 
         <!-- Nút xem thêm -->
         <div class="text-center mt-8">
@@ -490,11 +563,17 @@ $product = $result->fetch_assoc();
 
         // 3. Tăng/giảm số lượng
         const quantityInput = document.getElementById("quantity");
-        document.getElementById("increase")?.addEventListener("click", () =>
-            quantityInput.value = +quantityInput.value + 1
-        );
-        document.getElementById("decrease")?.addEventListener("click", () => {
-            if (+quantityInput.value > 1) quantityInput.value--;
+        const cartQuantityInput = document.getElementById("cartQuantity");
+
+        document.getElementById("increase")?.addEventListener("click", function() {
+            quantityInput.value = +quantityInput.value + 1;
+            cartQuantityInput.value = quantityInput.value;
+        });
+        document.getElementById("decrease")?.addEventListener("click", function() {
+            if (+quantityInput.value > 1) {
+                quantityInput.value = +quantityInput.value - 1;
+                cartQuantityInput.value = quantityInput.value;
+            }
         });
 
         // 4. Tab chuyển nội dung
@@ -535,4 +614,3 @@ $product = $result->fetch_assoc();
         });
     });
 </script>
-
