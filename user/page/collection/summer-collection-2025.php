@@ -218,13 +218,13 @@ function displayProductGrid($conn, $category_id = null, $max_show = 4, $title = 
         // Lần 1: Hiển thị 4 sản phẩm cid=17
         $displayed_pids_global = array_merge(
             $displayed_pids_global,
-            displayProductGrid($conn, 17, 4, "Sản phẩm trong bộ sưu tập", $displayed_pids_global)
+            displayProductGrid($conn, 2, 4, "Sản phẩm trong bộ sưu tập", $displayed_pids_global)
         );
 
         // Lần 2: Hiển thị 4 sản phẩm cid=17, loại trừ các sản phẩm đã hiển thị ở lần 1
         $displayed_pids_global = array_merge(
             $displayed_pids_global,
-            displayProductGrid($conn, 17, 4, "Sản phẩm khác", $displayed_pids_global)
+            displayProductGrid($conn, 2, 4, "Sản phẩm khác", $displayed_pids_global)
         );
         ?>
 

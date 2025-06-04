@@ -52,7 +52,10 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
   text-overflow: ellipsis;
 }
 
-.section-title {
+.section-title, .navbar, .col-md-6 {
+  font-family: 'Times New Roman', Times, serif;
+}
+body, header, footer {
   font-family: 'Times New Roman', Times, serif;
 }
 
@@ -971,6 +974,8 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
   </section>
 
   <footer id="footer" class="footer-custom mt-5">
+    <?php include('page/message/message.php'); ?>
+
     <div class="container">
       <div class="row justify-content-between py-5">
 
