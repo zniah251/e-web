@@ -332,23 +332,16 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                 <li class="nav-item">
                   <a class="nav-link" href="#" id="Home">Home</a>
                 </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="dropdownShop" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Collection</a>
-                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownShop">
-                    
-
-                    <?php
-                    if ($collections && $collections->num_rows > 0) {
-                      while ($collection = $collections->fetch_assoc()) {
-                        echo '<li><a href="page/collection/collection.php?id=' . $collection['cid'] . '" class="dropdown-item item-anchor">' . $collection['cname'] . '</a></li>';
-                      }
-                    } else {
-                      echo '<li><a href="#" class="dropdown-item item-anchor">No collections found</a></li>';
-                    }
-                    ?>
-                  </ul>
-                </li>
+<<<<<<< HEAD
+                 <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdownCollection" data-bs-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">Collection</a>
+                <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownCollection">
+                  <li><a href="/e-web/user/page/collection/collection1.php" class="dropdown-item">Collection 1</a></li>
+                  <li><a href="collection2.html" class="dropdown-item">Collection 2</a></li>
+                  <li><a href="collection3.html" class="dropdown-item">Collection 3</a></li>
+                </ul>
+              </li>g
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="dropdownShop" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">Shop</a>
@@ -1039,7 +1032,5 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
   <script src="js/script.min.js"></script>
 </body>
-
-</html>
 
 </html>
