@@ -40,12 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    @media (min-width: 1025px) {
-      .h-custom {
-        height: 100vh !important;
-        font-family: 'Times New Roman', Times, serif;
-      }
-    }
+    body {
+            font-family: 'Times New Roman', serif;
+            /* Thêm fallback font */
+        }
 
     .card-registration .select-input.form-control[readonly]:not([disabled]) {
       font-size: 1rem;
@@ -198,6 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
                                   </td>
                                 </tr>
                             <?php
+                                $index++; // Tăng biến đếm sau mỗi sản phẩm
                               }
                             } else {
                               echo '<tr><td colspan="8" class="text-center py-4">Your cart is empty.</td></tr>';
@@ -236,55 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
     </div>
 
   </section>
-  <footer id="footer" class="footer-custom mt-5">
-    <div class="container">
-      <div class="row justify-content-between py-5">
-
-        <!-- Logo & mô tả -->
-        <div class="col-md-3 col-sm-6">
-          <h4 class="fw-bold mb-3">KAIRA</h4>
-          <p>Chúng tôi là cửa hàng thời trang phong cách hiện đại, mang đến trải nghiệm mua sắm tiện lợi và thân thiện.</p>
-          <div class="social-icons mt-3">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-          </div>
-        </div>
-
-        <!-- Liên kết nhanh -->
-        <div class="col-md-3 col-sm-6">
-          <h5 class="fw-semibold mb-3">LIÊN KẾT NHANH</h5>
-          <ul class="list-unstyled">
-            <li><a href="index.html">Trang chủ</a></li>
-            <li><a href="page/aboutus/aboutus.html">Giới thiệu</a></li>
-            <li><a href="page/faq/faq.html">Hỏi đáp</a></li>
-            <li><a href="page/recruitment/recruit.html">Tuyển dụng</a></li>
-            <li><a href="page/member/member.html">Membership</a></li>
-          </ul>
-        </div>
-
-        <!-- Thông tin liên hệ -->
-        <div class="col-md-3 col-sm-6">
-          <h5 class="fw-semibold mb-3">THÔNG TIN LIÊN HỆ</h5>
-          <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường Lê Lợi, TP.HCM</p>
-          <p><i class="fas fa-envelope me-2"></i>contact@kairashop.com</p>
-          <p><i class="fas fa-phone me-2"></i>0901 234 567</p>
-        </div>
-
-        <!-- Bản đồ -->
-        <div class="col-md-3 col-sm-6">
-          <h5 class="fw-semibold mb-3">BẢN ĐỒ</h5>
-          <div class="map-embed">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.726643481827!2d106.6901211153343!3d10.75666499233459!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3b5f6a90ed%3A0xf7b2b4f40e527417!2zMTIzIMSQLiBMw6ogTOG7m2ksIFTDom4gVGjhu5FuZyBI4buTbmcsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgSOG7kyBDaMOidSwgVMOibiBwaOG7kSBIw7JhIE5haQ!5e0!3m2!1svi!2s!4v1614089999097!5m2!1svi!2s" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-          </div>
-        </div>
-
-      </div>
-      <div class="text-center py-3 border-top small">
-        © 2025 Kaira. Thiết kế lại bởi nhóm <strong>5 IS207</strong> | Dự án học phần Phát triển Web
-      </div>
-    </div>
-  </footer>
+  <?php include('../../../footer.php'); ?>
 
   <!-- End your project here-->
 
@@ -335,7 +286,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
     const index = input.dataset.index;
 
     // LẤY GIÁ GỐC CỦA MỘT ĐƠN VỊ SẢN PHẨM từ data-price của input
-    const originalPrice = parseFloat(input.dataset.price);
+    // Lấy giá trị chuỗi, loại bỏ dấu chấm, và loại bỏ ký tự 'đ'
+let priceString = input.dataset.price.replace(/\./g, '').replace('đ', '').trim();
+const originalPrice = parseFloat(priceString);
+
+// Thêm một kiểm tra để đảm bảo originalPrice là một số hợp lệ
+if (isNaN(originalPrice)) {
+    console.error("Lỗi: Giá sản phẩm không hợp lệ cho item có index:", input.dataset.index, "Giá trị gốc:", input.dataset.price);
+    // Bạn có thể chọn cách xử lý lỗi ở đây, ví dụ: gán 0 hoặc bỏ qua
+    // originalPrice = 0;
+}
 
     // Tính TỔNG GIÁ CHO DÒNG SẢN PHẨM HIỆN TẠI: số lượng mới * giá gốc 1 đơn vị
     const itemTotal = qty * originalPrice;
@@ -382,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function() {
       inputElement.addEventListener('input', function() { // Sử dụng 'input' để cập nhật real-time
           let enteredQty = parseInt(this.value, 10);
           if (isNaN(enteredQty) || enteredQty < 1) {
-              this.value = 1; // Đảm bảo số lượng không âm hoặc NaN
+              this.value = NaN; // Đảm bảo số lượng không âm hoặc NaN
           }
           updateTotals(); // Gọi updateTotals để cập nhật cả itemTotal và total
       });

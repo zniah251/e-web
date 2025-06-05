@@ -1,27 +1,16 @@
 <?php
-// Bật báo lỗi PHP để dễ dàng debug trong môi trường phát triển
-// Trong môi trường production, bạn nên tắt hoặc ghi lỗi vào log file
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Bao gồm file kết nối cơ sở dữ liệu
-// Điều chỉnh đường dẫn cho phù hợp với cấu trúc dự án của bạn
-// Ví dụ: nếu update_product_details.php nằm trong /e-web/admin/pages/product/
-// và connect.php nằm trong /e-web/
-// thì đường dẫn tương đối sẽ là '../../connect.php' hoặc đường dẫn tuyệt đối như dưới
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php"; 
 
-// Thiết lập header để trình duyệt biết đây là phản hồi JSON
 header('Content-Type: application/json');
 
-// Kiểm tra xem yêu cầu có phải là POST không (chỉ chấp nhận yêu cầu POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Lấy dữ liệu từ POST request
-    // Sử dụng isset() và toán tử ba ngôi để tránh lỗi undefined index
-    // và đảm bảo kiểu dữ liệu phù hợp
+    // Lấy tất cả dữ liệu từ POST request
     $pid = isset($_POST['pid']) ? intval($_POST['pid']) : 0;
-    $title = isset($_POST['title']) ? trim($_POST['title']) : ''; // trim() để loại bỏ khoảng trắng thừa
+    $title = isset($_POST['title']) ? trim($_POST['title']) : '';
     $thumbnail = isset($_POST['thumbnail']) ? trim($_POST['thumbnail']) : '';
     $price = isset($_POST['price']) ? floatval($_POST['price']) : 0.0;
     $stock = isset($_POST['stock']) ? intval($_POST['stock']) : 0;
@@ -30,18 +19,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $size3 = isset($_POST['size3']) ? trim($_POST['size3']) : '';
     $color = isset($_POST['color']) ? trim($_POST['color']) : '';
     $description = isset($_POST['description']) ? trim($_POST['description']) : '';
-    $cid = isset($_POST['category_cid']) ? intval($_POST['category_cid']) : 0; // Category ID
+    $cid = isset($_POST['category_cid']) ? intval($_POST['category_cid']) : 0;
+
+    // LẤY CÁC BIẾN MỚI TỪ POST
+    $discount = isset($_POST['discount']) ? floatval($_POST['discount']) : 0.0;
+    $thumbnail2 = isset($_POST['thumbnail2']) ? trim($_POST['thumbnail2']) : '';
+    $thumbnail3 = isset($_POST['thumbnail3']) ? trim($_POST['thumbnail3']) : '';
+    $rating = isset($_POST['rating']) ? floatval($_POST['rating']) : 0.0; // Giả định rating là số thực (ví dụ: 4.5)
+    $sold = isset($_POST['sold']) ? intval($_POST['sold']) : 0;
+    $color2 = isset($_POST['color2']) ? trim($_POST['color2']) : '';
+
 
     // Kiểm tra tính hợp lệ cơ bản của dữ liệu
-    // Ví dụ: pid phải lớn hơn 0, title không được rỗng
     if ($pid <= 0 || empty($title) || $price < 0 || $stock < 0 || $cid <= 0) {
         echo json_encode(['success' => false, 'message' => 'Invalid input data. Please check Product ID, Title, Price, Stock, or Category.']);
         $conn->close();
-        exit(); // Dừng script nếu dữ liệu không hợp lệ
+        exit();
     }
 
-    // Câu lệnh SQL UPDATE
-    // Sử dụng Prepared Statements để ngăn chặn SQL Injection
+    // CÂU LỆNH SQL UPDATE MỚI (BAO GỒM TẤT CẢ CÁC CỘT BẠN MUỐN CẬP NHẬT)
+    // Đảm bảo các cột này tồn tại trong bảng 'product' của bạn
     $sql = "UPDATE product SET 
                 title = ?, 
                 thumbnail = ?, 
@@ -52,45 +49,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 size3 = ?, 
                 color = ?, 
                 description = ?, 
-                cid = ? 
+                cid = ?,
+                discount = ?,        
+                thumbnail2 = ?,      -- Thêm cột thumbnail2
+                thumbnail3 = ?,      -- Thêm cột thumbnail3
+                rating = ?,          
+                sold = ?,            -- Thêm cột sold
+                color2 = ?           -- Thêm cột color2
             WHERE pid = ?";
     
-    // Chuẩn bị câu lệnh
     $stmt = $conn->prepare($sql);
 
-    // Kiểm tra lỗi khi chuẩn bị câu lệnh
     if ($stmt === false) {
         echo json_encode(['success' => false, 'message' => 'Failed to prepare statement: ' . $conn->error]);
         $conn->close();
         exit();
     }
-   $stmt->bind_param("ssdississii", 
-                    $title, $thumbnail, $price, $stock, 
-                    $size, $size2, $size3, $color, $description, $cid, $pid); 
+    // title (s), thumbnail (s), price (d), stock (i), size (s), size2 (s), size3 (s), color (s), description (s), cid (i),
+    // discount (d), thumbnail2 (s), thumbnail3 (s), rating (d), sold (i), color2 (s), pid (i)
+    $stmt->bind_param("ssdississidssdisi", 
+                        $title, $thumbnail, $price, $stock, 
+                        $size, $size2, $size3, $color, $description, $cid,
+                        $discount, $thumbnail2, $thumbnail3, $rating, $sold, $color2, $pid); 
 
-    // Thực thi câu lệnh
     if ($stmt->execute()) {
-        // Kiểm tra xem có hàng nào bị ảnh hưởng không
         if ($stmt->affected_rows > 0) {
             echo json_encode(['success' => true, 'message' => 'Product updated successfully.']);
         } else {
-            // Nếu affected_rows là 0, có thể query thành công nhưng không có gì thay đổi
-            // (ví dụ: dữ liệu gửi lên giống hệt dữ liệu cũ)
             echo json_encode(['success' => true, 'message' => 'Product details are up to date (no changes made).']);
         }
     } else {
-        // Xử lý lỗi khi thực thi câu lệnh
         echo json_encode(['success' => false, 'message' => 'Error updating product: ' . $stmt->error]);
     }
     
-    // Đóng câu lệnh
     $stmt->close();
 
 } else {
-    // Trả về lỗi nếu yêu cầu không phải là POST (ví dụ: truy cập trực tiếp bằng URL)
     echo json_encode(['success' => false, 'message' => 'Invalid request method. Only POST requests are allowed.']);
 }
 
-// Đóng kết nối cơ sở dữ liệu
 $conn->close();
 ?>

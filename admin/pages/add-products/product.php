@@ -41,7 +41,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
     $description = preg_replace('/<br\s*\/?>/i', '', $description);
     $price = isset($_POST['price']) ? floatval($_POST['price']) : 0;
     $discount = isset($_POST['discount']) ? floatval($_POST['discount']) : 0;
+    $sold = isset($_POST['sold']) ? intval($_POST['sold']) : 0;
     $stock = $_POST['stock'] ?? '';
+    $rating = isset($_POST['rating']) ? floatval($_POST['rating']) : 5.0;
+    
+    // Khởi tạo các biến
+    $size = $size2 = $size3 = '';
+    $color = $color2 = '';
+    $sold = 0; // Khởi tạo giá trị mặc định cho sold
+
+    // Duyệt qua các option động
+    if (!empty($_POST['option_type']) && !empty($_POST['option_value'])) {
+        $sizeCount = 0;
+        $colorCount = 0;
+        foreach ($_POST['option_type'] as $idx => $type) {
+            $value = trim($_POST['option_value'][$idx]);
+            if (strtolower($type) === 'size' && $value !== '') {
+                $sizeCount++;
+                if ($sizeCount == 1) $size = $value;
+                elseif ($sizeCount == 2) $size2 = $value;
+                elseif ($sizeCount == 3) $size3 = $value;
+            }
+            if (strtolower($type) === 'color' && $value !== '') {
+                $colorCount++;
+                if ($colorCount == 1) $color = $value;
+                elseif ($colorCount == 2) $color2 = $value;
+            }
+            if (strtolower($type) === 'sold' && $value !== '') {
+                $sold = intval($value); // Chuyển đổi giá trị sold thành số nguyên
+            }
+        }
+    }
     // Xử lý upload ảnh
     // Xử lý upload nhiều ảnh (thumbnail, thumbnail2, thumbnail3)
     $thumbnail = '';
@@ -88,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
     if (!empty($_POST['option_type']) && !empty($_POST['option_value'])) {
         $sizeCount = 0;
         $colorCount = 0;
+        $soldCount = 0;
         foreach ($_POST['option_type'] as $idx => $type) {
             $value = trim($_POST['option_value'][$idx]);
             if (strtolower($type) === 'size' && $value !== '') {
@@ -100,6 +131,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
                 $colorCount++;
                 if ($colorCount == 1) $color = $value;
                 elseif ($colorCount == 2) $color2 = $value;
+            }
+            if (strtolower($type) === 'sold' && $value !== '') {
+                $soldCount++;
+                if ($soldCount == 1) $sold = intval($value); // Chuyển đổi sang số nguyên
             }
         }
     }
@@ -554,7 +589,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
             <select class="form-select">
               <option value="size">Size</option>
               <option value="color">Color</option>
-              <option value="weight">Weight</option>
+              <option value="Sold">Sold</option>
             </select>
             <textarea placeholder="Enter values..." style="width: 100%; padding: 10px; color: black;"></textarea>
           `;
@@ -624,7 +659,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
                         <select class="form-control" name="option_type[]">
                             <option>Size</option>
                             <option>Color</option>
-                            <option>Weight</option>
+                            <option>Sold</option>
                         </select>
                     </div>
                     <div class="col-md-7">
