@@ -151,6 +151,7 @@ $stmt_products->close();
     <!-- Thêm vào trước thẻ </body> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <style>
         body {
             font-family: 'Times New Roman', serif;
@@ -171,7 +172,7 @@ $stmt_products->close();
 
         /* Màu nền cho toàn bộ modal content */
         #productDetailModal .modal-content {
-            background-color: #D1C4E9;
+            background-color: #A59AC0;
             /* Màu nền mới */
         }
 
@@ -471,68 +472,98 @@ $stmt_products->close();
     </div>
     <!-- Modal for Product Details -->
     <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header align-items-center">
-                    <h5 class="modal-title" id="productDetailModalLabel">DETAILS OF <span id="modalProductName">Product Name</span></h5>
+                    <h5 class="modal-title fs-4 fw-bold" id="productDetailModalLabel">DETAILS OF <span id="modalProductName">Product Name</span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="productDetailModalBody">
                     <div class="row">
                         <div class="col-md-4">
-                            <img id="modalProductThumbnail" src="" alt="Thumbnail" class="img-fluid mb-3">
-                            <div class="mb-3">
-                                <label for="editThumbnail" class="form-label">Change Thumbnail URL:</label>
-                                <input type="text" class="form-control" id="editThumbnail" name="edit_thumbnail" style="color: white;">
+                            <div class="d-flex flex-column align-items-center mb-3">
+                                <img id="modalProductThumbnail" src="" alt="Thumbnail" class="img-fluid rounded-3 mb-2" style="width: 100px;">
+                                <label for="editThumbnail" class="form-label fs-6 fw-bold">Thumbnail 1:</label>
+                                <input type="text" class="form-control form-control-lg" id="editThumbnail" name="edit_thumbnail" style="color: white;">
+                            </div>
+                            
+                            <div class="d-flex flex-column align-items-center mb-3">
+                                <img id="modalProductThumbnail2" src="" alt="Thumbnail2" class="img-fluid rounded-3 mb-2" style="width: 100px;">
+                                <label for="editThumbnail2" class="form-label fs-6 fw-bold">Thumbnail 2:</label>
+                                <input type="text" class="form-control form-control-lg" id="editThumbnail2" name="edit_thumbnail" style="color: white;">
+                            </div>
+                            
+                            <div class="d-flex flex-column align-items-center mb-3">
+                                <img id="modalProductThumbnail3" src="" alt="Thumbnail3" class="img-fluid rounded-3 mb-2" style="width: 100px;">
+                                <label for="editThumbnail3" class="form-label fs-6 fw-bold">Thumbnail 3:</label>
+                                <input type="text" class="form-control form-control-lg" id="editThumbnail3" name="edit_thumbnail" style="color: white;">
                             </div>
                         </div>
                         <div class="col-md-8">
                             <input type="hidden" id="editProductId">
 
                             <div class="mb-3">
-                                <label for="editTitle" class="form-label">Product Title:</label>
-                                <input type="text" class="form-control" id="editTitle" name="edit_title" style="color: white;">
+                                <label for="editTitle" class="form-label fs-6 fw-bold">Product Title:</label>
+                                <input type="text" class="form-control form-control-lg" id="editTitle" name="edit_title" style="color: white;">
                             </div>
 
                             <div class="mb-3">
-                                <label for="editDescription" class="form-label">Description:</label>
-                                <textarea class="form-control" id="editDescription" name="edit_description" rows="3" style="color: white;"></textarea>
+                                <label for="editDescription" class="form-label fs-6 fw-bold">Description:</label>
+                                <textarea class="form-control form-control-lg" id="editDescription" name="edit_description" rows="3" style="color: white;"></textarea>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Category:</label>
-                                <p class="form-control-plaintext" id="modalProductCategoryStatic" style="color: white;"></p>
+                                <label class="form-label fs-6 fw-bold">Category:</label>
+                                <p class="form-control-plaintext fs-5" id="modalProductCategoryStatic" style="color: white;"></p>
                                 <input type="hidden" id="editCategoryCidStatic" name="edit_category_cid">
                             </div>
 
-                            <div class="mb-3">
-                                <label for="editPrice" class="form-label">Price:</label>
-                                <input type="number" step="0.01" class="form-control" id="editPrice" name="edit_price" style="color: white;">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editPrice" class="form-label fs-6 fw-bold">Price:</label>
+                                    <input type="number" step="0.01" class="form-control form-control-lg" id="editPrice" name="edit_price" style="color: white;">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editDiscount" class="form-label fs-6 fw-bold">Discount:</label>
+                                    <input type="number" step="0.01" class="form-control form-control-lg" id="editDiscount" name="edit_discount" style="color: white;">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="editStock" class="form-label">Stock:</label>
-                                <input type="number" class="form-control" id="editStock" name="edit_stock" style="color: white;">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="editStock" class="form-label fs-6 fw-bold">Stock:</label>
+                                    <input type="number" class="form-control form-control-lg" id="editStock" name="edit_stock" style="color: white;">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="editSold" class="form-label fs-6 fw-bold">Sold:</label>
+                                    <input type="number" class="form-control form-control-lg" id="editSold" name="edit_sold" style="color: white;">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="editSize" class="form-label">Size:</label>
-                                <input type="text" class="form-control" id="editSize" name="edit_size" placeholder="S, M, L..." style="color: white;">
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label fs-6 fw-bold">Size:</label>
+                                    <input type="text" class="form-control form-control-lg" id="editSize" name="edit_size" placeholder="S, M, L..." style="color: white;">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fs-6 fw-bold">Size2:</label>
+                                    <input type="text" class="form-control form-control-lg" id="editSize2" name="edit_size2" placeholder="XL, XXL..." style="color: white;">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fs-6 fw-bold">Size3:</label>
+                                    <input type="text" class="form-control form-control-lg" id="editSize3" name="edit_size3" placeholder="Free size..." style="color: white;">
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="editSize2" class="form-label">Size 2 (Optional):</label>
-                                <input type="text" class="form-control" id="editSize2" name="edit_size2" placeholder="XL, XXL..." style="color: white;">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="editSize3" class="form-label">Size 3 (Optional):</label>
-                                <input type="text" class="form-control" id="editSize3" name="edit_size3" placeholder="Free size, One size..." style="color: white;">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="editColor" class="form-label">Color:</label>
-                                <input type="text" class="form-control" id="editColor" name="edit_color" placeholder="Red, Blue, Black..." style="color: white;">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fs-6 fw-bold">Color:</label>
+                                    <input type="text" class="form-control form-control-lg" id="editColor" name="edit_color" placeholder="Red, Blue..." style="color: white;">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fs-6 fw-bold">Color2:</label>
+                                    <input type="text" class="form-control form-control-lg" id="editColor2" name="edit_color2" placeholder="Green, Yellow..." style="color: white;">
+                                </div>
                             </div>
 
                         </div>
@@ -540,6 +571,7 @@ $stmt_products->close();
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="deleteProduct">Delete</button>
                     <button type="button" class="btn btn-info" id="saveProductDetails">Save changes</button>
                 </div>
             </div>
@@ -550,7 +582,7 @@ $stmt_products->close();
 <script src="../../template/assets/vendors/chart.js/Chart.min.js"></script>
 <script src="../../template/assets/js/jquery.cookie.js" type="text/javascript"></script>
 <script src="../../template/assets/js/misc.js"></script>
-<!-- SCRIPT TÌM SẢN PHẨM THEO ID -->
+<!-- SCRIPT TÌM SẢN PHẨM THEO TÊN -->
 <script>
     document.getElementById('searchProduct').addEventListener('input', function() {
         var filter = this.value.trim().toUpperCase();
@@ -558,7 +590,7 @@ $stmt_products->close();
         var trs = table.getElementsByTagName('tr');
         // Bắt đầu từ 1 để bỏ qua header
         for (var i = 1; i < trs.length; i++) {
-            var td = trs[i].getElementsByTagName('td')[2]; // cột ORDER (thường là cột thứ 2)
+            var td = trs[i].getElementsByTagName('td')[3]; // cột ORDER (thường là cột thứ 3)
             if (td) {
                 var txtValue = td.textContent.trim() || td.innerText.trim();
                 trs[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
@@ -601,27 +633,91 @@ $stmt_products->close();
 <!-- Thêm nút in vào trang -->
 <script>
     function exportTableToExcel(filename) {
-        var dataType = 'application/vnd.ms-excel';
-        var tableSelect = document.querySelector('.table');
-        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-        var downloadLink = document.createElement("a");
-        document.body.appendChild(downloadLink);
-        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-        downloadLink.download = filename;
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-    }
-</script>
-<script>
-    function exportTableToPDF() {
-        var {
-            jsPDF
-        } = window.jspdf;
-        var doc = new jsPDF();
-        doc.autoTable({
-            html: '.table'
+        // Lấy dữ liệu từ bảng
+        var table = document.querySelector('.table');
+        var rows = table.querySelectorAll('tr');
+        var data = [];
+
+        // Lấy tiêu đề
+        var headers = [];
+        rows[0].querySelectorAll('th').forEach(function(th) {
+            if (th.textContent.trim() !== '') {  // Bỏ qua cột trống
+                headers.push(th.textContent.trim());
+            }
         });
-        doc.save('orders.pdf');
+        data.push(headers);
+
+        // Lấy dữ liệu từ các hàng
+        for (var i = 1; i < rows.length; i++) {
+            var row = [];
+            var cells = rows[i].querySelectorAll('td');
+            
+            cells.forEach(function(cell, index) {
+                if (index > 1) {  // Bỏ qua 2 cột đầu (checkbox và nút detail)
+                    // Xử lý cột hình ảnh
+                    if (cell.querySelector('img')) {
+                        row.push(cell.textContent.trim()); // Chỉ lấy text bên cạnh hình
+                    } else {
+                        row.push(cell.textContent.trim());
+                    }
+                }
+            });
+            
+            if (row.length > 0) {  // Chỉ thêm hàng nếu có dữ liệu
+                data.push(row);
+            }
+        }
+
+        // Tạo workbook mới
+        var wb = XLSX.utils.book_new();
+        var ws = XLSX.utils.aoa_to_sheet(data);
+
+        // Thiết lập style cho worksheet
+        ws['!cols'] = headers.map(function() { return {wch: 15}; }); // Độ rộng cột
+        
+        // Thêm worksheet vào workbook
+        XLSX.utils.book_append_sheet(wb, ws, "Products");
+
+        // Xuất file
+        XLSX.writeFile(wb, filename);
+    }
+
+    // Thêm hàm xuất PDF nếu cần
+    function exportTableToPDF() {
+        var {jsPDF} = window.jspdf;
+        var doc = new jsPDF('l', 'pt', 'a4'); // landscape orientation
+        
+        // Tạo styles cho PDF
+        var styles = {
+            font: 'times',
+            fontStyle: 'normal',
+            fontSize: 10,
+        };
+        
+        doc.autoTable({
+            html: '.table',
+            styles: styles,
+            margin: {top: 10},
+            columnStyles: {
+                0: {cellWidth: 30}, // ID
+                1: {cellWidth: 100}, // Product
+                2: {cellWidth: 80}, // Category
+                3: {cellWidth: 60}, // Price
+                4: {cellWidth: 40}, // Stock
+                5: {cellWidth: 40}, // Size
+                6: {cellWidth: 60} // Color
+            },
+            didDrawCell: function(data) {
+                // Xử lý ảnh nếu có
+                if (data.cell.raw && data.cell.raw.querySelector('img')) {
+                    var img = data.cell.raw.querySelector('img');
+                    var dim = data.cell.height - 2;
+                    doc.addImage(img.src, 'PNG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                }
+            }
+        });
+        
+        doc.save('products.pdf');
     }
 </script>
 <!-- Thêm script để xử lý modal chi tiết sản phẩm -->
@@ -667,6 +763,7 @@ $stmt_products->close();
             $('#editCategoryCidStatic').val(''); // Clear hidden category ID
             $('#editPrice').val('');
             $('#editStock').val('');
+            $('#editSold').val('');
             $('#editSize').val('');
             $('#editSize2').val('');
             $('#editSize3').val('');
@@ -689,16 +786,34 @@ $stmt_products->close();
                         // Điền dữ liệu vào form
                         $('#modalProductName').text(product.title);
                         $('#editProductId').val(product.pid);
-                        
-                        // Xử lý đường dẫn ảnh
+
+                        // Xử lý đường dẫn ảnh cho thumbnail1
                         var imgPath = product.thumbnail;
                         if (imgPath.startsWith('admin/assets/images/')) {
                             imgPath = imgPath.substring('admin/assets/images/'.length);
                         }
                         var imgUrl = '/e-web/admin/assets/images/' + encodeURIComponent(imgPath.trim());
-                        
                         $('#modalProductThumbnail').attr('src', imgUrl);
-                        $('#editThumbnail').val(product.thumbnail); // Giữ nguyên giá trị gốc cho input
+                        $('#editThumbnail').val(product.thumbnail);
+
+                        // Xử lý đường dẫn ảnh cho thumbnail2
+                        var imgPath2 = product.thumbnail2;
+                        if (imgPath2 && imgPath2.startsWith('admin/assets/images/')) {
+                            imgPath2 = imgPath2.substring('admin/assets/images/'.length);
+                        }
+                        var imgUrl2 = imgPath2 ? '/e-web/admin/assets/images/' + encodeURIComponent(imgPath2.trim()) : '';
+                        $('#modalProductThumbnail2').attr('src', imgUrl2);
+                        $('#editThumbnail2').val(product.thumbnail2 || '');
+
+                        // Xử lý đường dẫn ảnh cho thumbnail3
+                        var imgPath3 = product.thumbnail3;
+                        if (imgPath3 && imgPath3.startsWith('admin/assets/images/')) {
+                            imgPath3 = imgPath3.substring('admin/assets/images/'.length);
+                        }
+                        var imgUrl3 = imgPath3 ? '/e-web/admin/assets/images/' + encodeURIComponent(imgPath3.trim()) : '';
+                        $('#modalProductThumbnail3').attr('src', imgUrl3);
+                        $('#editThumbnail3').val(product.thumbnail3 || '');
+
                         $('#editTitle').val(product.title);
                         $('#editDescription').val(product.description);
 
@@ -712,6 +827,9 @@ $stmt_products->close();
                         $('#editSize2').val(product.size2 || '');
                         $('#editSize3').val(product.size3 || '');
                         $('#editColor').val(product.color);
+                        $('#editDiscount').val(product.discount || ''); // Sử dụng || '' để tránh undefined
+                        $('#editSold').val(product.sold || '');
+                        $('#editColor2').val(product.color2 || '');
 
                     } else {
                         alert('Error: ' + response.message);
@@ -737,7 +855,12 @@ $stmt_products->close();
             var newColor = $('#editColor').val();
             var newDescription = $('#editDescription').val();
             var categoryCidStatic = $('#editCategoryCidStatic').val(); // Lấy CID từ input hidden
-
+            var newDiscount = $('#editDiscount').val(); // Đảm bảo có input với id="editDiscount"
+            var newThumbnail2 = $('#editThumbnail2').val(); // Đảm bảo có input với id="editThumbnail2"
+            var newThumbnail3 = $('#editThumbnail3').val(); // Đảm bảo có input với id="editThumbnail3"
+            var newRating = $('#editRating').val(); // Đảm bảo có input với id="editRating"
+            var newSold = $('#editSold').val(); // Đảm bảo có input với id="editSold"
+            var newColor2 = $('#editColor2').val(); // Đảm bảo có input với id="editColor2"
             var formData = {
                 pid: productId,
                 title: newTitle,
@@ -749,7 +872,13 @@ $stmt_products->close();
                 size3: newSize3,
                 color: newColor,
                 description: newDescription,
-                category_cid: categoryCidStatic // Gửi category ID tĩnh về server
+                category_cid: categoryCidStatic, // Gửi category ID tĩnh về server
+                discount: newDiscount,
+                thumbnail2: newThumbnail2,
+                thumbnail3: newThumbnail3,
+                rating: newRating,
+                sold: newSold,
+                color2: newColor2
             };
 
             $.ajax({
@@ -771,6 +900,35 @@ $stmt_products->close();
                     alert('An error occurred while saving changes.');
                 }
             });
+        });
+
+        // Thêm xử lý sự kiện cho nút Delete
+        $('#deleteProduct').on('click', function() {
+            if (confirm('Are you sure you want to delete this product?')) {
+                var productId = $('#editProductId').val();
+                
+                $.ajax({
+                    url: '/e-web/admin/pages/produclist/delete_product.php',
+                    method: 'POST',
+                    data: {
+                        pid: productId
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Product deleted successfully!');
+                            $('#productDetailModal').modal('hide');
+                            location.reload(); // Tải lại trang để cập nhật danh sách
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error:", status, error);
+                        alert('An error occurred while deleting the product.');
+                    }
+                });
+            }
         });
     });
 </script>

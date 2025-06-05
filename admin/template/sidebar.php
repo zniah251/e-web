@@ -115,8 +115,8 @@
       </a>
       <div class="collapse" id="orders-menu">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Orders List</a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Orders Details</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/e-web/admin/pages/orderlist/orderlist.php">Orders List</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/e-web/admin/pages/orderdetails/orderdetails.php">Orders Details</a></li>
         </ul>
       </div>
     </li>

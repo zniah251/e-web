@@ -24,11 +24,15 @@
     <link rel="shortcut icon" href="../../../admin/template/assets/images/favicon.png" />
     <!-- Sử dụng liên kết CDN mới nhất của Font Awesome -->
 
-    </style>
     <!-- Thêm vào trước thẻ </body> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js"></script>
-
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            /* Thêm fallback font */
+        }
+    </style>
 </head>
 
 <body>
