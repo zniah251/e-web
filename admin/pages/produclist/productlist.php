@@ -4,6 +4,21 @@ session_start();
 // Bao gồm file kết nối cơ sở dữ liệu
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 
+$where_clause = "";
+$where_params = [];
+$where_types = "";
+
+if (isset($_GET['search_name']) && $_GET['search_name'] !== '') {
+    $search_name = '%' . $_GET['search_name'] . '%';
+    // Đảm bảo WHERE clause được xây dựng đúng cách
+    if (empty($where_clause)) {
+        $where_clause .= " WHERE u.uname LIKE ?";
+    } else {
+        $where_clause .= " AND u.uname LIKE ?";
+    }
+    $where_params[] = $search_name;
+    $where_types .= "s";
+}
 // 1. Xử lý tham số phân trang
 $allowed_limits = [10, 25, 50, 100];
 $limit = 25;

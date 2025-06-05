@@ -198,7 +198,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
       let response = 'Cảm ơn bạn đã nhắn tin, nhưng điều này nằm ngoài phạm vi trả lời của mình! Liên hệ fanpage, instagram, email contact@kairashop.com hoặc gọi hotline: 0901 234 567 để được giải đáp chi tiết nhé!';
       const lower = userText.toLowerCase();
 
-      if (lower.includes('khuyến mãi') || lower.includes('ưu đãi') || lower.includes('giảm giá')) {
+      if (lower.includes('khuyến mãi') || lower.includes('ưu đãi') || lower.includes('giảm giá') || lower.includes('sale')) {
         response = 'Hiện tại shop chưa triển khai các chương trình khuyến mãi. Nhưng có sẵn các voucher freeship và discount 50k/đơn hàng từ 300k vô cùng hấp dẫn. \n Bạn có thể xem chi tiết ở trang chủ, lưu voucher và sử dụng ngay, đừng bỏ lỡ cơ hội này nhé!';
       } else if (lower.includes('giao hàng') || lower.includes('thời gian ship')) {
         response = 'Thời gian giao hàng sẽ dao động từ 2 - 5 ngày tùy khu vực trên toàn quốc nhé!';
