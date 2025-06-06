@@ -731,7 +731,20 @@ $stmt_returning->close();
         alert('<?php echo $_SESSION['error']; ?>');
         <?php unset($_SESSION['error']); ?>
     <?php endif; ?>
-  </script>
+
+    function viewCustomer(uid) {
+      // Mở cửa sổ nhỏ với trang chi tiết khách hàng
+      const width = 800; // Kích thước cửa sổ
+      const height = 600;
+      const left = (screen.width / 2) - (width / 2);
+      const top = (screen.height / 2) - (height / 2);
+      const features = `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`;
+
+      // Mở trang customer_detail.php trong cửa sổ mới và truyền uid qua URL
+      window.open('customer_detail.php?uid=' + uid, '_blank', features);
+    }
+
+</script>
 </body>
 
 </html>
