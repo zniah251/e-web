@@ -711,3 +711,13 @@ INSERT INTO `category` (`cid`, `cname`, `cslug`, `cfile`, `parentid`) VALUES
 (18, 'MEMBERSHIP', NULL, NULL, 5),
 (19, 'RECRUITMENT', NULL, NULL, 5),
 (20, 'CONTACT', NULL, NULL, 5);
+
+-- Add new columns to `users` table
+ALTER TABLE users
+ADD COLUMN google_id VARCHAR(255) UNIQUE NULL AFTER password;
+ALTER TABLE users
+ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP AFTER google_id;
+ALTER TABLE users
+ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER created_at;
+ALTER TABLE users
+ADD COLUMN email_verified TINYINT(1) DEFAULT 0 AFTER updated_at;

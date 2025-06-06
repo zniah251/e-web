@@ -88,10 +88,13 @@ $product = $result->fetch_assoc();
             justify-content: center;
         }
 
-        * {
-            font-family: 'Times New Roman', Times, serif !important;
+        body {
+            font-family: 'Times New Roman', serif;
         }
-
+        h1, h2, h3, h4, h5 {
+            font-family: 'Times New Roman', Times, serif !important;
+            /* Sử dụng font Times New Roman cho tiêu đề */
+        }
         .product-title-ellipsis {
             white-space: nowrap;
             overflow: hidden;

@@ -37,6 +37,23 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
             will-change: transform;
         }
 
+        /* Style cho tên người dùng */
+        .sidebar-header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .sidebar-header img {
+            margin: 0 auto 10px auto;
+            display: block;
+        }
+
+        .sidebar-header h6 {
+            text-align: center;
+            margin: 0;
+            font-weight: 600;
+        }
+
         /* Thêm style cho nút wishlist */
         .btn-icon.btn-wishlist {
             position: absolute;
@@ -144,7 +161,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                     </div>
                     <a href="product_detail.php?pid=1" class="btn-primary mb-2 text-center">Mua ngay</a>
                     <button class="border py-2 rounded-full hover:bg-gray-200">Thêm vào giỏ</button>
-    </div>
+                </div>
             </div>
         </div>
     </div>

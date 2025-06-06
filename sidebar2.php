@@ -14,18 +14,9 @@
         .sidebar-header {
             display: flex;
             align-items: center;
+            justify-content: center;
             margin-bottom: 30px;
         }
-
-        .sidebar-header img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 15px;
-            object-fit: cover;
-            border: 2px solid #eee;
-        }
-
         .sidebar-menu .list-group-item {
             border: none;
             padding: 12px 15px;
@@ -55,10 +46,9 @@
     </style>
 </head>
 <div class="sidebar">
-    <div class="sidebar-header" style="border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 15px;">
-        <img src="https://via.placeholder.com/50/696cff/FFFFFF?text=TN" alt="User Avatar">
-        <div>
-            <h6 class="mb-0">Tien Nguyen</h6>
+    <div class="sidebar-header" style="border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 15px; text-align: center;">
+        <div style="width: 100%;">
+            <h6 class="mb-0" style="text-align: center; font-weight: 600;">Tien Nguyen</h6>
         </div>
     </div>
     <div class="sidebar-menu list-group list-group-flush">
