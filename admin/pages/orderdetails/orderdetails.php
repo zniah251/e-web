@@ -1,3 +1,9 @@
+<?php
+// orderdetails.php
+
+// 1. KẾT NỐI CƠ SỞ DỮ LIỆU
+include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,8 +71,8 @@
                         <div class="col-md-8 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title"><strong>Orders #</strong></h4>
-                                    <h6 class="mb-0">Customer ID :</h6>
+                                    <h4 class="card-title"><strong>Order ID: 123</strong></h4>
+                                    <h6 class="mb-0">Customer ID: 12</h6>
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
@@ -84,7 +90,6 @@
                                                     <th> PRICE </th>
                                                     <th> QUANTITY </th>
                                                     <th> TOTAL </th>
-                                                    <th> Payment Status </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -96,101 +101,13 @@
                                                             </label>
                                                         </div>
                                                     </td>
-                                                    <td>
-                                                        <img src="assets/images/faces/face1.jpg" alt="image" />
-                                                        <span class="ps-2">Henry Klein</span>
-                                                    </td>
                                                     <td> 02312 </td>
                                                     <td> $14,500 </td>
                                                     <td> Dashboard </td>
                                                     <td> Credit card </td>
                                                     <td> 04 Dec 2019 </td>
                                                     <td>
-                                                        <div class="badge badge-outline-success">Approved</div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <img src="assets/images/faces/face2.jpg" alt="image" />
-                                                        <span class="ps-2">Estella Bryan</span>
-                                                    </td>
-                                                    <td> 02312 </td>
-                                                    <td> $14,500 </td>
-                                                    <td> Website </td>
-                                                    <td> Cash on delivered </td>
-                                                    <td> 04 Dec 2019 </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-warning">Pending</div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <img src="assets/images/faces/face5.jpg" alt="image" />
-                                                        <span class="ps-2">Lucy Abbott</span>
-                                                    </td>
-                                                    <td> 02312 </td>
-                                                    <td> $14,500 </td>
-                                                    <td> App design </td>
-                                                    <td> Credit card </td>
-                                                    <td> 04 Dec 2019 </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-danger">Rejected</div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <img src="assets/images/faces/face3.jpg" alt="image" />
-                                                        <span class="ps-2">Peter Gill</span>
-                                                    </td>
-                                                    <td> 02312 </td>
-                                                    <td> $14,500 </td>
-                                                    <td> Development </td>
-                                                    <td> Online Payment </td>
-                                                    <td> 04 Dec 2019 </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-success">Approved</div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-check form-check-muted m-0">
-                                                            <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input">
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <img src="assets/images/faces/face4.jpg" alt="image" />
-                                                        <span class="ps-2">Sallie Reyes</span>
-                                                    </td>
-                                                    <td> 02312 </td>
-                                                    <td> $14,500 </td>
-                                                    <td> Website </td>
-                                                    <td> Credit card </td>
-                                                    <td> 04 Dec 2019 </td>
-                                                    <td>
-                                                        <div class="badge badge-outline-success">Approved</div>
+                                                        <div class="badge badge-outline-success">Paid</div>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -205,25 +122,13 @@
                                     <h4 class="card-title"><strong>Summary</strong></h4>
 
                                     <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
-                                        <h6 class="mb-0">Item subtotal :</h6>
+                                        <h6 class="mb-0">Subtotal :</h6>
                                         <h6 class="font-weight-bold mb-0">$236</h6>
                                     </div>
-
                                     <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
                                         <h6 class="mb-0">Discount :</h6>
                                         <h6 class="font-weight-bold mb-0 text-danger">-$59</h6>
                                     </div>
-
-                                    <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
-                                        <h6 class="mb-0">Tax :</h6>
-                                        <h6 class="font-weight-bold mb-0">$126.20</h6>
-                                    </div>
-
-                                    <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
-                                        <h6 class="mb-0">Subtotal :</h6>
-                                        <h6 class="font-weight-bold mb-0">$665</h6>
-                                    </div>
-
                                     <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
                                         <h6 class="mb-0">Shipping Cost :</h6>
                                         <h6 class="font-weight-bold mb-0">$30</h6>
@@ -324,45 +229,15 @@
                                         </div>
                                     </div>
 
-                                    <!-- Other details -->
-                                    <div class="row mt-4 text-white">
-                                        <div class="col-12">
-                                            <h5 class="font-weight-bold mb-3">Other details</h5>
-
-                                            <div class="mb-2 d-flex align-items-start">
-                                                <i class="mdi mdi-gift-outline mr-2"></i>
-                                                <div>
-                                                    <small class="font-weight-bold">Gift order</small><br />
-                                                    <span class="text-white">Yes</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="mb-2 d-flex align-items-start">
-                                                <i class="mdi mdi-package-variant-closed mr-2"></i>
-                                                <div>
-                                                    <small class="font-weight-bold">Wrapping</small><br />
-                                                    <span class="text-white">Magic wrapper</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="mb-2 d-flex align-items-start">
-                                                <i class="mdi mdi-account-box-outline mr-2"></i>
-                                                <div>
-                                                    <small class="font-weight-bold">Recipient</small><br />
-                                                    <span class="text-white">Monjito Shiniga</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 grid-margin stretch-card">
                             <div class="card custom-summary-card" style="min-height: auto; height: auto;">
                                 <div class="card-body">
-                                    <h4 class="font-weight-bold card-title">Order status</h4>
+                                    <h4 class="font-weight-bold card-title">Order Summary</h4>
                                     <div class="form-group">
-                                        <label class="font-weight-bold">Payment status</label>
+                                        <label class="font-weight-bold">Order Status</label>
                                         <select id="destatus" class="custom-select-box">
                                             <option value="processing">Processing</option>
                                             <option value="cancel">Cancel</option>
@@ -371,7 +246,16 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label class="font-weight-bold">Fulfillment status</label>
+                                        <label class="font-weight-bold">Payment Status</label>
+                                        <select id="destatus" class="custom-select-box">
+                                            <option value="processing">Processing</option>
+                                            <option value="cancel">Cancel</option>
+                                            <option value="completed">Completed</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Payment Method</label>
                                         <select id="paystatus" class="custom-select-box">
                                             <option value="unfulfilled">Unfulfilled</option>
                                             <option value="fulfilled">Fulfilled</option>

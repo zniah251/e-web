@@ -101,7 +101,7 @@
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="/e-web/admin/pages/add-products/product.php">Add Product</a></li>
           <li class="nav-item"> <a class="nav-link" href="/e-web/admin/pages/produclist/productlist.php">Products List</a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Categories List</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/e-web/admin/pages/category-list/category-list.php">Categories List</a></li>
         </ul>
       </div>
     </li>
