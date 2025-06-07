@@ -380,7 +380,7 @@ body, header, footer {
                           <a href="page/woman/pants.php" class="dropdown-item item-anchor"> Pants </a>
                         </li>
                         <li>
-                          <a href="page/woman/skirt.php" class="dropdown-item item-anchor"> Skirts </a>
+                          <a href="page/woman/skirts.php" class="dropdown-item item-anchor"> Skirts </a>
                         </li>
                       </ul>
                     </li>
@@ -397,10 +397,10 @@ body, header, footer {
                       <a href="page/aboutus/aboutus.html" class="dropdown-item item-anchor"> About Us </a>
                     </li>
                     <li>
-                      <a href="page/member/member.html" class="dropdown-item item-anchor"> Membership </a>
+                      <a href="page/member/member.php" class="dropdown-item item-anchor"> Membership </a>
                     </li>
                     <li>
-                      <a href="page/recruitment/recruit.html" class="dropdown-item item-anchor"> Recruitment </a>
+                      <a href="page/recruitment/recruit.php" class="dropdown-item item-anchor"> Recruitment </a>
                     </li>
                     <li>
                       <a href="page/faq/faq.html" class="dropdown-item item-anchor"> Contact </a>

@@ -234,7 +234,7 @@ body {
             text-decoration: underline;
         }
 
-        .login-button {
+        .login-button, .reset-button {
             width: 100%;
             padding: 15px;
             background-color: #000;
@@ -246,11 +246,13 @@ body {
             cursor: pointer;
             transition: background-color 0.2s;
             font-family: 'Times New Roman', Times, serif;
+            text-align: center;
         }
 
         .login-button:hover {
             background-color: #333;
         }
+        
 
         .social-login-flex {
             display: flex;
