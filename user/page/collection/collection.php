@@ -32,6 +32,7 @@ $products = $stmt->get_result();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,37 +42,42 @@ $products = $stmt->get_result();
     <style>
         .card {
             transition: transform 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .card:hover {
             transform: translateY(-5px);
         }
+
         .card-img-top {
             height: 200px;
             object-fit: cover;
         }
+
         .text-danger {
             font-weight: bold;
         }
+
         .text-decoration-line-through {
             font-size: 0.9em;
         }
     </style>
 </head>
+
 <body>
     <?php include '../../../navbar.php'; ?>
 
     <div class="container mt-5">
         <h1 class="text-center mb-4"><?php echo htmlspecialchars($collection['cname']); ?></h1>
-        
+
         <?php if ($products->num_rows > 0): ?>
             <div class="row">
-                <?php while($product = $products->fetch_assoc()): ?>
+                <?php while ($product = $products->fetch_assoc()): ?>
                     <div class="col-md-3 mb-4">
                         <div class="card h-100">
-                            <img src="../../../images/<?php echo htmlspecialchars($product['thumbnail']); ?>" 
-                                 class="card-img-top" 
-                                 alt="<?php echo htmlspecialchars($product['title']); ?>">
+                            <img src="../../../images/<?php echo htmlspecialchars($product['thumbnail']); ?>"
+                                class="card-img-top"
+                                alt="<?php echo htmlspecialchars($product['title']); ?>">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($product['title']); ?></h5>
                                 <p class="card-text">
@@ -94,4 +100,5 @@ $products = $stmt->get_result();
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+
+</html>

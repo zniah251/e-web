@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -133,7 +135,7 @@
                         <input type="checkbox" id="remember-me-password">
                         <label for="remember-me-password">Nhớ đăng nhập</label>
                     </div>
-                    <a href="#" class="forgot-password">Quên mật khẩu</a>
+                    <a href="/e-web/user/page/sign-in/forget_password.php" class="forgot-password">Quên mật khẩu</a>
                 </div>
             </div>
 
