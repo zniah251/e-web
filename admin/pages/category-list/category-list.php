@@ -1,759 +1,573 @@
+<?php
+session_start();
+include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
+
+// 1. Xử lý tham số phân trang
+$allowed_limits = [10, 25, 50, 100];
+$limit = 25;
+if (isset($_GET['limit']) && is_numeric($_GET['limit']) && in_array(intval($_GET['limit']), $allowed_limits)) {
+    $limit = intval($_GET['limit']);
+}
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+$offset = ($page - 1) * $limit;
+
+// Truy vấn tổng số sản phẩm (không filter)
+$total_products_sql = "SELECT COUNT(*) AS total_count FROM category";
+$result_total = $conn->query($total_products_sql);
+$total_row = $result_total->fetch_assoc();
+$total_products = $total_row['total_count'];
+
+// 3. Tính tổng số trang
+$total_pages = max(1, ceil($total_products / $limit));
+
+// 4. Đảm bảo trang hiện tại không vượt quá tổng số trang
+if ($page > $total_pages && $total_pages > 0) {
+    $page = $total_pages;
+    $offset = ($page - 1) * $limit;
+} elseif ($page < 1) {
+    $page = 1;
+    $offset = 0;
+}
+
+// 6. Tính chỉ số hiển thị
+$start_entry = $total_products > 0 ? $offset + 1 : 0;
+$end_entry = min($offset + $limit, $total_products);
+
+// Lấy dữ liệu category có phân trang
+$sql = "
+    SELECT
+        c1.cid AS id,
+        c1.cname AS category_name,
+        c1.cslug AS slug,
+        c1.cfile AS file,
+        c1.parentid,
+        COALESCE(c2.cname, 'Gốc') AS parent_category_name,
+        c1.is_product_category
+    FROM
+        category AS c1
+    LEFT JOIN
+        category AS c2 ON c1.parentid = c2.cid
+    ORDER BY
+        c1.cid ASC
+    LIMIT ?, ?
+";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $offset, $limit);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$categories = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        // Xử lý cột is_product_category
+        $row['is_product_category_display'] = ($row['is_product_category'] == 1) ? 'Yes' : 'No';
+        $categories[] = $row;
+    }
+}
+
+// 3. LẤY DỮ LIỆU CHO DROPDOWN "PARENT CATEGORY" TRONG MODAL
+// Lấy tất cả danh mục (chỉ ID và Tên) để điền vào dropdown "Parent category"
+$sql_parent_categories = "SELECT cid, cname FROM category ORDER BY cname ASC";
+$result_parent_categories = $conn->query($sql_parent_categories);
+
+$parent_categories_options = [];
+if ($result_parent_categories->num_rows > 0) {
+    while ($row = $result_parent_categories->fetch_assoc()) {
+        $parent_categories_options[] = $row;
+    }
+}
+$stmt->close();
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Product List</title>
-
-    <!-- Plugins CSS from Corona Admin Template -->
+    <title>Corona Admin</title>
+    <!-- plugins:css -->
     <link rel="stylesheet" href="../../../admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../../admin/template/assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="../../template/assets/vendors/jvectormap/jquery-jvectormap.css">
     <link rel="stylesheet" href="../../template/assets/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="../../template/assets/vendors/owl-carousel-2/owl.carousel.min.css">
     <link rel="stylesheet" href="../../template/assets/vendors/owl-carousel-2/owl.theme.default.min.css">
-    
-    <!-- Layout styles from Corona Admin Template -->
-    <link rel="stylesheet" href="../../assets/product.css"> <!-- Kept as per Corona template -->
-    <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
-    <!-- <link rel="stylesheet" href="../../../admin/template/assets/css/maps/style.css.map"> -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- End plugin css for this page -->
+    <!-- Layout styles -->
 
-    <!-- Favicon from Corona Admin Template -->
+    <link rel="stylesheet" href="/e-web/admin/template/assets/css/style.css">
+
+    <!-- End layout styles -->
     <link rel="shortcut icon" href="../../../admin/template/assets/images/favicon.png" />
-    
-    <!-- DataTables CSS (specific to Product List) -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css ">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css ">
+    <!-- Sử dụng liên kết CDN mới nhất của Font Awesome -->
 
-    <!-- Font Awesome (latest CDN, specific to Product List) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- Tailwind CSS (Kept as per your Corona template, may cause conflicts if not intended) -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-    <!-- Custom Styles (Overrides for dark theme and specific elements for Product List) -->
+    <!-- Thêm vào trước thẻ </body> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="./category-list.css">
     <style>
-        /* General body and card styles for dark theme - MATCHING CORONA ADMIN */
-        body {
-            background-color: #191c24 !important; /* Changed to match Corona Admin primary background */
-            color: #e0e0e0 !important;
-            font-family: Arial, sans-serif;
-        }
-        .card {
-            background-color: #191c24 !important; /* Changed to match Corona Admin primary background for cards */
-            border: none;
-            border-radius: 8px;
-            color: #fff !important;
-        }
-        .card-title, .card-description {
-            color: #fff !important;
-        }
-        .footer {
-            background-color: #191c24 !important; /* Matches Corona Admin footer */
-            color: #adb5bd;
-        }
-        .navbar {
-            background-color: #191c24 !important;
-        }
-        .sidebar {
-            background: #191c24 !important;
-        }
-        .nav-link, .menu-title, .menu-icon i {
-            color: #e0e0e0 !important;
-        }
-        .nav-item.active > .nav-link {
-            color: #fff !important;
-            background-color: #23243a !important;
-        }
-        .nav-item.active .menu-icon i {
-            color: #fff !important;
-        }
-        .nav-link:hover, .nav-link:hover .menu-icon i, .nav-link:hover .menu-title {
-            color: #fff !important;
-            background-color: #23243a !important;
-        }
-        /* Form controls specific to search input and select for page length */
-        .form-control {
-            background-color: #2A2F3D !important; /* Specific dark, purplish-gray from new image */
-            color: #fff !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important; /* Lighter, more subtle border */
-            border-radius: 4px; /* Ensure rounded corners */
-            height: 38px; /* Standard Bootstrap height */
-            padding: 6px 12px; /* Adjust padding for better look */
-        }
-        .form-control::placeholder {
-            color: #adb5bd !important;
-        }
         
-        /* Specific style for the select element for page length (matching the white '10' in image) */
-        #customLength {
-            background-color: #fff !important;
-            color: #333 !important; /* Dark text for light background */
-            border: 1px solid #ccc !important;
-            border-radius: 4px !important;
-            padding-right: 25px !important; /* Ensure space for the dropdown arrow */
-        }
-        /* Ensure dropdown arrow is visible and styled for #customLength */
-        #customLength::-ms-expand { /* For IE 11 */
-            display: none;
-        }
-        #customLength {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
-            background-repeat: no-repeat;
-            background-position: right 0.5rem center;
-            background-size: 1em;
-        }
-
-
-        /* Table specific styles for Product List - KEPT ORIGINAL COLORS */
-        .table,
-        .table-responsive,
-        #productTable {
-            background-color: #191c24 !important; /* Changed to match Corona Admin primary background */
-        }
-        .table th,
-        .table td {
-            background-color: #191c24 !important; /* Changed to match Corona Admin primary background */
-            border-color: transparent !important;
-            color: #e0e0e0 !important;
-            vertical-align: middle !important;
-        }
-        .table thead th {
-            background-color: #2d3748 !important; /* Original dark header color */
-            color: #fff !important;
-            border-bottom: 2px solid #495057;
-        }
-
-        /* Badge styles for Product List status - KEPT ORIGINAL COLORS */
-        .badge {
-            font-weight: 700 !important;
-            font-size: 0.95em !important;
-            letter-spacing: 0.01em;
-            padding: 0.45em 1em;
-            border-radius: 6px;
-            border: 1.5px solid transparent;
-            display: inline-block;
-            margin-right: 8px;
-        }
-        .badge-success, .badge-active {
-            background-color: #00d25b !important;
-            color: #fff !important;
-            border-color: #00d25b !important;
-        }
-        .badge-danger, .badge-inactive {
-            background-color: #fc424a !important;
-            color: #fff !important;
-            border-color: #fc424a !important;
-        }
-        .badge-scheduled, .badge-warning {
-            background-color: #ffab00 !important;
-            color: #fff !important;
-            border-color: #ffab00 !important;
-        }
-        .badge-info {
-            background-color: #248afd !important;
-            color: #fff !important;
-            border-color: #248afd !important;
-        }
-        
-        /* Button styles (already mostly aligned, but ensure consistency) - KEPT ORIGINAL COLORS */
-        .btn-primary {
-            background-color: #0090e7 !important;
-            border-color: #0090e7 !important;
-            color: #fff !important;
-        }
-        .btn-primary:hover {
-            background-color: #0069d9 !important;
-            border-color: #0062cc !important;
-        }
-        .btn-danger {
-            background-color: #fc424a !important;
-            border-color: #fc424a !important;
-            color: #fff !important;
-        }
-        .btn-danger:hover {
-            background-color: #c82333 !important;
-            border-color: #bd2130 !important;
-        }
-        .btn-secondary {
-            background-color: #6c757d !important;
-            border-color: #6c757d !important;
-            color: #fff !important;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268 !important;
-            border-color: #545b62 !important;
-        }
-
-        /* Toggle switch specific to Product List - KEPT ORIGINAL COLORS */
-        .toggle-switch { position: relative; display: inline-block; width: 34px; height: 20px; vertical-align: middle; }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .toggle-switch span { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 20px; }
-        .toggle-switch span:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; }
-        .toggle-switch input:checked + span { background-color: #4caf50; }
-        .toggle-switch input:checked + span:before { transform: translateX(14px); }
-        
-        /* DataTables Buttons (hide default) */
-        .dt-buttons { display: none !important; }
-
-        /* Dropdown menu styles (Bootstrap overrides) - KEPT ORIGINAL COLORS */
-        .dropdown-menu { background-color: #23243a !important; border: 1px solid #444 !important; }
-        .dropdown-item { color: #fff !important; }
-        .dropdown-item:hover { background-color: #0090e7 !important; color: #fff !important; }
-        div.dt-button-info { display: none !important; }
-
-        /* Toast notifications (specific to Product List) */
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1040; }
-        .toast { background-color: #333; color: white; padding: 15px 25px; border-radius: 5px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); display: none; min-width: 250px; }
-        .toast.show { display: block; animation: fadeInOut 3s forwards; }
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        /* Modal styles (Bootstrap overrides, specific to Product List) */
-        .modal { display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; outline: 0; background-color: rgba(0, 0, 0, 0.5); }
-        .modal-dialog {
-            position: relative; width: auto; margin: .5rem; pointer-events: none;
-            display: flex;
-            align-items: center;
-            min-height: calc(100% - 1rem);
-        }
-        @media (min-width: 576px) { .modal-dialog { max-width: 500px; margin: auto; min-height: calc(100% - 3.5rem); } }
-        .modal-content { 
-            position: relative; display: flex; flex-direction: column; width: 100%; pointer-events: auto; 
-            background-color: #191c24 !important; /* Changed to match Corona Admin primary background */ 
-            background-clip: padding-box; border: 1px solid #444; border-radius: 8px; outline: 0; color: #fff !important; 
-        }
-        .modal-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 1rem 1rem; border-bottom: 1px solid #444; border-top-left-radius: calc(.3rem - 1px); border-top-right-radius: calc(.3rem - 1px); }
-        .modal-header .btn-close { padding: .5rem .5rem; margin: -.5rem -.5rem -.5rem auto; background: transparent; border: 0; color: #fff; opacity: .5; }
-        .modal-title { margin-bottom: 0; line-height: 1.5; font-size: 1.25rem; }
-        .modal-body { position: relative; flex: 1 1 auto; padding: 1rem; }
-        .modal-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; padding: .75rem; border-top: 1px solid #444; border-bottom-right-radius: calc(.3rem - 1px); border-bottom-left-radius: calc(.3rem - 1px); }
-        .modal-footer > * { margin: .25rem; }
-
-        /* Specific styles from Corona template (kept for consistency with the new template) */
-        .edit-link {
-            color: #6366F1; /* indigo-500 */
-            text-decoration: none;
-            font-size: 15px;
-        }
-        .edit-link:hover {
-            text-decoration: underline;
-        }
-        .timeline {
-            list-style: none;
-            padding: 0;
-            position: relative;
-            margin: 0;
-        }
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 16px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: #cbd5e0; /* light blue-gray line */
-        }
-        .timeline-item {
-            position: relative;
-            padding-left: 40px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        .timeline-icon {
-            position: absolute;
-            left: 8px;
-            top: 5px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #ccc;
-        }
-        .timeline-time {
-            white-space: nowrap;
-            font-size: 0.875rem;
-        }
-
-        /* New container for the search/export/length controls inside the card-body */
-        .product-table-controls {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem; /* Space between elements */
-            margin-bottom: 1rem; /* Space below the controls */
-        }
-        /* Ensure the search input takes up appropriate space */
-        .product-table-controls #orderSearch {
-            flex-grow: 1;
-            max-width: 300px; /* Limit max width to avoid stretching too much on large screens */
-        }
-        /* Flex for export button and select */
-        .product-table-controls .export-and-length-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px; /* Space between export button and select */
-        }
     </style>
 </head>
+
 <body>
     <div class="container-scroller">
-        <!-- Banner from Corona Admin Template (Optional, can be removed if not needed) -->
-        <div class="row p-0 m-0 proBanner" id="proBanner">
-            <div class="col-md-12 p-0 m-0">
-                <!-- Banner content -->
-            </div>
-        </div>
-        
-        <!-- partial:partials/_sidebar.html -->
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="index.html"><img src="../../template/assets/images/logo.svg" alt="logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="../../template/assets/images/logo-mini.svg" alt="logo" /></a>
-            </div>
-            <ul class="nav">
-                <li class="nav-item profile">
-                    <div class="profile-desc">
-                        <div class="profile-pic">
-                            <div class="count-indicator">
-                                <img class="img-xs rounded-circle " src="../../template/assets/images/faces/face15.jpg" alt="">
-                                <span class="count bg-success"></span>
-                            </div>
-                            <div class="profile-name">
-                                <h5 class="mb-0 font-weight-normal">Henry Klein</h5>
-                                <span>Gold Member</span>
-                            </div>
-                        </div>
-                        <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-                            <a href="#" class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-dark rounded-circle">
-                                        <i class="mdi mdi-settings text-primary"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-dark rounded-circle">
-                                        <i class="mdi mdi-onepassword  text-info"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-dark rounded-circle">
-                                        <i class="mdi mdi-calendar-today text-success"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item nav-category">
-                    <span class="nav-link">Navigation</span>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="index.html">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-speedometer"></i>
-                        </span>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-laptop"></i>
-                        </span>
-                        <span class="menu-title">Basic UI Elements</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse" id="ui-basic">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-playlist-play"></i>
-                        </span>
-                        <span class="menu-title">Form Elements</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items active"> <!-- Marked active for Product List -->
-                    <a class="nav-link" href="../product/product_list.html">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-table-large"></i>
-                        </span>
-                        <span class="menu-title">Product List</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="../order-list/order_list.html">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-cart"></i>
-                        </span>
-                        <span class="menu-title">Order List</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/charts/chartjs.html">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-chart-bar"></i>
-                        </span>
-                        <span class="menu-title">Charts</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/icons/mdi.html">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-contacts"></i>
-                        </span>
-                        <span class="menu-title">Icons</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-security"></i>
-                        </span>
-                        <span class="menu-title">User Pages</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse" id="auth">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-file-document-box"></i>
-                        </span>
-                        <span class="menu-title">Documentation</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        
-        <!-- partial -->
+        <?php include('../../template/sidebar.php'); ?>
         <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_navbar.html -->
-            <nav class="navbar p-0 fixed-top d-flex flex-row">
-                <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
-                </div>
-                <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                        <span class="mdi mdi-menu"></span>
-                    </button>
-                    <ul class="navbar-nav w-100">
-                        <li class="nav-item w-100">
-                            <!-- Only the general search form from Corona template remains here -->
-                            <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                                <input type="text" class="form-control" placeholder="Search products">
-                            </form>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav navbar-nav-right">
-                        <li class="nav-item dropdown d-none d-lg-block">
-                            <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
-                                <h6 class="p-3 mb-0">Projects</h6>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-file-outline text-primary"></i>
+            <?php include('../../template/navbar.php'); ?>
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row ">
+                        <div class="col-12 grid-margin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <!-- Search on the left -->
+                                        <div class="add-items">
+                                            <input type="text" id="searchCategory" class="form-control todo-list-input" placeholder="Search category" style="color:white; width: 300px;">
+                                        </div>
+                                        <!-- Dropdown and Add button on the right -->
+                                        <div class="d-flex align-items-center gap-3">
+                                            <select class="btn btn-secondary dropdown-toggle" id="productPerPage" style="text-align: center; text-align-last: center;">
+                                                <option value="10" <?php if ($limit == 10) echo 'selected'; ?>>10</option>
+                                                <option value="25" <?php if ($limit == 25) echo 'selected'; ?>>25</option>
+                                                <option value="50" <?php if ($limit == 50) echo 'selected'; ?>>50</option>
+                                                <option value="100" <?php if ($limit == 100) echo 'selected'; ?>>100</option>
+                                            </select>
+                                            <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#addCategoryModal" style="background:#6366f1;color:#fff;font-weight:500;box-shadow:0 2px 8px 0 #7b7bff33;">
+                                                <i class="mdi mdi-plus"></i> Add Category
+                                            </a>
                                         </div>
                                     </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">Software Development</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-web text-info"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">UI Development</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-layers text-danger"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">Software Testing</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <p class="p-3 mb-0 text-center">See all projects</p>
-                            </div>
-                        </li>
-                        <li class="nav-item nav-settings d-none d-lg-block">
-                            <a class="nav-link" href="#">
-                                <i class="mdi mdi-view-grid"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown border-left">
-                            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="mdi mdi-email"></i>
-                                <span class="count bg-success"></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                                <h6 class="p-3 mb-0">Messages</h6>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <img src="assets/images/faces/face4.jpg" alt="image" class="rounded-circle profile-pic">
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">Mark send you a message</p>
-                                        <p class="text-muted mb-0"> 1 Minutes ago </p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <img src="assets/images/faces/face2.jpg" alt="image" class="rounded-circle profile-pic">
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">Cregh send you a message</p>
-                                        <p class="text-muted mb-0"> 15 Minutes ago </p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-settings text-danger"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject mb-1">Settings</p>
-                                        <p class="text-muted ellipsis mb-0"> Update dashboard </p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <p class="p-3 mb-0 text-center">4 new messages</p>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown border-left">
-                            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
-                                <i class="mdi mdi-bell"></i>
-                                <span class="count bg-danger"></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                                <h6 class="p-3 mb-0">Notifications</h6>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-calendar text-success"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject mb-1">Event today</p>
-                                        <p class="text-muted ellipsis mb-0"> Just a reminder that you have an event today </p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-settings text-danger"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject mb-1">Settings</p>
-                                        <p class="text-muted ellipsis mb-0"> Update dashboard </p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-link-variant text-warning"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject mb-1">Launch Admin</p>
-                                        <p class="text-muted ellipsis mb-0"> New admin wow! </p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <p class="p-3 mb-0 text-center">See all notifications</p>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown">
-                                <div class="navbar-profile">
-                                    <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
-                                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Henry Klein</p>
-                                    <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                                <h6 class="p-3 mb-0">Profile</h6>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-settings text-success"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject mb-1">Settings</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-logout text-danger"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject mb-1">Log out</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <p class="p-3 mb-0 text-center">Advanced settings</p>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <div class="form-check form-check-muted m-0">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input">
+                                                        </label>
+                                                    </div>
+                                                </th>
+                                                <th> ID </th>
+                                                <th> CATEGORY NAME </th>
+                                                <th> PARENT CATEGORY </th>
+                                                <th> IS PRODUCT CATEGORY </th>
+                                                <th> ACTIONS </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php if (!empty($categories)): ?>
+                                                <?php foreach ($categories as $category): ?>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="form-check form-check-muted m-0">
+                                                                <label class="form-check-label">
+                                                                    <input type="checkbox" class="form-check-input" name="selected_categories[]" value="<?php echo htmlspecialchars($category['id']); ?>">
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td> <?php echo htmlspecialchars($category['id']); ?> </td>
+                                                        <td> <?php echo htmlspecialchars($category['category_name']); ?> </td>
+                                                        <td>
+                                                            <span class="ps-2"><?php echo htmlspecialchars($category['parent_category_name']); ?></span>
+                                                        </td>
+                                                        <td>
+                                                            <?php
+                                                            // Điều kiện để đổi màu badge dựa trên giá trị 'Có'/'Không'
+                                                            $badge_class = ($category['is_product_category'] == 1) ? 'badge-outline-success' : 'badge-outline-warning';
+                                                            ?>
+                                                            <div class="badge <?php echo $badge_class; ?>">
+                                                                <?php echo htmlspecialchars($category['is_product_category_display']); ?>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex gap-2">
+                                                                <a href="#" class="btn btn-outline-info btn-sm btn-edit-category" data-id="<?php echo htmlspecialchars($category['id']); ?>">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </a>
+                                                                <a href="delete_category.php?id=<?php echo htmlspecialchars($category['id']); ?>" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục &quot;<?php echo htmlspecialchars($category['category_name']); ?>&quot; này không?');">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td colspan="6" class="text-center">Không có danh mục nào được tìm thấy.</td>
+                                                </tr>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex justify-content-end mt-3">
+                                    <nav aria-label="Product list pagination">
+                                        <ul class="pagination mb-0">
+                                            <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+                                                <a class="page-link" href="?page=<?php echo $page - 1; ?>&limit=<?php echo $limit; ?>" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+
+                                            <?php
+                                            // Hiển thị các nút số trang
+                                            $start_page = max(1, $page - 2);
+                                            $end_page = min($total_pages, $page + 2);
+
+                                            if ($end_page - $start_page + 1 < 5 && $total_pages > 5) {
+                                                if ($page <= 3) {
+                                                    $end_page = min($total_pages, 5);
+                                                    $start_page = 1;
+                                                } elseif ($page >= $total_pages - 2) {
+                                                    $start_page = max(1, $total_pages - 4);
+                                                    $end_page = $total_pages;
+                                                }
+                                            }
+
+                                            for ($i = $start_page; $i <= $end_page; $i++) {
+                                                $active_class = ($i == $page) ? 'active' : '';
+                                            ?>
+                                                <li class="page-item <?php echo $active_class; ?>">
+                                                    <a class="page-link" href="?page=<?php echo $i; ?>&limit=<?php echo $limit; ?>">
+                                                        <?php echo $i; ?>
+                                                    </a>
+                                                </li>
+                                            <?php
+                                            }
+                                            ?>
+
+                                            <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
+                                                <a class="page-link" href="?page=<?php echo $page + 1; ?>&limit=<?php echo $limit; ?>" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
-                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                        <span class="mdi mdi-format-line-spacing"></span>
-                    </button>
+                        </div>
+                    </div>
                 </div>
-            </nav>
-            <!-- partial -->
-
-              <div class="container mt-5">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">Category List</h4>
-        <div class="table-responsive">
-          <table id="categoryTable" class="table table-striped">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Category Name</th>
-                <th>Shipping</th>
-                <th>Payment</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+    </div>
+    <!-- Modal for adding new category -->
+    <div class="modal category-modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-end modal-fullscreen-md-down custom-right-modal">
+            <div class="modal-content category-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                
+                </div>
+                <div class="modal-body">
+                    <form id="addCategoryForm" action="process_add_category.php" method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="categoryTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="categoryTitle" name="cname" placeholder="Enter category title" required>
+                        </div>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-  <script>
-    const categories = [
-      { id: 1, name: "Shirts", shipping: true, payment: true },
-      { id: 2, name: "Pants", shipping: false, payment: true },
-      { id: 3, name: "Shoes", shipping: true, payment: false },
-    ];
+                        <div class="mb-3">
+                            <label for="categorySlug" class="form-label">Slug</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="categorySlug" name="cslug" placeholder="Enter slug">
+                                <button class="btn btn-outline-secondary" type="button" id="generateSlugBtn" title="Generate Slug / Settings">
+                                    <i class="fa fa-cog"></i> </button>
+                            </div>
+                        </div>
 
-    $(document).ready(function () {
-      const table = $('#categoryTable').DataTable({
-        data: categories,
-        columns: [
-          { data: 'id' },
-          { data: 'name' },
-          {
-            data: 'shipping',
-            render: function (data, type, row) {
-              return `
-                <label class="toggle-switch">
-                  <input type="checkbox" class="toggle-shipping" data-id="${row.id}" ${data ? 'checked' : ''}>
-                  <span></span>
-                </label>`;
-            }
-          },
-          {
-            data: 'payment',
-            render: function (data, type, row) {
-              return `
-                <label class="toggle-switch">
-                  <input type="checkbox" class="toggle-payment" data-id="${row.id}" ${data ? 'checked' : ''}>
-                  <span></span>
-                </label>`;
-            }
-          },
-          {
-            data: null,
-            render: function (data, type, row) {
-              return `
-                <button class="btn btn-primary btn-sm edit-btn" data-id="${row.id}"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-danger btn-sm delete-btn" data-id="${row.id}"><i class="fas fa-trash"></i></button>`;
-            }
-          }
-        ]
-      });
+                        <div class="mb-3">
+                            <label for="categoryFile" class="form-label">File</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="categoryFile" name="cfile" placeholder="Enter cfile">
+                                <button class="btn btn-outline-secondary" type="button" id="generateFileBtn" title="Generate File / Settings">
+                                    <i class="fa fa-cog"></i> </button>
+                            </div>
+                        </div>
 
-      $('#categoryTable tbody').on('change', '.toggle-shipping', function () {
-        const id = $(this).data('id');
-        const checked = $(this).is(':checked');
-        const row = categories.find(c => c.id === id);
-        row.shipping = checked;
-        alert(`Shipping status updated for ${row.name}: ${checked}`);
-      });
+                        <div class="mb-3">
+                            <label for="parentCategory" class="form-label">Parent category</label>
+                            <select class="form-select" id="parentCategory" name="parentid">
+                                <option value="">Select parent category</option>
+                                <option value="0">-- Gốc (No Parent) --</option>
+                                <?php foreach ($parent_categories_options as $cat_option): ?>
+                                    <option value="<?php echo htmlspecialchars($cat_option['cid']); ?>">
+                                        <?php echo htmlspecialchars($cat_option['cname']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-      $('#categoryTable tbody').on('change', '.toggle-payment', function () {
-        const id = $(this).data('id');
-        const checked = $(this).is(':checked');
-        const row = categories.find(c => c.id === id);
-        row.payment = checked;
-        alert(`Payment status updated for ${row.name}: ${checked}`);
-      });
-    });
-  </script>
+                        <div class="mb-3">
+                            <label for="isProductCategory" class="form-label">Is Product Category</label>
+                            <select class="form-select" id="isProductCategory" name="is_product_category">
+                                <option value="">Select an option</option>
+                                <option value="1">Yes</option>
+                                <option value="0" selected>No</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="submit" class="btn btn-info">Add</button>
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Discard</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- End of modal for adding new category -->
+    <!-- Modal for editing category -->
+    <div class="modal fade category-modal" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-end modal-fullscreen-md-down custom-right-modal">
+            <div class="modal-content category-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editCategoryForm" action="process_edit_category.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" id="editCategoryId" name="cid">
+
+                        <div class="mb-3">
+                            <label for="editCategoryTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="editCategoryTitle" name="cname" placeholder="Enter category title" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editCategorySlug" class="form-label">Slug</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="editCategorySlug" name="cslug" placeholder="Enter slug">
+                                <button class="btn btn-outline-secondary" type="button" id="generateEditSlugBtn" title="Generate Slug / Settings">
+                                    <i class="fa fa-cog"></i> </button>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editCategoryFile" class="form-label">File</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="editCategoryFile" name="cfile" placeholder="Enter cfile">
+                                <button class="btn btn-outline-secondary" type="button" id="generateEditFileBtn" title="Generate File / Settings">
+                                    <i class="fa fa-cog"></i> </button>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editParentCategory" class="form-label">Parent category</label>
+                            <select class="form-select" id="editParentCategory" name="parentid">
+                                <option value="">Select parent category</option>
+                                <option value="0">-- Gốc (No Parent) --</option>
+                                <?php foreach ($parent_categories_options as $cat_option): ?>
+                                    <option value="<?php echo htmlspecialchars($cat_option['cid']); ?>">
+                                        <?php echo htmlspecialchars($cat_option['cname']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editIsProductCategory" class="form-label">Is Product Category</label>
+                            <select class="form-select" id="editIsProductCategory" name="is_product_category">
+                                <option value="">Select an option</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="submit" class="btn btn-info">Update</button>
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-</html>
+
+<script src="../../template/assets/vendors/js/vendor.bundle.base.js"></script>
+<script src="../../template/assets/vendors/chart.js/Chart.min.js"></script>
+<script src="../../template/assets/js/jquery.cookie.js" type="text/javascript"></script>
+<script src="../../template/assets/js/misc.js"></script>
+<script>
+    document.getElementById('searchCategory').addEventListener('input', function() {
+        var filter = this.value.trim().toUpperCase();
+        var table = document.querySelector('.table');
+        var trs = table.getElementsByTagName('tr');
+        // Bắt đầu từ 1 để bỏ qua header
+        for (var i = 1; i < trs.length; i++) {
+            var td = trs[i].getElementsByTagName('td')[2]; // cột ORDER (thường là cột thứ 2)
+            if (td) {
+                var txtValue = td.textContent.trim() || td.innerText.trim();
+                trs[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+            }
+        }
+    });
+</script>
+<script>
+    document.getElementById('productPerPage').addEventListener('change', function() {
+        const limit = this.value;
+        // Lấy lại tham số page hiện tại (nếu có)
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('limit', limit);
+        urlParams.set('page', 1); // Reset về trang 1 khi đổi limit
+        window.location.search = urlParams.toString();
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryTitle = document.getElementById('categoryTitle');
+        const categorySlug = document.getElementById('categorySlug');
+        const generateSlugBtn = document.getElementById('generateSlugBtn');
+        const categoryFile = document.getElementById('categoryFile'); // Input type="text"
+        const generateFileBtn = document.getElementById('generateFileBtn'); // Nút cho cfile
+
+        // Hàm chuyển đổi tiêu đề thành slug (giữ nguyên từ trước)
+        function generateSlug(title) {
+            if (!title) return '';
+            title = title.toLowerCase();
+            title = title.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            title = title.replace(/đ/g, 'd');
+            title = title.replace(/[^a-z0-9\s-]/g, "");
+            title = title.replace(/\s+/g, "-");
+            title = title.replace(/-+/g, "-");
+            title = title.trim();
+            return title;
+        }
+
+        // Lắng nghe sự kiện input cho Category Title để tự động tạo Slug
+        categoryTitle.addEventListener('input', function() {
+            // Chỉ tự động tạo slug nếu trường slug rỗng hoặc chưa bị chỉnh sửa thủ công
+            if (categorySlug.value === '' || categorySlug.dataset.manualEdit !== 'true') {
+                categorySlug.value = generateSlug(this.value);
+            }
+            // Tự động tạo cfile từ cname nếu cfile rỗng hoặc chưa bị chỉnh sửa thủ công
+            if (categoryFile.value === '' || categoryFile.dataset.manualEdit !== 'true') {
+                categoryFile.value = generateSlug(this.value) + '.php'; // Thêm .php
+            }
+        });
+
+        // Lắng nghe sự kiện khi người dùng gõ vào slug để đánh dấu là đã chỉnh sửa thủ công
+        categorySlug.addEventListener('input', function() {
+            this.dataset.manualEdit = 'true';
+        });
+        // Lắng nghe sự kiện khi người dùng gõ vào cfile để đánh dấu là đã chỉnh sửa thủ công
+        categoryFile.addEventListener('input', function() {
+            this.dataset.manualEdit = 'true';
+        });
+
+        // Nút Generate Slug (hoặc reset tự động tạo)
+        generateSlugBtn.addEventListener('click', function() {
+            categorySlug.value = generateSlug(categoryTitle.value);
+            categorySlug.dataset.manualEdit = 'false'; // Reset lại trạng thái là không chỉnh sửa thủ công
+        });
+
+        // Nút Generate File (tạo cfile từ cname)
+        generateFileBtn.addEventListener('click', function() {
+            categoryFile.value = generateSlug(categoryTitle.value) + '.php';
+            categoryFile.dataset.manualEdit = 'false'; // Reset lại trạng thái là không chỉnh sửa thủ công
+        });
+
+        // Reset form khi modal đóng (để lần sau mở lại là form trống)
+        const addCategoryModal = document.getElementById('addCategoryModal');
+        const addCategoryForm = document.getElementById('addCategoryForm');
+        addCategoryModal.addEventListener('hidden.bs.modal', function() {
+            addCategoryForm.reset();
+            categorySlug.dataset.manualEdit = 'false'; // Reset trạng thái chỉnh sửa slug
+            categoryFile.dataset.manualEdit = 'false'; // Reset trạng thái chỉnh sửa cfile
+        });
+        // --- Logic cho EDIT Category Modal ---
+        const editCategoryModal = new bootstrap.Modal(document.getElementById('editCategoryModal')); // Khởi tạo Modal Bootstrap JS
+        const editCategoryForm = document.getElementById('editCategoryForm');
+        const editCategoryId = document.getElementById('editCategoryId');
+        const editCategoryTitle = document.getElementById('editCategoryTitle');
+        const editCategorySlug = document.getElementById('editCategorySlug');
+        const editCategoryFile = document.getElementById('editCategoryFile');
+        const editParentCategory = document.getElementById('editParentCategory');
+        const editIsProductCategory = document.getElementById('editIsProductCategory');
+        const generateEditSlugBtn = document.getElementById('generateEditSlugBtn');
+        const generateEditFileBtn = document.getElementById('generateEditFileBtn');
+
+        // Hàm xử lý khi click nút Edit
+        document.querySelectorAll('.btn-edit-category').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ a
+                const categoryId = this.dataset.id; // Lấy ID từ data attribute
+
+                // Gửi AJAX request để lấy dữ liệu danh mục
+                fetch(`get_category_details.php?id=${categoryId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                            return;
+                        }
+                        // Đổ dữ liệu vào form modal Edit
+                        editCategoryId.value = data.id;
+                        editCategoryTitle.value = data.category_name;
+                        editCategorySlug.value = data.slug;
+                        editCategoryFile.value = data.file;
+                        editParentCategory.value = data.parentid === null ? '0' : data.parentid; // Chọn '0' cho Gốc, hoặc ID
+                        editIsProductCategory.value = data.is_product_category;
+
+                        // Reset manualEdit flags cho các trường slug/file
+                        editCategorySlug.dataset.manualEdit = 'false';
+                        editCategoryFile.dataset.manualEdit = 'false';
+
+                        // Mở modal Edit
+                        editCategoryModal.show();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching category details:', error);
+                        alert('Không thể tải thông tin danh mục. Vui lòng thử lại.');
+                    });
+            });
+        });
+
+        // Logic tự động tạo slug/file cho modal Edit
+        editCategoryTitle.addEventListener('input', function() {
+            if (editCategorySlug.value === '' || editCategorySlug.dataset.manualEdit !== 'true') {
+                editCategorySlug.value = generateSlug(this.value);
+            }
+            if (editCategoryFile.value === '' || editCategoryFile.dataset.manualEdit !== 'true') {
+                editCategoryFile.value = generateSlug(this.value) + '.php';
+            }
+        });
+
+        editCategorySlug.addEventListener('input', function() {
+            this.dataset.manualEdit = 'true';
+        });
+        editCategoryFile.addEventListener('input', function() {
+            this.dataset.manualEdit = 'true';
+        });
+
+        generateEditSlugBtn.addEventListener('click', function() {
+            editCategorySlug.value = generateSlug(editCategoryTitle.value);
+            editCategorySlug.dataset.manualEdit = 'false';
+        });
+
+        generateEditFileBtn.addEventListener('click', function() {
+            editCategoryFile.value = generateSlug(editCategoryTitle.value) + '.php';
+            editCategoryFile.dataset.manualEdit = 'false';
+        });
+
+        // Reset form khi modal Edit đóng
+        document.getElementById('editCategoryModal').addEventListener('hidden.bs.modal', function() {
+            editCategoryForm.reset();
+            editCategorySlug.dataset.manualEdit = 'false';
+            editCategoryFile.dataset.manualEdit = 'false';
+        });
+    });
+</script>
