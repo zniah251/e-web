@@ -1,50 +1,68 @@
 <?php
 require_once "../../../connect.php";
 $config = require "momo_config.php";
+session_start();
 
-// --- Nhận dữ liệu từ form ---
+// Lấy giỏ hàng từ session
+$products = $_SESSION['cart'] ?? [];
+
+// Nhận dữ liệu từ form
 $fullname = $_POST['fullname'] ?? '';
 $address  = $_POST['address'] ?? '';
 $phone    = $_POST['phone'] ?? '';
 $method   = $_POST['payment_method'] ?? 'momo'; // momo | banking | cod
 $voucher  = trim($_POST['voucher'] ?? '');
 
-// --- Xử lý voucher ---
+// Thiết lập mặc định
 $vid = null;
+$discount = 0;
+$shipping = 30000;
+$voucher_minprice = 0;
+
+// Lấy thông tin voucher nếu có
 if ($voucher !== '') {
-    $stmt = $conn->prepare("SELECT vid FROM voucher WHERE name = ?");
+    $stmt = $conn->prepare("SELECT vid, discount, minprice, name FROM voucher WHERE name = ?");
     $stmt->bind_param("s", $voucher);
     $stmt->execute();
-    $stmt->bind_result($vidFound);
+    $stmt->bind_result($vidFound, $discountPercent, $minprice, $vname);
     if ($stmt->fetch()) {
         $vid = $vidFound;
+        $voucher_minprice = $minprice;
     }
     $stmt->close();
 }
 
-// --- Sản phẩm mẫu ---
-$products = [
-    ['title' => 'Áo sơ mi nam', 'quantity' => 2, 'price' => 200000],
-    ['title' => 'Quần jeans nam', 'quantity' => 1, 'price' => 300000]
-];
+// Tính tổng giá sản phẩm trong giỏ hàng
 $total = 0;
 foreach ($products as $p) {
     $total += $p['price'] * $p['quantity'];
 }
-$shipping = 30000;
-$total += $shipping;
 
+// Áp dụng giảm giá nếu đủ điều kiện
+if ($voucherData && $total >= $voucherData['minprice']) {
+    if (strtolower(trim($voucherData['name'])) === 'free shipping') {
+        $shipping = 0; // Miễn phí giao hàng
+    } else {
+        $discount = $total * ($voucherData['discount'] / 100); // Giảm giá %
+    }
+}
+
+
+// Tổng cuối cùng
+$totalfinal = $total + $shipping - $discount;
+
+// Tạo mã đơn hàng
 $orderId = uniqid("ORDER_");
 $orderInfo = "Đơn hàng cho $fullname - $phone";
 
-// --- XỬ LÝ TÙY THEO PHƯƠNG THỨC ---
+// Xử lý theo phương thức thanh toán
 if ($method === 'MOMO') {
-    // 🟣 MOMO REDIRECT
+    // MOMO redirect
     $data = [
         'partnerCode' => $config['partnerCode'],
         'accessKey' => $config['accessKey'],
         'requestId' => time() . "",
-        'amount' => $total,
+        'amount' => $totalfinal,
         'orderId' => $orderId,
         'orderInfo' => $orderInfo,
         'redirectUrl' => $config['redirectUrl'],
@@ -73,20 +91,20 @@ if ($method === 'MOMO') {
     }
 
 } else {
-    // 📦 BANKING hoặc COD
-
-    $paymethod = strtoupper($method); // BANK hoặc COD
+    // BANK hoặc COD
+    $paymethod = strtoupper($method);
 
     $stmt = $conn->prepare("INSERT INTO `order` (uid, totalfinal, price, destatus, paymethod, paystatus, create_at, vid) VALUES (2, ?, ?, 'Pending', ?, 'Pending', NOW(), ?)");
-    $stmt->bind_param("ddsi", $total, $total, $paymethod, $vid);
+    $stmt->bind_param("ddsi", $totalfinal, $total, $paymethod, $vid);
     $stmt->execute();
     $oid = $stmt->insert_id;
 
+    // Chuyển trang theo phương thức
     if ($method === 'BANK') {
         header("Location: bank_payment_info.php?orderId=$oid");
-        exit;
     } else {
         header("Location: confirm_shipping.php?orderId=ORDER_$oid&fullname=$fullname&address=$address&phone=$phone");
-        exit;
     }
+    exit;
 }
+?>
