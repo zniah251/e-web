@@ -1,4 +1,7 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start(); // Dòng này cần phải ở đầu file PHP, trước mọi output khác.
+}
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 // Lấy tên file hiện tại
 $current_file = basename($_SERVER['PHP_SELF']);
