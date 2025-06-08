@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
   <title>Kaira Shopping Cart</title>
   <!-- MDB icon -->
   <link rel="icon" href="../../assets/img/mdb-favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="e-web/user/css/vendor.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
   <!-- Google Fonts Roboto -->
@@ -33,16 +34,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
   <!-- MDB -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" />
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="../../assets/css/style.css" />
+   
+  <link rel="stylesheet" href="../../style.css" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-
+  
   <style>
-    body {
+   body {
             font-family: 'Times New Roman', serif;
+  
             /* Thêm fallback font */
+        }
+        h1, h2, h3, h4, h5,h6 {
+            font-family: 'Times New Roman', Times, serif !important;
+            color: black;
+            /* Sử dụng font Times New Roman cho tiêu đề */
         }
 
     .card-registration .select-input.form-control[readonly]:not([disabled]) {
@@ -82,14 +88,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
     .tableproduct td {
       padding-left: 12px;
       padding-right: 12px;
+      color: black !important;
     }
 
     .tableproduct thead th {
       border-bottom: 2px solid #dee2e6 !important;
+      color: black !important;
     }
 
     .tableproduct tfoot th {
       border-top: 2px solid #dee2e6 !important;
+      color: black !important;
     }
 
     /* Tăng khoảng cách giữa border thead và sản phẩm đầu tiên */
@@ -219,7 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
                     </div>
 
                     <div class="d-flex align-items-center justify-content-between pt-5">
-                      <a href="#!" class="text-body">
+                      <a href="/e-web/user/index.php" class="text-body">
                         <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
                       </a>
                       <button type="button" class="btn btn-dark" style="min-width: 120px;">Order</button>

@@ -108,122 +108,128 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- MDB -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../style.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <link rel="stylesheet" href="/e-web/user/css/tailwind-replacement.css">
     <style>
-        body {}
-
-        /* Thêm style cho form input và các thành phần khác */
-        .input-group {
-            margin-bottom: 1.5rem;
-            /* Khoảng cách giữa các nhóm input */
+        /* Reset và Base styles */
+       body {
+            font-family: 'Times New Roman', serif;
+            color: black;
+            /* Thêm fallback font */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Times New Roman', Times, serif !important;
+            /* Sử dụng font Times New Roman cho tiêu đề */
         }
 
+        /* Layout styles */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-1 { flex: 1 1 0%; }
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .gap-6 { gap: 1.5rem; }
+        .gap-x-6 { column-gap: 1.5rem; }
+        .gap-y-4 { row-gap: 1rem; }
+        
+        /* Responsive Grid */
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        /* Spacing */
+        .p-6 { padding: 1.5rem; }
+        .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .space-x-4 > * + * { margin-left: 1rem; }
+
+        /* Typography */
+        .text-2xl { font-size: 1.5rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-sm { font-size: 0.875rem; }
+        .font-semibold { font-weight: 600; }
+        .text-gray-800 { color: #1f2937; }
+        .text-gray-700 { color: #374151; }
+        .text-gray-600 { color: #4b5563; }
+        .text-blue-600 { color: #2563eb; }
+
+        /* Background & Colors */
+        .bg-white { background-color: white; }
+        .bg-gray-200 { background-color: #e5e7eb; }
+
+        /* Border & Shadow */
+        .rounded-lg { border-radius: 0.5rem; }
+        .rounded-md { border-radius: 0.375rem; }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .border { border: 1px solid #d1d5db; }
+
+        /* Form Elements */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
         .input-group label {
             display: block;
             font-size: 0.875rem;
-            /* text-sm */
             font-weight: 500;
-            /* medium */
             color: #4b5563;
-            /* gray-700 */
             margin-bottom: 0.5rem;
         }
-
         .input-group input {
-            display: block;
             width: 100%;
             padding: 0.75rem 1rem;
             border: 1px solid #d1d5db;
-            /* gray-300 */
             border-radius: 0.5rem;
-            /* rounded-md */
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            /* shadow-sm */
             outline: none;
             transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
-
         .input-group input:focus {
             border-color: #3b82f6;
-            /* blue-500 */
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
-            /* ring-blue-500/50 */
         }
-
         .input-group input[disabled] {
             background-color: #e5e7eb;
-            /* gray-200 */
             cursor: not-allowed;
         }
 
-        .btn-secondary-outline {
-            background-color: transparent;
-            border: 1px solid #d1d5db;
-            /* gray-300 */
-            color: #4b5563;
-            /* gray-700 */
-            padding: 0.625rem 1rem;
-            /* px-4 py-2.5 */
-            border-radius: 0.375rem;
-            /* rounded-md */
-            font-weight: 500;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .btn-secondary-outline:hover {
-            background-color: #f3f4f6;
-            /* gray-100 */
-        }
-
+        /* Button Styles */
         .btn-action {
             padding: 0.75rem 1.25rem;
             border-radius: 0.5rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
         }
-
         .btn-primary-solid {
             background-color: #434343;
             color: white;
             border: none;
         }
-
         .btn-primary-solid:hover {
             background-color: #2f2f2f;
         }
-
         .btn-white-outline {
             background-color: white;
             border: 1px solid #d1d5db;
-            /* gray-300 */
             color: #4b5563;
-            /* gray-700 */
         }
-
         .btn-white-outline:hover {
             background-color: #f9fafb;
-            /* gray-50 */
         }
-
         .btn-danger-outline {
             background-color: white;
             border: 1px solid #ef4444;
-            /* red-500 */
             color: #ef4444;
-            /* red-500 */
         }
-
         .btn-danger-outline:hover {
             background-color: #fef2f2;
-            /* red-50 */
             color: #dc2626;
-            /* red-600 */
             border-color: #dc2626;
         }
 
@@ -235,23 +241,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 0.875rem;
             font-weight: 500;
         }
-
         .message-box.success {
             background-color: #d1fae5;
-            /* green-100 */
             color: #065f46;
-            /* green-800 */
             border: 1px solid #34d399;
-            /* green-400 */
         }
-
         .message-box.error {
             background-color: #fee2e2;
-            /* red-100 */
             color: #991b1b;
-            /* red-800 */
             border: 1px solid #f87171;
-            /* red-400 */
+        }
+
+        /* Hover Effects */
+        .hover\:text-blue-800:hover {
+            color: #1e40af;
+        }
+        .hover\:underline:hover {
+            text-decoration: underline;
+        }
+
+        /* Focus Styles */
+        .focus\:outline-none:focus {
+            outline: none;
+        }
+
+        /* Justify Content */
+        .justify-end {
+            justify-content: flex-end;
+        }
+        .justify-center {
+            justify-content: center;
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 0.5rem;
+            border: none;
+        }
+        .modal-header {
+            border-bottom: none;
+            padding: 1.5rem;
+        }
+        .modal-body {
+            padding: 1.5rem;
+        }
+        .modal-footer {
+            border-top: none;
+            padding: 1.5rem;
         }
     </style>
 </head>
@@ -260,7 +296,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include('../../../navbar.php'); ?>
     <div class="flex min-h-screen py-8 px-4 sm:px-6 lg:px-8" style="background-color: #f1f1f0;">
         <?php include $_SERVER['DOCUMENT_ROOT'] . '/e-web/sidebar2.php'; ?>
-        <div class="flex-1 bg-white p-6 rounded-lg shadow-md">
+        <div class="flex-1 bg-white p-6 rounded-lg shadow-md" style="margin: 20px 0;">
             <h3 class="text-2xl font-semibold mb-6 text-gray-800" style="border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px;">Thông tin tài khoản</h3>
 
             <?php

@@ -17,12 +17,22 @@
     <link rel="stylesheet" type="text/css" href="./recruitstyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
     <link
         href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
         rel="stylesheet">
     <style>
-      * {
+     body {
+            font-family: 'Times New Roman', serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
             font-family: 'Times New Roman', Times, serif !important;
+            /* Sử dụng font Times New Roman cho tiêu đề */
         }
         .dropdown-submenu {
             position: relative;
@@ -136,55 +146,7 @@
     </div>
   </div>
   <!--footer-->
-        <footer id="footer" class="footer-custom mt-5">
-            <div class="container">
-                <div class="row justify-content-between py-5">
-
-                    <!-- Logo & mô tả -->
-                    <div class="col-md-3 col-sm-6">
-                        <h4 class="fw-bold mb-3">KAIRA</h4>
-                        <p>Chúng tôi là cửa hàng thời trang phong cách hiện đại, mang đến trải nghiệm mua sắm tiện lợi và thân thiện.</p>
-                        <div class="social-icons mt-3">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
-                        </div>
-                    </div>
-
-                    <!-- Liên kết nhanh -->
-                    <div class="col-md-3 col-sm-6">
-                        <h5 class="fw-semibold mb-3">LIÊN KẾT NHANH</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="index.html">Trang chủ</a></li>
-                            <li><a href="page/aboutus/aboutus.html">Giới thiệu</a></li>
-                            <li><a href="page/faq/faq.html">Hỏi đáp</a></li>
-                            <li><a href="page/recruitment/recruit.html">Tuyển dụng</a></li>
-                            <li><a href="page/member/member.html">Membership</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Thông tin liên hệ -->
-                    <div class="col-md-3 col-sm-6">
-                        <h5 class="fw-semibold mb-3">THÔNG TIN LIÊN HỆ</h5>
-                        <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường Lê Lợi, TP.HCM</p>
-                        <p><i class="fas fa-envelope me-2"></i>contact@kairashop.com</p>
-                        <p><i class="fas fa-phone me-2"></i>0901 234 567</p>
-                    </div>
-
-                    <!-- Bản đồ -->
-                    <div class="col-md-3 col-sm-6">
-                        <h5 class="fw-semibold mb-3">BẢN ĐỒ</h5>
-                        <div class="map-embed">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.726643481827!2d106.6901211153343!3d10.75666499233459!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3b5f6a90ed%3A0xf7b2b4f40e527417!2zMTIzIMSQLiBMw6ogTOG7m2ksIFTDom4gVGjhu5FuZyBI4buTbmcsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgSOG7kyBDaMOidSwgVMOibiBwaOG7kSBIw7JhIE5haQ!5e0!3m2!1svi!2s!4v1614089999097!5m2!1svi!2s" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="text-center py-3 border-top small">
-                    © 2025 Kaira. Thiết kế lại bởi nhóm <strong>5 IS207</strong> | Dự án học phần Phát triển Web
-                </div>
-            </div>
-        </footer>
+        <?php include('../../../footer.php'); ?>
   <script src="js/jquery.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/SmoothScroll.js"></script>

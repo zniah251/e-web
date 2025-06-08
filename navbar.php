@@ -3,76 +3,95 @@ $is_logged_in = isset($_SESSION['uid']) && $_SESSION['uid'] > 0;
 $user_name = $is_logged_in ? htmlspecialchars($_SESSION['uname']) : '';
 $user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon/icon.svg");
 ?>
-<style>
-  .login-button {
-    display: inline-flex;
-    align-items: center;
-    background-color: #333;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    text-decoration: none;
-    gap: 6px;
-    transition: background-color 0.3s ease;
-  }
+<head>
+  <style>
+    .login-button {
+      display: inline-flex;
+      align-items: center;
+      background-color: #333;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      text-decoration: none;
+      gap: 6px;
+      transition: background-color 0.3s ease;
+    }
 
-  .login-button:hover {
-    background-color: #555;
-  }
+    .login-button:hover {
+      background-color: #555;
+    }
 
-  .login-button i {
-    font-size: 16px;
-  }
+    .login-button i {
+      font-size: 16px;
+    }
 
-  .align-items-center,
-  .page-header,
-  .loader-demo-box,
-  .list-wrapper ul li,
-  .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .dropdown-menu.navbar-dropdown .dropdown-item {
-    align-items: center !important;
-  }
+    .align-items-center,
+    .page-header,
+    .loader-demo-box,
+    .list-wrapper ul li,
+    .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .dropdown-menu.navbar-dropdown .dropdown-item {
+      align-items: center !important;
+    }
 
-  /* Dropdown submenu styles */
-  .dropdown-submenu {
-    position: relative;
-  }
+    /* Dropdown submenu styles */
+    .dropdown-submenu {
+      position: relative;
+    }
 
-  .dropdown-submenu .dropdown-menu {
-    top: 0;
-    left: 100%;
-    margin-top: -1px;
-    display: none;
-  }
+    .dropdown-submenu .dropdown-menu {
+      top: 0;
+      left: 100%;
+      margin-top: -1px;
+      display: none;
+    }
 
-  .dropdown-submenu:hover > .dropdown-menu {
-    display: block;
-  }
+    .dropdown-submenu:hover>.dropdown-menu {
+      display: block;
+    }
 
-  .dropdown-submenu > a:after {
-    display: block;
-    content: " ";
-    float: right;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px 0 5px 5px;
-    border-left-color: #cccccc;
-    margin-top: 5px;
-    margin-right: -10px;
-  }
+    .dropdown-submenu>a:after {
+      display: block;
+      content: " ";
+      float: right;
+      width: 0;
+      height: 0;
+      border-color: transparent;
+      border-style: solid;
+      border-width: 5px 0 5px 5px;
+      border-left-color: #cccccc;
+      margin-top: 5px;
+      margin-right: -10px;
+    }
 
-  /* Main dropdown hover state */
-  .dropdown:hover > .dropdown-menu {
-    display: block;
-  }
+    /* Main dropdown hover state */
+    .dropdown:hover>.dropdown-menu {
+      display: block;
+    }
 
-  /* Ensure dropdowns are above other content */
-  .dropdown-menu {
-    z-index: 1000;
-  }
-</style>
+    /* Ensure dropdowns are above other content */
+    .dropdown-menu {
+      z-index: 1000;
+    }
+  </style>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<!-- SVG Icon Definitions -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol xmlns="http://www.w3.org/2000/svg" id="heart" viewBox="0 0 24 24">
+        <path fill="currentColor"
+          d="M20.16 4.61A6.27 6.27 0 0 0 12 4a6.27 6.27 0 0 0-8.16 9.48l7.45 7.45a1 1 0 0 0 1.42 0l7.45-7.45a6.27 6.27 0 0 0 0-8.87Zm-1.41 7.46L12 18.81l-6.75-6.74a4.28 4.28 0 0 1 3-7.3a4.25 4.25 0 0 1 3 1.25a1 1 0 0 0 1.42 0a4.27 4.27 0 0 1 6 6.05Z" />
+      </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" id="cart" viewBox="0 0 24 24">
+        <path fill="currentColor"
+          d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74a3.007 3.007 0 0 0-2.82-2H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z" />
+      </symbol>
+  <symbol id="search" viewBox="0 0 24 24">
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+  </symbol>
+</svg>
+ 
 <nav class="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center">
   <div class="container-fluid">
     <div class="row justify-content-between align-items-center w-100">
@@ -142,17 +161,17 @@ $user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="#" id="OnSale">On Sale</a>
+                <a class="nav-link" href="/e-web/user/page/onsale/onsale.php" id="OnSale">On Sale</a>
               </li>
 
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdownBlog" data-bs-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">Introduction</a>
                 <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownBlog">
-                  <li><a href="/e-web/user/page/aboutus/aboutus.html" class="dropdown-item">About Us</a></li>
+                  <li><a href="/e-web/user/page/aboutus/aboutus.php" class="dropdown-item">About Us</a></li>
                   <li><a href="/e-web/user/page/member/member.php" class="dropdown-item">Membership</a></li>
                   <li><a href="/e-web/user/page/recruitment/recruit.php" class="dropdown-item">Recruitment</a></li>
-                  <li><a href="/e-web/user/page/faq/faq.html" class="dropdown-item">Contact</a></li>
+                  <li><a href="/e-web/user/page/faq/faq.php" class="dropdown-item">Contact</a></li>
                 </ul>
               </li>
 
@@ -165,31 +184,21 @@ $user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon
       </div>
       <div class="col-3 col-lg-auto">
         <ul class="list-unstyled d-flex m-0">
-          <li class="d-none d-lg-block">
-            <a href="/e-web/user/page/users/wishlist.php" class="text-uppercase mx-3">Wishlist <span class="wishlist-count">(0)</span>
-            </a>
-          </li>
-          <li class="d-none d-lg-block">
-            <a href="cart.php" class="text-uppercase mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-              aria-controls="offcanvasCart">Cart <span class="cart-count">(0)</span>
-            </a>
-          </li>
-          <li class="d-lg-none">
-            <a href="#" class="mx-2">
+          <li>
+            <a href="/e-web/user/page/users/wishlist.php" class="mx-2">
               <svg width="24" height="24" viewBox="0 0 24 24">
                 <use xlink:href="#heart"></use>
               </svg>
             </a>
           </li>
-          <li class="d-lg-none">
-            <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-              aria-controls="offcanvasCart">
+          <li>
+            <a href="/e-web/user/page/cart/cart.php" class="mx-2">
               <svg width="24" height="24" viewBox="0 0 24 24">
                 <use xlink:href="#cart"></use>
               </svg>
             </a>
           </li>
-          <li class="search-box" class="mx-2">
+          <li class="search-box mx-2">
             <a href="#search" class="search-button">
               <svg width="24" height="24" viewBox="0 0 24 24">
                 <use xlink:href="#search"></use>
@@ -221,44 +230,4 @@ $user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon
     </div>
   </div>
 </nav>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all dropdowns
-    var dropdowns = document.querySelectorAll('.dropdown-toggle');
-    dropdowns.forEach(function(dropdown) {
-        dropdown.addEventListener('click', function(e) {
-            e.preventDefault();
-            var menu = this.nextElementSibling;
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'block';
-            }
-        });
-    });
 
-    // Handle submenu dropdowns
-    var submenuDropdowns = document.querySelectorAll('.dropdown-submenu > a');
-    submenuDropdowns.forEach(function(submenu) {
-        submenu.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var menu = this.nextElementSibling;
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'block';
-            }
-        });
-    });
-
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.dropdown')) {
-            document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
-                menu.style.display = 'none';
-            });
-        }
-    });
-});
-</script>

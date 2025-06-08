@@ -26,11 +26,11 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
     <!-- MDB -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../assets/css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/e-web/user/css/tailwind-replacement.css">
+
 
     <style>
     </style>
@@ -39,7 +39,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
     <?php include('../../../navbar.php'); ?>
    <div class="flex min-h-screen py-8 px-4 sm:px-6 lg:px-8" style="background-color: #f1f1f0;">
         <?php include $_SERVER['DOCUMENT_ROOT'] . '/e-web/sidebar2.php'; ?>
-        <div class="flex-1 bg-white p-6 rounded-lg shadow-md">
+        <div class="flex-1 bg-white p-6 rounded-lg shadow-md" style="margin: 20px 0;">
             <h3 class="text-2xl font-semibold mb-6 text-gray-800" style="border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px;">Quản lý đơn hàng</h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

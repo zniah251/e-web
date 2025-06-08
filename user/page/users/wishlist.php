@@ -65,14 +65,81 @@ if (!isset($conn) || !$conn) {
     <!-- MDB -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../style.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/e-web/user/css/tailwind-replacement.css">
 
     <style>
-        body {}
+        /* Reset và Base styles */
+        body {
+            font-family: 'Times New Roman', serif;
+            color: black;
+            /* Thêm fallback font */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Times New Roman', Times, serif !important;
+            /* Sử dụng font Times New Roman cho tiêu đề */
+        }
+
+        /* Layout styles */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-1 { flex: 1 1 0%; }
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .gap-6 { gap: 1.5rem; }
+        
+        /* Responsive Grid */
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1280px) {
+            .xl\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+
+        /* Spacing */
+        .p-6 { padding: 1.5rem; }
+        .p-3 { padding: 0.75rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-1 { margin-bottom: 0.25rem; }
+
+        /* Typography */
+        .text-2xl { font-size: 1.5rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-base { font-size: 1rem; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        .font-bold { font-weight: 700; }
+        .text-gray-800 { color: #1f2937; }
+        .text-gray-600 { color: #4b5563; }
+
+        /* Background & Colors */
+        .bg-white { background-color: white; }
+        .bg-gray-100 { background-color: #f3f4f6; }
+
+        /* Border & Shadow */
+        .rounded-lg { border-radius: 0.5rem; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .rounded { border-radius: 0.25rem; }
+        .rounded-full { border-radius: 9999px; }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+
+        /* Product Card Specific */
+        .product-card {
+            position: relative;
+            transition: all 0.3s ease;
+        }
 
         .product-card:hover .product-image-zoom {
             transform: scale(1.1);
@@ -84,18 +151,39 @@ if (!isset($conn) || !$conn) {
             will-change: transform;
         }
 
-        /* Style cho tên người dùng */
-        .sidebar-header {
+        /* Image styles */
+        .h-72 { height: 18rem; }
+        .w-10 { width: 2.5rem; }
+        .h-10 { height: 2.5rem; }
+        .object-cover { object-fit: cover; }
+        .w-full { width: 100%; }
+
+        /* Button styles */
+        .btn-primary {
+            background-color: #434343;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 9999px;
             text-align: center;
-            padding: 20px 0;
+            transition: background-color 0.2s;
+            display: block;
+            text-decoration: none;
         }
-        .sidebar-header h6 {
-            text-align: center;
-            margin: 0;
-            font-weight: 600;
+        .border {
+            border: 1px solid #e5e7eb;
+            text-decoration: none;
         }
 
-        /* Thêm style cho nút wishlist */
+        .py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .hover\:bg-gray-200:hover {
+            background-color: #e5e7eb;
+        }
+
+        /* Wishlist button */
         .btn-icon.btn-wishlist {
             position: absolute;
             top: 10px;
@@ -104,15 +192,15 @@ if (!isset($conn) || !$conn) {
             border-radius: 50%;
             padding: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            opacity: 0; /* Ẩn ban đầu */
-            transform: translateY(10px); /* Dịch xuống 10px */
+            opacity: 0;
+            transform: translateY(10px);
             transition: all 0.3s ease;
             z-index: 10;
         }
 
         .product-card:hover .btn-wishlist {
-            opacity: 1; /* Hiện khi hover */
-            transform: translateY(0); /* Trở về vị trí gốc */
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .btn-icon.btn-wishlist:hover {
@@ -133,24 +221,22 @@ if (!isset($conn) || !$conn) {
             fill: #ff4444;
         }
 
-        /* Custom CSS nếu cần, ví dụ cho ellipsis */
+        /* Text Ellipsis */
         .product-title-ellipsis {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        /* Custom styles cho các nút (nếu Tailwind default không đủ) */
-        .btn-primary {
-            background-color: #434343;
-            color: white;
-            padding: 0.5rem;
-            border-radius: 9999px;
-
+        /* Sidebar Header */
+        .sidebar-header {
+            text-align: center;
+            padding: 20px 0;
         }
-
-        .btn-primary:hover {
-            background-color: #2f2f2f;
+        .sidebar-header h6 {
+            text-align: center;
+            margin: 0;
+            font-weight: 600;
         }
 
     </style>
@@ -160,7 +246,7 @@ if (!isset($conn) || !$conn) {
     <?php include('../../../navbar.php'); ?>
    <div class="flex min-h-screen py-8 px-4 sm:px-6 lg:px-8" style="background-color: #f1f1f0;">
         <?php include $_SERVER['DOCUMENT_ROOT'] . '/e-web/sidebar2.php'; ?>
-        <div class="flex-1 bg-white p-6 rounded-lg shadow-md">
+        <div class="flex-1 bg-white p-6 rounded-lg shadow-md" style="margin: 20px 0;">
             <h3 class="text-2xl font-semibold mb-6 text-gray-800" style="border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px;">Sản phẩm yêu thích</h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

@@ -13,6 +13,10 @@ if (isset($_SESSION['uname'])) { // Giả sử 'uname' được lưu trong sessi
 
 <head>
     <style>
+h2, h3, h6 {
+            font-family: 'Times New Roman', Times, serif !important;
+            /* Sử dụng font Times New Roman cho tiêu đề */
+        }
         /* Styling cho sidebar để khớp với hình ảnh */
         .sidebar {
             width: 250px;
@@ -20,7 +24,7 @@ if (isset($_SESSION['uname'])) { // Giả sử 'uname' được lưu trong sessi
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            margin-right: 20px;
+            margin: 20px 20px 20px 20px;
             /* Space between sidebar and content */
         }
 
@@ -66,7 +70,7 @@ if (isset($_SESSION['uname'])) { // Giả sử 'uname' được lưu trong sessi
 <div class="sidebar">
     <div class="sidebar-header" style="border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 15px; text-align: center;">
         <div style="width: 100%;">
-            <h6 class="mb-0" style="text-align: center; font-weight: 600;"><?php echo $display_name; ?></h6>
+            <h6 class="mb-0" style="text-align: center; font-weight: 600; "><?php echo $display_name; ?></h6>
         </div>
     </div>
     <div class="sidebar-menu list-group list-group-flush">
