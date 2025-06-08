@@ -166,7 +166,7 @@
             <button type="submit" class="login-button">Đăng ký</button>
 
             <p class="signup-link">
-                Bạn đã có tài khoản? <a href="#">Đăng nhập ngay</a>
+                Bạn đã có tài khoản? <a href="./login2.php">Đăng nhập ngay</a>
             </p>
         </div>
     </div>

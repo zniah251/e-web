@@ -1,10 +1,7 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start(); // Dòng này cần phải ở đầu file PHP, trước mọi output khác.
-}
 $is_logged_in = isset($_SESSION['uid']) && $_SESSION['uid'] > 0;
 $user_name = $is_logged_in ? htmlspecialchars($_SESSION['uname']) : '';
-include $_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon/icon.svg";
+$user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon/icon.svg");
 ?>
 <style>
   .login-button {
@@ -34,6 +31,46 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon/icon.svg";
   .list-wrapper ul li,
   .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .dropdown-menu.navbar-dropdown .dropdown-item {
     align-items: center !important;
+  }
+
+  /* Dropdown submenu styles */
+  .dropdown-submenu {
+    position: relative;
+  }
+
+  .dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    display: none;
+  }
+
+  .dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+  }
+
+  .dropdown-submenu > a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #cccccc;
+    margin-top: 5px;
+    margin-right: -10px;
+  }
+
+  /* Main dropdown hover state */
+  .dropdown:hover > .dropdown-menu {
+    display: block;
+  }
+
+  /* Ensure dropdowns are above other content */
+  .dropdown-menu {
+    z-index: 1000;
   }
 </style>
 <nav class="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center">
@@ -73,7 +110,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon/icon.svg";
                 <a class="nav-link dropdown-toggle" href="#" id="dropdownCollection" data-bs-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">Collection</a>
                 <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownCollection">
-                  <li><a href="/e-web/user/page/collection/collection1.php" class="dropdown-item">Collection 1</a></li>
+                  <li><a href="/e-web/user/page/collection/summer-collection-2025.php" class="dropdown-item">Collection 1</a></li>
                   <li><a href="collection2.html" class="dropdown-item">Collection 2</a></li>
                   <li><a href="collection3.html" class="dropdown-item">Collection 3</a></li>
                 </ul>
@@ -184,3 +221,44 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon/icon.svg";
     </div>
   </div>
 </nav>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all dropdowns
+    var dropdowns = document.querySelectorAll('.dropdown-toggle');
+    dropdowns.forEach(function(dropdown) {
+        dropdown.addEventListener('click', function(e) {
+            e.preventDefault();
+            var menu = this.nextElementSibling;
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        });
+    });
+
+    // Handle submenu dropdowns
+    var submenuDropdowns = document.querySelectorAll('.dropdown-submenu > a');
+    submenuDropdowns.forEach(function(submenu) {
+        submenu.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var menu = this.nextElementSibling;
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
+                menu.style.display = 'none';
+            });
+        }
+    });
+});
+</script>
