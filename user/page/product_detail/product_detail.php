@@ -91,10 +91,16 @@ $product = $result->fetch_assoc();
         body {
             font-family: 'Times New Roman', serif;
         }
-        h1, h2, h3, h4, h5 {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
             font-family: 'Times New Roman', Times, serif !important;
             /* Sử dụng font Times New Roman cho tiêu đề */
         }
+
         .product-title-ellipsis {
             white-space: nowrap;
             overflow: hidden;
@@ -388,13 +394,84 @@ $product = $result->fetch_assoc();
             </button>
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
-                    const btn = document.getElementById("favoriteBtn");
-                    const icon = document.getElementById("heartIcon");
-                    btn.addEventListener("click", function() {
-                        if (icon.style.color === "red") {
-                            icon.style.color = "#aaa";
-                        } else {
-                            icon.style.color = "red";
+                    const favoriteBtn = document.getElementById("favoriteBtn");
+                    const heartIcon = document.getElementById("heartIcon");
+                    const productId = "<?php echo $pid; ?>"; // Đảm bảo bạn có $pid từ PHP
+
+                    // Hàm để kiểm tra trạng thái đăng nhập
+                    function checkLoginStatus(callback) {
+                        // Sử dụng AJAX để gửi yêu cầu đến server kiểm tra session đăng nhập
+                        fetch('/e-web/user/page/ajax_handlers/check_login_status.php') // Tạo file này ở bước sau
+                            .then(response => response.json())
+                            .then(data => {
+                                callback(data.loggedIn);
+                            })
+                            .catch(error => console.error('Error checking login status:', error));
+                    }
+
+                    // Hàm để thêm/xóa sản phẩm khỏi wishlist
+                    function toggleWishlist(productId) {
+                        fetch('/e-web/user/page/ajax_handlers/toggle_wishlist.php', { // Tạo file này ở bước sau
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    productId: productId
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    if (data.action === 'added') {
+                                        heartIcon.style.color = "red";
+                                        alert("Sản phẩm đã được thêm vào danh sách yêu thích!");
+                                    } else if (data.action === 'removed') {
+                                        heartIcon.style.color = "#aaa";
+                                        alert("Sản phẩm đã được xóa khỏi danh sách yêu thích!");
+                                    }
+                                } else {
+                                    alert(data.message);
+                                }
+                            })
+                            .catch(error => console.error('Error toggling wishlist:', error));
+                    }
+
+                    // Xử lý sự kiện click
+                    favoriteBtn.addEventListener("click", function() {
+                        checkLoginStatus(function(loggedIn) {
+                            if (loggedIn) {
+                                toggleWishlist(productId);
+                            } else {
+                                alert("Bạn cần đăng nhập để thêm sản phẩm vào danh sách yêu thích.");
+                                // Chuyển hướng người dùng đến trang đăng nhập
+                                window.location.href = "/e-web/user/page/sign-in/login2.php"; // Thay bằng đường dẫn trang đăng nhập của bạn
+                            }
+                        });
+                    });
+
+                    // Khi trang tải, kiểm tra xem sản phẩm có trong wishlist của người dùng đã đăng nhập không
+                    // (Nếu bạn muốn hiển thị trạng thái ban đầu của icon)
+                    checkLoginStatus(function(loggedIn) {
+                        if (loggedIn) {
+                            fetch('/e-web/user/page/ajax_handlers/check_product_in_wishlist.php', { // Tạo file này ở bước sau
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        productId: productId
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.inWishlist) {
+                                        heartIcon.style.color = "red";
+                                    } else {
+                                        heartIcon.style.color = "#aaa";
+                                    }
+                                })
+                                .catch(error => console.error('Error checking product in wishlist:', error));
                         }
                     });
                 });
