@@ -171,60 +171,64 @@ if ($conn->connect_error) {
 
     <div class="col-md-6 checkout-right">
       <h2>Thanh toán</h2>
-      <form>
-        <div class="mb-3">
-          <label for="fullname" class="form-label">
-            <i class="fa fa-user me-2"></i> Họ và tên
-          </label>
-          <input type="text" class="form-control" id="fullname" placeholder="Nguyễn Văn A">
-        </div>
+      <form action="create_order.php" method="POST">
+  <div class="mb-3">
+    <label for="fullname" class="form-label">
+      <i class="fa fa-user me-2"></i> Họ và tên
+    </label>
+    <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Nguyễn Văn A" required>
+  </div>
 
-        <div class="mb-3">
-          <label for="address" class="form-label">
-            <i class="fa fa-location-dot me-2"></i> Địa chỉ
-          </label>
-          <input type="text" class="form-control" id="address" placeholder="Số nhà, phường, quận, thành phố">
-        </div>
+  <div class="mb-3">
+    <label for="address" class="form-label">
+      <i class="fa fa-location-dot me-2"></i> Địa chỉ
+    </label>
+    <input type="text" class="form-control" id="address" name="address" placeholder="Số nhà, phường, quận, thành phố" required>
+  </div>
 
-        <div class="mb-3">
-          <label for="phone" class="form-label">
-            <i class="fa fa-phone me-2"></i> Số điện thoại
-          </label>
-          <input type="tel" class="form-control" id="phone" placeholder="0909xxxxxx">
-        </div>
+  <div class="mb-3">
+    <label for="phone" class="form-label">
+      <i class="fa fa-phone me-2"></i> Số điện thoại
+    </label>
+    <input type="tel" class="form-control" id="phone" name="phone" placeholder="0909xxxxxx" required>
+  </div>
 
-        <div class="mb-3">
-          <label for="voucher" class="form-label">
-            <i class="fa fa-tag me-2"></i> Mã giảm giá
-          </label>
-          <div class="input-group">
-            <input type="text" id="voucher" class="form-control" placeholder="Nhập mã giảm giá">
-            <button class="btn btn-outline-secondary" type="button">Áp dụng</button>
-          </div>
-        </div>
+  <div class="mb-3">
+    <label for="voucher" class="form-label">
+      <i class="fa fa-tag me-2"></i> Mã giảm giá
+    </label>
+    <div class="input-group">
+      <input type="text" id="voucher" name="voucher" class="form-control" placeholder="Nhập mã giảm giá">
+      <button class="btn btn-outline-secondary" type="button">Áp dụng</button>
+    </div>
+  </div>
 
-        <div class="mb-3">
-          <label class="form-label">
-            <i class="fa fa-credit-card me-2"></i> Phương thức thanh toán
-          </label>
-          <div class="row text-center g-3 mb-3">
-            <div class="col-4">
-              <input type="radio" name="payment" id="momo" hidden>
-              <label for="momo"><img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" width="60" alt="Momo"></label>
-            </div>
-            <div class="col-4">
-              <input type="radio" name="payment" id="banking" hidden>
-              <label for="banking"><img src="https://cdn-icons-png.flaticon.com/512/3240/3240417.png" width="60" alt="Banking"></label>
-            </div>
-            <div class="col-4">
-              <input type="radio" name="payment" id="credit" hidden>
-              <label for="credit"><img src="https://cdn-icons-png.flaticon.com/512/633/633611.png" width="60" alt="Credit"></label>
-            </div>
-          </div>
-        </div>
+  <div class="mb-3">
+    <label class="form-label">
+      <i class="fa fa-credit-card me-2"></i> Phương thức thanh toán
+    </label>
+    <div class="row text-center g-3 mb-3">
+      <div class="col-4">
+        <input type="radio" name="payment_method" id="momo" value="MOMO" hidden required>
+        <label for="momo"><img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" width="60" alt="Momo"></label>
+      </div>
+      <div class="col-4">
+        <input type="radio" name="payment_method" id="banking" value="BANK" hidden>
+        <label for="banking"><img src="https://cdn-icons-png.flaticon.com/512/633/633611.png" width="60" alt="Banking"></label>
+      </div>
+      <div class="col-4">
+        <input type="radio" name="payment_method" id="cod" value="COD" hidden>
+        <label for="cod">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" width="60" alt="Ship COD">
+        </label>
+</div>
 
-        <button type="submit" class="btn-submit">Đặt hàng</button>
-      </form>
+    </div>
+  </div>
+
+  <button type="submit" class="btn-submit">Đặt hàng</button>
+</form>
+
     </div>
   </div>
   <footer id="footer" class="footer-custom mt-5">
@@ -246,8 +250,8 @@ if ($conn->connect_error) {
             <li><a href="index.html">Trang chủ</a></li>
             <li><a href="page/aboutus/aboutus.html">Giới thiệu</a></li>
             <li><a href="page/faq/faq.html">Hỏi đáp</a></li>
-            <li><a href="page/recruitment/recruit.html">Tuyển dụng</a></li>
-            <li><a href="page/member/member.html">Membership</a></li>
+            <li><a href="page/recruitment/recruit.php">Tuyển dụng</a></li>
+            <li><a href="page/member/member.php">Membership</a></li>
           </ul>
         </div>
 

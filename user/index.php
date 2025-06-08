@@ -340,9 +340,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
               </a>
             </li>
             <li class="d-none d-lg-block">
-              <a href="index.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-                aria-controls="offcanvasCart">Cart <span class="cart-count">(0)</span>
+              <a href="page/cart/cart.php" class="text-uppercase mx-3">
+                Cart <span class="cart-count">(0)</span>
               </a>
+
             </li>
             <li class="d-lg-none">
               <a href="#" class="mx-2">
@@ -372,7 +373,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
       </div>
 
     </div>
-    <a href="/login" class="login-button">
+    <a href="page/sign-in/sign-in.php" class="login-button">
       <i class="fas fa-user"></i>
       <span></span>
     </a>
