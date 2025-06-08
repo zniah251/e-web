@@ -22,13 +22,24 @@ $stmt_cat->close();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đầm Nữ</title>
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../../user/css/vendor.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="abtus.css">
+    <link rel="stylesheet" type="text/css" href="../../style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-bundle.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <!-- MDB -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../style.css">
-    <link href="./woman.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
+        rel="stylesheet">
     <link href="/e-web/user/css/tailwind-replacement.css" rel="stylesheet">
     <style>
         body {
@@ -90,9 +101,9 @@ $stmt_cat->close();
                 ?>
             </div>
         </div>
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <label for="sort-options" class="form-label mb-0 me-2">Sắp xếp theo:</label>
-            <select id="sort-options" class="form-select" onchange="sortBy(this.value)">
+       <div class="d-flex justify-content-start align-items-center mb-4 mt-4">
+            <label for="sort-options" class="form-label mb-1 me-2">Sắp xếp theo:</label>
+            <select id="sort-options" class="form-select" style="width: 200px; border-radius: 8px;" onchange="sortBy(this.value)">
                 <option value="price-asc">Giá từ thấp đến cao</option>
                 <option value="price-desc">Giá từ cao xuống thấp</option>
             </select>
