@@ -2,13 +2,7 @@
 <html lang="en">
 <?php
 session_start();
-
-// Kiểm tra nếu chưa login thì quay về login
-if (!isset($_SESSION['username']) || $_SESSION['role'] != 1) { // hoặc != 2 nếu là user
-  header('Location: /e-web/admin/template/login.php');
-  exit();
-}
-
+include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 ?>
 
 <head>
