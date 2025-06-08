@@ -814,13 +814,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
           var vID = this.getAttribute('id');
           if (vID === 'vcship') {
             fetch('', {
-                methor: 'POST',
+                method: 'POST', // sửa 'methor' thành 'method'
                 headers: {
                   'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: 'action=save_voucher&vid=1'
               })
-              .then(respone => respone.json())
+              .then(response => response.json()) // sửa 'respone' thành 'response'
               .then(data => {
                 alert(data.message);
               })
