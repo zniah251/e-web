@@ -603,7 +603,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <div class="container">
       <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
         <h4 class="text-uppercase">Read Blog Posts</h4>
-        <a href="page/blog/blog.php" class="btn-link">View All</a>
+        <a href="e-web/user/page/blog/blog.php" class="btn-link">View All</a>
       </div>
       <div class="row">
         <div class="col-md-4">

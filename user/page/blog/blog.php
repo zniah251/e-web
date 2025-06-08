@@ -1,12 +1,32 @@
 <?php include('../../../connect.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Blog - Kaira</title>
-  <link rel="stylesheet" href="css/vendor.css">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Blog</title>
+  <!-- MDB icon -->
+  <link rel="icon" href="../../assets/img/mdb-favicon.ico" type="image/x-icon" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+  <!-- MDB -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
+    body {
+            font-family: 'Times New Roman', serif;
+            /* Thêm fallback font */
+        }
     /* CSS giữ nguyên như bạn viết */
     #blog-container {
       display: flex;
@@ -70,15 +90,15 @@
   </style>
 </head>
 <body>
+  <?php include('../../../navbar.php'); ?>
   <div class="container">
-    <h2 class="text-uppercase mb-4">Bài viết mới nhất</h2>
     <div class="row justify-content-center" id="blog-container">
       <?php
         $result = mysqli_query($conn, "SELECT * FROM blog ORDER BY created_at DESC");
         while ($row = mysqli_fetch_assoc($result)) {
           echo '<div class="post-item">';
-          echo '<div class="post-image"><img src="../admin/assets/images/blog/' . htmlspecialchars($row['image']) . '" alt="Blog Image"></div>';
-          echo '<div class="post-title"><a href="#">' . htmlspecialchars($row['title']) . '</a></div>';
+          echo '<div class="post-image"><img src="/e-web/blog/' . htmlspecialchars($row['image']) . '" alt="Blog Image"></div>';
+          echo '<div class="post-title"><a href="post.php?id=' . $row['bid'] . '">' . htmlspecialchars($row['title']) . '</a></div>';
           echo '<div class="post-meta">Ngày đăng: ' . date('d/m/Y', strtotime($row['created_at'])) . '</div>';
           echo '<div class="post-content"><p>' . mb_substr(strip_tags($row['content']), 0, 100) . '...</p></div>';
           echo '</div>';
@@ -87,4 +107,5 @@
     </div>
   </div>
 </body>
+<?php include('../../../footer.php'); ?>
 </html>

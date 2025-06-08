@@ -182,7 +182,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
                                       <input min="1" name="quantity" value="<?php echo $item['quantity']; ?>" type="number"
                                         class="form-control form-control-sm mx-1 quantity-input" style="width: 50px;" 
                                         data-index="<?php echo $index; ?>"
-                                        data-price="<?php echo $item['price']; ?>" />
+                                        data-price="<?php echo $item['price']; ?>" 
+                                        data-key="<?php echo $key; ?>" />
                                       <button class="btn btn-link px-1 btn-qty-plus" type="button">
                                         <i class="fas fa-plus"></i>
                                       </button>
@@ -231,8 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
                       <a href="/e-web/user/index.php" class="text-body">
                         <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
                       </a>
-                      <button type="button" class="btn btn-dark" style="min-width: 120px;">Order</button>
-                    </div>
+                      <a href="../checkout/checkout.php" class="btn btn-dark" style="min-width: 120px;">Order</a>
                   </div>
                 </div>
               </div>
@@ -253,6 +253,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
   <!-- Custom scripts -->
   <script type="text/javascript"></script>
 </body>
+<script>
+function updateQuantityOnServer(key, quantity) {
+  fetch('./update_cart_quantity.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `key=${encodeURIComponent(key)}&quantity=${encodeURIComponent(quantity)}`
+  }).then(res => res.json())
+    .then(data => {
+      console.log("✅ Server response:", data);
+      if (!data.success) {
+        alert("Cập nhật thất bại: " + (data.error || ""));
+      }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.quantity-input').forEach(input => {
+    input.addEventListener('change', function () {
+      const qty = parseInt(this.value);
+      const key = this.dataset.key;
+      if (qty > 0 && key) {
+        updateQuantityOnServer(key, qty);
+      }
+    });
+  });
+});
+</script>
 
 </html>
 <!-- Thêm đoạn script để xử lý cập nhật số lượng và tính toán tổng tiền-->
@@ -333,6 +360,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (parseInt(input.value, 10) > 1) {
         input.value = parseInt(input.value, 10) - 1;
         updateTotals(); // Gọi updateTotals để cập nhật cả itemTotal và total
+        updateQuantityOnServer(input.dataset.key, input.value);
       }
     });
   });
@@ -343,6 +371,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const input = this.parentNode.querySelector('.quantity-input');
       input.value = parseInt(input.value, 10) + 1;
       updateTotals(); // Gọi updateTotals để cập nhật cả itemTotal và total
+      updateQuantityOnServer(input.dataset.key, input.value);
     });
   });
 
@@ -384,3 +413,4 @@ document.addEventListener('DOMContentLoaded', function() {
   updateTotals();
 });
 </script> 
+<!-- ... script xử lý cart khác ... -->

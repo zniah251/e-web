@@ -1,79 +1,51 @@
-<!DOCTYPE html>
+<?php
+include('../../../connect.php');
+
+if (!isset($_GET['id'])) {
+    echo "Bài viết không tồn tại.";
+    exit;
+}
+
+$bid = intval($_GET['id']);
+$result = mysqli_query($conn, "SELECT * FROM blog WHERE bid = $bid");
+
+if (!$result || mysqli_num_rows($result) === 0) {
+    echo "Không tìm thấy bài viết.";
+    exit;
+}
+
+$row = mysqli_fetch_assoc($result);
+?>
+
+<<!DOCTYPE html>
 <html lang="vi">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Bài viết chi tiết</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="../woman/woman.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ Gắn Google Fonts đúng cách -->
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- ✅ CSS để sử dụng font -->
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Be Vietnam Pro', sans-serif !important;
-      margin: 0;
-      padding: 0;
-      background-color: #fff;
-      color: #222;
-      line-height: 1.6;
-    }
-
-    .post-container {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
-    }
-
-    #title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      text-align: center;
-      line-height: 1.4;
-    }
-
-    #meta {
-      font-size: 14px;
-      color: #888;
-      margin-bottom: 30px;
-      text-align: center;
-    }
-
-    .post-image {
-      width: 100%;
-      max-height: 450px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 25px;
-    }
-
-    #content h3 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-top: 30px;
-      color: #333;
-    }
-
-    #content p {
-      font-size: 16px;
-      margin: 10px 0;
-      color: #444;
-    }
-  </style>
 </head>
-<body>
-  <div class="post-container">
-    <h1 id="title">Đang tải...</h1>
-    <p id="meta" class="post-meta"></p>
-    <img id="image" class="post-image" src="" alt="Ảnh bài viết" />
-    <div id="content"></div>
-  </div>
 
-  <!-- ✅ Đảm bảo đường dẫn đúng -->
-  <script src="js/blog.js"></script>
+<body>
+    <?php include('../../../navbar.php'); ?>
+
+    <div class="container py-5">
+        <h1><?= htmlspecialchars($row['title']) ?></h1>
+        <p><em>Ngày đăng: <?= date('d/m/Y', strtotime($row['created_at'])) ?></em></p>
+        <img src="/e-web/blog/<?= htmlspecialchars($row['image']) ?>" alt="Blog Image" style="max-width:100%; height:auto;">
+        <div style="margin-top:20px;">
+            <?= $row['content'] ?>
+        </div>
+    </div>
+
+    <?php include('../../../footer.php'); ?>
 </body>
 </html>

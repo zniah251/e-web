@@ -10,7 +10,7 @@ if (isset($_POST['add'])) {
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
         $image = basename($_FILES['image']['name']);
-        $target = __DIR__ . '/../../assets/images/blog/' . $image;
+        $target = __DIR__ . '/../../../blog/' . $image;
         move_uploaded_file($_FILES['image']['tmp_name'], $target);
     }
 
@@ -93,8 +93,9 @@ if (isset($_GET['edit'])) {
     <!-- Sử dụng liên kết CDN mới nhất của Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous" referrerpolicy="no-referrer" />    
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 </head>
   <body>
     <div class="container-scroller">
@@ -474,9 +475,11 @@ if (isset($_GET['edit'])) {
 
           <div class="form-group">
             <label for="content">Nội dung</label>
-            <textarea class="form-control" id="content" name="content" rows="4"><?= $editMode ? $post['content'] : '' ?></textarea>
+            <textarea class="form-control" id="content" name="content" rows="10"><?= $editMode ? $post['content'] : '' ?></textarea>
+              <script>
+                CKEDITOR.replace('content');
+              </script>
           </div>
-
           <div class="form-group">
             <label>Hình ảnh</label>
             <input type="file" name="image" class="form-control" required>
