@@ -23,25 +23,14 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" href="assets/images/favicon.png" />
 </head>
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
+<nav class="sidebar sidebar-offcanvas" id="sidebar" >
   <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-    <a class="sidebar-brand brand-logo" href="index.html"><img src="/e-web/admin/template/assets/images/logo.svg" alt="logo" /></a>
     <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="/e-web/admin/template/assets/images/logo-mini.svg" alt="logo" /></a>
   </div>
   <ul class="nav">
     <li class="nav-item profile">
       <div class="profile-desc">
-        <div class="profile-pic">
-          <div class="count-indicator">
-            <img class="img-xs rounded-circle " src="/e-web/admin/template/assets/images/faces/face9.jpg" alt="">
-            <span class="count bg-success"></span>
-          </div>
-          <div class="profile-name">
-            <h5 class="mb-0 font-weight-normal">Kaira Admin</h5>
-            <span></span>
-          </div>
-        </div>
-        <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+       
         <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
           <a href="#" class="dropdown-item preview-item">
             <div class="preview-thumbnail">
