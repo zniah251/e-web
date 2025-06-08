@@ -28,31 +28,31 @@ $product = $result->fetch_assoc();
 
 <head>
     <title>Kaira</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-     <link rel="stylesheet" type="text/css" href="e-web/user/css/vendor.css">
-     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../../user/css/vendor.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="abtus.css">
     <link rel="stylesheet" type="text/css" href="../../style.css">
     <link rel="stylesheet" type="text/css" href="../../css/normalize.css">
     <link rel="stylesheet" type="text/css" href="../../css/swiper-bundle.min.css">
-    <link rel="stylesheet" type="text/css" href="../../index.html">
-    <link rel="stylesheet" type="text/css" href="../faq/faqstyle.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <!-- MDB -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
         rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/e-web/user/css/tailwind-replacement.css" rel="stylesheet">
     <style>
         .btn-primary {
             background-color: #434343;
             color: white;
             padding: 0.5rem;
             border-radius: 9999px;
-
         }
 
         .btn-primary:hover {
@@ -67,7 +67,6 @@ $product = $result->fetch_assoc();
             padding: 8px 16px;
             border: 1px solid transparent;
             border-radius: 9999px;
-            /* bo tròn */
             background-color: #f9f9f9;
             font-weight: 500;
             cursor: pointer;
@@ -92,6 +91,7 @@ $product = $result->fetch_assoc();
 
         body {
             font-family: 'Times New Roman', serif;
+            color: black;
         }
 
         h1,
@@ -100,7 +100,6 @@ $product = $result->fetch_assoc();
         h4,
         h5 {
             font-family: 'Times New Roman', Times, serif !important;
-            /* Sử dụng font Times New Roman cho tiêu đề */
         }
 
         .product-title-ellipsis {
@@ -173,9 +172,9 @@ $product = $result->fetch_assoc();
                 ?>
 
                 <?php if (!empty($images)): ?>
-                    <div class="flex flex-col gap-3 ml-4 scale-90 sm:scale-100 origin-top-left">
+                    <div class="flex flex-col gap-3 ml-8 scale-90 sm:scale-100 origin-top-left" style="margin-left: 2rem;">
                         <?php foreach ($images as $img): ?>
-                            <img src="<?= $img ?>" class="w-16 md:w-20 h-24 object-cover border rounded cursor-pointer thumb" onerror="this.style.display='none'" />
+                            <img src="<?= $img ?>" class="w-16 md:w-20 h-24 object-cover border rounded cursor-pointer thumb hover:border-gray-400 transition-all" onerror="this.style.display='none'" />
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
@@ -305,11 +304,13 @@ $product = $result->fetch_assoc();
                 <p class="mb-2">Tồn kho: <span class="font-semibold"><?= $product['stock'] ?></span></p>
 
                 <!-- Số lượng -->
-                <div class="flex items-center gap-2 mb-4">
-                    <p>Số lượng:</p>
-                    <button id="decrease" class="px-2 border rounded">-</button>
-                    <input type="text" id="quantity" value="1" class="w-10 text-center border rounded" readonly />
-                    <button id="increase" class="px-2 border rounded">+</button>
+                <div class="flex items-center gap-2 mb-4" style="display: flex; align-items: center;">
+                    <p style="margin: 0; margin-right: 8px;">Số lượng:</p>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button id="decrease" style="width: 28px; height: 28px; border: 1px solid #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: none; cursor: pointer;">-</button>
+                        <input type="text" id="quantity" value="1" style="width: 40px; height: 28px; border: 1px solid #ddd; border-radius: 4px; text-align: center;" readonly />
+                        <button id="increase" style="width: 28px; height: 28px; border: 1px solid #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: none; cursor: pointer;">+</button>
+                    </div>
                 </div>
 
                 <!-- Nút -->
@@ -391,8 +392,8 @@ $product = $result->fetch_assoc();
         </div>
         <!-- Danh sách yêu thích -->
         <div class="flex items-center gap-3 mb-8">
-            <button id="favoriteBtn" class="text-xl p-1 rounded-full hover:bg-gray-100 transition">
-                <span id="heartIcon" style="color: #aaa; transition: color 0.2s;">&#10084;</span>
+            <button id="favoriteBtn" class="text-xl p-1 transition" style="border: none; background: none; outline: none;">
+                <span id="heartIcon" style="color: #aaa; transition: color 0.2s; font-size: 24px;">&#10084;</span>
             </button>
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
@@ -484,11 +485,41 @@ $product = $result->fetch_assoc();
         </div>
 
         <!-- Tabs -->
-        <div class="border-b border-gray-300 flex gap-8 text-gray-500 mb-4">
-            <button class="tab-btn font-semibold text-black border-b-2 border-black pb-2 active" data-tab="details">Chi tiết sản phẩm</button>
-            <button class="tab-btn pb-2" data-tab="additional">Thông tin bổ sung</button>
-            <button class="tab-btn pb-2" data-tab="shipping">Vận chuyển & Đổi trả</button>
+        <div class="flex gap-8 text-gray-500 mb-4 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-gray-300">
+            <button class="tab-btn pb-2 relative active" data-tab="details" style="border: none; background: none; outline: none;">Chi tiết sản phẩm</button>
+            <button class="tab-btn pb-2 relative" data-tab="additional" style="border: none; background: none; outline: none;">Thông tin bổ sung</button>
+            <button class="tab-btn pb-2 relative" data-tab="shipping" style="border: none; background: none; outline: none;">Vận chuyển & Đổi trả</button>
         </div>
+
+        <style>
+            .tab-btn {
+                transition: all 0.3s ease;
+                border: none !important;
+                background: none !important;
+                outline: none !important;
+                padding: 0;
+            }
+            .tab-btn.active {
+                color: black;
+            }
+            .tab-btn.active::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background-color: black;
+                z-index: 1;
+            }
+            .tab-btn:hover {
+                color: black;
+            }
+            .tab-btn:focus {
+                outline: none;
+                box-shadow: none;
+            }
+        </style>
 
         <!-- Nội dung của tab -->
         <div id="tab-contents">
@@ -502,6 +533,27 @@ $product = $result->fetch_assoc();
                 <p>Giao hàng toàn quốc từ 2 - 5 ngày làm việc. Hỗ trợ đổi trả trong 7 ngày nếu sản phẩm bị lỗi từ nhà sản xuất hoặc giao sai.</p>
             </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const tabButtons = document.querySelectorAll('.tab-btn');
+                const tabContents = document.querySelectorAll('.tab-content');
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // Remove active class from all buttons
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        // Add active class to clicked button
+                        button.classList.add('active');
+
+                        // Hide all tab contents
+                        tabContents.forEach(content => content.classList.add('hidden'));
+                        // Show selected tab content
+                        document.getElementById(button.dataset.tab).classList.remove('hidden');
+                    });
+                });
+            });
+        </script>
         <?php
         // Lấy cid của sản phẩm hiện tại
         $cid = $product['cid'];
@@ -562,12 +614,37 @@ $product = $result->fetch_assoc();
         $stmt->close(); ?>
 
         <!-- Nút xem thêm -->
+         <!-- Nút xem thêm -->
         <div class="text-center mt-8">
-            <button class="border px-6 py-2 rounded-full flex items-center gap-2 mx-auto hover:bg-gray-100 transition">
+            <?php
+            // Xác định URL dựa trên cid
+            $category_url = '';
+            switch($cid) {
+                // Tops
+                case 13:
+                    $category_url = '/e-web/user/page/woman/tops.php';
+                    break;
+                // Bottoms
+                case 14:
+                    $category_url = '/e-web/user/page/woman/dresses.php';
+                    break;
+                // Outerwear
+                case 15:
+                    $category_url = '/e-web/user/page/woman/pants.php';
+                    break;
+                // Dresses
+                case 16:
+                    $category_url = '/e-web/user/page/woman/skirts.php';
+                    break;
+                // Mặc định sẽ dẫn về trang chủ
+                default:
+                    $category_url = '/e-web/index.php';
+            }
+            ?>
+            <a href="<?php echo $category_url; ?>" class="border px-6 py-2 rounded-full inline-flex items-center gap-2 hover:bg-gray-100 transition" style="text-decoration: none; color: inherit;">
                 Xem thêm
                 <span>→</span>
-            </button>
-
+            </a>
         </div>
 
         <!--footer-->

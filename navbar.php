@@ -97,7 +97,7 @@ $user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon
     <div class="row justify-content-between align-items-center w-100">
 
       <div class="col-auto">
-        <a class="navbar-brand text-white" href="./user/index.html">
+        <a class="navbar-brand text-white" href="/e-web/user/index.php">
           <!-- Logo SVG -->
           <svg width="112" height="45" viewBox="0 0 112 45" xmlns="http://www.w3.org/2000/svg" fill="#111">
             <path
