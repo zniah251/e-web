@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
       <div class="voucher-left">
         <h3 class="voucher-title">DISCOUNT</h3>
         <p class="voucher-condition">Đơn hàng từ 300k</p>
-        <p class="voucher-detail">Giảm 50.000 VNĐ cho đơn hàng</p>
+        <p class="voucher-detail">Giảm 10% tổng giá trị đơn hàng</p>
         <p class="voucher-expire"><em>HSD đến: 31-12-2025</em></p>
       </div>
       <div class="voucher-right">
