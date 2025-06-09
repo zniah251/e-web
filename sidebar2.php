@@ -77,17 +77,11 @@ h2, h3, h6 {
         <a href="/e-web/user/page/users/manage_orders.php" class="list-group-item list-group-item-action" data-path="manage_orders.php">
             <i class="fas fa-file-invoice"></i> Quản lý đơn hàng
         </a>
-        <a href="/e-web/user/page/notifications/index.php" class="list-group-item list-group-item-action" data-path="notifications.php">
-            <i class="fas fa-bell"></i> Thông báo
-        </a>
         <a href="/e-web/user/page/users/wishlist.php" class="list-group-item list-group-item-action" data-path="wishlist.php">
             <i class="fas fa-heart"></i> Sản phẩm yêu thích
         </a>
         <a href="/e-web/user/page/users/info.php" class="list-group-item list-group-item-action" data-path="info.php">
             <i class="fas fa-user"></i> Thông tin tài khoản
-        </a>
-        <a href="/e-web/user/page/address/index.php" class="list-group-item list-group-item-action" data-path="address.php">
-            <i class="fas fa-map-marker-alt"></i> Sổ địa chỉ
         </a>
         <a href="/e-web/user/page/vouchers/index.php" class="list-group-item list-group-item-action" data-path="vouchers.php">
             <i class="fas fa-ticket-alt"></i> Ví voucher
