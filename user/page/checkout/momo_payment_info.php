@@ -6,7 +6,7 @@ $orderId = $_GET['orderId'] ?? 'N/A';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kaira - Thông tin chuyển khoản</title>
+  <title>Kaira - Chuyển khoản MOMO</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
@@ -66,30 +66,28 @@ $orderId = $_GET['orderId'] ?? 'N/A';
       background-color: #333;
     }
 
-    img.bank-logo {
+    .momo-logo {
       width: 280px;
       margin-bottom: 20px;
       border-radius: 8px;
     }
-
   </style>
 </head>
 <body>
 <?php include('../../../navbar.php'); ?>
 
 <div class="container-custom">
-  <h2><i class="fas fa-money-check-alt me-2"></i>Chuyển khoản ngân hàng</h2>
-  <img src="../../../blog/bank.jpg" alt="Ngân hàng" class="bank-logo">
+  <h2><i class="fas fa-mobile-alt me-2"></i>Chuyển khoản MOMO</h2>
+  <img src="../../../blog/momo.jpg" alt="Momo" class="momo-logo">
   
-  <p><i class="fas fa-university me-2 text-primary"></i><strong>Ngân hàng:</strong> Vietcombank</p>
   <p><i class="fas fa-user me-2 text-dark"></i><strong>Chủ tài khoản:</strong> Trương Huy Hoàng</p>
-  <p><i class="fas fa-hashtag me-2 text-info"></i><strong>Số tài khoản:</strong> 1027250621</p>
+  <p><i class="fas fa-hashtag me-2 text-info"></i><strong>Số điện thoại:</strong> 0328 243 239</p>
 
   <p><i class="fas fa-sticky-note me-2 text-danger"></i><strong>Nội dung chuyển khoản:</strong><br>
     <span class="note">THANH_TOAN_ĐON_HANG_SO <?= htmlspecialchars($orderId) ?></span>
   </p>
 
-  <p class="text-muted mt-3">💬 Vui lòng liên hệ fanpage hoặc hotline sau khi chuyển khoản để xác nhận đơn hàng.</p>
+  <p class="text-muted mt-3">💬 Kaira sẽ tiến hành giao hàng sau khi nhận thanh toán thành công. Xin cảm ơn quý khách!</p>
 
   <a href="../../index.php" class="btn btn-confirm">Xác nhận đã thanh toán</a>
 </div>

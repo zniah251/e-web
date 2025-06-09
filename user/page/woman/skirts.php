@@ -134,7 +134,7 @@ $stmt_cat->close();
                                 <img src="<?= $img_url ?>" class="w-10 h-10 border rounded object-cover" />
                             </div>
                             <a href="/e-web/user/page/product_detail/product_detail.php?pid=<?= htmlspecialchars($row['pid']) ?>" class="btn-primary mb-2 text-center">Mua ngay</a>
-                            <button class="border py-2 rounded-full hover:bg-gray-200">Thêm vào giỏ</button>
+                            <a href="/e-web/user/page/product_detail/product_detail.php?pid=<?= htmlspecialchars($row['pid']) ?>" class="border py-2 rounded-full hover:bg-gray-200 block text-center">Thêm vào giỏ</a>
                         </div>
                     </div>
             <?php

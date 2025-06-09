@@ -1,6 +1,5 @@
 <?php
 require_once "../../../connect.php";
-$config = require "momo_config.php";
 session_start();
 
 // Lấy giỏ hàng từ session
@@ -55,41 +54,15 @@ $totalfinal = $total + $shipping - $discount;
 $orderId = uniqid("ORDER_");
 $orderInfo = "Đơn hàng cho $fullname - $phone";
 
-// Xử lý theo phương thức thanh toán
+
 if ($method === 'MOMO') {
-    // MOMO redirect
-    $data = [
-        'partnerCode' => $config['partnerCode'],
-        'accessKey' => $config['accessKey'],
-        'requestId' => time() . "",
-        'amount' => $totalfinal,
-        'orderId' => $orderId,
-        'orderInfo' => $orderInfo,
-        'redirectUrl' => $config['redirectUrl'],
-        'ipnUrl' => $config['ipnUrl'],
-        'extraData' => '',
-        'requestType' => 'captureWallet'
-    ];
+$paymethod = strtoupper($method);
 
-    $signatureBase = "accessKey={$data['accessKey']}&amount={$data['amount']}&extraData={$data['extraData']}&ipnUrl={$data['ipnUrl']}&orderId={$data['orderId']}&orderInfo={$data['orderInfo']}&partnerCode={$data['partnerCode']}&redirectUrl={$data['redirectUrl']}&requestId={$data['requestId']}&requestType=captureWallet";
-    $data['signature'] = hash_hmac("sha256", $signatureBase, $config['secretKey']);
-
-    $ch = curl_init($config['endpoint']);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    $result = json_decode($response, true);
-    if (!empty($result['payUrl'])) {
-        header("Location: " . $result['payUrl']);
-        exit;
-    } else {
-        echo "Không tạo được thanh toán MOMO.";
-    }
-
+    $stmt = $conn->prepare("INSERT INTO `order` (uid, totalfinal, price, destatus, paymethod, paystatus, create_at, vid) VALUES (2, ?, ?, 'Pending', ?, 'Pending', NOW(), ?)");
+    $stmt->bind_param("ddsi", $totalfinal, $total, $paymethod, $vid);
+    $stmt->execute();
+    $oid = $stmt->insert_id;
+        header("Location: momo_payment_info.php?orderId=$oid");
 } else {
     // BANK hoặc COD
     $paymethod = strtoupper($method);
