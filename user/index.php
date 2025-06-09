@@ -1,6 +1,6 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
-    session_start(); // Dòng này cần phải ở đầu file PHP, trước mọi output khác.
+  session_start(); // Dòng này cần phải ở đầu file PHP, trước mọi output khác.
 }
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save_voucher') {
@@ -205,20 +205,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
   <div class="search-popup">
     <div class="search-popup-container">
-
-      <form role="search" method="get" class="form-group" action="">
+      <form role="search" method="get" class="form-group" action="/e-web/user/page/ajax_handlers/search_results.php">
         <input type="search" id="search-form" class="form-control border-0 border-bottom"
           placeholder="Type and press enter" value="" name="s" />
         <button type="submit" class="search-submit border-0 position-absolute bg-white"
-          style="top: 15px;right: 15px;"><svg class="search" width="24" height="24">
-            <use xlink:href="#search"></use>
-          </svg></button>
+          style="top: 15px;right: 15px;"></button>
       </form>
-
-
     </div>
   </div>
-<?php include('../navbar.php'); ?>
+  <?php include('../navbar.php'); ?>
   <div class="banner-container">
     <div class="banner-wrapper">
       <img src="images/banner.png" alt="banner" class="banner-image">
@@ -784,7 +779,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
   </footer>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/jquery.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/SmoothScroll.js"></script>

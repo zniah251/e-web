@@ -124,9 +124,9 @@ else if ($data['action'] === 'login') {
         $is_email = filter_var($identifier, FILTER_VALIDATE_EMAIL);
 
         if ($is_email) {
-            $stmt = $conn->prepare("SELECT uid, uname, email, password FROM users WHERE email = ?");
+            $stmt = $conn->prepare("SELECT uid, uname, email, password, rid FROM users WHERE email = ?"); // Đã sửa từ 'users' thành 'user' nếu tên bảng là 'user'
         } else {
-            $stmt = $conn->prepare("SELECT uid, uname, email, password FROM users WHERE phonenumber = ?");
+            $stmt = $conn->prepare("SELECT uid, uname, email, password, rid FROM users WHERE phonenumber = ?"); // Đã sửa từ 'users' thành 'user' nếu tên bảng là 'user'
         }
         $stmt->bind_param("s", $identifier);
         $stmt->execute();
@@ -138,6 +138,14 @@ else if ($data['action'] === 'login') {
             $_SESSION['uid'] = $user['uid'];
             $_SESSION['uname'] = $user['uname'];
             $_SESSION['email'] = $user['email'];
+            $_SESSION['rid'] = $user['rid']; 
+            // THAY ĐỔI 3: Thêm logic chuyển hướng dựa trên rid
+            $redirect_url = '';
+            if ($user['rid'] == 1) { // Giả sử rid = 1 là quản trị viên
+                $redirect_url = '/e-web/admin/pages/dashboard/dashboard-test.php';
+            } else { // Các vai trò khác (người dùng thông thường)
+                $redirect_url = '/e-web/user/index.php'; // Trang mặc định cho người dùng
+            }
 
             echo json_encode([
                 'success' => true,
@@ -145,8 +153,10 @@ else if ($data['action'] === 'login') {
                 'user' => [
                     'uid' => $user['uid'],
                     'uname' => $user['uname'],
-                    'email' => $user['email']
-                ]
+                    'email' => $user['email'],
+                    'rid' => $user['rid'] // Thêm rid vào phản hồi JSON
+                ],
+                'redirect' => $redirect_url // THAY ĐỔI 4: Trả về URL chuyển hướng
             ]);
             http_response_code(200);
             exit();
@@ -163,13 +173,4 @@ else if ($data['action'] === 'login') {
     }
 }
 
-// ===============================================
-// Xử lý ĐĂNG KÝ BẰNG GOOGLE (Bạn sẽ đưa phần này vào đây)
-
-// ===============================================
-
-// KHÔNG ĐÓNG KẾT NỐI DB Ở ĐÂY NẾU connect.php MỞ KẾT NỐI VÀ KHÔNG ĐÓNG.
-// Nếu connect.php trả về biến $conn, thì $conn = null; sẽ đóng nó.
-// Nếu connect.php tự động đóng, thì không cần dòng này.
-// $conn = null; 
 ?>

@@ -3,8 +3,24 @@ $is_logged_in = isset($_SESSION['uid']) && $_SESSION['uid'] > 0;
 $user_name = $is_logged_in ? htmlspecialchars($_SESSION['uname']) : '';
 $user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon/icon.svg");
 ?>
+
 <head>
   <style>
+    .search-popup {
+      background-color: transparent !important;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 9999;
+      -webkit-transition: opacity 0.3s 0s, visibility 0s 0.3s;
+      -moz-transition: opacity 0.3s 0s, visibility 0s 0.3s;
+      transition: opacity 0.3s 0s, visibility 0s 0.3s;
+    }
+
     .login-button {
       display: inline-flex;
       align-items: center;
@@ -75,23 +91,23 @@ $user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon
     }
   </style>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <!-- SVG Icon Definitions -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol xmlns="http://www.w3.org/2000/svg" id="heart" viewBox="0 0 24 24">
-        <path fill="currentColor"
-          d="M20.16 4.61A6.27 6.27 0 0 0 12 4a6.27 6.27 0 0 0-8.16 9.48l7.45 7.45a1 1 0 0 0 1.42 0l7.45-7.45a6.27 6.27 0 0 0 0-8.87Zm-1.41 7.46L12 18.81l-6.75-6.74a4.28 4.28 0 0 1 3-7.3a4.25 4.25 0 0 1 3 1.25a1 1 0 0 0 1.42 0a4.27 4.27 0 0 1 6 6.05Z" />
-      </symbol>
+    <path fill="currentColor"
+      d="M20.16 4.61A6.27 6.27 0 0 0 12 4a6.27 6.27 0 0 0-8.16 9.48l7.45 7.45a1 1 0 0 0 1.42 0l7.45-7.45a6.27 6.27 0 0 0 0-8.87Zm-1.41 7.46L12 18.81l-6.75-6.74a4.28 4.28 0 0 1 3-7.3a4.25 4.25 0 0 1 3 1.25a1 1 0 0 0 1.42 0a4.27 4.27 0 0 1 6 6.05Z" />
+  </symbol>
   <symbol xmlns="http://www.w3.org/2000/svg" id="cart" viewBox="0 0 24 24">
-        <path fill="currentColor"
-          d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74a3.007 3.007 0 0 0-2.82-2H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z" />
-      </symbol>
+    <path fill="currentColor"
+      d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74a3.007 3.007 0 0 0-2.82-2H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z" />
+  </symbol>
   <symbol id="search" viewBox="0 0 24 24">
     <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
   </symbol>
 </svg>
- 
+
 <nav class="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center">
   <div class="container-fluid">
     <div class="row justify-content-between align-items-center w-100">
@@ -199,7 +215,7 @@ $user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon
             </a>
           </li>
           <li class="search-box mx-2">
-            <a href="#search" class="search-button">
+            <a href="javascript:void(0);" class="search-button">
               <svg width="24" height="24" viewBox="0 0 24 24">
                 <use xlink:href="#search"></use>
               </svg>
@@ -230,4 +246,3 @@ $user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon
     </div>
   </div>
 </nav>
-

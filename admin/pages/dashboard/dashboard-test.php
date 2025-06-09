@@ -1,7 +1,11 @@
 <?php
 session_start();
+if (!isset($_SESSION['uid']) || $_SESSION['rid'] != 1) {
+    // Nếu không đăng nhập hoặc không phải admin, chuyển hướng về trang đăng nhập
+    header("Location: /e-web/user/page/sign-in/login2.php");
+    exit();
+}
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
-
 function safe_query_count($conn, $query, $key = 'total', $default = 0)
 {
     $result = mysqli_query($conn, $query);

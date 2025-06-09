@@ -237,7 +237,7 @@
                 
                 // Đợi 1.5 giây để người dùng thấy thông báo rồi mới chuyển trang
                 setTimeout(() => {
-                    window.location.href = '/e-web/user/index.php';
+                    window.location.href = data.redirect;
                 }, 1500);
             } else {
                 // Đăng nhập thất bại, KHÔNG lưu localStorage
