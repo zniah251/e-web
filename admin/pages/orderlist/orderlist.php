@@ -2,6 +2,30 @@
 session_start();
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 
+// Xử lý xóa đơn hàng
+if (isset($_POST['delete_order'])) {
+    $order_id = $_POST['order_id'];
+    
+    // Xóa các bản ghi liên quan trong bảng order_detail trước
+    $delete_details_sql = "DELETE FROM order_detail WHERE oid = ?";
+    $stmt_details = $conn->prepare($delete_details_sql);
+    $stmt_details->bind_param("s", $order_id);
+    $stmt_details->execute();
+    $stmt_details->close();
+    
+    // Sau đó xóa đơn hàng từ bảng orders
+    $delete_order_sql = "DELETE FROM orders WHERE oid = ?";
+    $stmt_order = $conn->prepare($delete_order_sql);
+    $stmt_order->bind_param("s", $order_id);
+    
+    if ($stmt_order->execute()) {
+        echo "<script>alert('Order deleted successfully!');</script>";
+    } else {
+        echo "<script>alert('Error deleting order!');</script>";
+    }
+    $stmt_order->close();
+}
+
 // 1. Xử lý tham số phân trang
 $allowed_limits = [10, 25, 50, 100];
 $limit = 25;
@@ -389,13 +413,10 @@ $stmt->close();
                                                             <td> <?php echo date('d M Y', strtotime($order['create_at'])); ?> </td>
                                                             <td>
                                                                 <div class="d-flex align-items-center gap-2">
-                                                                    <button type="button"
-                                                                        class="btn btn-link custom-purple p-0"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#customerDetailModal"
-                                                                        onclick="viewCustomer(<?php echo htmlspecialchars($order['uid']); ?>)">
+                                                                    <a href="/e-web/admin/pages/orderdetails/orderdetails.php?oid=<?php echo htmlspecialchars($order['oid']); ?>"
+                                                                        class="btn btn-link custom-purple p-0">
                                                                         <i class="mdi mdi-plus-circle"></i>
-                                                                    </button>
+                                                                    </a>
                                                                     <form method="POST" onsubmit="return confirmDelete()">
                                                                         <input type="hidden" name="order_id" value="<?php echo htmlspecialchars($order['oid']); ?>">
                                                                         <button type="submit" name="delete_order" class="btn btn-link custom-gray p-0">
@@ -533,6 +554,50 @@ $stmt->close();
             doc.save('orders.pdf');
         }
     </script>
+    <!-- filter order status -->
+    <script>
+        document.getElementById('orderStatusFilter').addEventListener('change', function() {
+            filterOrders();
+        });
+
+        document.getElementById('paymentStatusFilter').addEventListener('change', function() {
+            filterOrders();
+        });
+
+        function filterOrders() {
+            var orderStatus = document.getElementById('orderStatusFilter').value;
+            var paymentStatus = document.getElementById('paymentStatusFilter').value;
+            var table = document.querySelector('.table');
+            var trs = table.getElementsByTagName('tr');
+
+            // Bắt đầu từ 1 để bỏ qua header
+            for (var i = 1; i < trs.length; i++) {
+                var orderStatusCell = trs[i].querySelector('td:nth-child(6)'); // Cột Order Status
+                var paymentStatusCell = trs[i].querySelector('td:nth-child(7)'); // Cột Payment Status
+
+                if (orderStatusCell && paymentStatusCell) {
+                    var orderStatusText = orderStatusCell.textContent.trim();
+                    var paymentStatusText = paymentStatusCell.textContent.trim();
+
+                    var orderMatch = orderStatus === '' || orderStatusText === orderStatus;
+                    var paymentMatch = paymentStatus === '' || paymentStatusText === paymentStatus;
+
+                    if (orderMatch && paymentMatch) {
+                        trs[i].style.display = '';
+                    } else {
+                        trs[i].style.display = 'none';
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Confirm Delete Function -->
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this order? This action cannot be undone.');
+        }
+    </script>
 </body>
 <?php
 // Đóng kết nối ở đây, sau khi đã sử dụng xong
@@ -557,41 +622,4 @@ $conn->close();
             }
         }
     });
-</script>
-<!-- filter order status -->
-<script>
-    document.getElementById('orderStatusFilter').addEventListener('change', function() {
-        filterOrders();
-    });
-
-    document.getElementById('paymentStatusFilter').addEventListener('change', function() {
-        filterOrders();
-    });
-
-    function filterOrders() {
-        var orderStatus = document.getElementById('orderStatusFilter').value;
-        var paymentStatus = document.getElementById('paymentStatusFilter').value;
-        var table = document.querySelector('.table');
-        var trs = table.getElementsByTagName('tr');
-
-        // Bắt đầu từ 1 để bỏ qua header
-        for (var i = 1; i < trs.length; i++) {
-            var orderStatusCell = trs[i].querySelector('td:nth-child(6)'); // Cột Order Status
-            var paymentStatusCell = trs[i].querySelector('td:nth-child(7)'); // Cột Payment Status
-
-            if (orderStatusCell && paymentStatusCell) {
-                var orderStatusText = orderStatusCell.textContent.trim();
-                var paymentStatusText = paymentStatusCell.textContent.trim();
-
-                var orderMatch = orderStatus === '' || orderStatusText === orderStatus;
-                var paymentMatch = paymentStatus === '' || paymentStatusText === paymentStatus;
-
-                if (orderMatch && paymentMatch) {
-                    trs[i].style.display = '';
-                } else {
-                    trs[i].style.display = 'none';
-                }
-            }
-        }
-    }
 </script>
