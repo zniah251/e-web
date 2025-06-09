@@ -49,7 +49,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 
         </div>
         <div class="text-center py-3 border-top small">
-            © 2025 Kaira. Thiết kế lại bởi nhóm <strong>5 IS207</strong> | Dự án học phần Phát triển Web
+            © 2025 Kaira. Thiết kế bởi nhóm <strong>5 IS207</strong> | Dự án học phần Phát triển Web
         </div>
     </div>
 </footer>
