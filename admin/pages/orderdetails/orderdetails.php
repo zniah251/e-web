@@ -3,6 +3,39 @@
 
 // 1. KẾT NỐI CƠ SỞ DỮ LIỆU
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
+
+// Get order ID from URL parameter
+$oid = isset($_GET['oid']) ? $_GET['oid'] : null;
+
+// Fetch order details with product information
+$sql = "SELECT od.*, p.thumbnail, p.title 
+        FROM order_detail od 
+        LEFT JOIN product p ON od.pid = p.pid 
+        WHERE od.oid = ?";
+
+// Add new SQL to get order information including voucher and user details
+$order_sql = "SELECT o.*, v.minprice as discount, u.uname, u.email, u.phonenumber, u.address, 
+              DATE_ADD(o.create_at, INTERVAL 5 DAY) as shipping_date
+              FROM orders o
+              LEFT JOIN voucher v ON o.vid = v.vid
+              LEFT JOIN users u ON o.uid = u.uid
+              WHERE o.oid = ?";
+
+$order_stmt = $conn->prepare($order_sql);
+$order_stmt->bind_param("i", $oid);
+$order_stmt->execute();
+$order_result = $order_stmt->get_result();
+$order_data = $order_result->fetch_assoc();
+
+// Calculate total price from order details
+$total_price = 0;
+$shipping_cost = 30000;
+$discount = $order_data['discount'] ?? 0;
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $oid);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,10 +104,10 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                         <div class="col-md-8 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title"><strong>Order ID: 123</strong></h4>
-                                    <h6 class="mb-0">Customer ID: 12</h6>
+                                    <h4 class="card-title"><strong>Order ID: <?php echo htmlspecialchars($order_data['oid']); ?></strong></h4>
+                                    <h6 class="mb-0">Customer ID: <?php echo htmlspecialchars($order_data['uid']); ?></h6>
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table" style="min-width: 800px;">
                                             <thead>
                                                 <tr>
                                                     <th>
@@ -93,6 +126,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php while($row = $result->fetch_assoc()): ?>
                                                 <tr>
                                                     <td>
                                                         <div class="form-check form-check-muted m-0">
@@ -101,15 +135,34 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                                             </label>
                                                         </div>
                                                     </td>
-                                                    <td> 02312 </td>
-                                                    <td> $14,500 </td>
-                                                    <td> Dashboard </td>
-                                                    <td> Credit card </td>
-                                                    <td> 04 Dec 2019 </td>
                                                     <td>
-                                                        <div class="badge badge-outline-success">Paid</div>
+                                                        <div class="d-flex align-items-center">
+                                                            <?php
+                                                            $img = $row['thumbnail'];
+                                                            // Nếu đường dẫn bắt đầu bằng 'admin/assets/images/', loại bỏ phần này
+                                                            if (strpos($img, 'admin/assets/images/') === 0) {
+                                                                $img = substr($img, strlen('admin/assets/images/'));
+                                                            }
+                                                            // Đảm bảo không có khoảng trắng và mã hóa URL
+                                                            $img_url = '/e-web/admin/assets/images/' . rawurlencode(trim($img));
+                                                            ?>
+                                                            <img src="<?php echo $img_url; ?>" alt="Thumbnail" style="width:40px;height:40px;object-fit:cover;border-radius:0;">
+                                                            <div class="d-flex flex-column ps-2" style="min-width: 150px;">
+                                                                <span><?php echo htmlspecialchars($row['title']); ?></span>
+                                                                <span>MN<?php echo str_pad($row['pid'], 2, '0', STR_PAD_LEFT); ?></span>
+                                                            </div>
+                                                        </div>
                                                     </td>
+                                                    <td><?php echo htmlspecialchars($row['color']); ?></td>
+                                                    <td><?php echo htmlspecialchars($row['size']); ?></td>
+                                                    <td><?php echo number_format($row['price'], 0, ',', '.'); ?>đ</td>
+                                                    <td><?php echo htmlspecialchars($row['quantity']); ?></td>
+                                                    <td><?php echo number_format($row['price'] * $row['quantity'], 0, ',', '.'); ?>đ</td>
                                                 </tr>
+                                                <?php
+                                                $total_price += $row['price'] * $row['quantity'];
+                                                ?>
+                                                <?php endwhile; ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -122,16 +175,16 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                     <h4 class="card-title"><strong>Summary</strong></h4>
 
                                     <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
-                                        <h6 class="mb-0">Subtotal :</h6>
-                                        <h6 class="font-weight-bold mb-0">$236</h6>
+                                        <h6 class="mb-0">Price :</h6>
+                                        <h6 class="font-weight-bold mb-0"><?php echo number_format($total_price, 0, ',', '.'); ?>đ</h6>
                                     </div>
                                     <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
                                         <h6 class="mb-0">Discount :</h6>
-                                        <h6 class="font-weight-bold mb-0 text-danger">-$59</h6>
+                                        <h6 class="font-weight-bold mb-0 text-danger">-<?php echo number_format($discount, 0, ',', '.'); ?>đ</h6>
                                     </div>
                                     <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
                                         <h6 class="mb-0">Shipping Cost :</h6>
-                                        <h6 class="font-weight-bold mb-0">$30</h6>
+                                        <h6 class="font-weight-bold mb-0"><?php echo number_format($shipping_cost, 0, ',', '.'); ?>đ</h6>
                                     </div>
 
                                     <!-- Đường gạch ngang -->
@@ -140,7 +193,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                     <!-- TOTAL -->
                                     <div class="bg-gray-dark d-flex justify-content-between py-2 px-4 rounded mt-2">
                                         <h5 class="mb-0">Total :</h5>
-                                        <h5 class="font-weight-bold mb-0">$695.20</h5>
+                                        <h5 class="font-weight-bold mb-0"><?php echo number_format($total_price - $discount + $shipping_cost, 0, ',', '.'); ?>đ</h5>
                                     </div>
                                 </div>
 
@@ -161,7 +214,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                                 <i class="mdi mdi-account-outline mr-2"></i>
                                                 <div>
                                                     <small class="font-weight-bold">Customer</small><br />
-                                                    <a href="#" class="text-blue-700">Shatinon Mekalan</a>
+                                                    <a href="#" class="text-blue-700"><?php echo htmlspecialchars($order_data['uname']); ?></a>
                                                 </div>
                                             </div>
 
@@ -169,7 +222,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                                 <i class="mdi mdi-email-outline mr-2"></i>
                                                 <div>
                                                     <small class="font-weight-bold">Email</small><br />
-                                                    <span class="text-blue-700">shatinon@jeemail.com</span>
+                                                    <span class="text-blue-700"><?php echo htmlspecialchars($order_data['email']); ?></span>
                                                 </div>
                                             </div>
 
@@ -177,7 +230,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                                 <i class="mdi mdi-phone-outline mr-2"></i>
                                                 <div>
                                                     <small class="font-weight-bold">Phone</small><br />
-                                                    <span class="text-blue-700">+1234567890</span>
+                                                    <span class="text-blue-700"><?php echo htmlspecialchars($order_data['phonenumber']); ?></span>
                                                 </div>
                                             </div>
 
@@ -185,8 +238,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                                 <i class="mdi mdi-home-outline mr-2"></i>
                                                 <div>
                                                     <small class="font-weight-bold">Address</small><br />
-                                                    <span class="text-white">Shatinon Mekalan<br />Vancouver, British
-                                                        Columbia,<br />Canada</span>
+                                                    <span class="text-white"><?php echo nl2br(htmlspecialchars($order_data['address'])); ?></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -198,7 +250,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                                 <i class="mdi mdi-email-outline mr-2"></i>
                                                 <div>
                                                     <small class="font-weight-bold">Email</small><br />
-                                                    <span class="text-blue-700">shatinon@jeemail.com</span>
+                                                    <span class="text-blue-700"><?php echo htmlspecialchars($order_data['email']); ?></span>
                                                 </div>
                                             </div>
 
@@ -206,7 +258,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                                 <i class="mdi mdi-phone-outline mr-2"></i>
                                                 <div>
                                                     <small class="font-weight-bold">Phone</small><br />
-                                                    <span class="text-blue-700">+1234567890</span>
+                                                    <span class="text-blue-700"><?php echo htmlspecialchars($order_data['phonenumber']); ?></span>
                                                 </div>
                                             </div>
 
@@ -214,7 +266,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                                 <i class="mdi mdi-calendar-blank-outline mr-2"></i>
                                                 <div>
                                                     <small class="font-weight-bold">Shipping Date</small><br />
-                                                    <span class="text-white">12 Nov, 2021</span>
+                                                    <span class="text-white"><?php echo date('d M, Y', strtotime($order_data['shipping_date'])); ?></span>
                                                 </div>
                                             </div>
 
@@ -222,8 +274,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                                 <i class="mdi mdi-home-outline mr-2"></i>
                                                 <div>
                                                     <small class="font-weight-bold">Address</small><br />
-                                                    <span class="text-white">Shatinon Mekalan<br />Vancouver, British
-                                                        Columbia<br />Canada</span>
+                                                    <span class="text-white"><?php echo nl2br(htmlspecialchars($order_data['address'])); ?></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -238,29 +289,27 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                     <h4 class="font-weight-bold card-title">Order Summary</h4>
                                     <div class="form-group">
                                         <label class="font-weight-bold">Order Status</label>
-                                        <select id="destatus" class="custom-select-box">
-                                            <option value="processing">Processing</option>
-                                            <option value="cancel">Cancel</option>
-                                            <option value="completed">Completed</option>
-
+                                        <select id="orderStatus" class="custom-select-box">
+                                            <option value="Pending" <?php echo $order_data['destatus'] == 'Pending' ? 'selected' : ''; ?>>Pending</option>
+                                            <option value="Confirmed" <?php echo $order_data['destatus'] == 'Confirmed' ? 'selected' : ''; ?>>Confirmed</option>
+                                            <option value="Shipping" <?php echo $order_data['destatus'] == 'Shipping' ? 'selected' : ''; ?>>Shipping</option>
+                                            <option value="Cancelled" <?php echo $order_data['destatus'] == 'Cancelled' ? 'selected' : ''; ?>>Cancelled</option>
+                                            <option value="Return" <?php echo $order_data['destatus'] == 'Return' ? 'selected' : ''; ?>>Return</option>
+                                            <option value="Delivered" <?php echo $order_data['destatus'] == 'Delivered' ? 'selected' : ''; ?>>Delivered</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-weight-bold">Payment Status</label>
-                                        <select id="destatus" class="custom-select-box">
-                                            <option value="processing">Processing</option>
-                                            <option value="cancel">Cancel</option>
-                                            <option value="completed">Completed</option>
-
+                                        <select id="paymentStatus" class="custom-select-box">
+                                            <option value="Pending" <?php echo $order_data['paystatus'] == 'Pending' ? 'selected' : ''; ?>>Pending</option>
+                                            <option value="Paid" <?php echo $order_data['paystatus'] == 'Paid' ? 'selected' : ''; ?>>Paid</option>
+                                            <option value="Awaiting refund" <?php echo $order_data['paystatus'] == 'Awaiting refund' ? 'selected' : ''; ?>>Awaiting refund</option>
+                                            <option value="Refunded" <?php echo $order_data['paystatus'] == 'Refunded' ? 'selected' : ''; ?>>Refunded</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-weight-bold">Payment Method</label>
-                                        <select id="paystatus" class="custom-select-box">
-                                            <option value="unfulfilled">Unfulfilled</option>
-                                            <option value="fulfilled">Fulfilled</option>
-                                            <option value="pending">Pending</option>
-                                        </select>
+                                        <div class="text-white"><?php echo htmlspecialchars($order_data['paymethod']); ?></div>
                                     </div>
                                 </div>
 
@@ -296,7 +345,52 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
     <script src="../../template/assets/vendors/chart.js/Chart.min.js"></script>
     <script src="../../template/assets/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="../../template/assets/js/misc.js"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const orderStatus = document.getElementById('orderStatus');
+        const paymentStatus = document.getElementById('paymentStatus');
+        const oid = <?php echo json_encode($oid); ?>;
 
+        async function updateStatus(field, value) {
+            try {
+                const response = await fetch('update_order_status.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        oid: oid,
+                        field: field,
+                        value: value
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Show success message
+                    alert('Status updated successfully');
+                } else {
+                    // Show error message
+                    alert('Error updating status: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error updating status');
+            }
+        }
+
+        // Add event listeners for status changes
+        orderStatus.addEventListener('change', function() {
+            updateStatus('destatus', this.value);
+        });
+
+        paymentStatus.addEventListener('change', function() {
+            updateStatus('paystatus', this.value);
+        });
+    });
+    </script>
 </body>
 
 </html>
