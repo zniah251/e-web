@@ -145,14 +145,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
 
-        /* Spacing */
-        .p-6 { padding: 1.5rem; }
-        .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
-        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+       /* Spacing */
+       .p-6 { padding: 1.5rem; }
+        .p-3 { padding: 0.75rem; }
         .mb-6 { margin-bottom: 1.5rem; }
-        .mb-4 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
         .mb-2 { margin-bottom: 0.5rem; }
-        .space-x-4 > * + * { margin-left: 1rem; }
+        .mb-1 { margin-bottom: 0.25rem; }
 
         /* Typography */
         .text-2xl { font-size: 1.5rem; }

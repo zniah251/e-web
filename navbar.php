@@ -176,7 +176,7 @@ $user_icon_svg = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/e-web/user/icon
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="/e-web/user/blog.php">Blog</a>
+                <a class="nav-link" href="/e-web/user/page/blog/blog.php">Blog</a>
               </li>
             </ul>
           </div>

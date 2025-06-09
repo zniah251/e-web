@@ -23,8 +23,12 @@ function safe_query_count($conn, $query, $key = 'total', $default = 0)
     <<link rel="stylesheet" href="../../../admin/template/assets/vendors/mdi/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="../../../admin/template/assets/vendors/css/vendor.bundle.base.css">
         <link rel="stylesheet" href="../../../admin/template/assets/css/style.css">
+         <link rel="stylesheet" href="../../template/assets/vendors/jvectormap/jquery-jvectormap.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Thêm vào trước thẻ </body> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js"></script>
 </head>
 <style>
     .body {
@@ -321,5 +325,6 @@ function safe_query_count($conn, $query, $key = 'total', $default = 0)
         </div>
     </div>
 </body>
+<script src="../../template/assets/vendors/js/vendor.bundle.base.js"></script>
 
 </html>
