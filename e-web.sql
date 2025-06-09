@@ -274,7 +274,7 @@ CREATE TABLE `voucher` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `voucher`(`vid`, `name`, `discount`, `minprice`, `expiry`) VALUES ('1','Free Shipping', '30.00', '300000.00', '2025-12-31');
-INSERT INTO `voucher`(`vid`, `name`, `discount`, `minprice`, `expiry`) VALUES ('2','Discount 10%', '50.00', '300000.00', '2025-12-31');
+INSERT INTO `voucher`(`vid`, `name`, `discount`, `minprice`, `expiry`) VALUES ('2','Discount', '50.00', '300000.00', '2025-12-31');
 -- --------------------------------------------------------
 
 --
@@ -721,3 +721,22 @@ ALTER TABLE users
 ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER created_at;
 ALTER TABLE users
 ADD COLUMN email_verified TINYINT(1) DEFAULT 0 AFTER updated_at;
+
+ALTER TABLE `user_voucher`
+  ADD CONSTRAINT `uid_FK` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`),
+  ADD CONSTRAINT `v_FK` FOREIGN KEY (`vid`) REFERENCES `voucher` (`vid`);
+COMMIT;
+
+
+ALTER TABLE `user_voucher`
+  ADD PRIMARY KEY (`uvid`),
+  ADD KEY `v_FK` (`vid`),
+  ADD KEY `uid_FK` (`uid`);
+
+  ALTER TABLE `user_voucher`
+  MODIFY `uvid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+ALTER TABLE `user_voucher`
+  ADD CONSTRAINT `uid_FK` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`),
+  ADD CONSTRAINT `v_FK` FOREIGN KEY (`vid`) REFERENCES `voucher` (`vid`);
+COMMIT;
