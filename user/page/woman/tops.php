@@ -21,7 +21,7 @@ $stmt_cat->close();
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đầm Nữ</title>
+    <title>Tops Nữ</title>
        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../../../user/css/vendor.css">
@@ -129,7 +129,7 @@ $stmt_cat->close();
                                 <img src="<?= $img_url ?>" class="w-10 h-10 border rounded object-cover" />
                             </div>
                             <a href="/e-web/user/page/product_detail/product_detail.php?pid=<?= htmlspecialchars($row['pid']) ?>" class="btn-primary mb-2 text-center">Mua ngay</a>
-                            <button class="border py-2 rounded-full hover:bg-gray-200">Thêm vào giỏ</button>
+                            <a href="/e-web/user/page/product_detail/product_detail.php?pid=<?= htmlspecialchars($row['pid']) ?>" class="border py-2 rounded-full hover:bg-gray-200 block text-center">Thêm vào giỏ</a>
                         </div>
                     </div>
             <?php

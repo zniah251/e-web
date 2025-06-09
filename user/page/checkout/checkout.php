@@ -4,6 +4,7 @@ $cart_items = $_SESSION['cart'] ?? [];
 ?>
 <?php
 require_once("../../../connect.php");
+$voucherData = null;
 
 // Load danh sách voucher
 $voucherList = [];
@@ -25,6 +26,8 @@ $voucherName = $_POST['voucher'] ?? $_GET['voucher'] ?? '';
 $shipping = 30000;
 $discount = 0;
 
+$voucherMessage = '';
+
 if ($voucherName !== '') {
   $stmt = $conn->prepare("SELECT * FROM voucher WHERE name = ?");
   $stmt->bind_param("s", $voucherName);
@@ -32,17 +35,25 @@ if ($voucherName !== '') {
   $voucherData = $stmt->get_result()->fetch_assoc();
   $stmt->close();
 
- if ($voucherData && $total >= $voucherData['minprice']) {
-    if (strtolower(trim($voucherData['name'])) === 'free shipping') {
-        $shipping = 0; // Miễn phí giao hàng
+if ($voucherData) {
+    if ($total >= $voucherData['minprice']) {
+      if (strtolower(trim($voucherData['name'])) === 'free shipping') {
+          $shipping = 0;
+      } else {
+          $discount = $total * ($voucherData['discount'] / 100);
+      }
     } else {
-        $discount = $total * ($voucherData['discount'] / 100); // Giảm giá %
+      $voucherMessage = "Đơn hàng của bạn chưa đạt tối thiểu " 
+        . number_format($voucherData['minprice'], 0, ',', '.') 
+        . "đ để áp dụng mã <strong>" . htmlspecialchars($voucherData['name']) . "</strong>.";
+      $voucherName = ''; // Huỷ mã không hợp lệ
     }
+  }
 }
 
-}
 
 $total_final = $total + $shipping - $discount;
+
 ?>
 
 <!DOCTYPE html>
@@ -134,13 +145,20 @@ input[type="radio"]:checked + label img {
     <form action="create_order.php" method="POST">
       <div class="form-section">
         <h5>Thông tin giao hàng</h5>
-        <input type="text" name="fullname" placeholder="Họ và tên" class="form-control mb-3" required>
-        <input type="text" name="address" placeholder="Địa chỉ" class="form-control mb-3" required>
-        <input type="tel" name="phone" placeholder="Số điện thoại" class="form-control" required>
+        <input type="text" name="fullname" placeholder="Họ và tên" class="form-control mb-3" required value="<?= htmlspecialchars($_GET['fullname'] ?? '') ?>">
+        <input type="text" name="address" placeholder="Địa chỉ" class="form-control mb-3" required value="<?= htmlspecialchars($_GET['address'] ?? '') ?>">
+        <input type="tel" name="phone" placeholder="Số điện thoại" class="form-control" required value="<?= htmlspecialchars($_GET['phone'] ?? '') ?>">
       </div>
       <div class="form-section">
   <h5>Mã giảm giá</h5>
   <button type="button" class="btn btn-outline-secondary mb-2" id="btn-choose-voucher">Chọn mã giảm giá</button>
+ <?php if (!empty($voucherMessage)): ?>
+  <div class="alert alert-warning mt-2">
+    <?= $voucherMessage ?>
+  </div>
+<?php endif; ?>
+
+
   <div id="selected-voucher" class="mb-2 text-success fw-bold"></div>
   <input type="hidden" name="voucher" id="voucher-hidden" value="<?= htmlspecialchars($voucherName) ?>">
   <div id="voucher-list" class="border p-3 rounded bg-light" style="display: none;">
@@ -254,7 +272,18 @@ confirmBtn.addEventListener('click', function () {
   if (checked) {
     const voucher = checked.value;
     // Gửi lại trang để server tính toán giảm giá
-    window.location.href = window.location.pathname + '?voucher=' + encodeURIComponent(voucher);
+    const fullname = document.querySelector('input[name="fullname"]').value;
+const address = document.querySelector('input[name="address"]').value;
+const phone = document.querySelector('input[name="phone"]').value;
+
+const params = new URLSearchParams();
+params.set('voucher', voucher);
+params.set('fullname', fullname);
+params.set('address', address);
+params.set('phone', phone);
+
+window.location.href = window.location.pathname + '?' + params.toString();
+
   } else {
     alert('Vui lòng chọn 1 mã giảm giá.');
   }

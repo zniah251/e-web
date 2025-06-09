@@ -112,7 +112,7 @@ if ($conn->connect_error) {
 <body>
     <?php include('../../../navbar.php'); ?>
     <nav class="breadcrumb">
-        <a href="../../index.html">Trang chủ</a> <span class="breadcrumb-separator">&gt;</span> <span>ON SALE</span>
+        <a href="../../index.php">Trang chủ</a> <span class="breadcrumb-separator">&gt;</span> <span>ON SALE</span>
     </nav>
 
     <body>

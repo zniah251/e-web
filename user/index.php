@@ -1,4 +1,8 @@
 <?php
+session_start();
+?>
+
+<?php
 if (session_status() == PHP_SESSION_NONE) {
   session_start(); // Dòng này cần phải ở đầu file PHP, trước mọi output khác.
 }

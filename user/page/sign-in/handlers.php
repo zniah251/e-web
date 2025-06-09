@@ -1,6 +1,10 @@
 <?php
 
 session_start(); // Luôn bắt đầu session ở đầu file nếu bạn muốn sử dụng session để đăng nhập
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header('Content-Type: application/json'); // Luôn gửi phản hồi JSON
 // Cần thiết cho CORS trong phát triển, KHÔNG NÊN DÙNG * TRONG PRODUCTION! Thay bằng domain của bạn.
 // Ví dụ: header('Access-Control-Allow-Origin: http://localhost:80'); // Nếu frontend của bạn chạy trên cổng 80
@@ -99,10 +103,10 @@ if ($data['action'] === 'register') {
         http_response_code(201); // Created
 
     } catch(Exception $e) {
-        error_log("Manual registration error: " . $e->getMessage());
-        echo json_encode(['success' => false, 'message' => 'Đã xảy ra lỗi server khi đăng ký thủ công.']);
-        http_response_code(500);
-    }
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    http_response_code(500);
+}
+
 }
 // Xử lý ĐĂNG NHẬP THỦ CÔNG (PHẦN MỚI)
 // ===============================================

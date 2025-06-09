@@ -1,6 +1,15 @@
-<?php include('../../../connect.php'); ?>
-<!DOCTYPE html>
-<html lang="en">
+<?php
+// connect.php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "e-web";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
 
 <head>
   <meta charset="UTF-8" />
@@ -28,72 +37,88 @@
   <style>
     body {
             font-family: 'Times New Roman', serif;
-            /* Thêm fallback font */
         }
-    /* CSS giữ nguyên như bạn viết */
-    #blog-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: start;
-      gap: 30px;
-    }
-    h2.text-uppercase.mb-4 {
-      font-size: 28px;
-      font-weight: 600;
-      margin-bottom: 30px;
-      text-align: center;
-    }
-    .post-item {
-      max-width: 360px;
-      width: 100%;
-      background-color: #fff;
-      padding: 15px;
-      border: 1px solid #eee;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
-    }
-    .post-item:hover {
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    }
-    .post-image {
-      height: 180px;
-      overflow: hidden;
-      border-radius: 8px;
-    }
-    .post-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .post-title {
-      margin-top: 10px;
-      font-size: 20px;
-      font-weight: 600;
-      color: #333;
-    }
-    .post-title a {
-      text-decoration: none;
-      color: inherit;
-    }
-    .post-title a:hover {
-      color: #7e57c2;
-    }
-    .post-meta {
-      font-size: 14px;
-      color: #888;
-      margin-top: 10px;
-    }
-    .post-content p {
-      font-size: 15px;
-      color: #444;
-      margin-top: 8px;
-      line-height: 1.5;
-    }
-  </style>
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: 'Times New Roman', Times, serif !important;
+            /* Sử dụng font Times New Roman cho tiêu đề */
+        }
+
+        .container_onsale {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .onsale-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .onsale-header span {
+            display: inline-block;
+            background-color: #d70018;
+            color: white;
+            font-size: 20px;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .sort-filter {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .sort-filter label {
+            margin-right: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .sort-filter select {
+            padding: 8px 12px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .empty-sale {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .empty-sale img {
+            max-width: 250px;
+            margin-bottom: 30px;
+        }
+
+        .empty-sale h3 {
+            font-weight: bold;
+            font-size: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .empty-sale p {
+            font-size: 15px;
+            color: #444;
+        }
+    </style>
 </head>
+
 <body>
-  <?php include('../../../navbar.php'); ?>
+    <?php include('../../../navbar.php'); ?>
+    <nav class="breadcrumb">
+        <a href="../../index.php">Trang chủ</a> <span class="breadcrumb-separator">&gt;</span> <span>Blog</span>
+    </nav>
   <div class="container">
     <div class="row justify-content-center" id="blog-container">
       <?php
@@ -110,5 +135,6 @@
     </div>
   </div>
 </body>
-<?php include('../../../footer.php'); ?>
+      
+    <?php include('../../../footer.php'); ?>
 </html>
