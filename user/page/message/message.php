@@ -194,26 +194,36 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
       document.getElementById('chat-body').scrollTop = 9999;
     }
 
-    function respondBot(userText) {
-      let response = 'Cảm ơn bạn đã nhắn tin, nhưng điều này nằm ngoài phạm vi trả lời của mình! Liên hệ fanpage, instagram, email contact@kairashop.com hoặc gọi hotline: 0901 234 567 để được giải đáp chi tiết nhé!';
-      const lower = userText.toLowerCase();
+    async function respondBot(userText) {
+      // Hiển thị một tin nhắn tạm thời (tùy chọn)
+      // appendMessage('Bot đang soạn tin...', 'bot');
 
-      if (lower.includes('khuyến mãi') || lower.includes('ưu đãi') || lower.includes('giảm giá') || lower.includes('sale')) {
-        response = 'Hiện tại shop chưa triển khai các chương trình khuyến mãi. Nhưng có sẵn các voucher freeship và discount 50k/đơn hàng từ 300k vô cùng hấp dẫn. \n Bạn có thể xem chi tiết ở trang chủ, lưu voucher và sử dụng ngay, đừng bỏ lỡ cơ hội này nhé!';
-      } else if (lower.includes('giao hàng') || lower.includes('thời gian ship')) {
-        response = 'Thời gian giao hàng sẽ dao động từ 2 - 5 ngày tùy khu vực trên toàn quốc nhé!';
-      } else if (lower.includes('đổi') || lower.includes('trả') || lower.includes('giao nhầm') || lower.includes('bị lỗi') || lower.includes('sai sản phẩm')) {
-        response = 'Bạn có thể liên hệ đổi/trả trong vòng 7 ngày với điều kiện sản phẩm có lỗi/giao nhầm. Nhớ quay video unbox giúp mình nhé!';
-      } else if (lower.includes('liên hệ') || lower.includes('số điện thoại') || lower.includes('gmail')) {
-        response = 'Bạn có thể liên hệ qua fanpage, instagram, email contact@kairashop.com hoặc gọi hotline: 0901 234 567. Thông tin liên hệ đầy đủ ở cuối trang web bạn nhé!';
-      } else if (lower.includes('phí ship') || lower.includes('giao hàng tận nơi') || lower.includes('phí giao')) {
-        response = 'Phí ship sẽ là 30.000đ/đơn hàng nha.';
-      } else if (lower.includes('có sẵn') || lower.includes('màu') || lower.includes('size') || lower.includes('còn hàng') || lower.includes('sẵn hàng')) {
-        response = 'Chào bạn, tất cả thông tin về số lượng sẵn có của sản phẩm, màu sắc và size đều hiển thị chi tiết trong phần "xem chi tiết sản phẩm". \n Nếu còn thắc mắc gì thêm hãy hỏi mình nhé!';
-      } else if (lower.includes('kiểm tra trước khi nhận') || lower.includes('kiểm tra rồi mới nhận') || lower.includes('kiểm tra trước khi lấy') || lower.includes('kiểm tra rồi mới lấy') || lower.includes('kiểm tra sản phẩm')) {
-        response = 'Được kiểm tra sản phẩm trước khi nhận, nếu có sai sót hay nhầm lẫn bạn có thể gửi lại cho shipper để thực hiện đổi/trả. Nhưng vui lòng không thử đồ (mặc vào) nhé, cảm ơn bạn!';
+      try {
+        // Gửi tin nhắn của người dùng đến backend
+        const response = await fetch('http://localhost:3000/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: userText }),
+        });
+
+        if (!response.ok) {
+           throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        const botReply = data.reply;
+        
+        // Hiển thị câu trả lời từ Gemini
+        appendMessage(botReply, 'bot');
+
+      } catch (error) {
+        console.error('Fetch error:', error);
+        // Xử lý lỗi: hiển thị một tin nhắn mặc định
+        const errorMessage = 'Xin lỗi, mình đang gặp chút sự cố. Bạn có thể liên hệ hotline: 0901 234 567 để được hỗ trợ ngay nhé!';
+        appendMessage(errorMessage, 'bot');
       }
-      setTimeout(() => appendMessage(response, 'bot'), 500);
     }
 
     function handleKey(event) {
