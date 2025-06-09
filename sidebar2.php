@@ -83,7 +83,7 @@ h2, h3, h6 {
         <a href="/e-web/user/page/users/info.php" class="list-group-item list-group-item-action" data-path="info.php">
             <i class="fas fa-user"></i> Thông tin tài khoản
         </a>
-        <a href="/e-web/user/page/vouchers/index.php" class="list-group-item list-group-item-action" data-path="vouchers.php">
+        <a href="/e-web/user/page/users/voucher.php" class="list-group-item list-group-item-action" data-path="vouchers.php">
             <i class="fas fa-ticket-alt"></i> Ví voucher
         </a>
         <a href="/e-web/user/page/sign-in/logout.php" class="list-group-item list-group-item-action" data-path="logout.php">
