@@ -509,13 +509,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_product'])) {
                                             <input type="text" class="form-control" id="discount" name="discount"
                                                 placeholder="Discounted Price">
                                         </div>
-                                        <div class="form-group d-flex align-items-center justify-content-between" style="margin-top: 24px; border-top: 1px solid #eee; padding-top: 16px;">
-                                            <label for="exampleInputName1" style="margin-bottom:0;">In stock</label>
-                                            <label class="switch" style="margin-bottom:0;">
-                                                <input type="checkbox" checked>
-                                                <span class="slider"></span>
-                                            </label>
-                                        </div>
 
                                     </div>
                                 </div>

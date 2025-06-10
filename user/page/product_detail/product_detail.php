@@ -361,21 +361,48 @@ $product = $result->fetch_assoc();
                                     method: "POST",
                                     body: formData
                                 })
-                                .then(res => res.text())
-                                .then(() => {
-                                    // Hiện thông báo thành công
+                                .then(res => res.json())  // Parse JSON response
+                                .then((data) => {
+                                    // Lấy toast element
                                     const toast = document.getElementById("cart-success-toast");
+                                    const toastMessage = toast.querySelector("span:last-child");
+                                    const checkIcon = toast.querySelector("svg");
+                                    
+                                    // Cập nhật nội dung và style dựa vào response
+                                    if (data.success) {
+                                        toastMessage.textContent = "Đã thêm vào giỏ hàng!";
+                                        toast.querySelector("span:first-child").style.background = "#4ade80";
+                                        checkIcon.style.display = "block";
+                                    } else {
+                                        toastMessage.textContent = data.message;
+                                        toast.querySelector("span:first-child").style.background = "#ef4444";
+                                        checkIcon.style.display = "none";
+                                    }
+                                    
+                                    // Hiển thị toast
                                     toast.style.display = "block";
                                     setTimeout(() => {
                                         toast.style.display = "none";
-                                    }, 2000);
+                                    }, 3000);
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    const toast = document.getElementById("cart-success-toast");
+                                    const toastMessage = toast.querySelector("span:last-child");
+                                    toast.querySelector("span:first-child").style.background = "#ef4444";
+                                    toast.querySelector("svg").style.display = "none";
+                                    toastMessage.textContent = "Đã xảy ra lỗi khi thêm vào giỏ hàng";
+                                    toast.style.display = "block";
+                                    setTimeout(() => {
+                                        toast.style.display = "none";
+                                    }, 3000);
                                 });
                         });
                     });
                 </script>
                 <!-- Thông báo thêm vào giỏ hàng -->
                 <div id="cart-success-toast" style="display:none;position:fixed;top:32px;right:32px;z-index:9999;">
-                    <div style="display:flex;align-items:center;gap:12px;background:#fff;padding:16px 24px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.08);font-size:1.2rem;font-weight:500;">
+                    <div style="display:flex;align-items:center;gap:12px;background:#fff;padding:16px 24px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.08);font-size:1.2rem;font-weight:500;max-width:400px;">
                         <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#4ade80;border-radius:50%;">
                             <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
                                 <path d="M5 13l4 4L19 7" />

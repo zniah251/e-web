@@ -83,6 +83,18 @@ try {
         $stmt->execute();
     }
     
+    // Update product stock and sold quantities
+    $stmt = $conn->prepare("UPDATE product SET stock = stock - ?, sold = sold + ? WHERE pid = ?");
+    
+    foreach ($products as $product) {
+        $stmt->bind_param("iii",
+            $product['quantity'],
+            $product['quantity'],
+            $product['pid']
+        );
+        $stmt->execute();
+    }
+    
     // Commit transaction
     $conn->commit();
     

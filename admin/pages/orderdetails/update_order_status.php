@@ -50,6 +50,31 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("si", $value, $oid);
 
 if ($stmt->execute()) {
+    // If order status is being changed to Cancelled
+    if ($field === 'destatus' && $value === 'Cancelled') {
+        // Get all products from the cancelled order
+        $getProductsQuery = "SELECT od.pid, od.quantity, p.stock, p.sold 
+                            FROM order_detail od 
+                            JOIN product p ON od.pid = p.pid 
+                            WHERE od.oid = ?";
+        $stmt = $conn->prepare($getProductsQuery);
+        $stmt->bind_param("i", $oid);
+        $stmt->execute();
+        $productsResult = $stmt->get_result();
+
+        // Update stock and sold for each product
+        while ($product = $productsResult->fetch_assoc()) {
+            $newStock = $product['stock'] + $product['quantity'];
+            $newSold = $product['sold'] - $product['quantity'];
+            
+            $updateProductQuery = "UPDATE product 
+                                 SET stock = ?, sold = ? 
+                                 WHERE pid = ?";
+            $stmt = $conn->prepare($updateProductQuery);
+            $stmt->bind_param("iii", $newStock, $newSold, $product['pid']);
+            $stmt->execute();
+        }
+    }
     echo json_encode(['success' => true]);
 } else {
     http_response_code(500);
