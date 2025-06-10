@@ -88,7 +88,7 @@ if ($data['action'] === 'register') {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Chèn dữ liệu người dùng mới vào DB
-        $stmt = $conn->prepare("INSERT INTO users (uname, email, phonenumber, password, created_at, updated_at, email_verified) VALUES (?, ?, ?, ?, NOW(), NOW(), 0)");
+        $stmt = $conn->prepare("INSERT INTO users (uname, email, phonenumber, password, created_at, updated_at, email_verified, rid) VALUES (?, ?, ?, ?, NOW(), NOW(), 0, 2)");
         $stmt->bind_param("ssss", $uname, $email, $phonenumber, $hashed_password);
         $stmt->execute();
         $new_user_id = $conn->insert_id;

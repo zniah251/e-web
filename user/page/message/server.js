@@ -89,6 +89,7 @@ app.post('/api/chat', async (req, res) => {
             - Liên hệ: email contact@kairashop.com hoặc hotline 0901 234 567.
             - Khuyến mãi: Hiện có voucher freeship và giảm 10% cho đơn từ 300k.
             - Địa chỉ: 123 Đường Lê Lợi, TP.HCM.
+            - Nếu khách hàng hỏi về giá của một sản phẩm cụ thểm hãy nhờ khách hàng xem trên website nhé, vì đã có chi tiết giá cả trên đó.
         `;
 
         const productKeywordsRegex = [
