@@ -1,4 +1,10 @@
 <?php
+session_start(); // Luôn gọi ở đầu mỗi file PHP
+$isLoggedIn = isset($_SESSION['uid']) && $_SESSION['uid'] > 0;
+$username = '';
+if ($isLoggedIn) {
+    $username = $_SESSION['username'] ?? 'Khách hàng'; // Lấy tên người dùng từ session
+}
 // connect.php
 $servername = "localhost";
 $username = "root";

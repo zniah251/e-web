@@ -96,12 +96,12 @@ CREATE TABLE `message` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-CREATE TABLE `order` (
+CREATE TABLE `orders` (
   `oid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   `totalfinal` decimal(10,2) NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `vid` int(11) NOT NULL,
+  `vid` int(11) DEFAULT NULL,
   `destatus` enum('Pending','Confirmed','Shipping','Cancelled','Return') NOT NULL DEFAULT 'Pending',
   `paymethod` enum('COD','MOMO','Bank','Smartbanking','Credit Card') DEFAULT NULL,
   `paystatus` enum('Pending','Paid', 'Awaiting refund', 'Refunded') NOT NULL DEFAULT 'Pending',
@@ -251,7 +251,7 @@ ALTER TABLE `message`
   ADD KEY `roleFK` (`role`);
 
 
-ALTER TABLE `order`
+ALTER TABLE `orders`
   ADD PRIMARY KEY (`oid`),
   ADD KEY `usFK` (`uid`),
   ADD KEY `voucherFK` (`vid`);
@@ -319,7 +319,7 @@ ALTER TABLE `message`
   MODIFY `mid` int(11) NOT NULL AUTO_INCREMENT;
 
 
-ALTER TABLE `order`
+ALTER TABLE `orders`
   MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT;
 
 
@@ -372,13 +372,13 @@ ALTER TABLE `message`
   ADD CONSTRAINT `uidFK` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`);
 
 
-ALTER TABLE `order`
+ALTER TABLE `orders`
   ADD CONSTRAINT `usFK` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`),
   ADD CONSTRAINT `voucherFK` FOREIGN KEY (`vid`) REFERENCES `voucher` (`vid`);
 
 
 ALTER TABLE `order_detail`
-  ADD CONSTRAINT `oidFK` FOREIGN KEY (`oid`) REFERENCES `order` (`oid`),
+  ADD CONSTRAINT `oidFK` FOREIGN KEY (`oid`) REFERENCES `orders` (`oid`),
   ADD CONSTRAINT `prFK` FOREIGN KEY (`pid`) REFERENCES `product` (`pid`);
 
 

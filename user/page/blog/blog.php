@@ -111,6 +111,29 @@ if ($conn->connect_error) {
             font-size: 15px;
             color: #444;
         }
+        .card {
+  border-radius: 20px !important;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  width: 90%;
+  margin: auto;
+}
+
+.card-img-top {
+  height: 260px;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.card-body h5 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+}
+
+        
+
     </style>
 </head>
 
@@ -120,19 +143,30 @@ if ($conn->connect_error) {
         <a href="../../index.php">Trang chủ</a> <span class="breadcrumb-separator">&gt;</span> <span>Blog</span>
     </nav>
   <div class="container">
-    <div class="row justify-content-center" id="blog-container">
-      <?php
-        $result = mysqli_query($conn, "SELECT * FROM blog ORDER BY created_at DESC");
-        while ($row = mysqli_fetch_assoc($result)) {
-          echo '<div class="post-item">';
-          echo '<div class="post-image"><img src="/e-web/blog/' . htmlspecialchars($row['image']) . '" alt="Blog Image"></div>';
-          echo '<div class="post-title"><a href="post.php?id=' . $row['bid'] . '">' . htmlspecialchars($row['title']) . '</a></div>';
-          echo '<div class="post-meta">Ngày đăng: ' . date('d/m/Y', strtotime($row['created_at'])) . '</div>';
-          echo '<div class="post-content"><p>' . mb_substr(strip_tags($row['content']), 0, 100) . '...</p></div>';
-          echo '</div>';
-        }
-      ?>
-    </div>
+   <div class="container py-5">
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+
+    <?php
+    $result = mysqli_query($conn, "SELECT * FROM blog ORDER BY created_at DESC");
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo '<div class="col">';
+        echo '  <div class="card h-100 shadow-sm border-0 rounded-4">';
+        echo '    <img src="/e-web/blog/' . htmlspecialchars($row['image']) . '" class="card-img-top rounded-top-4" style="height: 250px; object-fit: cover;" alt="Blog Image">';
+        echo '    <div class="card-body p-4">';
+        echo '      <h5 class="fw-bold text-dark" style="font-size: 20px;">' . htmlspecialchars($row['title']) . '</h5>';
+        echo '      <p class="text-muted mb-2" style="font-size: 14px;">' . date('d/m/Y', strtotime($row['created_at'])) . '</p>';
+        echo '      <p class="mb-3" style="font-size: 15px;">' . mb_substr(strip_tags($row['content']), 0, 100) . '...</p>';
+        echo '      <a href="post.php?id=' . $row['bid'] . '" class="text-decoration-none text-dark fw-medium">Xem thêm</a>';
+        echo '    </div>';
+        echo '  </div>';
+        echo '</div>';
+    }
+    ?>
+  </div>
+</div>
+
+</div>
+
   </div>
 </body>
       

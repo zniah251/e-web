@@ -119,8 +119,8 @@
       </a>
       <div class="collapse" id="customers-menu">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">All users</a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Customers</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/e-web/admin/pages/customers/alluser.php">All users</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/e-web/admin/pages/customers/customers.php">Customers</a></li>
         </ul>
       </div>
     </li>
@@ -135,7 +135,7 @@
       <div class="collapse" id="manage-menu">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Manage Review</a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Manage Blog</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/e-web/admin/pages/blog/blog.php">Manage Blog</a></li>
         </ul>
       </div>
     </li>
