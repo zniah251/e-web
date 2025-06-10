@@ -34,9 +34,15 @@ try {
     $types = "i";
 
     if ($status !== 'all' && $status !== 'All') {
-        $sql_orders .= " AND destatus = ?";
-        $params[] = $status;
-        $types .= "s";
+        if ($status === 'PendingPaid') {
+            $sql_orders .= " AND destatus = 'Pending' AND paystatus = 'Paid'";
+        } else if ($status === 'Confirmed') {
+            $sql_orders .= " AND destatus = 'Confirmed' AND paystatus = 'Paid'";
+        } else {
+            $sql_orders .= " AND destatus = ?";
+            $params[] = $status;
+            $types .= "s";
+        }
     }
 
     if ($fromDate && $toDate) {

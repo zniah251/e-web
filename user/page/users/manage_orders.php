@@ -206,6 +206,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                 <div class="flex space-x-6 status-tabs-wrapper">
                     <div class="status-tab active" data-status="All">Tất cả (<span class="order-count">0</span>)</div>
                     <div class="status-tab" data-status="Pending">Chờ xác nhận (<span class="order-count">0</span>)</div>
+                    <div class="status-tab" data-status="PendingPaid">Đã thanh toán (<span class="order-count">0</span>)</div>
                     <div class="status-tab" data-status="Confirmed">Chờ lấy hàng (<span class="order-count">0</span>)</div>
                     <div class="status-tab" data-status="Shipping">Đang giao (<span class="order-count">0</span>)</div>
                     <div class="status-tab" data-status="Delivered">Đã giao (<span class="order-count">0</span>)</div>
@@ -226,151 +227,168 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
     <?php include('../../../footer.php'); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const statusTabs = document.querySelectorAll('.status-tab');
-        const orderListContent = document.getElementById('order-list-content');
-        const actualOrderList = document.getElementById('actual-order-list');
-        const backToHomeButton = document.querySelector('#order-list-content button');
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusTabs = document.querySelectorAll('.status-tab');
+            const orderListContent = document.getElementById('order-list-content');
+            const actualOrderList = document.getElementById('actual-order-list');
+            const backToHomeButton = document.querySelector('#order-list-content button');
 
-        // Hàm helper để định dạng tiền tệ
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-        }
-
-        // Hàm helper để lấy class Tailwind cho badge trạng thái
-        function getStatusBadgeClass(status) {
-            switch (status) {
-                case 'Pending':
-                    return 'bg-blue-100 text-blue-800';
-                case 'Confirmed':
-                    return 'bg-yellow-100 text-yellow-800';
-                case 'Shipping':
-                    return 'bg-purple-100 text-purple-800';
-                case 'Delivered':
-                    return 'bg-green-100 text-green-800';
-                case 'Cancelled':
-                    return 'bg-red-100 text-red-800';
-                case 'Return':
-                    return 'bg-orange-100 text-orange-800';
-                default:
-                    return 'bg-gray-100 text-gray-800';
+            // Hàm helper để định dạng tiền tệ
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(amount);
             }
-        }
 
-        // Hàm helper để hiển thị tên trạng thái tiếng Việt
-        function getDisplayStatus(status) {
-            switch (status) {
-                case 'Pending':
-                    return 'Chờ xác nhận';
-                case 'Confirmed':
-                    return 'Đã xác nhận';
-                case 'Shipping':
-                    return 'Đang giao';
-                case 'Delivered':
-                    return 'Đã giao';
-                case 'Cancelled':
-                    return 'Đã hủy';
-                case 'Return':
-                    return 'Đã hoàn trả';
-                default:
-                    return status;
+            // Hàm helper để lấy class Tailwind cho badge trạng thái
+            function getStatusBadgeClass(status) {
+                switch (status) {
+                    case 'Pending':
+                        return 'bg-blue-100 text-blue-800';
+                    case 'Confirmed':
+                        return 'bg-yellow-100 text-yellow-800';
+                    case 'Shipping':
+                        return 'bg-purple-100 text-purple-800';
+                    case 'Delivered':
+                        return 'bg-green-100 text-green-800';
+                    case 'Cancelled':
+                        return 'bg-red-100 text-red-800';
+                    case 'Return':
+                        return 'bg-orange-100 text-orange-800';
+                    default:
+                        return 'bg-gray-100 text-gray-800';
+                }
             }
-        }
+            // Hàm helper để hiển thị tên trạng thái tiếng Việt cho paystatus
+            function getDisplayPayStatus(paystatus) {
+                switch (paystatus) {
+                    case 'Pending':
+                        return 'Chờ thanh toán';
+                    case 'Paid':
+                        return 'Đã thanh toán';
+                    case 'Awaiting refund':
+                        return 'Chờ hoàn tiền';
+                    case 'Refunded':
+                        return 'Đã hoàn tiền';
+                    default:
+                        return paystatus; // Trả về trạng thái gốc nếu không khớp
+                }
+            }
+            // Hàm helper để hiển thị tên trạng thái tiếng Việt
+            function getDisplayStatus(status) {
+                switch (status) {
+                    case 'Pending':
+                        return 'Chờ xác nhận';
+                    case 'Confirmed':
+                        return 'Đã xác nhận';
+                    case 'Shipping':
+                        return 'Đang giao';
+                    case 'Delivered':
+                        return 'Đã giao';
+                    case 'Cancelled':
+                        return 'Đã hủy';
+                    case 'Return':
+                        return 'Đã hoàn trả';
+                    default:
+                        return status;
+                }
+            }
 
-        // Thêm hàm mới để cập nhật số lượng đơn hàng cho mỗi tab
-        async function updateOrderCounts() {
-            try {
-                const statuses = ['All', 'Pending', 'Confirmed', 'Shipping', 'Delivered', 'Cancelled', 'Return'];
-                
-                for (const status of statuses) {
-                    const url = `/e-web/user/page/ajax_handlers/fetch_order.php?status=${status}`;
-                    const response = await fetch(url);
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        const tab = document.querySelector(`.status-tab[data-status="${status}"]`);
-                        if (tab) {
-                            const countSpan = tab.querySelector('.order-count');
-                            if (countSpan) {
-                                countSpan.textContent = data.orders.length;
+            // Thêm hàm mới để cập nhật số lượng đơn hàng cho mỗi tab
+            async function updateOrderCounts() {
+                try {
+                    const statuses = ['All', 'Pending', 'PendingPaid', 'Confirmed', 'Shipping', 'Delivered', 'Cancelled', 'Return'];
+
+                    for (const status of statuses) {
+                        const url = `/e-web/user/page/ajax_handlers/fetch_order.php?status=${status}`;
+                        const response = await fetch(url);
+                        const data = await response.json();
+
+                        if (data.success) {
+                            const tab = document.querySelector(`.status-tab[data-status="${status}"]`);
+                            if (tab) {
+                                const countSpan = tab.querySelector('.order-count');
+                                if (countSpan) {
+                                    countSpan.textContent = data.orders.length;
+                                }
                             }
                         }
                     }
+                } catch (error) {
+                    console.error('Error updating order counts:', error);
                 }
-            } catch (error) {
-                console.error('Error updating order counts:', error);
             }
-        }
 
-        // Gọi hàm cập nhật số lượng khi trang được load
-        updateOrderCounts();
+            // Gọi hàm cập nhật số lượng khi trang được load
+            updateOrderCounts();
 
-        // Event listener cho các tab trạng thái
-        statusTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                statusTabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
+            // Event listener cho các tab trạng thái
+            statusTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    statusTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
 
-                const selectedStatus = this.dataset.status;
-                fetchAndDisplayOrders(selectedStatus);
-            });
-        });
-
-        // Event listener cho nút quay về trang chủ
-        if (backToHomeButton) {
-            backToHomeButton.addEventListener('click', function() {
-                window.location.href = '/e-web/user/index.php';
-            });
-        }
-
-        // Hàm helper để xử lý đường dẫn thumbnail
-        function processThumbnailPath(thumbnail) {
-            // Nếu đường dẫn bắt đầu bằng 'admin/assets/images/', loại bỏ phần đó
-            if (thumbnail.startsWith('admin/assets/images/')) {
-                thumbnail = thumbnail.substring('admin/assets/images/'.length);
-            }
-            // Trả về đường dẫn đầy đủ và đã được encode
-            return '/e-web/admin/assets/images/' + encodeURIComponent(thumbnail);
-        }
-
-        // Hàm để lấy và hiển thị đơn hàng
-        async function fetchAndDisplayOrders(status) {
-            actualOrderList.innerHTML = '';
-            orderListContent.classList.add('hidden');
-
-            try {
-                let url = `/e-web/user/page/ajax_handlers/fetch_order.php?status=${status}`;
-
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    const selectedStatus = this.dataset.status;
+                    fetchAndDisplayOrders(selectedStatus);
                 });
+            });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            // Event listener cho nút quay về trang chủ
+            if (backToHomeButton) {
+                backToHomeButton.addEventListener('click', function() {
+                    window.location.href = '/e-web/user/index.php';
+                });
+            }
+
+            // Hàm helper để xử lý đường dẫn thumbnail
+            function processThumbnailPath(thumbnail) {
+                // Nếu đường dẫn bắt đầu bằng 'admin/assets/images/', loại bỏ phần đó
+                if (thumbnail.startsWith('admin/assets/images/')) {
+                    thumbnail = thumbnail.substring('admin/assets/images/'.length);
                 }
+                // Trả về đường dẫn đầy đủ và đã được encode
+                return '/e-web/admin/assets/images/' + encodeURIComponent(thumbnail);
+            }
 
-                const data = await response.json();
-                console.log('Orders data:', data);
+            // Hàm để lấy và hiển thị đơn hàng
+            async function fetchAndDisplayOrders(status) {
+                actualOrderList.innerHTML = '';
+                orderListContent.classList.add('hidden');
 
-                if (data.success && data.orders.length > 0) {
-                    actualOrderList.classList.remove('hidden');
+                try {
+                    let url = `/e-web/user/page/ajax_handlers/fetch_order.php?status=${status}`;
 
-                    data.orders.forEach(order => {
-                        let productsHtml = '';
-                        let totalProductsInOrder = 0;
-                        order.products.forEach(product => {
-                            totalProductsInOrder += product.quantity;
-                            const displayPrice = formatCurrency(product.item_price_at_order);
-                            const originalPrice = formatCurrency(product.product_original_price);
-                            const hasDiscount = product.discount_percentage > 0;
-                            
-                            // Xử lý đường dẫn thumbnail
-                            const thumbnailUrl = processThumbnailPath(product.thumbnail);
-                            
-                            productsHtml += `
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Orders data:', data);
+
+                    if (data.success && data.orders.length > 0) {
+                        actualOrderList.classList.remove('hidden');
+
+                        data.orders.forEach(order => {
+                            let productsHtml = '';
+                            let totalProductsInOrder = 0;
+                            order.products.forEach(product => {
+                                totalProductsInOrder += product.quantity;
+                                const displayPrice = formatCurrency(product.item_price_at_order);
+                                const originalPrice = formatCurrency(product.product_original_price);
+                                const hasDiscount = product.discount_percentage > 0;
+
+                                // Xử lý đường dẫn thumbnail
+                                const thumbnailUrl = processThumbnailPath(product.thumbnail);
+
+                                productsHtml += `
                                 <div class="product-item flex items-center gap-4 mb-3">
                                     <div class="flex-shrink-0" style="width: 100px; height: 100px;">
                                         <img src="${thumbnailUrl}" 
@@ -392,15 +410,16 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                     <p class="font-semibold text-gray-800 product-subtotal">${formatCurrency(product.item_price_at_order * product.quantity)}</p>
                                 </div>
                             `;
-                        });
+                            });
 
-                        const orderHtml = `
+                            const orderHtml = `
                             <div class="order-item-container bg-white p-4 rounded-lg shadow-sm mb-4 border border-gray-200">
                                 <div class="flex justify-between items-center mb-3 pb-3 border-b border-gray-200">
                                     <span class="text-sm font-semibold text-gray-700">Đơn hàng #<span class="order-id">${order.oid}</span></span>
                                     <div class="flex items-center space-x-2">
                                         <span class="text-xs text-gray-500 order-date">${new Date(order.create_at).toLocaleDateString('vi-VN')}</span>
                                         <span class="px-2 py-1 text-xs font-semibold rounded-full order-status ${getStatusBadgeClass(order.destatus)}">${getDisplayStatus(order.destatus)}</span>
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">${getDisplayPayStatus(order.paystatus)}</span>
                                     </div>
                                 </div>
 
@@ -440,37 +459,38 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                 </div>
                             </div>
                         `;
-                        actualOrderList.insertAdjacentHTML('beforeend', orderHtml);
-                    });
+                            actualOrderList.insertAdjacentHTML('beforeend', orderHtml);
+                        });
 
-                } else {
+                    } else {
+                        actualOrderList.classList.add('hidden');
+                        orderListContent.classList.remove('hidden');
+                    }
+
+                } catch (error) {
+                    console.error('Error fetching orders:', error);
                     actualOrderList.classList.add('hidden');
                     orderListContent.classList.remove('hidden');
                 }
-
-            } catch (error) {
-                console.error('Error fetching orders:', error);
-                actualOrderList.classList.add('hidden');
-                orderListContent.classList.remove('hidden');
             }
+
+            // Tải đơn hàng ban đầu khi trang được load (mặc định là 'all')
+            fetchAndDisplayOrders('all');
+        });
+
+        // Thêm hàm htmlspecialchars vào đầu file JavaScript
+        function htmlspecialchars(str) {
+            if (typeof str !== 'string') return '';
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
         }
-
-        // Tải đơn hàng ban đầu khi trang được load (mặc định là 'all')
-        fetchAndDisplayOrders('all');
-    });
-
-    // Thêm hàm htmlspecialchars vào đầu file JavaScript
-    function htmlspecialchars(str) {
-        if (typeof str !== 'string') return '';
-        return str
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
-    }
-</script>
+    </script>
 </body>
 
 </html>
+
 </html>
