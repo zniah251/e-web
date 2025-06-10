@@ -27,9 +27,9 @@ let connection; // Biến để lưu trữ kết nối cơ sở dữ liệu
 async function connectToDatabase() {
     try {
         connection = await mysql.createConnection(dbConfig);
-        console.log('✅ Đã kết nối thành công tới cơ sở dữ liệu MySQL!');
+        console.log('Đã kết nối thành công tới cơ sở dữ liệu MySQL!');
     } catch (err) {
-        console.error('❌ Lỗi khi kết nối tới cơ sở dữ liệu:', err.message);
+        console.error('Lỗi khi kết nối tới cơ sở dữ liệu:', err.message);
     }
 }
 
@@ -64,7 +64,7 @@ async function queryProducts(searchTerm, maxPrice = null, requestedSize = null) 
         const [rows] = await connection.execute(query, params);
         return rows;
     } catch (error) {
-        console.error('❌ Lỗi khi truy vấn sản phẩm:', error.message);
+        console.error('Lỗi khi truy vấn sản phẩm:', error.message);
         return [];
     }
 }
@@ -81,7 +81,7 @@ app.post('/api/chat', async (req, res) => {
         let dynamicInfo = '';
         let initialPrompt = `
             Bạn là một trợ lý ảo của Kaira Shop, một cửa hàng bán lẻ thời trang nam và nữ.
-            Hãy trả lời câu hỏi của khách hàng một cách thân thiện, dễ mến, chuyên nghiệp và ngắn gọn, có thể thêm icon cho sinh động.
+            Hãy trả lời câu hỏi của khách hàng một cách thân thiện, dễ mến, hài hước và ngắn gọn, có thể thêm icon cho sinh động. 
             Thông tin của shop:
             - Chính sách đổi trả: trong 7 ngày nếu có lỗi từ nhà sản xuất, cần có video unbox.
             - Phí ship: 30.000đ toàn quốc.
@@ -108,7 +108,7 @@ app.post('/api/chat', async (req, res) => {
             if (priceMatch[2] && priceMatch[2].toLowerCase() !== 'đ') {
                 extractedMaxPrice *= 1000;
             }
-            console.log(`💰 Phát hiện giá tối đa: ${extractedMaxPrice} VNĐ`);
+            console.log(` Phát hiện giá tối đa: ${extractedMaxPrice} VNĐ`);
         }
         console.log(`Debug: extractedMaxPrice = ${extractedMaxPrice}`);
 
@@ -150,7 +150,7 @@ app.post('/api/chat', async (req, res) => {
             searchTerm = userInput; 
         }
 
-        console.log(`🔍 Từ khóa tìm kiếm cuối cùng (đã làm sạch): "${searchTerm}"`);
+        console.log(` Từ khóa tìm kiếm cuối cùng (đã làm sạch): "${searchTerm}"`);
         console.log(`Debug: searchTerm trước khi gọi queryProducts = "${searchTerm}"`);
 
         const products = await queryProducts(searchTerm, extractedMaxPrice, requestedSize);
@@ -197,7 +197,7 @@ app.post('/api/chat', async (req, res) => {
         res.json({ reply: text });
 
     } catch (error) {
-        console.error('❌ Lỗi trong xử lý chat:', error.message);
+        console.error('Lỗi trong xử lý chat:', error.message);
         res.status(500).json({ error: 'Có lỗi xảy ra, vui lòng thử lại.' });
     }
 });

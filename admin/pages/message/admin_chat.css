@@ -1,0 +1,621 @@
+/* Message List */
+.list-group-item.active {
+    background: #222 !important;
+    color: #fff !important;
+    border-color: #222 !important;
+    font-weight: bold;
+}
+.list-group-item .badge {
+    font-size: 0.85em;
+}
+#chat-box {
+    min-height: 300px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-bottom: 16px;
+}
+.bg-primary {
+    background: #222 !important;
+    color: #fff !important;
+}
+.bg-light {
+    background: #f5f5dc !important;
+    color: #111 !important;
+    border: 1px solid #ccc;
+}
+form input[type="text"],
+.form-control[type="text"] {
+    border-radius: 6px;
+    background: #fff !important;
+    color: #111 !important;
+    border: 1.5px solid #ccc !important;
+    box-shadow: none !important;
+}
+form input[type="text"]:focus,
+.form-control[type="text"]:focus {
+    background: #fff !important;
+    border-color: #222 !important;
+}
+form .btn,
+form .btn-light,
+form .btn-primary {
+    padding: 0.4rem !important;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em;
+}
+form .btn-primary i,
+form .btn-light i {
+    margin: 0;
+}
+.dot-status {
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #eee;
+}
+.col-md-4 h5 {
+    color: #222;
+    font-weight: 700;
+}
+.col-md-4 ul {
+    padding-left: 0;
+}
+.col-md-4 li {
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+.col-md-4 li:hover,
+.col-md-4 li.active {
+    background: #eee;
+}
+
+/* Chat bubble */
+.chat-bubble {
+    padding: 12px 16px;
+    border-radius: 16px;
+    margin-bottom: 4px;
+    max-width: 85%;
+    word-break: break-word;
+    font-size: 1.05em;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    background: #fff;
+    color: #111;
+    display: inline-block;
+}
+.customer-bubble {
+    background: #ccc;
+    color: #111;
+    border: 1px solid #ccc;
+    align-self: flex-end;
+}
+.admin-bubble {
+    background: #222;
+    color: #fff;
+    align-self: flex-start;
+}
+
+.col-md-4 {
+    border-right: 1px solid #ccc !important;
+}
+.chat-header {
+    border-bottom: 1px solid #ccc !important;
+}
+
+/* Chỉ style nút gửi tin nhắn trong form chat */
+form .btn-primary,
+form .btn-primary:active,
+form .btn-primary:focus {
+    background: #222 !important;
+    color: #fff !important;
+    border: none !important;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+form .btn-primary:hover {
+    background: #444 !important;
+    color: #fff !important;
+}
+
+form input[type="text"]::placeholder,
+.form-control[type="text"]::placeholder {
+    color: #999 !important;
+    opacity: 1;
+}
+
+.msg-time {
+    margin-top: 2px;
+    font-size: 0.92em;
+    color: #999 !important;
+    text-align: right;
+    font-weight: 500;
+}
+
+/* Nút search lớn vừa với input */
+form .btn[type="submit"] {
+    height: 40px;
+    min-width: 90px;
+    font-size: 1.05em;
+    padding: 0 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Admin Chat Support Styles */
+
+/* Session List Styles */
+.session-item {
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    background: #f5f5dc;
+}
+
+.session-item:hover {
+    background: #eee;
+    border-color: #ccc;
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.session-item.active {
+    background: #222;
+    color: #fff;
+    transform: translateX(8px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.session-avatar {
+    position: relative;
+}
+
+.session-avatar::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #4caf50;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+/* Chat Header */
+/* Note: this .chat-header likely applies to the main chat interface, not the popup */
+.chat-header {
+    background: #222 !important;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+.chat-header h6 {
+    color: white !important;
+}
+
+.chat-header small {
+    color: rgba(255,255,255,0.8) !important;
+}
+
+/* Message Bubbles */
+.message-bubble {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    word-wrap: break-word;
+    line-height: 1.4;
+    position: relative;
+}
+
+.customer-message {
+    background: #ccc;
+    color: #111;
+    border-bottom-left-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    align-self: flex-end;
+}
+
+.admin-message {
+    background: #222;
+    color: white;
+    border-bottom-right-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    align-self: flex-start;
+}
+
+.message-avatar {
+    align-self: flex-end;
+    margin-bottom: 5px;
+}
+
+/* Chat Input */
+/* Note: this .chat-input likely applies to the main chat interface, not the popup */
+.chat-input {
+    background: #f5f5dc;
+    border-radius: 0 0 10px 10px;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.chat-input textarea {
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.chat-input textarea:focus {
+    border-color: #222;
+    box-shadow: 0 0 0 0.2rem rgba(34, 34, 34, 0.25);
+    background: #fff;
+}
+
+.chat-input .btn-primary {
+    background: #222;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.chat-input .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Chat Messages Container */
+/* Note: this .chat-messages likely applies to the main chat interface, not the popup */
+.chat-messages {
+    border-radius: 0;
+    background: #eee;
+}
+
+/* Scrollbar Styling */
+.chat-messages::-webkit-scrollbar,
+div[style*="overflow-y: auto"]::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track,
+div[style*="overflow-y: auto"]::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb,
+div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb {
+    background: #222;
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover,
+div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}
+
+/* Alert Styles */
+.alert-success {
+    background: #d4edda;
+    border: 1px solid #28a745;
+    color: #155724;
+    border-radius: 10px;
+}
+
+/* Badge Enhancements */
+.badge {
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 12px;
+}
+
+.badge.bg-primary {
+    background: #222 !important;
+}
+
+.badge.bg-danger {
+    background: #dc3545 !important;
+}
+
+.badge.bg-success {
+    background: #28a745 !important;
+}
+
+/* Button Enhancements */
+.btn-outline-primary {
+    color: #222;
+    border-color: #222;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background: #222;
+    border-color: #222;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Empty State */
+.text-center.text-muted i {
+    color: #999 !important;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-item {
+    animation: slideIn 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .message-bubble {
+        max-width: 250px;
+    }
+
+    .session-item {
+        margin-bottom: 8px;
+    }
+
+    .chat-input textarea {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .session-item {
+        background: #2d3748;
+        color: #e2e8f0;
+    }
+
+    .session-item:hover {
+        background: #4a5568;
+    }
+
+    .chat-messages {
+        background: #eee;
+    }
+}
+
+/* New styles for main chat layout and scrolling */
+html, body {
+    height: 100%;
+    font-family: 'Times New Roman', Times, serif;
+    background: #fff;
+    color: #222;
+}
+
+.container-fluid.position-relative.d-flex.p-0 {
+    height: 100%;
+}
+
+.row {
+    flex-grow: 1;
+    height: 100%;
+    min-height: 0;
+}
+
+.chat-left-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+.chat-session-list-container {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+    /* Giới hạn chiều cao để không bị tràn, ví dụ 70vh hoặc 100% */
+    max-height: 70vh;
+}
+
+.chat-main-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-messages { /* This seems to be for the main chat content area */
+    flex-grow: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.chat-input { /* This seems to be for the main chat input area */
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+/* --- NEW STYLES FOR THE "CHAT VỚI ADMIN" POPUP --- */
+/* (Dựa trên ảnh bạn cung cấp và giả định cấu trúc HTML) */
+
+/* Main popup container */
+.chat-admin-popup {
+    position: fixed; /* Giữ popup cố định trên màn hình */
+    bottom: 20px; /* Khoảng cách từ dưới lên */
+    right: 20px; /* Khoảng cách từ phải vào */
+    width: 350px; /* Chiều rộng cố định, có thể điều chỉnh */
+    max-width: 90vw; /* Đảm bảo không quá rộng trên màn hình nhỏ */
+    height: 500px; /* Chiều cao cố định, có thể điều chỉnh */
+    max-height: 80vh; /* Đảm bảo không quá cao trên màn hình nhỏ */
+    background: #fff; /* Nền trắng cho popup */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2); /* Đổ bóng để nổi bật */
+    display: flex;
+    flex-direction: column; /* Sắp xếp nội dung theo cột */
+    overflow: hidden; /* Ẩn bất kỳ nội dung nào tràn ra ngoài khung popup */
+    z-index: 1000; /* Đảm bảo popup nằm trên các nội dung khác */
+}
+
+/* Popup Header */
+.chat-admin-popup .popup-header { /* Sử dụng class khác để tránh xung đột với .chat-header chính */
+    background: #222 !important;
+    color: white !important;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 1.1em;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0; /* Ngăn không cho header co lại */
+}
+
+.chat-admin-popup .popup-header .close-button {
+    cursor: pointer;
+    font-size: 1.2em;
+    color: white;
+    /* Có thể thêm icon 'x' bằng Font Awesome hoặc SVG */
+}
+
+/* Popup Messages Area */
+.chat-admin-popup .popup-messages { /* Sử dụng class khác để tránh xung đột với .chat-messages chính */
+    flex-grow: 1; /* Cho phép phần tin nhắn chiếm hết không gian còn lại */
+    overflow-y: auto; /* Tạo thanh cuộn nếu tin nhắn quá nhiều */
+    padding: 15px;
+    background: #f5f5dc !important; /* Nền nhạt từ theme của bạn */
+    display: flex;
+    flex-direction: column; /* Tin nhắn xếp theo cột */
+}
+
+/* Adjust message bubbles within the popup (if needed, or reuse existing .message-bubble) */
+.chat-admin-popup .message-bubble {
+    max-width: 95%; /* Có thể rộng hơn một chút trong popup nhỏ */
+    margin-bottom: 8px; /* Khoảng cách giữa các tin nhắn */
+}
+
+/* Popup Input Area */
+.chat-admin-popup .popup-input { /* Sử dụng class khác để tránh xung đột với .chat-input chính */
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+    background: #f5f5dc !important; /* Nền nhạt từ theme của bạn */
+    flex-shrink: 0; /* Ngăn không cho input co lại */
+}
+
+.chat-admin-popup .popup-input form {
+    display: flex;
+    align-items: center;
+}
+
+.chat-admin-popup .popup-input textarea { /* Sử dụng textarea thay vì input[type="text"] cho tin nhắn dài */
+    flex-grow: 1;
+    border: 1.5px solid #ccc !important;
+    border-radius: 6px;
+    background: #fff !important;
+    color: #111 !important;
+    box-shadow: none !important;
+    padding: 8px 12px;
+    resize: none; /* Ngăn người dùng kéo dãn textarea */
+    min-height: 38px; /* Chiều cao tối thiểu */
+    max-height: 100px; /* Chiều cao tối đa trước khi cuộn */
+    overflow-y: auto; /* Tạo thanh cuộn cho textarea nếu cần */
+    margin-right: 10px; /* Khoảng cách với nút gửi */
+}
+
+.chat-admin-popup .popup-input textarea:focus {
+    border-color: #222 !important;
+}
+
+.chat-admin-popup .popup-input .btn-primary { /* Điều chỉnh nút gửi trong popup */
+    /* Kích thước nút có thể nhỏ hơn so với nút gửi chính */
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0; /* Reset padding để căn giữa icon */
+    background: #222 !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 6px; /* Hơi vuông hơn so với 15px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em; /* Kích thước icon */
+    transition: all 0.2s;
+}
+
+.chat-admin-popup .popup-input .btn-primary:hover {
+    background: #444 !important;
+    transform: none; /* Bỏ hiệu ứng translateY từ nút gửi chính nếu không muốn */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Đổi các nền be/xám nhạt thành trắng/xám */
+.bg-light,
+.chat-input,
+.chat-admin-popup,
+.chat-admin-popup .popup-messages,
+.chat-admin-popup .popup-input {
+    background: #fff !important;
+    color: #222 !important;
+}
+
+/* Đổi nền chat-messages */
+.chat-messages {
+    background: #f6f6f6 !important;
+}
+
+/* Đổi màu session-item */
+.session-item {
+    background: #f6f6f6;
+    color: #222;
+}
+.session-item.active {
+    background: #222;
+    color: #fff;
+}
+
+/* Đổi màu hover */
+.session-item:hover {
+    background: #e0e0e0;
+    color: #222;
+}
+
+/* Đổi màu bubble */
+.customer-bubble,
+.customer-message {
+    background: #e0e0e0;
+    color: #222;
+    border: 1px solid #ccc;
+}
+.admin-bubble,
+.admin-message {
+    background: #222;
+    color: #fff;
+}
+
+/* Đổi màu popup */
+.chat-admin-popup {
+    background: #fff;
+    color: #222;
+}
+
+/* Đổi màu scrollbar nếu muốn */
+.chat-messages::-webkit-scrollbar-thumb,
+div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb {
+    background: #bbb;
+}
+.chat-messages::-webkit-scrollbar-thumb:hover,
+div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
