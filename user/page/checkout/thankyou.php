@@ -13,7 +13,7 @@ $orderId = $_GET['orderId'] ?? 'N/A';
   <style>
     body {
       background: linear-gradient(to right, #f3f9ff, #fffef9);
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Times New Roman', serif;
     }
     .thank-box {
       max-width: 600px;
@@ -28,6 +28,7 @@ $orderId = $_GET['orderId'] ?? 'N/A';
     .thank-box h2 {
       color: #2e7d32;
       margin-bottom: 20px;
+
     }
     .thank-box p {
       font-size: 17px;
@@ -46,6 +47,7 @@ $orderId = $_GET['orderId'] ?? 'N/A';
       border-radius: 25px;
       font-weight: bold;
       font-size: 16px;
+      text-decoration: none;
     }
     .btn-home:hover {
       background: #1b5e20;

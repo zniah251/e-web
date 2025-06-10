@@ -2,23 +2,32 @@
 require_once "../../../connect.php";
 session_start();
 
-// Lấy giỏ hàng từ session
+// Check if user is logged in
+if (!isset($_SESSION['uid'])) {
+    header("Location: /e-web/user/page/sign-in/login2.php");
+    exit();
+}
+
+// Get user ID from session
+$uid = $_SESSION['uid'];
+
+// Get cart items from session
 $products = $_SESSION['cart'] ?? [];
 
-// Nhận dữ liệu từ form
+// Get form data
 $fullname = $_POST['fullname'] ?? '';
 $address  = $_POST['address'] ?? '';
 $phone    = $_POST['phone'] ?? '';
-$method   = $_POST['payment_method'] ?? 'momo'; // momo | banking | cod
+$method   = $_POST['payment_method'] ?? 'MOMO'; // MOMO | BANK | COD
 $voucher  = trim($_POST['voucher'] ?? '');
 
-// Thiết lập mặc định
+// Default values
 $vid = null;
 $discount = 0;
 $shipping = 30000;
 $voucher_minprice = 0;
 
-// Lấy thông tin voucher nếu có
+// Get voucher information if provided
 if ($voucher !== '') {
     $stmt = $conn->prepare("SELECT vid, discount, minprice, name FROM voucher WHERE name = ?");
     $stmt->bind_param("s", $voucher);
@@ -27,57 +36,79 @@ if ($voucher !== '') {
     if ($stmt->fetch()) {
         $vid = $vidFound;
         $voucher_minprice = $minprice;
+        
+        // Calculate discount based on voucher type
+        if (strtolower(trim($vname)) === 'free shipping') {
+            $shipping = 0;
+        } else {
+            $discount = $total * ($discountPercent / 100);
+        }
     }
     $stmt->close();
 }
 
-// Tính tổng giá sản phẩm trong giỏ hàng
+// Calculate total price from cart items
 $total = 0;
 foreach ($products as $p) {
     $total += $p['price'] * $p['quantity'];
 }
 
-// Áp dụng giảm giá nếu đủ điều kiện
-if ($voucherData && $total >= $voucherData['minprice']) {
-    if (strtolower(trim($voucherData['name'])) === 'free shipping') {
-        $shipping = 0; // Miễn phí giao hàng
-    } else {
-        $discount = $total * ($voucherData['discount'] / 100); // Giảm giá %
-    }
-}
-
-
-// Tổng cuối cùng
+// Calculate final total
 $totalfinal = $total + $shipping - $discount;
 
-// Tạo mã đơn hàng
-$orderId = uniqid("ORDER_");
-$orderInfo = "Đơn hàng cho $fullname - $phone";
+// Begin transaction
+$conn->begin_transaction();
 
-
-if ($method === 'MOMO') {
-$paymethod = strtoupper($method);
-
-    $stmt = $conn->prepare("INSERT INTO `order` (uid, totalfinal, price, destatus, paymethod, paystatus, create_at, vid) VALUES (2, ?, ?, 'Pending', ?, 'Pending', NOW(), ?)");
-    $stmt->bind_param("ddsi", $totalfinal, $total, $paymethod, $vid);
+try {
+    // Insert into orders table
+    $stmt = $conn->prepare("INSERT INTO orders (uid, totalfinal, price, destatus, paymethod, paystatus, create_at, vid) VALUES (?, ?, ?, 'Pending', ?, 'Pending', NOW(), ?)");
+    $stmt->bind_param("iddsi", $uid, $totalfinal, $total, $method, $vid);
     $stmt->execute();
+    
+    // Get the order ID
     $oid = $stmt->insert_id;
-        header("Location: momo_payment_info.php?orderId=$oid");
-} else {
-    // BANK hoặc COD
-    $paymethod = strtoupper($method);
-
-    $stmt = $conn->prepare("INSERT INTO `order` (uid, totalfinal, price, destatus, paymethod, paystatus, create_at, vid) VALUES (2, ?, ?, 'Pending', ?, 'Pending', NOW(), ?)");
-    $stmt->bind_param("ddsi", $totalfinal, $total, $paymethod, $vid);
-    $stmt->execute();
-    $oid = $stmt->insert_id;
-
-    // Chuyển trang theo phương thức
-    if ($method === 'BANK') {
-        header("Location: bank_payment_info.php?orderId=$oid");
-    } else {
-        header("Location: confirm_shipping.php?orderId=ORDER_$oid&fullname=$fullname&address=$address&phone=$phone");
+    
+    // Insert order details
+    $stmt = $conn->prepare("INSERT INTO order_detail (oid, pid, quantity, size, color, price) VALUES (?, ?, ?, ?, ?, ?)");
+    
+    foreach ($products as $product) {
+        $stmt->bind_param("iiissd", 
+            $oid,
+            $product['pid'],
+            $product['quantity'],
+            $product['size'],
+            $product['color'],
+            $product['price']
+        );
+        $stmt->execute();
     }
-    exit;
+    
+    // Commit transaction
+    $conn->commit();
+    
+    // Clear cart after successful order
+    unset($_SESSION['cart']);
+    
+    // Redirect based on payment method
+    switch ($method) {
+        case 'MOMO':
+            header("Location: momo_payment_info.php?orderId=$oid");
+            break;
+        case 'BANK':
+            header("Location: bank_payment_info.php?orderId=$oid");
+            break;
+        case 'COD':
+            header("Location: confirm_shipping.php?orderId=$oid&fullname=$fullname&address=$address&phone=$phone");
+            break;
+        default:
+            header("Location: confirm_shipping.php?orderId=$oid&fullname=$fullname&address=$address&phone=$phone");
+    }
+    exit();
+    
+} catch (Exception $e) {
+    // Rollback transaction on error
+    $conn->rollback();
+    echo "Error: " . $e->getMessage();
+    exit();
 }
 ?>

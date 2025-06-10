@@ -1,4 +1,12 @@
 <?php
+session_start(); // Bắt đầu session ở đầu file
+// Kiểm tra xem người dùng đã đăng nhập chưa
+// Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+if (!isset($_SESSION['uid']) || $_SESSION['uid'] <= 0) {
+    // Điều chỉnh đường dẫn đến trang đăng nhập của bạn
+    header("Location: /e-web/user/page/sign-in/login2.php");
+    exit();
+}
 $orderId = $_GET['orderId'] ?? 'N/A';
 ?>
 <!DOCTYPE html>
@@ -7,9 +15,24 @@ $orderId = $_GET['orderId'] ?? 'N/A';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kaira - Chuyển khoản MOMO</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../../user/css/vendor.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="abtus.css">
+    <link rel="stylesheet" type="text/css" href="../../style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-bundle.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <!-- MDB -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
+        rel="stylesheet">
   <style>
     body {
       font-family: 'Times New Roman', serif;
@@ -28,6 +51,7 @@ $orderId = $_GET['orderId'] ?? 'N/A';
     }
 
     h2 {
+      font-family: 'Times New Roman', serif;
       font-weight: bold;
       margin-bottom: 25px;
       color: #000;
@@ -77,13 +101,13 @@ $orderId = $_GET['orderId'] ?? 'N/A';
 <?php include('../../../navbar.php'); ?>
 
 <div class="container-custom">
-  <h2><i class="fas fa-mobile-alt me-2"></i>Chuyển khoản MOMO</h2>
+
   <img src="../../../blog/momo.jpg" alt="Momo" class="momo-logo">
   
   <p><i class="fas fa-user me-2 text-dark"></i><strong>Chủ tài khoản:</strong> Trương Huy Hoàng</p>
-  <p><i class="fas fa-hashtag me-2 text-info"></i><strong>Số điện thoại:</strong> 0328 243 239</p>
+  <p><strong>Số điện thoại:</strong> 0328 243 239</p>
 
-  <p><i class="fas fa-sticky-note me-2 text-danger"></i><strong>Nội dung chuyển khoản:</strong><br>
+  <p><strong>Nội dung chuyển khoản:</strong><br>
     <span class="note">THANH_TOAN_ĐON_HANG_SO <?= htmlspecialchars($orderId) ?></span>
   </p>
 

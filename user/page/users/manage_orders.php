@@ -193,6 +193,22 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
             display: none;
             /* Chrome, Safari, Opera */
         }
+
+        .cancel-button {
+        background-color: #ef4444; /* red-500 */
+        color: #ffffff; /* white */
+        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
+        
+        /* Cập nhật hoặc thêm các thuộc tính này */
+        border: none; /* Bỏ viền */
+        border-radius: 9999px; /* Bo tròn hoàn toàn (hoặc dùng 50px nếu bạn muốn nó trông như pill) */
+        /* Nếu bạn vẫn muốn dùng rounded-md từ Tailwind, thì không cần border-radius ở đây */
+    }
+    .cancel-button:hover {
+        background-color: #dc2626; /* red-600 */
+    }
     </style>
 </head>
 
@@ -457,6 +473,13 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                                     <span class="text-sm text-gray-600">Phương thức Thanh toán</span>
                                     <span class="text-gray-800 font-medium order-payment-method">${order.paymethod}</span>
                                 </div>
+                                ${order.destatus === 'Pending' ? `
+                                <div class="flex justify-end mt-3 pt-3 border-t border-gray-200">
+                                    <button class="cancel-order-btn cancel-button px-4 py-2 rounded-md text-sm" data-order-id="${order.oid}">
+        Hủy đơn hàng
+    </button>
+                                </div>
+                                ` : ''}
                             </div>
                         `;
                             actualOrderList.insertAdjacentHTML('beforeend', orderHtml);
@@ -474,6 +497,43 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                 }
             }
 
+            // Add event delegation for cancel order buttons
+            actualOrderList.addEventListener('click', async function(e) {
+                if (e.target.matches('.cancel-order-btn')) {
+                    const orderId = e.target.dataset.orderId;
+                    if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')) {
+                        try {
+                            const response = await fetch('/e-web/user/page/ajax_handlers/cancel_order.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    order_id: orderId
+                                })
+                            });
+
+                            const data = await response.json();
+                            if (data.success) {
+                                alert('Đơn hàng đã được hủy thành công!');
+                                // Refresh the orders list
+                                const activeTab = document.querySelector('.status-tab.active');
+                                if (activeTab) {
+                                    fetchAndDisplayOrders(activeTab.dataset.status);
+                                }
+                                // Update order counts
+                                updateOrderCounts();
+                            } else {
+                                alert(data.message || 'Có lỗi xảy ra khi hủy đơn hàng.');
+                            }
+                        } catch (error) {
+                            console.error('Error cancelling order:', error);
+                            alert('Có lỗi xảy ra khi hủy đơn hàng.');
+                        }
+                    }
+                }
+            });
+
             // Tải đơn hàng ban đầu khi trang được load (mặc định là 'all')
             fetchAndDisplayOrders('all');
         });
@@ -490,7 +550,5 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
         }
     </script>
 </body>
-
-</html>
 
 </html>

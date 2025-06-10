@@ -358,7 +358,7 @@ $stmt->close();
                                                             <td>
                                                                 <span class="ps-2"><?php echo htmlspecialchars($order['customer_name']); ?></span>
                                                             </td>
-                                                            <td> $<?php echo number_format($order['totalfinal'], 2); ?> </td>
+                                                            <td> <?php echo number_format($order['totalfinal'], 2); ?> </td>
                                                             <td> <?php echo htmlspecialchars($order['vid'] ?? 'N/A'); ?> </td>
                                                             <td>
                                                                 <?php

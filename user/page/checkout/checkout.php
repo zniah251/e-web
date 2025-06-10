@@ -1,9 +1,37 @@
 <?php
 session_start();
 $cart_items = $_SESSION['cart'] ?? [];
-?>
-<?php
+
+// Check if user is logged in
+if (!isset($_SESSION['uid']) || $_SESSION['uid'] <= 0) {
+    header("Location: /e-web/user/page/sign-in/login2.php");
+    exit();
+}
+
 require_once("../../../connect.php");
+
+// Fetch user information
+$user_info = [
+    'uname' => '',
+    'email' => '',
+    'phonenumber' => '',
+    'address' => ''
+];
+
+if (isset($_SESSION['uid'])) {
+    $uid = $_SESSION['uid'];
+    $stmt = $conn->prepare("SELECT uname, email, phonenumber, address FROM users WHERE uid = ?");
+    $stmt->bind_param("i", $uid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $db_user_info = $result->fetch_assoc();
+
+    if ($db_user_info) {
+        $user_info = $db_user_info;
+    }
+    $stmt->close();
+}
+
 $voucherData = null;
 
 // Load danh sách voucher
@@ -54,6 +82,25 @@ if ($voucherData) {
 
 $total_final = $total + $shipping - $discount;
 
+// If form is submitted, update user information
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_info'])) {
+    $new_fullname = trim($_POST['fullname'] ?? '');
+    $new_address = trim($_POST['address'] ?? '');
+    $new_phone = trim($_POST['phone'] ?? '');
+
+    // Update user information in database
+    $update_stmt = $conn->prepare("UPDATE users SET uname = ?, address = ?, phonenumber = ? WHERE uid = ?");
+    $update_stmt->bind_param("sssi", $new_fullname, $new_address, $new_phone, $uid);
+    
+    if ($update_stmt->execute()) {
+        // Update the user_info array with new values
+        $user_info['uname'] = $new_fullname;
+        $user_info['address'] = $new_address;
+        $user_info['phonenumber'] = $new_phone;
+    }
+    $update_stmt->close();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -61,15 +108,34 @@ $total_final = $total + $shipping - $discount;
 <head>
   <meta charset="UTF-8">
   <title>Thanh toán - KAIRA</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../../user/css/vendor.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="abtus.css">
+    <link rel="stylesheet" type="text/css" href="../../style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-bundle.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <!-- MDB -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
+        rel="stylesheet">
   <style>
     body {
       font-family: 'Times New Roman', serif;
       background-color: #fff;
       color: #000;
     }
+     h1,h2,h3, h4, h5 {
+            font-family: 'Times New Roman', Times, serif !important;
+            /* Sử dụng font Times New Roman cho tiêu đề */
+        }
     .container-custom {
       max-width: 1400px;
       margin: 40px auto;
@@ -142,12 +208,16 @@ input[type="radio"]:checked + label img {
   <!-- Thanh toán -->
   <div class="payment-left">
     <h2 class="mb-4">Thanh toán</h2>
-    <form action="create_order.php" method="POST">
+    <div id="update-message" class="alert alert-success" style="display: none;">
+      Thông tin đã được cập nhật thành công!
+    </div>
+    <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
+      <input type="hidden" name="update_info" value="1">
       <div class="form-section">
         <h5>Thông tin giao hàng</h5>
-        <input type="text" name="fullname" placeholder="Họ và tên" class="form-control mb-3" required value="<?= htmlspecialchars($_GET['fullname'] ?? '') ?>">
-        <input type="text" name="address" placeholder="Địa chỉ" class="form-control mb-3" required value="<?= htmlspecialchars($_GET['address'] ?? '') ?>">
-        <input type="tel" name="phone" placeholder="Số điện thoại" class="form-control" required value="<?= htmlspecialchars($_GET['phone'] ?? '') ?>">
+        <input type="text" name="fullname" placeholder="Họ và tên" class="form-control mb-3" required value="<?= htmlspecialchars($user_info['uname']) ?>">
+        <input type="text" name="address" placeholder="Địa chỉ" class="form-control mb-3" required value="<?= htmlspecialchars($user_info['address']) ?>">
+        <input type="tel" name="phone" placeholder="Số điện thoại" class="form-control" required value="<?= htmlspecialchars($user_info['phonenumber']) ?>">
       </div>
       <div class="form-section">
   <h5>Mã giảm giá</h5>
@@ -210,7 +280,10 @@ input[type="radio"]:checked + label img {
   </div>
 </div>
 
-      <button type="submit" class="btn btn-primary w-100">Đặt hàng</button>
+      <div class="mb-3">
+        <button type="submit" name="update_info" class="btn btn-secondary mb-2 w-100">Cập nhật thông tin</button>
+        <button type="submit" formaction="create_order.php" class="btn btn-primary w-100">Tiếp tục thanh toán</button>
+      </div>
     </form>
   </div>
 
@@ -263,6 +336,32 @@ input[type="radio"]:checked + label img {
     const confirmBtn = document.getElementById('confirm-voucher');
     const hiddenInput = document.getElementById('voucher-hidden');
     const selectedText = document.getElementById('selected-voucher');
+
+    // Thêm sự kiện cho các trường input
+    const inputs = document.querySelectorAll('input[name="fullname"], input[name="address"], input[name="phone"]');
+    inputs.forEach(input => {
+      input.addEventListener('change', function() {
+        const form = this.closest('form');
+        const formData = new FormData(form);
+        
+        // Gửi form bằng AJAX để không làm mất các thông tin khác
+        fetch(form.action, {
+          method: 'POST',
+          body: formData
+        }).then(response => {
+          if (response.ok) {
+            // Hiển thị thông báo thành công
+            const messageDiv = document.getElementById('update-message');
+            messageDiv.style.display = 'block';
+            setTimeout(() => {
+              messageDiv.style.display = 'none';
+            }, 3000); // Ẩn sau 3 giây
+          }
+        }).catch(error => {
+          console.error('Lỗi khi cập nhật:', error);
+        });
+      });
+    });
 
     btnToggle.addEventListener('click', function () {
       voucherList.style.display = voucherList.style.display === 'none' ? 'block' : 'none';
