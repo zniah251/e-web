@@ -32,7 +32,19 @@ try {
         throw new Exception("Vui lòng nhập mật khẩu của bạn để xác nhận.");
     }
 
-    // 4. Lấy mật khẩu đã hash của người dùng từ CSDL
+    // 4. Kiểm tra xem người dùng có đơn hàng nào đang ở trạng thái 'Confirmed' không
+    $stmt = $conn->prepare("SELECT COUNT(*) as confirmed_count FROM orders WHERE uid = ? AND destatus = 'Confirmed'");
+    $stmt->bind_param("i", $uid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $order_count = $result->fetch_assoc()['confirmed_count'];
+    $stmt->close();
+
+    if ($order_count > 0) {
+        throw new Exception("Không thể xóa tài khoản vì bạn có đơn hàng đang trong trạng thái chờ lấy hàng. Vui lòng chờ đơn hàng được giao hoặc hủy đơn hàng trước khi xóa tài khoản.");
+    }
+
+    // 5. Lấy mật khẩu đã hash của người dùng từ CSDL
     $stmt = $conn->prepare("SELECT password FROM users WHERE uid = ? LIMIT 1");
     $stmt->bind_param("i", $uid);
     $stmt->execute();
@@ -46,12 +58,12 @@ try {
 
     $hashed_password_from_db = $user['password'];
 
-    // 5. Xác minh mật khẩu
+    // 6. Xác minh mật khẩu
     if (!password_verify($password_input, $hashed_password_from_db)) {
         throw new Exception("Mật khẩu không chính xác.");
     }
 
-    // 6. Xóa tài khoản (hoặc đánh dấu is_deleted)
+    // 7. Xóa tài khoản (hoặc đánh dấu is_deleted)
     // Cảnh báo: DELETE FROM là hành động không thể hoàn tác.
     // Đối với ứng dụng thực tế, thường nên đánh dấu tài khoản là 'is_deleted'
     // thay vì xóa vĩnh viễn để giữ lại tính toàn vẹn dữ liệu cho các đơn hàng cũ, v.v.

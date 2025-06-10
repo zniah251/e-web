@@ -55,6 +55,7 @@ if (isset($_SESSION['uid']) && $_SESSION['uid'] > 0) {
 // Logic xử lý khi form được submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_uname = trim($_POST['uname'] ?? '');
+    $new_email = trim($_POST['email'] ?? '');
     $new_phonenumber = trim($_POST['phonenumber'] ?? '');
     $new_address = trim($_POST['address'] ?? '');
 
@@ -64,21 +65,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($new_uname)) {
         $errors[] = "Tên không được để trống.";
     }
+    if (empty($new_email)) {
+        $errors[] = "Email không được để trống.";
+    } elseif (!filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Email không hợp lệ.";
+    } else {
+        // Chỉ kiểm tra trùng lặp email nếu email mới khác email hiện tại
+        if ($new_email !== $user_info['email']) {
+            // Kiểm tra xem email mới đã tồn tại trong database chưa
+            $check_email = $conn->prepare("SELECT uid FROM users WHERE email = ? AND uid != ?");
+            $check_email->bind_param("si", $new_email, $uid);
+            $check_email->execute();
+            $result = $check_email->get_result();
+            
+            if ($result->num_rows > 0) {
+                $errors[] = "Email này đã được sử dụng bởi tài khoản khác. Vui lòng sử dụng email khác.";
+            }
+            $check_email->close();
+        }
+    }
     // Thêm các validation khác cho số điện thoại, địa chỉ nếu cần
 
     if (empty($errors)) {
-        $stmt = $conn->prepare("UPDATE users SET uname = ?, phonenumber = ?, address = ?, updated_at = NOW() WHERE uid = ?");
-        $stmt->bind_param("sssi", $new_uname, $new_phonenumber, $new_address, $uid);
+        $stmt = $conn->prepare("UPDATE users SET uname = ?, email = ?, phonenumber = ?, address = ?, updated_at = NOW() WHERE uid = ?");
+        $stmt->bind_param("ssssi", $new_uname, $new_email, $new_phonenumber, $new_address, $uid);
 
         if ($stmt->execute()) {
             // Cập nhật lại user_info sau khi update thành công để hiển thị ngay
             $user_info['uname'] = $new_uname;
+            $user_info['email'] = $new_email;
             $user_info['phonenumber'] = $new_phonenumber;
             $user_info['address'] = $new_address;
 
             $_SESSION['message'] = ['type' => 'success', 'text' => 'Cập nhật thông tin thành công!'];
-            // header("Location: info.php"); // Có thể chuyển hướng để tránh gửi lại form
-            // exit();
         } else {
             error_log("Error updating user info: " . $stmt->error);
             $_SESSION['message'] = ['type' => 'error', 'text' => 'Đã xảy ra lỗi khi cập nhật thông tin. Vui lòng thử lại.'];
@@ -87,8 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $_SESSION['message'] = ['type' => 'error', 'text' => implode('<br>', $errors)];
     }
-    // Sau khi xử lý POST, bạn có thể chuyển hướng hoặc hiển thị thông báo
-    // Để hiển thị thông báo, bạn có thể kiểm tra $_SESSION['message'] ở đầu HTML body
 }
 ?>
 <!DOCTYPE html>
@@ -321,7 +338,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="input-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user_info['email']); ?>" class="form-input" disabled>
+                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user_info['email']); ?>" class="form-input">
                     </div>
                     <div class="input-group">
                         <label for="phonenumber">Số điện thoại</label>
