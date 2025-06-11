@@ -134,6 +134,26 @@ if (isset($_GET['edit'])) {
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   transition: all 0.3s ease-in-out;
 }
+.card-title,
+.card-body h4,
+.table th,
+.table td,
+label,
+h6.text-muted,
+.btn {
+    color: #fff !important;
+}
+input,
+textarea {
+  color: #fff !important;
+  background-color: #2c2c38 !important; /* hoặc màu nền bạn thích */
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #aaa !important;
+}
+
 
     </style>
 </head>
