@@ -76,7 +76,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
       bottom: 90px;
       right: 20px;
       width: 280px;
-      background: #f5f5dc;
+      background: lightgray;
       border-radius: 12px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
       display: none;
@@ -128,11 +128,11 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
       font-size: 20px;
     }
     .bot-icon {
-      background: #4CAF50;
+      background: black;
       color: white;
     }
     .admin-icon {
-      background: #2196F3;
+      background: black;
       color: white;
     }
     .chat-option-content {
