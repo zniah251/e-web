@@ -104,6 +104,71 @@ $offset = ($page - 1) * $limit;
             display: inline-block;
             margin: 0;
         }
+        /* Toàn màn hình overlay */
+.overlay-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Khi bật form */
+.overlay-form.active {
+  display: flex;
+}
+
+/* Hộp form giữa màn hình */
+.form-popup {
+  background-color: #111;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  color: white;
+  box-shadow: 0 0 10px #000;
+  animation: slideDown 0.4s ease;
+}
+
+/* Hiệu ứng trượt xuống */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Ô input đen, chữ trắng */
+.form-popup input.form-control {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+.form-popup input.form-control::placeholder {
+  color: #bbb;
+}
+/* Làm trắng chữ trong input tìm kiếm */
+input.form-control {
+  background-color: #222 !important;   /* Nền tối */
+  color: #fff !important;              /* Chữ trắng */
+  border: 1px solid #444 !important;   /* Viền tối */
+}
+
+/* Placeholder màu sáng hơn */
+input.form-control::placeholder {
+  color: #bbb !important;
+}
+
     </style>
 </head>
 
@@ -193,17 +258,27 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
 </form>
 <?php endif; ?>
 
-                        <!-- Form thêm người dùng -->
-<form method="POST" class="row g-3 mb-4" action="" onsubmit="return confirm('Xác nhận thêm người dùng mới?')">
-    <div class="col-md-2"><input name="uname" type="text" class="form-control" placeholder="Tên khách hàng" required></div>
-    <div class="col-md-2"><input name="email" type="email" class="form-control" placeholder="Email" required></div>
-    <div class="col-md-2"><input name="address" type="text" class="form-control" placeholder="Địa chỉ"></div>
-    <div class="col-md-2"><input name="phonenumber" type="text" class="form-control" placeholder="SĐT"></div>
-    <div class="col-md-2"><input name="password" type="password" class="form-control" placeholder="Mật khẩu" required></div>
-    <div class="col-md-2">
-        <button type="submit" name="add_user" class="btn btn-success w-100">Thêm</button>
-    </div>
-</form>
+<!-- Nút mở form -->
+<button class="btn btn-success mb-3" onclick="toggleAddForm()">+ Thêm người dùng</button>
+
+<!-- Overlay Form -->
+<div id="addUserOverlay" class="overlay-form">
+  <div class="form-popup">
+    <h4 class="text-white mb-4">Thêm người dùng</h4>
+    <form method="POST" action="" onsubmit="return confirm('Xác nhận thêm người dùng mới?')">
+      <input name="uname" type="text" class="form-control mb-3" placeholder="Tên khách hàng" required>
+      <input name="email" type="email" class="form-control mb-3" placeholder="Email" required>
+      <input name="address" type="text" class="form-control mb-3" placeholder="Địa chỉ">
+      <input name="phonenumber" type="text" class="form-control mb-3" placeholder="Số điện thoại">
+      <input name="password" type="password" class="form-control mb-3" placeholder="Mật khẩu" required>
+      <input name="rid" type="number" class="form-control mb-3" placeholder="Role ID" required>
+      <div class="d-flex justify-content-between">
+        <button type="submit" name="add_user" class="btn btn-light">Thêm</button>
+        <button type="button" class="btn btn-secondary" onclick="toggleAddForm()">Hủy</button>
+      </div>
+    </form>
+  </div>
+</div>
 
                         <table class="table">
                             <thead>
@@ -214,11 +289,11 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
     <th>Email</th>
     <th>Địa chỉ</th>
     <th>Số điện thoại</th>
+    <th>Role ID</th>
+    <th>Ngày tạo</th>
     <th>Hành động</th>
   </tr>
 </thead>
-
-
                             <tbody>
                                 <?php
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
@@ -236,7 +311,7 @@ $total_users = $total_row['total'];
 $total_pages = max(1, ceil($total_users / $limit));
 
 // Lấy dữ liệu người dùng theo trang
-$user_sql = "SELECT uid, uname, email, address, phonenumber FROM users $search_sql LIMIT $limit OFFSET $offset";
+$user_sql = "SELECT uid, uname, email, address, phonenumber, rid, created_at FROM users $search_sql LIMIT $limit OFFSET $offset";
 $user_result = $conn->query($user_sql);
 
 // Hiển thị từng dòng
@@ -253,13 +328,13 @@ if ($user_result->num_rows > 0) {
     <td>{$row['email']}</td>
     <td>{$row['address']}</td>
     <td>{$row['phonenumber']}</td>
+    <td>{$row['rid']}</td>
+    <td>{$row['created_at']}</td>
     <td>
         <a href='?edit={$row['uid']}' class='btn btn-sm btn-warning me-1'>Sửa</a>
         <a href='?delete={$row['uid']}' class='btn btn-sm btn-danger' onclick='return confirm(\"Xóa người dùng này?\")'>Xóa</a>
     </td>
 </tr>";
-
-
     }
 } else {
     echo "<tr><td colspan='6' class='text-center'>Không có người dùng nào</td></tr>";
@@ -429,4 +504,24 @@ $conn->close();
             }
         }
     });
+</script>
+<script>
+function toggleAddForm() {
+    const overlay = document.getElementById('addUserOverlay');
+    overlay.classList.toggle('active');
+}
+
+// Đóng form khi click ra ngoài
+document.getElementById('addUserOverlay').addEventListener('click', function (e) {
+    if (e.target === this) {
+        this.classList.remove('active');
+    }
+});
+
+// Đóng form bằng phím ESC
+document.addEventListener('keydown', function (e) {
+    if (e.key === "Escape") {
+        document.getElementById('addUserOverlay').classList.remove('active');
+    }
+});
 </script>
