@@ -2,6 +2,37 @@
 session_start();
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 
+if (isset($_POST['add_user'])) {
+    $uname = $_POST['uname'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $phone = $_POST['phonenumber'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    $stmt = $conn->prepare("INSERT INTO users (uname, email, address, phonenumber, password) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $uname, $email, $address, $phone, $password);
+    $stmt->execute();
+}
+if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+    $uid = intval($_GET['delete']);
+    $conn->query("DELETE FROM users WHERE uid = $uid");
+    header("Location: ".$_SERVER['PHP_SELF']); // Tránh lỗi refresh xóa tiếp
+    exit();
+}
+if (isset($_POST['update_user'])) {
+    $uid = $_POST['uid'];
+    $uname = $_POST['uname'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $phone = $_POST['phonenumber'];
+
+    $stmt = $conn->prepare("UPDATE users SET uname=?, email=?, address=?, phonenumber=? WHERE uid=?");
+    $stmt->bind_param("ssssi", $uname, $email, $address, $phone, $uid);
+    $stmt->execute();
+
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit();
+}
 
 
 // 1. Xử lý tham số phân trang
@@ -141,17 +172,52 @@ $offset = ($page - 1) * $limit;
                     
                     <!-- Bảng dữ liệu -->
                     <div class="table-responsive">
+                        <?php
+$edit_mode = false;
+if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
+    $edit_mode = true;
+    $edit_uid = intval($_GET['edit']);
+    $edit_user = $conn->query("SELECT * FROM users WHERE uid = $edit_uid")->fetch_assoc();
+}
+?>
+<?php if ($edit_mode): ?>
+<form method="POST" class="row g-3 mb-4" action="">
+    <input type="hidden" name="uid" value="<?= $edit_user['uid'] ?>">
+    <div class="col-md-2"><input name="uname" value="<?= $edit_user['uname'] ?>" class="form-control" required></div>
+    <div class="col-md-2"><input name="email" value="<?= $edit_user['email'] ?>" class="form-control" required></div>
+    <div class="col-md-2"><input name="address" value="<?= $edit_user['address'] ?>" class="form-control"></div>
+    <div class="col-md-2"><input name="phonenumber" value="<?= $edit_user['phonenumber'] ?>" class="form-control"></div>
+    <div class="col-md-2">
+        <button type="submit" name="update_user" class="btn btn-primary w-100">Cập nhật</button>
+    </div>
+</form>
+<?php endif; ?>
+
+                        <!-- Form thêm người dùng -->
+<form method="POST" class="row g-3 mb-4" action="" onsubmit="return confirm('Xác nhận thêm người dùng mới?')">
+    <div class="col-md-2"><input name="uname" type="text" class="form-control" placeholder="Tên khách hàng" required></div>
+    <div class="col-md-2"><input name="email" type="email" class="form-control" placeholder="Email" required></div>
+    <div class="col-md-2"><input name="address" type="text" class="form-control" placeholder="Địa chỉ"></div>
+    <div class="col-md-2"><input name="phonenumber" type="text" class="form-control" placeholder="SĐT"></div>
+    <div class="col-md-2"><input name="password" type="password" class="form-control" placeholder="Mật khẩu" required></div>
+    <div class="col-md-2">
+        <button type="submit" name="add_user" class="btn btn-success w-100">Thêm</button>
+    </div>
+</form>
+
                         <table class="table">
                             <thead>
-                                <tr>
-                                    <th><input type="checkbox" class="form-check-input"></th>
-                                    <th>USER ID</th>
-                                    <th>Tên Khách Hàng</th>
-                                    <th>Email</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Số điện thoại</th>
-                                </tr>
-                            </thead>
+  <tr>
+    <th><input type="checkbox" class="form-check-input"></th>
+    <th>USER ID</th>
+    <th>Tên Khách Hàng</th>
+    <th>Email</th>
+    <th>Địa chỉ</th>
+    <th>Số điện thoại</th>
+    <th>Hành động</th>
+  </tr>
+</thead>
+
 
                             <tbody>
                                 <?php
@@ -177,17 +243,23 @@ $user_result = $conn->query($user_sql);
 if ($user_result->num_rows > 0) {
     while ($row = $user_result->fetch_assoc()) {
         echo "<tr>
-                <td>
-                    <div class='form-check form-check-muted m-0'>
-                        <label class='form-check-label'><input type='checkbox' class='form-check-input'></label>
-                    </div>
-                </td>
-                <td>{$row['uid']}</td>
-                <td>{$row['uname']}</td>
-                <td>{$row['email']}</td>
-                <td>{$row['address']}</td>
-                <td>{$row['phonenumber']}</td>
-              </tr>";
+    <td>
+        <div class='form-check form-check-muted m-0'>
+            <label class='form-check-label'><input type='checkbox' class='form-check-input'></label>
+        </div>
+    </td>
+    <td>{$row['uid']}</td>
+    <td>{$row['uname']}</td>
+    <td>{$row['email']}</td>
+    <td>{$row['address']}</td>
+    <td>{$row['phonenumber']}</td>
+    <td>
+        <a href='?edit={$row['uid']}' class='btn btn-sm btn-warning me-1'>Sửa</a>
+        <a href='?delete={$row['uid']}' class='btn btn-sm btn-danger' onclick='return confirm(\"Xóa người dùng này?\")'>Xóa</a>
+    </td>
+</tr>";
+
+
     }
 } else {
     echo "<tr><td colspan='6' class='text-center'>Không có người dùng nào</td></tr>";

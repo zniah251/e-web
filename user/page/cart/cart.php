@@ -238,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
                       <a href="/e-web/user/index.php" class="text-body">
                         <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
                       </a>
-                      <a href="../checkout/checkout.php" class="btn btn-dark" style="min-width: 120px;">Order</a>
+                      <a href="../checkout/checkout.php" class="btn btn-dark" id="order-button" style="min-width: 120px;">Order</a>
                   </div>
                 </div>
               </div>
@@ -258,6 +258,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_key'])) {
   <script type="text/javascript" src="js/mdb.min.js"></script>
   <!-- Custom scripts -->
   <script type="text/javascript"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const orderBtn = document.getElementById('order-button');
+
+  if (!orderBtn) return;
+
+  orderBtn.addEventListener('click', function (e) {
+    const selectedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
+    if (selectedCheckboxes.length === 0) {
+      e.preventDefault(); // Ngăn chuyển trang
+      alert("🛒 Bạn chưa có sản phẩm nào trong giỏ hàng!");
+    }
+  });
+});
+</script>
+
 </body>
 <script>
 function updateQuantityOnServer(key, quantity) {
