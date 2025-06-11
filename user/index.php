@@ -449,7 +449,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         <div class="swiper-wrapper d-flex">
           <div class="swiper-slide">
             <?php
-            $str = "SELECT * FROM product WHERE pid = 103";
+            $str = "SELECT * FROM product WHERE pid = 101";
             $query = $conn->query($str);
             while ($row = $query->fetch_assoc()) {
               echo '
@@ -473,7 +473,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
           </div>
           <div class="swiper-slide">
             <?php
-            $str = "SELECT * FROM product WHERE pid = 115";
+            $str = "SELECT * FROM product WHERE pid = 8";
             $query = $conn->query($str);
             while ($row = $query->fetch_assoc()) {
               echo '
@@ -497,7 +497,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
           </div>
           <div class="swiper-slide">
             <?php
-            $str = "SELECT * FROM product WHERE pid = 40";
+            $str = "SELECT * FROM product WHERE pid = 133";
             $query = $conn->query($str);
             while ($row = $query->fetch_assoc()) {
               echo '
