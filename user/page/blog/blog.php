@@ -169,6 +169,7 @@ if ($conn->connect_error) {
 
   </div>
 </body>
-      
+
     <?php include('../../../footer.php'); ?>
+
 </html>
