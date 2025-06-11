@@ -25,13 +25,10 @@ if (isset($_POST['update_user'])) {
     $email = $_POST['email'];
     $address = $_POST['address'];
     $phone = $_POST['phonenumber'];
+    $rid = intval($_POST['rid']);
 
-    $stmt = $conn->prepare("UPDATE users SET uname=?, email=?, address=?, phonenumber=? WHERE uid=?");
-    $stmt->bind_param("ssssi", $uname, $email, $address, $phone, $uid);
-    $stmt->execute();
-
-    header("Location: ".$_SERVER['PHP_SELF']);
-    exit();
+    $stmt = $conn->prepare("UPDATE users SET uname=?, email=?, address=?, phonenumber=?, rid=? WHERE uid=?");
+    $stmt->bind_param("ssssiii", $uname, $email, $address, $phone, $rid, $uid);
 }
 
 
@@ -252,6 +249,7 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
     <div class="col-md-2"><input name="email" value="<?= $edit_user['email'] ?>" class="form-control" required></div>
     <div class="col-md-2"><input name="address" value="<?= $edit_user['address'] ?>" class="form-control"></div>
     <div class="col-md-2"><input name="phonenumber" value="<?= $edit_user['phonenumber'] ?>" class="form-control"></div>
+    <div class="col-md-2"><input name="rid" type="number" value="<?= $edit_user['rid'] ?>" class="form-control" required></div>
     <div class="col-md-2">
         <button type="submit" name="update_user" class="btn btn-primary w-100">Cập nhật</button>
     </div>
