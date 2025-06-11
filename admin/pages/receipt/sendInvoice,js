@@ -1,0 +1,63 @@
+const { getOrderData, getCustomerInfo } = require('./db');
+const { generateInvoice } = require('./generateInvoice');
+const { sendMailWithInvoice } = require('./sendMail');
+
+async function handleSendInvoice(orderId) {
+  try {
+    // Validate orderId
+    if (!orderId || isNaN(orderId)) {
+      console.log('❌ ID đơn hàng không hợp lệ.');
+      return false;
+    }
+
+    console.log(`📋 Đang xử lý đơn hàng #${orderId}...`);
+    
+    // Lấy thông tin khách hàng trước
+    const customerInfo = await getCustomerInfo(orderId);
+    if (!customerInfo) {
+      console.log('❌ Không tìm thấy thông tin khách hàng.');
+      return false;
+    }
+
+    // Kiểm tra email hợp lệ
+    if (!customerInfo.email || !customerInfo.email.includes('@')) {
+      console.log(`❌ Email không hợp lệ: ${customerInfo.email}`);
+      return false;
+    }
+
+    console.log(`👤 Khách hàng: ${customerInfo.uname} (${customerInfo.email})`);
+    
+    const orderData = await getOrderData(orderId);
+    if (!orderData || orderData.length === 0) {
+      console.log('❌ Không tìm thấy chi tiết đơn hàng.');
+      return false;
+    }
+
+    console.log(`📦 Tìm thấy ${orderData.length} sản phẩm trong đơn hàng`);
+    
+    // Tạo PDF với async/await
+    const filePath = await generateInvoice(orderData, orderId);
+    console.log(`📄 Đã tạo file PDF: ${filePath}`);
+    
+    const emailSent = await sendMailWithInvoice(customerInfo.email, orderId, filePath);
+    
+    if (emailSent) {
+      console.log(`✅ Hóa đơn đã được gửi thành công đến ${customerInfo.email}`);
+      return true;
+    } else {
+      console.log('❌ Không thể gửi email.');
+      return false;
+    }
+  } catch (error) {
+    console.error('⚠️ Lỗi:', error.message);
+    return false;
+  }
+}
+
+// Export function để có thể sử dụng từ bên ngoài
+module.exports = { handleSendInvoice };
+
+
+
+
+
