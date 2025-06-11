@@ -534,8 +534,8 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                 }
             });
 
-            // Tải đơn hàng ban đầu khi trang được load (mặc định là 'all')
-            fetchAndDisplayOrders('all');
+            // Tải đơn hàng ban đầu khi trang được load (mặc định là 'All')
+            fetchAndDisplayOrders('All');
         });
 
         // Thêm hàm htmlspecialchars vào đầu file JavaScript
