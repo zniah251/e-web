@@ -32,16 +32,16 @@ try {
         throw new Exception("Vui lòng nhập mật khẩu của bạn để xác nhận.");
     }
 
-    // 4. Kiểm tra xem người dùng có đơn hàng nào đang ở trạng thái 'Confirmed' không
-    $stmt = $conn->prepare("SELECT COUNT(*) as confirmed_count FROM orders WHERE uid = ? AND destatus = 'Confirmed'");
+    // 4. Kiểm tra xem người dùng có đơn hàng nào đang ở trạng thái 'Confirmed' hoặc 'Shipping' không
+    $stmt = $conn->prepare("SELECT COUNT(*) as active_orders FROM orders WHERE uid = ? AND destatus IN ('Confirmed', 'Shipping')");
     $stmt->bind_param("i", $uid);
     $stmt->execute();
     $result = $stmt->get_result();
-    $order_count = $result->fetch_assoc()['confirmed_count'];
+    $order_count = $result->fetch_assoc()['active_orders'];
     $stmt->close();
 
     if ($order_count > 0) {
-        throw new Exception("Không thể xóa tài khoản vì bạn có đơn hàng đang trong trạng thái chờ lấy hàng. Vui lòng chờ đơn hàng được giao hoặc hủy đơn hàng trước khi xóa tài khoản.");
+        throw new Exception("Không thể xóa tài khoản vì bạn có đơn hàng đang trong trạng thái chờ lấy hàng hoặc đang vận chuyển. Vui lòng chờ đơn hàng được giao hoặc hủy đơn hàng trước khi xóa tài khoản.");
     }
 
     // 5. Lấy mật khẩu đã hash của người dùng từ CSDL
