@@ -267,4 +267,6 @@ while ($row = mysqli_fetch_assoc($result)) {
          
     
   </body>
+  <script src="../../template/assets/vendors/js/vendor.bundle.base.js"></script>
+
 </html>
