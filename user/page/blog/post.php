@@ -42,28 +42,78 @@ $row = mysqli_fetch_assoc($result);
         href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Marcellus&display=swap"
         rel="stylesheet">
 <style>
-       body {
-            font-family: 'Times New Roman', serif;
-  
-            /* Thêm fallback font */
-        }
-        h1, h2, h3, h4, h5,h6 {
-            font-family: 'Times New Roman', Times, serif !important;
-            color: black;
-            /* Sử dụng font Times New Roman cho tiêu đề */
-        }
+    body {
+        font-family: 'Times New Roman', serif;
+        color: black;
+        background-color: #f9f9f9;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Times New Roman', Times, serif !important;
+        color: black;
+        font-weight: bold;
+    }
+
+    .blog-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px 30px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        border-radius: 10px;
+    }
+
+    .blog-container img {
+        display: block;
+        margin: 20px auto;
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+    }
+
+    .blog-container h1 {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .blog-container .date {
+        text-align: center;
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 25px;
+    }
+
+    .blog-container .content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        text-align: justify;
+        
+    }
+    .blog-container h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .blog-container h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
 </style>
+
 </head>
 <body>
     <?php include('../../../navbar.php'); ?>
     <div class="container py-5">
+    <div class="blog-container">
         <h1><?= htmlspecialchars($row['title']) ?></h1>
-        <p><em>Ngày đăng: <?= date('d/m/Y', strtotime($row['created_at'])) ?></em></p>
-        <img src="/e-web/blog/<?= htmlspecialchars($row['image']) ?>" alt="Blog Image" style="max-width:100%; height:auto;">
-        <div style="margin-top:20px;">
+        <p class="date"><em>Ngày đăng: <?= date('d/m/Y', strtotime($row['created_at'])) ?></em></p>
+        <img src="/e-web/blog/<?= htmlspecialchars($row['image']) ?>" alt="Blog Image">
+        <div class="content">
             <?= $row['content'] ?>
         </div>
     </div>
+</div>
+
     <?php include('../../../footer.php'); ?>
 </body>
 </html>
