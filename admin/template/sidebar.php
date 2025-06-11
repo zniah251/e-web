@@ -135,6 +135,7 @@
       <div class="collapse" id="manage-menu">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="/e-web/admin/pages/blog/blog.php">Manage Blog</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/e-web/admin/pages/blog/blog.php">Manage Message</a></li>
         </ul>
       </div>
     </li>
