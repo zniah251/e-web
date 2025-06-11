@@ -28,7 +28,8 @@ if (isset($_POST['update_user'])) {
     $rid = intval($_POST['rid']);
 
     $stmt = $conn->prepare("UPDATE users SET uname=?, email=?, address=?, phonenumber=?, rid=? WHERE uid=?");
-    $stmt->bind_param("ssssiii", $uname, $email, $address, $phone, $rid, $uid);
+    $stmt->bind_param("ssssii", $uname, $email, $address, $phone, $rid, $uid);
+    $stmt->execute();
 }
 
 
