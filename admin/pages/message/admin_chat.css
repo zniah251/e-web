@@ -619,3 +619,107 @@ div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb {
 div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb:hover {
     background: #888;
 }
+
+/* Khung chat chính */
+.chat-main-content,
+.chat-messages {
+    background: #23272f !important;
+    color: #e2e8f0 !important;
+}
+
+/* Danh sách chat bên trái */
+.chat-left-panel,
+.chat-session-list-container {
+    background: #23272f !important;
+    color: #e2e8f0 !important;
+    border-right: 1px solid #333 !important;
+}
+
+/* Session item */
+.session-item {
+    background: #23272f !important;
+    color: #e2e8f0 !important;
+    border: 1px solid transparent;
+}
+.session-item.active {
+    background: #393e46 !important;
+    color: #fff !important;
+}
+.session-item:hover {
+    background: #393e46 !important;
+    color: #fff !important;
+}
+
+/* Bubble */
+.customer-bubble,
+.customer-message {
+    background: #393e46 !important;
+    color: #fff !important;
+    border: 1px solid #444 !important;
+}
+.admin-bubble,
+.admin-message {
+    background: #222831 !important;
+    color: #fff !important;
+}
+
+/* Chat input */
+.chat-input {
+    background: #23272f !important;
+    border-top: 1px solid #333 !important;
+}
+.chat-input textarea {
+    background: #23272f !important;
+    color: #e2e8f0 !important;
+    border: 1.5px solid #444 !important;
+}
+.chat-input textarea:focus {
+    border-color: #fff !important;
+    background: #23272f !important;
+}
+
+/* Scrollbar */
+.chat-messages::-webkit-scrollbar-thumb,
+div[style*="overflow-y: auto"]::-webkit-scrollbar-thumb {
+    background: #444;
+}
+.chat-messages::-webkit-scrollbar-track,
+div[style*="overflow-y: auto"]::-webkit-scrollbar-track {
+    background: #23272f;
+}
+
+/* Ghi đè toàn bộ nền trắng/xám nhạt còn sót lại */
+.chat-main-content,
+.chat-messages,
+.chat-input,
+.chat-left-panel,
+.chat-session-list-container,
+.bg-light,
+.chat-admin-popup,
+.chat-admin-popup .popup-messages,
+.chat-admin-popup .popup-input {
+    background: #23272f !important;
+    color: #e2e8f0 !important;
+    border-color: #333 !important;
+}
+
+/* Nếu có padding trắng ở các vùng .chat-messages, .chat-input, .chat-admin-popup, .popup-messages */
+.chat-messages,
+.chat-input,
+.chat-admin-popup .popup-messages,
+.chat-admin-popup .popup-input {
+    background: #23272f !important;
+    color: #e2e8f0 !important;
+}
+
+/* Nếu còn vùng nào bị trắng, thêm selector vào đây */
+
+.container-fluid.pt-4.px-4.flex-grow-1.d-flex.flex-column {
+    background: #23272f !important;
+    color: #e2e8f0 !important;
+}
+
+.bg-white.rounded.p-4.mb-4.shadow-sm.flex-grow-1.d-flex.flex-column {
+    background: #23272f !important;
+    color: #e2e8f0 !important;
+}
