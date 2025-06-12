@@ -100,15 +100,7 @@
             <h1 class="logo">KAIRA</h1>
             <p class="welcome-text">Welcome to KAIRA!</p>
             <p class="subtitle">Đăng ký ngay để có trải nghiệm mua sắm tuyệt vời cùng chúng tôi.</p>
-            <p class="section-title">Đăng nhập nhanh với</p>
-            <div class="social-login-flex">
-                <!-- Google Sign-In button sẽ xuất hiện ở đây -->
-                <button type="button" class="social-button-full google" aria-label="Đăng nhập bằng Google">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_(September_2014).svg" alt="Google logo" class="google-icon-img"> Đăng nhập với Google
-                </button>
-                <div class="g_id_signin" data-type="standard"></div>
-            </div>
-            <div class="separator">Hoặc</div>
+    
             <div class="login-tabs active-password" id="signinTabs">
                 <div class="login-tab-item active" data-tab="signin">Đăng ký</div>
             </div>

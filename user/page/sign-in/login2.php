@@ -100,18 +100,6 @@
             <p class="welcome-text">Welcome to KAIRA!</p>
             <p class="subtitle">Đăng nhập ngay để có trải nghiệm mua sắm tuyệt vời cùng chúng tôi.</p>
 
-            <p class="section-title">Đăng nhập nhanh với</p>
-            <div class="social-login-flex">
-                <button type="button" class="social-button-full google" aria-label="Đăng nhập bằng Google">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_(September_2014).svg" alt="Google logo" class="google-icon-img"> Đăng nhập với Google
-                </button>
-            </div>
-
-            <div class="separator">Hoặc</div>
-
-            <div class="login-tabs active-password" id="loginTabs">
-                <div class="login-tab-item active" data-tab="password">Mật khẩu</div>
-            </div>
             <div id="passwordTabContent" class="tab-content active">
                 <div class="form-group">
                     <label for="phone-email-password">Số điện thoại hoặc email</label>
