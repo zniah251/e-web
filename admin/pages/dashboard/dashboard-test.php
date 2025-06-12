@@ -1,10 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['uid']) || $_SESSION['rid'] != 1) {
-    // Nếu không đăng nhập hoặc không phải admin, chuyển hướng về trang đăng nhập
-    header("Location: /e-web/user/page/sign-in/login2.php");
-    exit();
-}
+
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 function safe_query_count($conn, $query, $key = 'total', $default = 0)
 {
@@ -74,19 +70,19 @@ function safe_query_count($conn, $query, $key = 'total', $default = 0)
                         $productCount = safe_query_count($conn, "SELECT COUNT(*) AS total FROM product WHERE stock > 0");
                         $revenue = safe_query_count($conn, "SELECT SUM(totalfinal) AS total FROM `orders` WHERE paystatus = 'Paid'");
                         ?>
-                        <div class="bg-black p-4 rounded shadow" style="background-color: #bea3b6 !important; ">
+                        <div class="bg-black p-4 rounded shadow" style="background-color: #b3a3ba !important; ">
                             <h3 class="text-sm font-medium">Tổng đơn hàng</h3>
                             <p class="text-2xl font-bold" style="color: #44334a;"><?= $orderCount ?></p>
                         </div>
-                        <div class="bg-black p-4 rounded shadow" style="background-color: #bea3b6 !important;">
+                        <div class="bg-black p-4 rounded shadow" style="background-color: #b3a3ba !important;">
                             <h3 class="text-sm font-medium">Tổng người dùng</h3>
                             <p class="text-2xl font-bold" style="color: #44334a;"><?= $userCount ?></p>
                         </div>
-                        <div class="bg-black p-4 rounded shadow" style="background-color: #bea3b6 !important;">
+                        <div class="bg-black p-4 rounded shadow" style="background-color: #b3a3ba !important;">
                             <h3 class="text-sm font-medium">Sản phẩm đang bán</h3>
                             <p class="text-2xl font-bold" style="color: #44334a;"><?= $productCount ?></p>
                         </div>
-                        <div class="bg-black p-4 rounded shadow" style="background-color: #bea3b6 !important;">
+                        <div class="bg-black p-4 rounded shadow" style="background-color: #b3a3ba !important;">
                             <h3 class="text-sm font-medium">Tổng doanh thu</h3>
                             <p class="text-2xl font-bold" style="color: #44334a;"><?= number_format($revenue, 0) ?> VNĐ </p>
                         </div>
@@ -94,22 +90,22 @@ function safe_query_count($conn, $query, $key = 'total', $default = 0)
 
                     <!-- Biểu đồ kết hợp và Pie chart cạnh nhau -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <div class="bg-black p-4 rounded shadow" style="background-color: #bea3b6 !important;">
+                        <div class="bg-black p-4 rounded shadow" style="background-color: #b3a3ba !important;">
                             <h2 class="text-lg font-bold mb-2">Doanh thu và đơn hàng theo tháng</h2>
                             <canvas id="revenueChart"></canvas>
                         </div>
-                        <div class="bg-black p-4 rounded shadow" style="background-color: #bea3b6 !important;">
+                        <div class="bg-black p-4 rounded shadow" style="background-color: #b3a3ba !important;">
                             <h2 class="text-lg font-bold mb-2">Trạng thái đơn hàng</h2>
                             <canvas id="statusChart"></canvas>
                         </div>
                     </div>
                     <!-- Biểu đồ người dùng mới và Sản phẩm bán chạy nhất cạnh nhau -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <div class="bg-black p-4 rounded shadow" style="background-color: #bea3b6 !important;">
+                        <div class="bg-black p-4 rounded shadow" style="background-color: #b3a3ba !important;">
                             <h2 class="text-lg font-bold mb-2">Người dùng mới</h2>
                             <canvas id="userChart"></canvas>
                         </div>
-                        <div class="bg-black p-4 rounded shadow" style="background-color: #bea3b6 !important; color: #46315c;">
+                        <div class="bg-black p-4 rounded shadow" style="background-color: #b3a3ba !important; color: #46315c;">
                             <h2 class="text-lg font-bold mb-2">Sản phẩm bán chạy</h2>
                             <div class="grid g rid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 <?php
@@ -126,7 +122,7 @@ function safe_query_count($conn, $query, $key = 'total', $default = 0)
                     </div>
 
                     <!-- Người dùng mới -->
-                    <div class="bg-black p-4 rounded shadow mb-6" style="background-color: #bea3b6 !important;">
+                    <div class="bg-black p-4 rounded shadow mb-6" style="background-color: #b3a3ba !important;">
                         <h2 class="text-lg font-bold mb-2">Khách hàng mua nhiều nhất</h2>
                         <table class="w-full text-left" style="color: #46315c;">
                             <thead>
@@ -155,7 +151,7 @@ function safe_query_count($conn, $query, $key = 'total', $default = 0)
                     </div>
 
                     <!-- Sản phẩm gần hết hàng -->
-                    <div class="bg-black p-4 rounded shadow mb-6" style="background-color: #bea3b6 !important;">
+                    <div class="bg-black p-4 rounded shadow mb-6" style="background-color: #b3a3ba !important;">
                         <h2 class="text-lg font-bold mb-2">Sản phẩm gần hết hàng</h2>
                         <table class="w-full text-left" style="color: #46315c;">
                             <thead>

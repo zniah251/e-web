@@ -310,15 +310,18 @@ th.sortable {
 .Shipping {
   background: #6E3482;
 }
-.Dispatched {
+.Cancelled {
   background: #420D4B;
 }
-.Out-for-delivery {
+.Confirmed {
   background: #210635;
 }
 .Delivered {
   background: #A56ABD;
   color: white;
+}
+.Returned {
+  color: black;
 }
 
 /* Payment Status */

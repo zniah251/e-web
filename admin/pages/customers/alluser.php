@@ -97,10 +97,51 @@ $offset = ($page - 1) * $limit;
             text-decoration: none !important;
         }
 
-        /* Đảm bảo form không bị block */
-        .d-flex form {
-            display: inline-block;
-            margin: 0;
+        .btn-link.custom-purple:hover,
+        .btn-link.custom-gray:hover {
+            opacity: 0.7;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #6366F1;
+            border-color: #6366F1;
+            color: white;
+        }
+
+        .pagination .page-item .page-link {
+            color: white;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle !important;
+        }
+
+        .table thead th {
+            font-weight: bold;
+            background: #f3f4f6;
+            color: #222;
+        }
+
+        .table tbody tr {
+            background: #fff;
+        }
+
+        .table tbody tr:hover {
+            background: #f1f5f9;
+        }
+
+        select.form-control,
+        select.btn {
+            background: #23272f;
+            color: #fff;
+            border: 1px solid #6366f1;
+        }
+
+        input.form-control {
+            background: #23272f;
+            color: #fff;
+            border: 1px solid #6366f1;
         }
         /* Toàn màn hình overlay */
 .overlay-form {
@@ -167,6 +208,41 @@ input.form-control::placeholder {
   color: #bbb !important;
 }
 
+/* Đảm bảo nền đồng bộ với productlist */
+.content-wrapper,
+.card,
+.table tbody tr {
+    background: #23272f !important;
+    color: #e2e8f0 !important;
+}
+.table thead th {
+    background: #23272f !important;
+    color: #fff !important;
+}
+.table tbody tr:hover {
+    background: #393e46 !important;
+}
+
+/* Nền đen cho toàn bộ trang */
+body, .content-wrapper {
+    background: #181a20 !important;
+}
+
+/* Giới hạn chiều rộng và căn giữa nội dung chính */
+.content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 0 40px 0;
+    min-height: 100vh;
+    background: none !important; /* Đảm bảo không bị ghi đè */
+}
+
+/* Card nổi bật trên nền đen */
+.card {
+    background: #23272f !important;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px 0 #00000033;
+}
     </style>
 </head>
 
@@ -212,26 +288,31 @@ input.form-control::placeholder {
                 <div class="card-body">
                     <!-- Tìm kiếm & export -->
                     <div class="row align-items-center mb-4">
-                        <div class="col-md-6">
-                            <form method="GET" class="d-flex w-100">
-                                <input type="text" name="search" class="form-control me-2" placeholder="Tìm theo tên hoặc số điện thoại" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-                                <button type="submit" class="btn btn-light ms-2">Tìm</button>
-                            </form>
-                        </div>
-                        <div class="col-md-6 text-end">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="mdi mdi-logout"></i> Export
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                    <a class="dropdown-item" href="#" onclick="openPrintTab(event)"><span class="mdi mdi-printer"></span> Print</a>
-                                    <a class="dropdown-item" href="#" onclick="exportTableToExcel('users.xls')"><span class="mdi mdi-file-excel"></span> Excel</a>
-                                    <a class="dropdown-item" href="#" onclick="exportTableToPDF()"><span class="mdi mdi-file-pdf"></span> PDF</a>
-                                    <a class="dropdown-item" href="#"><span class="mdi mdi-content-copy"></span> Copy</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="col">
+        <input type="text" id="searchUser" class="form-control todo-list-input" placeholder="Search user" style="color:white;">
+    </div>
+    <div class="col">
+        <select class="btn btn-secondary dropdown-toggle" id="userPerPage" style="text-align: center; text-align-last: center;">
+            <option value="10" <?php if ($limit == 10) echo 'selected'; ?>>10</option>
+            <option value="25" <?php if ($limit == 25) echo 'selected'; ?>>25</option>
+            <option value="50" <?php if ($limit == 50) echo 'selected'; ?>>50</option>
+            <option value="100" <?php if ($limit == 100) echo 'selected'; ?>>100</option>
+        </select>
+    </div>
+    <div class="col text-end">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="mdi mdi-logout"></i> Export
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                <a class="dropdown-item" href="#" onclick="openPrintTab(event)"><span class="mdi mdi-printer"></span> Print</a>
+                <a class="dropdown-item" href="#" onclick="exportTableToExcel('users.xls')"><span class="mdi mdi-file-excel"></span> Excel</a>
+                <a class="dropdown-item" href="#" onclick="exportTableToPDF()"><span class="mdi mdi-file-pdf"></span> PDF</a>
+                <a class="dropdown-item" href="#"><span class="mdi mdi-content-copy"></span> Copy</a>
+            </div>
+        </div>
+    </div>
+</div>
                     
                     <!-- Bảng dữ liệu -->
                     <div class="table-responsive">
@@ -252,13 +333,17 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
     <div class="col-md-2"><input name="phonenumber" value="<?= $edit_user['phonenumber'] ?>" class="form-control"></div>
     <div class="col-md-2"><input name="rid" type="number" value="<?= $edit_user['rid'] ?>" class="form-control" required></div>
     <div class="col-md-2">
-        <button type="submit" name="update_user" class="btn btn-primary w-100">Cập nhật</button>
+        <button type="submit" name="update_user" class="btn" style="background:#a78bfa;color:#fff;font-weight:500;width:100%;">
+    <i class="mdi mdi-content-save"></i> Cập nhật
+</button>
     </div>
 </form>
 <?php endif; ?>
 
 <!-- Nút mở form -->
-<button class="btn btn-success mb-3" onclick="toggleAddForm()">+ Thêm người dùng</button>
+<a class="btn" style="background:#a78bfa;color:#fff;font-weight:500;box-shadow:0 2px 8px 0 #a78bfa33;" onclick="toggleAddForm()">
+    <i class='mdi mdi-plus'></i> Thêm người dùng
+</a>
 
 <!-- Overlay Form -->
 <div id="addUserOverlay" class="overlay-form">
@@ -272,29 +357,32 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
       <input name="password" type="password" class="form-control mb-3" placeholder="Mật khẩu" required>
       <input name="rid" type="number" class="form-control mb-3" placeholder="Role ID" required>
       <div class="d-flex justify-content-between">
-        <button type="submit" name="add_user" class="btn btn-light">Thêm</button>
+        <button type="submit" name="add_user" class="btn" style="background:#a78bfa;color:#fff;font-weight:500;">
+            <i class='mdi mdi-plus'></i> Thêm
+        </button>
         <button type="button" class="btn btn-secondary" onclick="toggleAddForm()">Hủy</button>
       </div>
     </form>
   </div>
 </div>
 
-                        <table class="table">
-                            <thead>
-  <tr>
-    <th><input type="checkbox" class="form-check-input"></th>
-    <th>USER ID</th>
-    <th>Tên Khách Hàng</th>
-    <th>Email</th>
-    <th>Địa chỉ</th>
-    <th>Số điện thoại</th>
-    <th>Role ID</th>
-    <th>Ngày tạo</th>
-    <th>Hành động</th>
-  </tr>
-</thead>
-                            <tbody>
-                                <?php
+<!-- Bảng dữ liệu -->
+<table class="table">
+    <thead>
+      <tr>
+        <th><input type="checkbox" class="form-check-input"></th>
+        <th>USER ID</th>
+        <th>Tên Khách Hàng</th>
+        <th>Email</th>
+        <th>Địa chỉ</th>
+        <th>Số điện thoại</th>
+        <th>Role ID</th>
+        <th>Ngày tạo</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+        <?php
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $search_sql = '';
 if ($search !== '') {
@@ -330,26 +418,42 @@ if ($user_result->num_rows > 0) {
     <td>{$row['rid']}</td>
     <td>{$row['created_at']}</td>
     <td>
-        <a href='?edit={$row['uid']}' class='btn btn-sm btn-warning me-1'>Sửa</a>
-        <a href='?delete={$row['uid']}' class='btn btn-sm btn-danger' onclick='return confirm(\"Xóa người dùng này?\")'>Xóa</a>
+        <div class='d-flex align-items-center gap-2'>
+            <a href='?edit={$row['uid']}' class='btn btn-link custom-purple p-0' title='Sửa'>
+                <i class='mdi mdi-pencil'></i>
+            </a>
+            <a href='?delete={$row['uid']}' class='btn btn-link custom-gray p-0' title='Xóa' onclick='return confirm(\"Xóa người dùng này?\")'>
+                <i class='mdi mdi-close-circle'></i>
+            </a>
+        </div>
     </td>
 </tr>";
     }
 } else {
-    echo "<tr><td colspan='6' class='text-center'>Không có người dùng nào</td></tr>";
+    echo "<tr><td colspan='9' class='text-center'>Không có người dùng nào</td></tr>";
 }
 ?>
-
-                            </tbody>
-                        </table>
-                        <div class="d-flex justify-content-end mt-3">
-    <nav aria-label="Phân trang người dùng">
+    </tbody>
+</table>
+<div class="d-flex justify-content-end mt-3">
+    <nav aria-label="User list pagination">
         <ul class="pagination mb-0">
             <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
                 <a class="page-link" href="?page=<?php echo $page - 1; ?>&limit=<?php echo $limit; ?>&search=<?php echo urlencode($search); ?>">«</a>
             </li>
             <?php
-            for ($i = 1; $i <= $total_pages; $i++) {
+            $start_page = max(1, $page - 2);
+            $end_page = min($total_pages, $page + 2);
+            if ($end_page - $start_page + 1 < 5 && $total_pages > 5) {
+                if ($page <= 3) {
+                    $end_page = min($total_pages, 5);
+                    $start_page = 1;
+                } elseif ($page >= $total_pages - 2) {
+                    $start_page = max(1, $total_pages - 4);
+                    $end_page = $total_pages;
+                }
+            }
+            for ($i = $start_page; $i <= $end_page; $i++) {
                 $active = ($i == $page) ? 'active' : '';
                 echo "<li class='page-item $active'><a class='page-link' href='?page=$i&limit=$limit&search=" . urlencode($search) . "'>$i</a></li>";
             }
@@ -522,5 +626,30 @@ document.addEventListener('keydown', function (e) {
     if (e.key === "Escape") {
         document.getElementById('addUserOverlay').classList.remove('active');
     }
+});
+</script>
+<script>
+// Tìm kiếm user theo tên hoặc số điện thoại (cột 3 và 6)
+document.getElementById('searchUser').addEventListener('input', function() {
+    var filter = this.value.trim().toUpperCase();
+    var table = document.querySelector('.table');
+    var trs = table.getElementsByTagName('tr');
+    for (var i = 1; i < trs.length; i++) {
+        var tdName = trs[i].getElementsByTagName('td')[2]; // Tên
+        var tdPhone = trs[i].getElementsByTagName('td')[5]; // Số điện thoại
+        var txtValue = '';
+        if (tdName) txtValue += tdName.textContent.trim();
+        if (tdPhone) txtValue += ' ' + tdPhone.textContent.trim();
+        trs[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+    }
+});
+
+// Chọn số lượng hiển thị/trang
+document.getElementById('userPerPage').addEventListener('change', function() {
+    const limit = this.value;
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('limit', limit);
+    urlParams.set('page', 1); // Reset về trang 1 khi đổi limit
+    window.location.search = urlParams.toString();
 });
 </script>

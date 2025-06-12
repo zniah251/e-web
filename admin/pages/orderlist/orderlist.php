@@ -83,6 +83,7 @@ $result = $stmt->get_result();
 // ... xử lý $result ...
 $stmt->close();
 
+$filter_cid = isset($_GET['category_id']) ? intval($_GET['category_id']) : null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -622,4 +623,7 @@ $conn->close();
             }
         }
     });
+</script>
+<script></script>
+
 </script>
