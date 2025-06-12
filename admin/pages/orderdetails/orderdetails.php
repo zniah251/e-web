@@ -1,6 +1,18 @@
 <?php
 // orderdetails.php
+session_start();
+if (!isset($_SESSION['uid']) || $_SESSION['uid'] <= 0) {
+    // Điều chỉnh đường dẫn đến trang đăng nhập của bạn
+    header("Location: /e-web/user/page/sign-in/login2.php");
+    exit();
+}
 
+// Kiểm tra quyền admin
+if (!isset($_SESSION['rid']) || $_SESSION['rid'] != 1) {
+    // Nếu không phải admin, chuyển hướng về trang chủ
+    header("Location: /e-web/user/index.php");
+    exit();
+}
 // 1. KẾT NỐI CƠ SỞ DỮ LIỆU
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 
