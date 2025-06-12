@@ -288,7 +288,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
                 const verificationCode = Math.floor(100000 + Math.random() * 900000);
 
                 // B3: Gửi mã xác thực qua Node.js API
-                const sendMailRes = await fetch('http://localhost:3000/send-verification', {
+                const sendMailRes = await fetch('http://localhost:3001/send-verification', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -424,7 +424,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
             }
         });
 
-        function showToast(message, duration = 3000) {
+        function showToast(message, duration = 3001) {
             const toast = document.getElementById('success-toast');
             const toastMessage = document.getElementById('toast-message');
             toastMessage.textContent = message;

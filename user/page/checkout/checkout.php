@@ -36,13 +36,22 @@ $voucherData = null;
 
 // Load danh sách voucher
 $voucherList = [];
-$sql = "SELECT vid, name, discount, minprice, expiry FROM voucher WHERE expiry >= CURDATE()";
-$result = $conn->query($sql);
+// Lấy danh sách voucher mà user này sở hữu và còn hạn
+$sql = "SELECT v.vid, v.name, v.discount, v.minprice, v.expiry 
+        FROM voucher v
+        INNER JOIN user_voucher uv ON v.vid = uv.vid
+        WHERE uv.uid = ? AND v.expiry >= CURDATE() AND uv.status = 'unused'";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $uid);
+$stmt->execute();
+$result = $stmt->get_result();
+$voucherList = [];
 if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $voucherList[] = $row;
   }
 }
+$stmt->close();
 
 // Tính toán giá giỏ hàng
 $total = 0;
@@ -57,8 +66,12 @@ $discount = 0;
 $voucherMessage = '';
 
 if ($voucherName !== '') {
-  $stmt = $conn->prepare("SELECT * FROM voucher WHERE name = ?");
-  $stmt->bind_param("s", $voucherName);
+  $stmt = $conn->prepare(
+    "SELECT v.* FROM voucher v
+     INNER JOIN user_voucher uv ON v.vid = uv.vid
+     WHERE v.name = ? AND uv.uid = ? AND v.expiry >= CURDATE() AND uv.status = 'unused'"
+  );
+  $stmt->bind_param("si", $voucherName, $uid);
   $stmt->execute();
   $voucherData = $stmt->get_result()->fetch_assoc();
   $stmt->close();
@@ -232,24 +245,27 @@ input[type="radio"]:checked + label img {
   <div id="selected-voucher" class="mb-2 text-success fw-bold"></div>
   <input type="hidden" name="voucher" id="voucher-hidden" value="<?= htmlspecialchars($voucherName) ?>">
   <div id="voucher-list" class="border p-3 rounded bg-light" style="display: none;">
-   <?php foreach ($voucherList as $v): ?>
-  <div class="form-check mb-2 bg-white p-3 rounded shadow-sm">
-    <input class="form-check-input" type="radio" name="voucher_select" value="<?= htmlspecialchars($v['name']) ?>" id="voucher_<?= $v['vid'] ?>">
-    <label class="form-check-label" for="voucher_<?= $v['vid'] ?>">
-      <strong><?= htmlspecialchars($v['name']) ?></strong><br>
-      Đơn hàng từ <?= number_format($v['minprice'], 0, ',', '.') ?>đ<br>
-      <?php if (strtolower(trim($v['name'])) === 'free shipping'): ?>
-       Giảm <strong>không giới hạn</strong><br>
-      <?php else: ?>
-        Giảm <?= number_format($v['discount'], 0) ?>%<br>
-      <?php endif; ?>
-      <em class="text-muted">HSD đến: <?= date('d-m-Y', strtotime($v['expiry'])) ?></em>
-    </label>
-  </div>
-<?php endforeach; ?>
-
+  <?php if (empty($voucherList)): ?>
+    <div class="alert alert-warning mb-0">Hiện tại bạn chưa lưu voucher</div>
+  <?php else: ?>
+    <?php foreach ($voucherList as $v): ?>
+      <div class="form-check mb-2 bg-white p-3 rounded shadow-sm">
+        <input class="form-check-input" type="radio" name="voucher_select" value="<?= htmlspecialchars($v['name']) ?>" id="voucher_<?= $v['vid'] ?>">
+        <label class="form-check-label" for="voucher_<?= $v['vid'] ?>">
+          <strong><?= htmlspecialchars($v['name']) ?></strong><br>
+          Đơn hàng từ <?= number_format($v['minprice'], 0, ',', '.') ?>đ<br>
+          <?php if (strtolower(trim($v['name'])) === 'free shipping'): ?>
+            Giảm <strong>không giới hạn</strong><br>
+          <?php else: ?>
+            Giảm <?= number_format($v['discount'], 0) ?>%<br>
+          <?php endif; ?>
+          <em class="text-muted">HSD đến: <?= date('d-m-Y', strtotime($v['expiry'])) ?></em>
+        </label>
+      </div>
+    <?php endforeach; ?>
     <button type="button" class="btn btn-primary mt-2" id="confirm-voucher">Xác nhận</button>
-  </div>
+  <?php endif; ?>
+</div>
 </div>
 
 

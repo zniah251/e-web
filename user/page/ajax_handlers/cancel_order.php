@@ -29,6 +29,8 @@ if (!isset($data['order_id'])) {
 $orderId = intval($data['order_id']);
 $userId = $_SESSION['uid'];
 
+$response = ['success' => false];
+
 try {
     // First check if the order belongs to the user and is in Pending status
     $checkQuery = "SELECT destatus FROM orders WHERE oid = ? AND uid = ? AND destatus = 'Pending' LIMIT 1";
@@ -49,47 +51,31 @@ try {
     $updateQuery = "UPDATE orders SET destatus = 'Cancelled' WHERE oid = ? AND uid = ?";
     $stmt = $conn->prepare($updateQuery);
     $stmt->bind_param("ii", $orderId, $userId);
-    
-    if ($stmt->execute()) {
-        // Get all products from the cancelled order
-        $getProductsQuery = "SELECT od.pid, od.quantity, p.stock, p.sold 
-                            FROM order_detail od 
-                            JOIN product p ON od.pid = p.pid 
-                            WHERE od.oid = ?";
-        $stmt = $conn->prepare($getProductsQuery);
-        $stmt->bind_param("i", $orderId);
+    $success = $stmt->execute();
+    $stmt->close();
+
+    // Get vid of the order (if any)
+    $stmt = $conn->prepare("SELECT vid FROM orders WHERE oid = ? AND uid = ?");
+    $stmt->bind_param("ii", $orderId, $userId);
+    $stmt->execute();
+    $stmt->bind_result($vid);
+    $stmt->fetch();
+    $stmt->close();
+
+    // If the order used a voucher, update user_voucher.status to 'unused'
+    if ($success && $vid) {
+        $stmt = $conn->prepare("UPDATE user_voucher SET status = 'unused' WHERE uid = ? AND vid = ?");
+        $stmt->bind_param("ii", $userId, $vid);
         $stmt->execute();
-        $productsResult = $stmt->get_result();
-
-        // Update stock and sold for each product
-        while ($product = $productsResult->fetch_assoc()) {
-            $newStock = $product['stock'] + $product['quantity'];
-            $newSold = $product['sold'] - $product['quantity'];
-            
-            $updateProductQuery = "UPDATE product 
-                                 SET stock = ?, sold = ? 
-                                 WHERE pid = ?";
-            $stmt = $conn->prepare($updateProductQuery);
-            $stmt->bind_param("iii", $newStock, $newSold, $product['pid']);
-            $stmt->execute();
-        }
-
-        echo json_encode([
-            'success' => true,
-            'message' => 'Đơn hàng đã được hủy thành công.'
-        ]);
-    } else {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Có lỗi xảy ra khi hủy đơn hàng.'
-        ]);
+        $stmt->close();
     }
 
+    $response['success'] = $success;
+    $response['message'] = $success ? 'Đơn hàng đã được hủy thành công.' : 'Có lỗi xảy ra khi hủy đơn hàng.';
 } catch (Exception $e) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
-    ]);
+    $response['message'] = 'Có lỗi xảy ra: ' . $e->getMessage();
 }
 
-$conn->close(); 
+echo json_encode($response);
+
+$conn->close();

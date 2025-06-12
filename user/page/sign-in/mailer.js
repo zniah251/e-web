@@ -57,7 +57,7 @@ app.post('/send-verification', async (req, res) => {
   }
 });
 
-const PORT = 3000;
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Mailer API đang chạy tại http://localhost:${PORT}`);
 });

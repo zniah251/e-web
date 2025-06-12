@@ -460,7 +460,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
     }
     async function respondBot(userText) {
       try {
-        const response = await fetch('http://localhost:3000/api/chat', {
+        const response = await fetch('http://localhost:3002/api/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -494,7 +494,7 @@ if (!isset($_SESSION['uid'])) {
     async function respondBot(userText) {
       try {
         // Gửi tin nhắn của người dùng đến backend
-        const response = await fetch('http://localhost:3000/api/chat', {
+        const response = await fetch('http://localhost:3002/api/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -40,7 +40,7 @@ async function getOrderData(orderId) {
 
     // Kiểm tra xem có dữ liệu không
     if (rows.length === 0) {
-      console.log(`❌ Không tìm thấy đơn hàng với ID: ${orderId}`);
+      console.log(`Không tìm thấy đơn hàng với ID: ${orderId}`);
       return null;
     }
 
@@ -48,7 +48,7 @@ async function getOrderData(orderId) {
     
     return rows;
   } catch (error) {
-    console.error('❌ Lỗi khi truy vấn database:', error.message);
+    console.error('Lỗi khi truy vấn database:', error.message);
     throw error;
   } finally {
     await connection.end();
@@ -79,7 +79,7 @@ async function getCustomerInfo(orderId) {
 
     return rows[0] || null;
   } catch (error) {
-    console.error('❌ Lỗi khi lấy thông tin khách hàng:', error.message);
+    console.error('Lỗi khi lấy thông tin khách hàng:', error.message);
     throw error;
   } finally {
     await connection.end();

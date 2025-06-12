@@ -44,15 +44,15 @@ www.kairashop.vn
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log('✅ Email đã được gửi thành công:', info.messageId);
+    console.log('Email đã được gửi thành công:', info.messageId);
 
     // Xóa file PDF sau khi gửi
     fs.unlinkSync(filePath);
-    console.log('✅ File PDF đã được xóa');
+    console.log('File PDF đã được xóa');
 
     return true;
   } catch (error) {
-    console.error('❌ Lỗi gửi email:', error.message);
+    console.error('Lỗi gửi email:', error.message);
     return false;
   }
 }

@@ -93,12 +93,12 @@ function generateInvoice(orderData, orderId) {
         resolve(filePath);
       });
       writeStream.on('error', (err) => {
-        console.error(`❌ PDF generation error: ${err.message}`);
+        console.error(`PDF generation error: ${err.message}`);
         reject(err);
       });
     });
   } catch (err) {
-    console.error(`❌ Unexpected error: ${err.message}`);
+    console.error(`Unexpected error: ${err.message}`);
     throw err;
   }
 }

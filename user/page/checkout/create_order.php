@@ -30,21 +30,25 @@ foreach ($products as $p) {
 
 // 2. Xử lý voucher nếu có và đủ điều kiện
 if ($voucher !== '') {
-    $stmt = $conn->prepare("SELECT vid, discount, minprice, name FROM voucher WHERE name = ?");
+    $stmt = $conn->prepare("SELECT vid, discount, minprice, name, expiry FROM voucher WHERE name = ?");
     $stmt->bind_param("s", $voucher);
     $stmt->execute();
-    $stmt->bind_result($vidFound, $discountPercent, $minprice, $vname);
+    $stmt->bind_result($vidFound, $discountPercent, $minprice, $vname, $expiry);
     if ($stmt->fetch()) {
-        if ($total >= $minprice) { // chỉ áp dụng nếu đủ điều kiện
-            $vid = $vidFound;
-            $voucher_minprice = $minprice;
-            if (strtolower(trim($vname)) === 'free shipping') {
-                $shipping = 0;
-            } else {
-                $discount = $total * ($discountPercent / 100);
+        // Kiểm tra hạn sử dụng
+        if (strtotime($expiry) >= strtotime(date('Y-m-d'))) {
+            if ($total >= $minprice) { // chỉ áp dụng nếu đủ điều kiện
+                $vid = $vidFound;
+                $voucher_minprice = $minprice;
+                if (strtolower(trim($vname)) === 'free shipping') {
+                    $shipping = 0;
+                } else {
+                    $discount = $total * ($discountPercent / 100);
+                }
             }
+            // Nếu không đủ điều kiện, không set $vid, $discount
         }
-        // Nếu không đủ điều kiện, không set $vid, $discount
+        // Nếu hết hạn, không set $vid, $discount
     }
     $stmt->close();
 }
@@ -58,8 +62,7 @@ $conn->begin_transaction();
 try {
     // 5. Lưu đơn hàng
     $stmt = $conn->prepare("INSERT INTO orders (uid, totalfinal, price, destatus, paymethod, paystatus, create_at, vid) VALUES (?, ?, ?, 'Pending', ?, 'Pending', NOW(), ?)");
-    // Nếu $vid là null, truyền giá trị mặc định (ví dụ 0)
-    $vid_to_save = $vid ?? 0;
+    $vid_to_save = $vid ?? null;
     $stmt->bind_param("iddsi", $uid, $totalfinal, $total, $method, $vid_to_save);
     $stmt->execute();
 
@@ -90,10 +93,17 @@ try {
         $stmt->execute();
     }
 
+    // 8. Nếu có voucher, cập nhật user_voucher.status = 'used'
+    if ($vid_to_save) {
+        $stmt = $conn->prepare("UPDATE user_voucher SET status = 'used' WHERE uid = ? AND vid = ?");
+        $stmt->bind_param("ii", $uid, $vid_to_save);
+        $stmt->execute();
+    }
+
     $conn->commit();
     unset($_SESSION['cart']);
 
-    // 8. Redirect
+    // 9. Redirect
     switch ($method) {
         case 'MOMO':
             header("Location: momo_payment_info.php?orderId=$oid");

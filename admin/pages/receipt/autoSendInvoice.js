@@ -24,9 +24,9 @@ async function createInvoiceLogTable() {
         INDEX (order_id)
       )
     `);
-    console.log('✅ Bảng invoice_sent_log đã được tạo/kiểm tra');
+    console.log('Bảng invoice_sent_log đã được tạo/kiểm tra');
   } catch (error) {
-    console.error('❌ Lỗi tạo bảng invoice_sent_log:', error.message);
+    console.error('Lỗi tạo bảng invoice_sent_log:', error.message);
   } finally {
     await connection.end();
   }
@@ -65,7 +65,7 @@ async function getConfirmedOrders() {
 
     return rows;
   } catch (error) {
-    console.error('❌ Lỗi khi lấy danh sách đơn hàng confirmed:', error.message);
+    console.error('Lỗi khi lấy danh sách đơn hàng confirmed:', error.message);
     return [];
   } finally {
     await connection.end();
@@ -91,9 +91,9 @@ async function markInvoiceAsSent(orderId) {
       WHERE o.oid = ?
     `, [orderId]);
 
-    console.log(`✅ Đã đánh dấu đơn hàng #${orderId} đã gửi email`);
+    console.log(`Đã đánh dấu đơn hàng #${orderId} đã gửi email`);
   } catch (error) {
-    console.error(`❌ Lỗi khi đánh dấu đơn hàng #${orderId}:`, error.message);
+    console.error(`Lỗi khi đánh dấu đơn hàng #${orderId}:`, error.message);
   } finally {
     await connection.end();
   }
@@ -117,7 +117,7 @@ async function logInvoiceError(orderId, errorMessage) {
       WHERE o.oid = ?
     `, [errorMessage, orderId]);
   } catch (error) {
-    console.error(`❌ Lỗi khi ghi log lỗi cho đơn hàng #${orderId}:`, error.message);
+    console.error(`Lỗi khi ghi log lỗi cho đơn hàng #${orderId}:`, error.message);
   } finally {
     await connection.end();
   }
@@ -125,24 +125,24 @@ async function logInvoiceError(orderId, errorMessage) {
 
 // Function chính để xử lý tự động gửi hóa đơn
 async function processConfirmedOrders() {
-  console.log('🔄 Bắt đầu kiểm tra đơn hàng đã confirm...');
+  console.log('Bắt đầu kiểm tra đơn hàng đã confirm...');
   
   try {
     const confirmedOrders = await getConfirmedOrders();
     
     if (confirmedOrders.length === 0) {
-      console.log('ℹ️ Không có đơn hàng nào cần gửi hóa đơn.');
-      console.log('💡 Lý do có thể là:');
+      console.log('ℹ Không có đơn hàng nào cần gửi hóa đơn.');
+      console.log(' Lý do có thể là:');
       console.log('   - Không có đơn hàng nào có trạng thái "Confirmed"');
       console.log('   - Tất cả đơn hàng confirmed đã được gửi hóa đơn');
       console.log('   - Chưa có đơn hàng nào trong database');
       return;
     }
 
-    console.log(`📋 Tìm thấy ${confirmedOrders.length} đơn hàng cần gửi hóa đơn:`);
+    console.log(`Tìm thấy ${confirmedOrders.length} đơn hàng cần gửi hóa đơn:`);
     
     for (const order of confirmedOrders) {
-      console.log(`\n📦 Xử lý đơn hàng #${order.oid} - ${order.uname} (${order.email})`);
+      console.log(`\nXử lý đơn hàng #${order.oid} - ${order.uname} (${order.email})`);
       
       try {
         // Gửi hóa đơn
@@ -150,24 +150,24 @@ async function processConfirmedOrders() {
         
         if (result) {
           await markInvoiceAsSent(order.oid);
-          console.log(`✅ Đã gửi hóa đơn thành công cho đơn hàng #${order.oid}`);
+          console.log(`Đã gửi hóa đơn thành công cho đơn hàng #${order.oid}`);
         } else {
           await logInvoiceError(order.oid, 'Gửi email thất bại');
-          console.log(`❌ Không thể gửi hóa đơn cho đơn hàng #${order.oid}`);
+          console.log(` Không thể gửi hóa đơn cho đơn hàng #${order.oid}`);
         }
       } catch (error) {
         await logInvoiceError(order.oid, error.message);
-        console.error(`💥 Lỗi xử lý đơn hàng #${order.oid}:`, error.message);
+        console.error(`Lỗi xử lý đơn hàng #${order.oid}:`, error.message);
       }
       
       // Delay 2 giây giữa các lần gửi để tránh spam
       await new Promise(resolve => setTimeout(resolve, 2000));
     }
     
-    console.log('\n✅ Hoàn thành xử lý tất cả đơn hàng confirmed!');
+    console.log('\nHoàn thành xử lý tất cả đơn hàng confirmed!');
     
   } catch (error) {
-    console.error('💥 Lỗi trong quá trình xử lý:', error.message);
+    console.error('Lỗi trong quá trình xử lý:', error.message);
   }
 }
 
@@ -175,36 +175,36 @@ async function processConfirmedOrders() {
 async function handleSendInvoice(orderId) {
   try {
     if (!orderId || isNaN(orderId)) {
-      console.log('❌ ID đơn hàng không hợp lệ.');
+      console.log('ID đơn hàng không hợp lệ.');
       return false;
     }
 
     const customerInfo = await getCustomerInfo(orderId);
     if (!customerInfo) {
-      console.log('❌ Không tìm thấy thông tin khách hàng.');
+      console.log(' Không tìm thấy thông tin khách hàng.');
       return false;
     }
 
     if (!customerInfo.email || !customerInfo.email.includes('@')) {
-      console.log(`❌ Email không hợp lệ: ${customerInfo.email}`);
+      console.log(`Email không hợp lệ: ${customerInfo.email}`);
       return false;
     }
 
     const orderData = await getOrderData(orderId);
     if (!orderData || orderData.length === 0) {
-      console.log('❌ Không tìm thấy chi tiết đơn hàng.');
+      console.log(' Không tìm thấy chi tiết đơn hàng.');
       return false;
     }
 
     // Tạo PDF với async/await
     const filePath = await generateInvoice(orderData, orderId);
-    console.log(`📄 Đã tạo file PDF: ${filePath}`);
+    console.log(`Đã tạo file PDF: ${filePath}`);
     
     const emailSent = await sendMailWithInvoice(customerInfo.email, orderId, filePath);
     
     return emailSent;
   } catch (error) {
-    console.error('⚠️ Lỗi:', error.message);
+    console.error('Lỗi:', error.message);
     return false;
   }
 }

@@ -23,7 +23,7 @@ if (isset($_POST['add'])) {
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
         $image = basename($_FILES['image']['name']);
-        $target = __DIR__ . '/../../../blog/' . $image;
+        $target = __DIR__ . '/../../assets/images/blog/' . $image; // SỬA LẠI ĐƯỜNG DẪN NÀY
         move_uploaded_file($_FILES['image']['tmp_name'], $target);
     }
 
@@ -41,7 +41,7 @@ if (isset($_POST['edit'])) {
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
         $image = basename($_FILES['image']['name']);
-        $target = __DIR__ . '/../../assets/images/blog/' . $image;
+        $target = __DIR__ . '/../../assets/images/blog/' . $image; // GIỮ NGUYÊN NHƯ HIỆN TẠI
         move_uploaded_file($_FILES['image']['tmp_name'], $target);
         $stmt = $conn->prepare("UPDATE blog SET title=?, content=?, image=? WHERE bid=?");
         $stmt->bind_param("sssi", $title, $content, $image, $id);
@@ -232,7 +232,7 @@ textarea::placeholder {
           </div>
           <div class="form-group">
             <label>Hình ảnh</label>
-            <input type="file" name="image" class="form-control" required>
+            <input type="file" name="image" class="form-control" <?= $editMode ? '' : 'required' ?>>
             <?php if ($editMode && $post['image']): ?>
               <p>Hiện tại: <img src="../../assets/images/blog/<?= $post['image'] ?>" width="100"></p>
             <?php endif; ?>
