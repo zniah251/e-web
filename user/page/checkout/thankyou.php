@@ -60,12 +60,12 @@ $orderId = $_GET['orderId'] ?? 'N/A';
 </head>
 <body>
   <div class="thank-box">
-    <h2>🎉 Cảm ơn bạn đã đặt hàng!</h2>
+    <h2>Cảm ơn bạn đã đặt hàng!</h2>
     <p>Mã đơn hàng của bạn là: <span class="order-id"><?= htmlspecialchars($orderId) ?></span></p>
     <p>Đơn hàng sẽ được giao trong vòng <strong>2 - 4 ngày làm việc</strong>.</p>
     <p>Kaira sẽ liên hệ nếu cần thêm thông tin.</p>
     <p class="mt-3">Hãy theo dõi email hoặc số điện thoại để nhận thông báo vận chuyển.</p>
-    <a href="../../index.php" class="btn-home">🏠 Về trang chủ</a>
+    <a href="../../index.php" class="btn-home">Về trang chủ</a>
   </div>
 </body>
 </html>

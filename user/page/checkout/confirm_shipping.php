@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_shipping'])) {
 </head>
 <body>
     <div class="container-box text-center">
-        <h3 class="mb-4">📦 Xác nhận địa chỉ giao hàng</h3>
+        <h3 class="mb-4">Xác nhận địa chỉ giao hàng</h3>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="mb-3">
                 <label class="form-label"><strong>Họ tên:</strong></label>
@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_shipping'])) {
             <!-- Thêm input để phân biệt form submission -->
             <input type="hidden" name="confirm_shipping" value="1">
             
-            <button type="submit" class="btn-confirm mt-4">✅ Xác nhận giao hàng</button>
+            <button type="submit" class="btn-confirm mt-4">Xác nhận giao hàng</button>
         </form>
     </div>
 </body>

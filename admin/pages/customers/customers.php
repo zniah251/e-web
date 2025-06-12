@@ -243,6 +243,10 @@ $stmt_returning->close();
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
+    body, .container-scroller, .card, .form-control, .form-select, .custom-table, .custom-table th, .custom-table td, .btn, .form-label, .modal-content, .modal-title, .modal-body, .modal-footer {
+    font-family: 'Times New Roman', Times, serif !important;
+}
+
     body {
       background-color: #1a1a1a;
 
@@ -352,8 +356,8 @@ $stmt_returning->close();
     }
     
     .btn-primary {
-        background-color: #8d769a;;
-        border-color: #8d769a;;
+        background-color: #8d769a;
+        border-color: #8d769a;
     }
     
     .btn-primary:hover {
