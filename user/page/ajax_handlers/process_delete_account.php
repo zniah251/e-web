@@ -63,7 +63,34 @@ try {
         throw new Exception("Mật khẩu không chính xác.");
     }
 
-    // 7. Xóa tài khoản (hoặc đánh dấu is_deleted)
+    // 7. Cộng lại stock cho các đơn hàng Pending trước khi xóa tài khoản
+    $stmt = $conn->prepare("SELECT oid FROM orders WHERE uid = ? AND destatus = 'Pending'");
+    $stmt->bind_param("i", $uid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $pendingOids = [];
+    while ($row = $result->fetch_assoc()) {
+        $pendingOids[] = $row['oid'];
+    }
+    $stmt->close();
+
+    foreach ($pendingOids as $oid) {
+        $stmt = $conn->prepare("SELECT pid, quantity FROM order_detail WHERE oid = ?");
+        $stmt->bind_param("i", $oid);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $pid = $row['pid'];
+            $quantity = $row['quantity'];
+            $stmtUpdate = $conn->prepare("UPDATE product SET stock = stock + ? WHERE pid = ?");
+            $stmtUpdate->bind_param("ii", $quantity, $pid);
+            $stmtUpdate->execute();
+            $stmtUpdate->close();
+        }
+        $stmt->close();
+    }
+
+    // 8. Xóa tài khoản (hoặc đánh dấu is_deleted)
     // Cảnh báo: DELETE FROM là hành động không thể hoàn tác.
     // Đối với ứng dụng thực tế, thường nên đánh dấu tài khoản là 'is_deleted'
     // thay vì xóa vĩnh viễn để giữ lại tính toàn vẹn dữ liệu cho các đơn hàng cũ, v.v.

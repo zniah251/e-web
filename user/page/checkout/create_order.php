@@ -17,7 +17,7 @@ $phone    = $_POST['phone'] ?? '';
 $method   = $_POST['payment_method'] ?? 'MOMO';
 $voucher  = trim($_POST['voucher'] ?? '');
 
-$vid = null;
+$vid = 0;
 $discount = 0;
 $shipping = 30000;
 $voucher_minprice = 0;
@@ -62,7 +62,7 @@ $conn->begin_transaction();
 try {
     // 5. Lưu đơn hàng
     $stmt = $conn->prepare("INSERT INTO orders (uid, totalfinal, price, destatus, paymethod, paystatus, create_at, vid) VALUES (?, ?, ?, 'Pending', ?, 'Pending', NOW(), ?)");
-    $vid_to_save = $vid ?? null;
+    $vid_to_save = $vid ?? 0;
     $stmt->bind_param("iddsi", $uid, $totalfinal, $total, $method, $vid_to_save);
     $stmt->execute();
 

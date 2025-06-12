@@ -18,62 +18,64 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 
-if (!isset($data['order_id'])) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Thiếu thông tin đơn hàng.'
-    ]);
-    exit;
-}
-
-$orderId = intval($data['order_id']);
-$userId = $_SESSION['uid'];
+$order_id = intval($data['order_id'] ?? 0);
+$uid = $_SESSION['uid'] ?? 0;
 
 $response = ['success' => false];
 
-try {
-    // First check if the order belongs to the user and is in Pending status
-    $checkQuery = "SELECT destatus FROM orders WHERE oid = ? AND uid = ? AND destatus = 'Pending' LIMIT 1";
-    $stmt = $conn->prepare($checkQuery);
-    $stmt->bind_param("ii", $orderId, $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 0) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Không thể hủy đơn hàng này. Đơn hàng không tồn tại hoặc không ở trạng thái chờ xác nhận.'
-        ]);
-        exit;
-    }
-
-    // Update the order status to Cancelled
-    $updateQuery = "UPDATE orders SET destatus = 'Cancelled' WHERE oid = ? AND uid = ?";
-    $stmt = $conn->prepare($updateQuery);
-    $stmt->bind_param("ii", $orderId, $userId);
-    $success = $stmt->execute();
-    $stmt->close();
-
-    // Get vid of the order (if any)
-    $stmt = $conn->prepare("SELECT vid FROM orders WHERE oid = ? AND uid = ?");
-    $stmt->bind_param("ii", $orderId, $userId);
-    $stmt->execute();
-    $stmt->bind_result($vid);
-    $stmt->fetch();
-    $stmt->close();
-
-    // If the order used a voucher, update user_voucher.status to 'unused'
-    if ($success && $vid) {
-        $stmt = $conn->prepare("UPDATE user_voucher SET status = 'unused' WHERE uid = ? AND vid = ?");
-        $stmt->bind_param("ii", $userId, $vid);
+if ($order_id > 0 && $uid > 0) {
+    try {
+        // First check if the order belongs to the user and is in Pending status
+        $checkQuery = "SELECT destatus FROM orders WHERE oid = ? AND uid = ?";
+        $stmt = $conn->prepare($checkQuery);
+        $stmt->bind_param("ii", $order_id, $uid);
         $stmt->execute();
+        $stmt->bind_result($destatus);
+        $stmt->fetch();
         $stmt->close();
-    }
 
-    $response['success'] = $success;
-    $response['message'] = $success ? 'Đơn hàng đã được hủy thành công.' : 'Có lỗi xảy ra khi hủy đơn hàng.';
-} catch (Exception $e) {
-    $response['message'] = 'Có lỗi xảy ra: ' . $e->getMessage();
+        if ($destatus === 'Pending') {
+            // Cộng lại stock cho các sản phẩm trong đơn hàng này
+            $stmt = $conn->prepare("SELECT pid, quantity FROM order_detail WHERE oid = ?");
+            $stmt->bind_param("i", $order_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $pid = $row['pid'];
+                $quantity = $row['quantity'];
+                $stmtUpdate = $conn->prepare("UPDATE product SET stock = stock + ? WHERE pid = ?");
+                $stmtUpdate->bind_param("ii", $quantity, $pid);
+                $stmtUpdate->execute();
+                $stmtUpdate->close();
+            }
+            $stmt->close();
+
+            // Nếu có voucher, cập nhật lại user_voucher.status = 'unused'
+            $stmt = $conn->prepare("SELECT vid FROM orders WHERE oid = ?");
+            $stmt->bind_param("i", $order_id);
+            $stmt->execute();
+            $stmt->bind_result($vid);
+            $stmt->fetch();
+            $stmt->close();
+            if ($vid) {
+                $stmt = $conn->prepare("UPDATE user_voucher SET status = 'unused' WHERE uid = ? AND vid = ?");
+                $stmt->bind_param("ii", $uid, $vid);
+                $stmt->execute();
+                $stmt->close();
+            }
+        }
+
+        // Hủy đơn hàng (cập nhật destatus)
+        $stmt = $conn->prepare("UPDATE orders SET destatus = 'Cancelled' WHERE oid = ? AND uid = ?");
+        $stmt->bind_param("ii", $order_id, $uid);
+        $success = $stmt->execute();
+        $stmt->close();
+
+        $response['success'] = $success;
+        $response['message'] = $success ? 'Đơn hàng đã được hủy thành công.' : 'Có lỗi xảy ra khi hủy đơn hàng.';
+    } catch (Exception $e) {
+        $response['message'] = 'Có lỗi xảy ra: ' . $e->getMessage();
+    }
 }
 
 echo json_encode($response);
