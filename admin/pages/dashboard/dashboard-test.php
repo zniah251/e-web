@@ -1,6 +1,19 @@
 <?php
 session_start();
+// Kiểm tra xem người dùng đã đăng nhập chưa
+// Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+if (!isset($_SESSION['uid']) || $_SESSION['uid'] <= 0) {
+    // Điều chỉnh đường dẫn đến trang đăng nhập của bạn
+    header("Location: /e-web/user/page/sign-in/login2.php");
+    exit();
+}
 
+// Kiểm tra quyền admin
+if (!isset($_SESSION['rid']) || $_SESSION['rid'] != 1) {
+    // Nếu không phải admin, chuyển hướng về trang chủ
+    header("Location: /e-web/user/index.php");
+    exit();
+}
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 function safe_query_count($conn, $query, $key = 'total', $default = 0)
 {

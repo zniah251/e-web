@@ -1,7 +1,23 @@
 <?php
+session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+// Kiểm tra đăng nhập và quyền admin
+if (!isset($_SESSION['uid']) || $_SESSION['uid'] <= 0) {
+    // Điều chỉnh đường dẫn đến trang đăng nhập của bạn
+    header("Location: /e-web/user/page/sign-in/login2.php");
+    exit();
+}
+
+// Kiểm tra quyền admin
+if (!isset($_SESSION['rid']) || $_SESSION['rid'] != 1) {
+    // Nếu không phải admin, chuyển hướng về trang chủ
+    header("Location: /e-web/user/index.php");
+    exit();
+}
+
 $currentPage = 'messages';
 include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
 

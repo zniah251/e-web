@@ -139,14 +139,6 @@
         </ul>
       </div>
     </li>
-    <li class="nav-item menu-items">
-      <a class="nav-link" href="pages/forms/basic_elements.html">
-        <span class="menu-icon">
-          <i class="mdi mdi-cash-refund"></i>
-        </span>
-        <span class="menu-title">Refund</span>
-      </a>
-    </li>
   </ul>
 </nav><script src="assets/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
