@@ -1,6 +1,6 @@
 const { processConfirmedOrders } = require('./autoSendInvoice');
 
-const INTERVAL = 20 * 1000; // 30 giây
+const INTERVAL = 20 * 1000; // 20 giây
 
 console.log('🕐 Khởi động cron job để tự động gửi hóa đơn...');
 console.log(`⏰ Lịch chạy: mỗi 20 giây`);

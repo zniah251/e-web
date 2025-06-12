@@ -16,22 +16,28 @@ async function sendMailWithInvoice(email, orderId, filePath) {
 
   // Cấu hình email
   const mailOptions = {
-    from: 'dieeuannh@gmail.com',
-    to: email,
-    subject: `Hóa đơn đơn hàng #${orderId} - Kaira`,
-    html: `
-      <h2>Hóa đơn đơn hàng #${orderId}</h2>
-      <p>Xin chào,</p>
-      <p>Cảm ơn bạn đã mua hàng tại Kaira. Dưới đây là hóa đơn chi tiết cho đơn hàng của bạn.</p>
-      <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi.</p>
-      <br>
-      <p>Trân trọng,</p>
-      <p>Đội ngũ Kaira</p>
-    `,
+    from: '"KAIRA Shop" <your_email@gmail.com>',
+    to: email, // ĐÚNG: dùng biến email truyền vào
+    subject: `Your Invoice for Order #${orderId} from KAIRA Shop`,
+    text: `
+Dear Valued Customer,
+
+Thank you for shopping with KAIRA Shop!
+
+We are pleased to inform you that your order (#${orderId}) has been successfully confirmed. Attached to this email is the official invoice for your purchase. Please review the invoice for order details including items, quantity, pricing, and delivery information.
+
+If you have any questions regarding your order, payment, or shipment, feel free to reply directly to this email. Our customer support team is always happy to assist you.
+
+We truly appreciate your trust in KAIRA Shop and hope to serve you again soon.
+
+Warm regards,  
+KAIRA Shop Team  
+www.kairashop.vn
+    `.trim(),
     attachments: [
       {
         filename: `invoice_${orderId}.pdf`,
-        content: attachment
+        path: filePath
       }
     ]
   };
@@ -39,11 +45,11 @@ async function sendMailWithInvoice(email, orderId, filePath) {
   try {
     const info = await transporter.sendMail(mailOptions);
     console.log('✅ Email đã được gửi thành công:', info.messageId);
-    
+
     // Xóa file PDF sau khi gửi
     fs.unlinkSync(filePath);
     console.log('✅ File PDF đã được xóa');
-    
+
     return true;
   } catch (error) {
     console.error('❌ Lỗi gửi email:', error.message);
@@ -51,4 +57,4 @@ async function sendMailWithInvoice(email, orderId, filePath) {
   }
 }
 
-module.exports = { sendMailWithInvoice }; 
+module.exports = { sendMailWithInvoice };
