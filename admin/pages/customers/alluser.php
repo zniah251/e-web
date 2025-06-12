@@ -42,6 +42,19 @@ if (isset($_GET['limit']) && is_numeric($_GET['limit']) && in_array(intval($_GET
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
 $offset = ($page - 1) * $limit;
 
+// Get sorting parameters
+$sort_by = isset($_GET['sort']) ? $_GET['sort'] : 'uid';
+$sort_order = isset($_GET['order']) ? $_GET['order'] : 'asc';
+
+// Validate sort_by to prevent SQL injection
+$allowed_sort_columns = ['uid', 'uname', 'email', 'address', 'phonenumber', 'rid', 'created_at'];
+if (!in_array($sort_by, $allowed_sort_columns)) {
+    $sort_by = 'uid';
+}
+
+// Validate sort_order
+$sort_order = strtolower($sort_order) === 'desc' ? 'desc' : 'asc';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -243,6 +256,20 @@ body, .content-wrapper {
     border-radius: 14px;
     box-shadow: 0 4px 24px 0 #00000033;
 }
+
+.sortable {
+    cursor: pointer;
+    position: relative;
+}
+
+.sortable i {
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+.sortable:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
     </style>
 </head>
 
@@ -371,13 +398,48 @@ if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
     <thead>
       <tr>
         <th><input type="checkbox" class="form-check-input"></th>
-        <th>USER ID</th>
-        <th>Tên Khách Hàng</th>
-        <th>Email</th>
-        <th>Địa chỉ</th>
-        <th>Số điện thoại</th>
-        <th>Role ID</th>
-        <th>Ngày tạo</th>
+        <th data-sort="uid" class="sortable">
+            USER ID
+            <?php if($sort_by == 'uid'): ?>
+                <i class="mdi mdi-arrow-<?php echo $sort_order == 'asc' ? 'up' : 'down'; ?>"></i>
+            <?php endif; ?>
+        </th>
+        <th data-sort="uname" class="sortable">
+            Tên Khách Hàng
+            <?php if($sort_by == 'uname'): ?>
+                <i class="mdi mdi-arrow-<?php echo $sort_order == 'asc' ? 'up' : 'down'; ?>"></i>
+            <?php endif; ?>
+        </th>
+        <th data-sort="email" class="sortable">
+            Email
+            <?php if($sort_by == 'email'): ?>
+                <i class="mdi mdi-arrow-<?php echo $sort_order == 'asc' ? 'up' : 'down'; ?>"></i>
+            <?php endif; ?>
+        </th>
+        <th data-sort="address" class="sortable">
+            Địa chỉ
+            <?php if($sort_by == 'address'): ?>
+                <i class="mdi mdi-arrow-<?php echo $sort_order == 'asc' ? 'up' : 'down'; ?>"></i>
+            <?php endif; ?>
+        </th>
+        <th data-sort="phonenumber" class="sortable">
+            Số điện thoại
+            <?php if($sort_by == 'phonenumber'): ?>
+                <i class="mdi mdi-arrow-<?php echo $sort_order == 'asc' ? 'up' : 'down'; ?>"></i>
+            <?php endif; ?>
+        </th>
+        <th data-sort="rid" class="sortable">
+            Role ID
+            <?php if($sort_by == 'rid'): ?>
+                <i class="mdi mdi-arrow-<?php echo $sort_order == 'asc' ? 'up' : 'down'; ?>"></i>
+            <?php endif; ?>
+        </th>
+        <th data-sort="created_at" class="sortable">
+            Ngày tạo
+            <?php if($sort_by == 'created_at'): ?>
+                <i class="mdi mdi-arrow-<?php echo $sort_order == 'asc' ? 'up' : 'down'; ?>"></i>
+            <?php endif; ?>
+        </th>
         <th>Hành động</th>
       </tr>
     </thead>
@@ -398,7 +460,7 @@ $total_users = $total_row['total'];
 $total_pages = max(1, ceil($total_users / $limit));
 
 // Lấy dữ liệu người dùng theo trang
-$user_sql = "SELECT uid, uname, email, address, phonenumber, rid, created_at FROM users $search_sql LIMIT $limit OFFSET $offset";
+$user_sql = "SELECT uid, uname, email, address, phonenumber, rid, created_at FROM users $search_sql ORDER BY $sort_by $sort_order LIMIT $limit OFFSET $offset";
 $user_result = $conn->query($user_sql);
 
 // Hiển thị từng dòng
@@ -651,5 +713,26 @@ document.getElementById('userPerPage').addEventListener('change', function() {
     urlParams.set('limit', limit);
     urlParams.set('page', 1); // Reset về trang 1 khi đổi limit
     window.location.search = urlParams.toString();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click handlers to all sortable headers
+    document.querySelectorAll('th.sortable').forEach(th => {
+        th.addEventListener('click', function() {
+            const sortBy = this.dataset.sort;
+            const currentOrder = new URLSearchParams(window.location.search).get('order');
+            const newOrder = (!currentOrder || currentOrder === 'desc') ? 'asc' : 'desc';
+            
+            // Get current URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('sort', sortBy);
+            urlParams.set('order', newOrder);
+            
+            // Redirect with new sorting parameters
+            window.location.search = urlParams.toString();
+        });
+    });
 });
 </script>
