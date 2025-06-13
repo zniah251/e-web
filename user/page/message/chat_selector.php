@@ -667,36 +667,36 @@ if (!isset($_SESSION['uid'])) {
     async function sendAdminMessageToServer(message) {
       try {
         const formData = new FormData();
-        formData.append('action', 'send_message'); // Gửi action là 'send_message'
+        formData.append('action', 'send_message');
         formData.append('message', message);
         if (currentChatId) {
           formData.append('chat_id', currentChatId);
         }
-        
-        const response = await fetch('/e-web/user/page/message/chat_admin.php', { // Sử dụng đường dẫn tuyệt đối
+
+        const response = await fetch('/e-web/user/page/message/chat_admin.php', {
           method: 'POST',
           body: formData
         });
-        
+
         if (response.status === 401) {
           console.error('User not logged in');
           appendAdminMessage('Vui lòng đăng nhập để sử dụng tính năng chat!', 'admin');
           return;
         }
-        
+
         if (response.ok) {
           const data = await response.json();
           console.log('Send message response:', data);
-          
+
           if (data.success) {
-            currentChatId = data.chat_id; // Cập nhật chat_id nếu là tin nhắn đầu tiên
-            
+            currentChatId = data.chat_id;
             // Nếu là tin nhắn đầu tiên, có thể có auto_reply từ server
             if (data.auto_reply) {
               appendAdminMessage(data.auto_reply.message, 'admin');
             }
-            // Tải lại tin nhắn để đảm bảo đồng bộ
-            await loadMessagesByChatId(currentChatId); 
+            // *** SỬA ĐOẠN NÀY ***
+            // GỌI LẠI loadMessagesByChatId để lấy toàn bộ tin nhắn mới nhất (bao gồm cả tin nhắn admin vừa trả lời)
+            await loadMessagesByChatId(currentChatId);
           }
         } else {
           console.error('Server responded with an error:', response.status);

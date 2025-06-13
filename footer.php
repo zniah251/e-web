@@ -552,25 +552,38 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
         if (currentChatId) {
           formData.append('chat_id', currentChatId);
         }
-        
+
         const response = await fetch('/e-web/user/page/message/chat_admin.php', {
           method: 'POST',
           body: formData
         });
-        
+
+        if (response.status === 401) {
+          console.error('User not logged in');
+          appendAdminMessage('Vui lòng đăng nhập để sử dụng tính năng chat!', 'admin');
+          return;
+        }
+
         if (response.ok) {
           const data = await response.json();
+          console.log('Send message response:', data);
+
           if (data.success) {
             currentChatId = data.chat_id;
-            
-            // Hiển thị tin nhắn tự động nếu có
+            // Nếu là tin nhắn đầu tiên, có thể có auto_reply từ server
             if (data.auto_reply) {
               appendAdminMessage(data.auto_reply.message, 'admin');
             }
+            // *** SỬA ĐOẠN NÀY ***
+            // GỌI LẠI loadMessagesByChatId để lấy toàn bộ tin nhắn mới nhất (bao gồm cả tin nhắn admin vừa trả lời)
+            await loadMessagesByChatId(currentChatId);
           }
+        } else {
+          console.error('Server responded with an error:', response.status);
+          appendAdminMessage('Lỗi server: Không thể gửi tin nhắn. Vui lòng thử lại.', 'admin');
         }
       } catch (error) {
-        console.error('Error sending admin message:', error);
+        console.error('Error sending admin message to server:', error);
         appendAdminMessage('Xin lỗi, có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại sau.', 'admin');
       }
     }
@@ -593,4 +606,32 @@ include $_SERVER['DOCUMENT_ROOT'] . "/e-web/connect.php";
         adminChat.style.display = 'none';
       }
     });
+
+    const sendMessageForm = document.getElementById('admin-chat-footer');
+    const messageInput = document.getElementById('adminUserInput');
+
+    sendMessageForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const messageText = messageInput.value.trim();
+        if (!messageText) return;
+
+        // Gửi tin nhắn bằng AJAX
+        const response = await fetch('/e-web/user/page/message/chat_admin.php', {
+            method: 'POST',
+            body: new FormData(sendMessageForm)
+        });
+        const data = await response.json();
+
+        if (data.success) {
+            messageInput.value = ''; // Xóa nội dung ô nhập
+            loadMessagesByChatId(currentChatId); // GỌI LẠI HÀM LOAD TIN NHẮN
+        }
+    });
+
+    // Tự động load tin nhắn mỗi 3 giây
+setInterval(function() {
+    if (typeof currentChatId !== 'undefined' && currentChatId) {
+        loadMessagesByChatId(currentChatId);
+    }
+}, 3000);
 </script>
