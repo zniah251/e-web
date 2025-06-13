@@ -15,6 +15,7 @@ $user_info = [
     'email' => '',
     'phonenumber' => '',
     'address' => '', // Thêm trường địa chỉ
+    'balance' => 0, // Khởi tạo trường balance với giá trị mặc định
     'google_id' => null, // Sẽ kiểm tra để xác định kết nối Google
     // 'facebook_id' => null, // Nếu có trường facebook_id trong bảng users
 ];
@@ -24,7 +25,7 @@ if (isset($_SESSION['uid']) && $_SESSION['uid'] > 0) {
     $uid = $_SESSION['uid'];
     // Chuẩn bị truy vấn để lấy thông tin người dùng từ bảng 'users'
     // Các cột có trong bảng users của bạn: uid, uname, email, phonenumber, address, password, google_id, created_at, updated_at, email_verified, rid
-    $stmt = $conn->prepare("SELECT uname, email, phonenumber, address, google_id FROM users WHERE uid = ?");
+    $stmt = $conn->prepare("SELECT uname, email, phonenumber, address, balance, google_id FROM users WHERE uid = ?");
     $stmt->bind_param("i", $uid);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -35,6 +36,7 @@ if (isset($_SESSION['uid']) && $_SESSION['uid'] > 0) {
         $user_info['email'] = $db_user_info['email'];
         $user_info['phonenumber'] = $db_user_info['phonenumber'];
         $user_info['address'] = $db_user_info['address']; // Lấy địa chỉ
+        $user_info['balance'] = $db_user_info['balance'] ?? 0; // Lấy số dư ví, mặc định là 0 nếu null
         $user_info['google_id'] = $db_user_info['google_id'];
         // $user_info['facebook_id'] = $db_user_info['facebook_id']; // Nếu có
     } else {
@@ -200,6 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-weight: 500;
             color: #4b5563;
             margin-bottom: 0.5rem;
+            font-family: 'Times New Roman', Times, serif !important;
         }
         .input-group input {
             width: 100%;
@@ -209,6 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             outline: none;
             transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            font-family: 'Times New Roman', Times, serif !important;
         }
         .input-group input:focus {
             border-color: #3b82f6;
@@ -226,6 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease-in-out;
+            font-family: 'Times New Roman', Times, serif !important;
         }
         .btn-primary-solid {
             background-color: #434343;
@@ -239,6 +244,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: white;
             border: 1px solid #d1d5db;
             color: #4b5563;
+            font-family: 'Times New Roman', Times, serif !important;
         }
         .btn-white-outline:hover {
             background-color: #f9fafb;
@@ -247,6 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: white;
             border: 1px solid #ef4444;
             color: #ef4444;
+            font-family: 'Times New Roman', Times, serif !important;
         }
         .btn-danger-outline:hover {
             background-color: #fef2f2;
@@ -261,6 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 0.375rem;
             font-size: 0.875rem;
             font-weight: 500;
+            font-family: 'Times New Roman', Times, serif !important;
         }
         .message-box.success {
             background-color: #d1fae5;
@@ -310,6 +318,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-top: none;
             padding: 1.5rem;
         }
+        /* Ensure all general text elements use Times New Roman */
+        p, span, div, small, label, a {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
     </style>
 </head>
 
@@ -347,6 +359,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="input-group">
                         <label for="address">Địa chỉ</label>
                         <input type="text" id="address" name="address" placeholder="Nhập địa chỉ của bạn" value="<?php echo htmlspecialchars($user_info['address']); ?>" class="form-input">
+                    </div>
+                    <div class="input-group">
+                        <label for="balance">Số dư ví điện tử</label>
+                        <input type="text" id="balance" name="balance" value="<?php echo number_format($user_info['balance'], 0, ',', '.') . 'đ'; ?>" class="form-input" readonly>
                     </div>
                 </div>
 

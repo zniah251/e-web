@@ -422,7 +422,28 @@ $filter_cid = isset($_GET['category_id']) ? intval($_GET['category_id']) : null;
                                                                 ?>
                                                                 <div class="badge <?php echo $payment_status_class; ?>"><?php echo htmlspecialchars($order['paystatus']); ?></div>
                                                             </td>
-                                                            <td> <?php echo htmlspecialchars($order['paymethod']); ?> </td>
+                                                            <td>
+                                                                <?php
+                                                                $paymethod = $order['paymethod'];
+                                                                switch (strtoupper($paymethod)) {
+                                                                    case 'WALLET':
+                                                                    case 'E-WALLET':
+                                                                        echo 'E-wallet';
+                                                                        break;
+                                                                    case 'CREDIT CARD':
+                                                                        echo 'Credit Card';
+                                                                        break;
+                                                                    case 'BANK':
+                                                                        echo 'Bank';
+                                                                        break;
+                                                                    case 'COD':
+                                                                        echo 'COD';
+                                                                        break;
+                                                                    default:
+                                                                        echo htmlspecialchars($paymethod);
+                                                                }
+                                                                ?>
+                                                            </td>
                                                             <td> <?php echo date('d M Y', strtotime($order['create_at'])); ?> </td>
                                                             <td>
                                                                 <div class="d-flex align-items-center gap-2">

@@ -15,12 +15,13 @@ $user_info = [
     'uname' => '',
     'email' => '',
     'phonenumber' => '',
-    'address' => ''
+    'address' => '',
+    'balance' => 1000000 // Default balance for new users
 ];
 
 if (isset($_SESSION['uid'])) {
     $uid = $_SESSION['uid'];
-    $stmt = $conn->prepare("SELECT uname, email, phonenumber, address FROM users WHERE uid = ?");
+    $stmt = $conn->prepare("SELECT uname, email, phonenumber, address, balance FROM users WHERE uid = ?");
     $stmt->bind_param("i", $uid);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -28,6 +29,10 @@ if (isset($_SESSION['uid'])) {
 
     if ($db_user_info) {
         $user_info = $db_user_info;
+        // If balance is null (new user), set default value
+        if ($user_info['balance'] === null) {
+            $user_info['balance'] = 1000000;
+        }
     }
     $stmt->close();
 }
@@ -141,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_info'])) {
         rel="stylesheet">
   <style>
     body {
-      font-family: 'Times New Roman', serif;
+      font-family: 'Times New Roman', Times, serif !important;
       background-color: #fff;
       color: #000;
     }
@@ -183,11 +188,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_info'])) {
       font-weight: bold;
     }
     .form-control {
-      font-family: 'Times New Roman', serif;
+      font-family: 'Times New Roman', Times, serif !important;
     }
     .btn-primary {
       font-weight: bold;
-      font-family: 'Times New Roman', serif;
+      font-family: 'Times New Roman', Times, serif !important;
       background-color: #000;
       border: none;
       transition: 0.3s;
@@ -195,24 +200,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_info'])) {
     .btn-primary:hover {
       background-color: #333;
     }
+    .btn-secondary {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
+    .btn-outline-secondary {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
     label input[type="radio"] {
       margin-right: 5px;
     }
     input[type="radio"] + label img {
-  border: 2px solid transparent;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.3s ease;
-  filter: grayscale(100%);
-  opacity: 0.8;
-}
-input[type="radio"]:checked + label img {
-  border: 2px solid #000;
-  filter: none;
-  opacity: 1;
-  transform: scale(1.05);
-}
+      border: 2px solid transparent;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      filter: grayscale(100%);
+      opacity: 0.8;
+    }
+    input[type="radio"]:checked + label img {
+      border: 2px solid #000;
+      filter: none;
+      opacity: 1;
+      transform: scale(1.05);
+    }
 
+    /* Thêm style cho icon ví điện tử */
+    #wallet + label img {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 8px;
+      padding: 5px;
+    }
+
+    #wallet:checked + label img {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: 2px solid #000;
+      filter: none;
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    
+    /* Đảm bảo tất cả text đều sử dụng Times New Roman */
+    p, span, div, small, label, .alert, .form-label {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
   </style>
 </head>
 <body>
@@ -224,13 +254,27 @@ input[type="radio"]:checked + label img {
     <div id="update-message" class="alert alert-success" style="display: none;">
       Thông tin đã được cập nhật thành công!
     </div>
+    
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'insufficient_balance'): ?>
+    <div class="alert alert-danger">
+      <i class="fa fa-exclamation-triangle me-2"></i>
+      <strong>Số dư ví điện tử không đủ!</strong><br>
+      Số dư hiện tại: <?= number_format($_GET['current'] ?? 0, 0, ',', '.') ?>đ<br>
+      Số tiền cần thanh toán: <?= number_format($_GET['required'] ?? 0, 0, ',', '.') ?>đ<br>
+      Vui lòng chọn phương thức thanh toán khác hoặc nạp thêm tiền vào ví.
+    </div>
+    <?php endif; ?>
     <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
       <input type="hidden" name="update_info" value="1">
       <div class="form-section">
         <h5>Thông tin giao hàng</h5>
         <input type="text" name="fullname" placeholder="Họ và tên" class="form-control mb-3" required value="<?= htmlspecialchars($user_info['uname']) ?>">
         <input type="text" name="address" placeholder="Địa chỉ" class="form-control mb-3" required value="<?= htmlspecialchars($user_info['address']) ?>">
-        <input type="tel" name="phone" placeholder="Số điện thoại" class="form-control" required value="<?= htmlspecialchars($user_info['phonenumber']) ?>">
+        <input type="tel" name="phone" placeholder="Số điện thoại" class="form-control mb-3" required value="<?= htmlspecialchars($user_info['phonenumber']) ?>">
+        <div class="alert alert-info">
+          <i class="fa fa-wallet me-2"></i>
+          <strong>Số dư ví điện tử:</strong> <?= number_format($user_info['balance'], 0, ',', '.') ?>đ
+        </div>
       </div>
       <div class="form-section">
   <h5>Mã giảm giá</h5>
@@ -275,22 +319,28 @@ input[type="radio"]:checked + label img {
     <i class="fa fa-credit-card me-2"></i> Phương thức thanh toán
   </label>
   <div class="row text-center g-3 mb-3">
-    <div class="col-4">
+    <div class="col-3">
       <input type="radio" name="payment_method" id="momo" value="MOMO" hidden required>
       <label for="momo">
         <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" width="60" alt="Momo">
       </label>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <input type="radio" name="payment_method" id="banking" value="BANK" hidden>
       <label for="banking">
         <img src="https://cdn-icons-png.flaticon.com/512/633/633611.png" width="60" alt="Banking">
       </label>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <input type="radio" name="payment_method" id="cod" value="COD" hidden>
       <label for="cod">
         <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" width="60" alt="Ship COD">
+      </label>
+    </div>
+    <div class="col-3">
+      <input type="radio" name="payment_method" id="wallet" value="WALLET" hidden>
+      <label for="wallet">
+        <img src="https://cdn-icons-png.flaticon.com/512/2830/2830282.png" width="60" alt="Ví điện tử">
       </label>
     </div>
   </div>
@@ -352,6 +402,10 @@ input[type="radio"]:checked + label img {
     const confirmBtn = document.getElementById('confirm-voucher');
     const hiddenInput = document.getElementById('voucher-hidden');
     const selectedText = document.getElementById('selected-voucher');
+    
+    // Lấy số dư ví điện tử
+    const walletBalance = <?= $user_info['balance'] ?>;
+    const totalFinal = <?= $total_final ?>;
 
     // Thêm sự kiện cho các trường input
     const inputs = document.querySelectorAll('input[name="fullname"], input[name="address"], input[name="phone"]');
@@ -377,6 +431,20 @@ input[type="radio"]:checked + label img {
           console.error('Lỗi khi cập nhật:', error);
         });
       });
+    });
+
+    // Kiểm tra số dư khi chọn thanh toán bằng ví điện tử
+    const walletRadio = document.getElementById('wallet');
+    walletRadio.addEventListener('change', function() {
+      if (this.checked && walletBalance < totalFinal) {
+        alert('Số dư ví điện tử không đủ để thanh toán!\nSố dư hiện tại: ' + 
+              new Intl.NumberFormat('vi-VN').format(walletBalance) + 'đ\n' +
+              'Số tiền cần thanh toán: ' + 
+              new Intl.NumberFormat('vi-VN').format(totalFinal) + 'đ');
+        this.checked = false;
+        // Chọn COD làm mặc định
+        document.getElementById('cod').checked = true;
+      }
     });
 
     btnToggle.addEventListener('click', function () {

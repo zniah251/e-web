@@ -26,15 +26,29 @@ $response = ['success' => false];
 if ($order_id > 0 && $uid > 0) {
     try {
         // First check if the order belongs to the user and is in Pending status
-        $checkQuery = "SELECT destatus FROM orders WHERE oid = ? AND uid = ?";
+        $checkQuery = "SELECT destatus, paystatus, paymethod, uid, totalfinal FROM orders WHERE oid = ? AND uid = ?";
         $stmt = $conn->prepare($checkQuery);
         $stmt->bind_param("ii", $order_id, $uid);
         $stmt->execute();
-        $stmt->bind_result($destatus);
+        $stmt->bind_result($destatus, $paystatus, $paymethod, $uid_from_db, $totalfinal_from_db);
         $stmt->fetch();
         $stmt->close();
 
         if ($destatus === 'Pending') {
+            // Hoàn tiền nếu đơn hàng đang Pending, đã thanh toán và là thanh toán bằng ví điện tử
+            if ($paystatus === 'Paid' && $paymethod === 'E-wallet') {
+                $stmt = $conn->prepare("UPDATE users SET balance = balance + ? WHERE uid = ?");
+                $stmt->bind_param("di", $totalfinal_from_db, $uid_from_db);
+                $stmt->execute();
+                $stmt->close();
+
+                // Update the order's paystatus to 'Refunded'
+                $stmt = $conn->prepare("UPDATE orders SET paystatus = 'Refunded' WHERE oid = ?");
+                $stmt->bind_param("i", $order_id);
+                $stmt->execute();
+                $stmt->close();
+            }
+
             // Cộng lại stock cho các sản phẩm trong đơn hàng này
             $stmt = $conn->prepare("SELECT pid, quantity FROM order_detail WHERE oid = ?");
             $stmt->bind_param("i", $order_id);

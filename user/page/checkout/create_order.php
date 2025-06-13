@@ -56,19 +56,40 @@ if ($voucher !== '') {
 // 3. Tính tổng cuối cùng
 $totalfinal = $total + $shipping - $discount;
 
-// 4. Bắt đầu transaction
+// 4. Kiểm tra số dư ví điện tử nếu thanh toán bằng WALLET
+if ($method === 'WALLET') {
+    // Lấy số dư hiện tại của user
+    $stmt = $conn->prepare("SELECT balance FROM users WHERE uid = ?");
+    $stmt->bind_param("i", $uid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user_data = $result->fetch_assoc();
+    $stmt->close();
+    
+    $current_balance = $user_data['balance'] ?? 1000000; // Default balance for new users
+    
+    if ($current_balance < $totalfinal) {
+        // Số dư không đủ
+        header("Location: checkout.php?error=insufficient_balance&required=" . $totalfinal . "&current=" . $current_balance);
+        exit();
+    }
+}
+
+// 5. Bắt đầu transaction
 $conn->begin_transaction();
 
 try {
-    // 5. Lưu đơn hàng
-    $stmt = $conn->prepare("INSERT INTO orders (uid, totalfinal, price, destatus, paymethod, paystatus, create_at, vid) VALUES (?, ?, ?, 'Pending', ?, 'Pending', NOW(), ?)");
+    // 6. Lưu đơn hàng
+    $paystatus = ($method === 'WALLET') ? 'Paid' : 'Pending';
+    $paymethod_to_save = ($method === 'WALLET') ? 'E-wallet' : $method;
+    $stmt = $conn->prepare("INSERT INTO orders (uid, totalfinal, price, destatus, paymethod, paystatus, create_at, vid) VALUES (?, ?, ?, 'Pending', ?, ?, NOW(), ?)");
     $vid_to_save = $vid ?? 0;
-    $stmt->bind_param("iddsi", $uid, $totalfinal, $total, $method, $vid_to_save);
+    $stmt->bind_param("iddssi", $uid, $totalfinal, $total, $paymethod_to_save, $paystatus, $vid_to_save);
     $stmt->execute();
 
     $oid = $stmt->insert_id;
 
-    // 6. Lưu chi tiết đơn hàng
+    // 7. Lưu chi tiết đơn hàng
     $stmt = $conn->prepare("INSERT INTO order_detail (oid, pid, quantity, size, color, price) VALUES (?, ?, ?, ?, ?, ?)");
     foreach ($products as $product) {
         $stmt->bind_param("iiissd",
@@ -82,7 +103,7 @@ try {
         $stmt->execute();
     }
 
-    // 7. Cập nhật tồn kho
+    // 8. Cập nhật tồn kho
     $stmt = $conn->prepare("UPDATE product SET stock = stock - ?, sold = sold + ? WHERE pid = ?");
     foreach ($products as $product) {
         $stmt->bind_param("iii",
@@ -93,23 +114,34 @@ try {
         $stmt->execute();
     }
 
-    // 8. Nếu có voucher, cập nhật user_voucher.status = 'used'
+    // 9. Nếu có voucher, cập nhật user_voucher.status = 'used'
     if ($vid_to_save) {
         $stmt = $conn->prepare("UPDATE user_voucher SET status = 'used' WHERE uid = ? AND vid = ?");
         $stmt->bind_param("ii", $uid, $vid_to_save);
         $stmt->execute();
     }
 
+    // 10. Nếu thanh toán bằng ví điện tử, trừ tiền từ balance
+    if ($method === 'WALLET') {
+        $stmt = $conn->prepare("UPDATE users SET balance = balance - ? WHERE uid = ?");
+        $stmt->bind_param("di", $totalfinal, $uid);
+        $stmt->execute();
+        $stmt->close();
+    }
+
     $conn->commit();
     unset($_SESSION['cart']);
 
-    // 9. Redirect
+    // 11. Redirect
     switch ($method) {
         case 'MOMO':
             header("Location: momo_payment_info.php?orderId=$oid");
             break;
         case 'BANK':
             header("Location: bank_payment_info.php?orderId=$oid");
+            break;
+        case 'WALLET':
+            header("Location: wallet_payment_success.php?orderId=$oid&fullname=$fullname&address=$address&phone=$phone");
             break;
         case 'COD':
         default:
